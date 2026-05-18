@@ -229,23 +229,18 @@ Você (humano) descreve a ideia. A IA (Claude) te entrevista com **5 perguntas-c
 
 ### Processo
 
-```mermaid
----
-config:
-  flowchart:
-    curve: linear
----
+::: mermaid-zoom
 flowchart LR
-    A[Ideia bruta] --> B[Pergunta 1: qual o problema?]
-    B --> C[Pergunta 2: quem é o usuário?]
-    C --> D[Pergunta 3: qual o sucesso?]
-    D --> E[Pergunta 4: o que NÃO é?]
-    E --> F[Pergunta 5: quais constraints?]
-    F --> G[brief.md gerado]
+    A[Ideia bruta] --> B[P1 problema]
+    B --> C[P2 usuario]
+    C --> D[P3 sucesso]
+    D --> E[P4 o que nao e]
+    E --> F[P5 constraints]
+    F --> G[brief.md]
     G --> H{Humano valida?}
-    H -- não --> B
-    H -- sim --> I[Próxima fase]
-```
+    H -- nao --> B
+    H -- sim --> I[Proxima fase]
+:::
 
 ### Outputs
 
@@ -390,7 +385,7 @@ Mais que isso vira documentação morta. A spec **vai dentro do card do ClickUp*
 
 ### Fluxo de dissecação
 
-```mermaid
+::: mermaid-zoom
 ---
 config:
   flowchart:
@@ -404,10 +399,10 @@ flowchart TD
     C --> E
     D --> E
     E --> F[specs.yaml]
-    F --> G{Cada bloco tem<br/>I/O claros?}
-    G -- não --> H[Refina ou volta pro diagrama]
-    G -- sim --> I[Próxima fase]
-```
+    F --> G{I/O claros?}
+    G -- nao --> H[Refina ou volta]
+    G -- sim --> I[Proxima fase]
+:::
 
 ### Outputs
 
@@ -424,67 +419,251 @@ Toda spec é executável: outra IA (ou outro humano) leria a spec e produziria c
 
 ---
 
-## Fase 05 · PLAN — quebrar no ClickUp
+## Fase 05 · PLAN — quebrar seguindo Workspace Topology
 
-### O que é
+::: callout warn Regra inegociável
+Esta fase **DEVE** seguir a skill `/workspace:skills:topology` rigorosamente. Naming kebab-strict, modelo 1-list-1-agent, áreas-como-folders, e mapping ClickUp×Maestro×Disco. Sem isso, o sistema todo cai.
+:::
 
-Usa o `specs.yaml` como insumo e cria a hierarquia no ClickUp:
+### Os 3 eixos (decora isso)
+
+A topologia do workspace tem **3 eixos** que ficam sincronizados:
 
 ```
-Folder: <Nome do Projeto>
-  ├── List: Feature A (= bloco 1 do diagrama)
-  │   ├── Task: Implementar core
-  │   │   └── Subtask: Schema de input
-  │   │   └── Subtask: Função principal
-  │   │   └── Subtask: Testes
-  │   ├── Task: Documentar
-  │   └── Task: Deploy
-  ├── List: Feature B
-  └── List: Feature N
+PLANNING (ClickUp)    EXECUTION (Maestro)    STORAGE (Disco)
+─────────────────────────────────────────────────────────────
+workspace        ←→   (nao tem)         ←→   (nao tem)
+space            ←→   group             ←→   BU folder
+folder           ←→   (nao tem)         ←→   projeto
+list             ←→   agent             ←→   branch git
+task             ←→   tab               ←→   commit
 ```
+
+**Regra de Ouro:** `1 list = 1 branch = 1 agent = 1 cwd`. N tabs no agent = N tasks da MESMA list.
+
+### Naming kebab-strict (zero CamelCase, zero underscore, zero espaço)
+
+| Camada | Padrão | Exemplo VÁLIDO | Exemplo INVÁLIDO |
+|---|---|---|---|
+| Workspace cup | profile fixo | `gobbi` `allin` `vita` | `Gobbi` `all_in` |
+| Space ClickUp | kebab puro | `automedia` `aleyemma` `vitascience` | `AutoMedia` |
+| Maestro group | `{workspace}-{space}` | `gobbi-automedia` `gobbi-aleyemma` | `automedia` |
+| Maestro group (exceção) | só workspace | `allin` `vita` | `allin-all-in` |
+| Folder ClickUp | kebab puro | `coverage-module` `operacoes` | `[Área] Coverage` |
+| List ClickUp | `{tipo}/{slug-kebab}` | `build/upload-api` `fix/webhook-bug` | `Feature: Upload` |
+| Agent Maestro | `{projeto}-{sigla}` | `coverage-module-cc` | `coverage_cc` |
+| Sigla agent | sufixo de modelo | `-cc` (Claude Code) `-cdx` (Codex) `-oc` (OpenCode) `-gem` (Gemini) | `-claude` |
+| Tab name | `{nome-task} \| task {id}` | `implementar upload \| task 86abc` | `Tab 1` |
+| Disco | `VibeworkV2/{tipo}/{bu}/{projeto}` | `VibeworkV2/apps/automedia/coverage-module` | `~/projetos/coverage` |
+
+### Os 6 task types universais (cobrem dev E marketing)
+
+::: comparator
+### build
+Construir algo **novo** que não existia.
+
+**Dev:** "Implementar endpoint POST /upload"
+**Marketing:** "Gravar vídeo SHIFT 90 ep1", "Criar landing nova"
+
+### fix
+Consertar algo **quebrado** (comportamento errado).
+
+**Dev:** "Webhook duplicando", "Cron falhando"
+**Marketing:** "Headline com erro de português", "CTA quebrado"
+
+### improve
+Melhorar **existente** sem trocar finalidade.
+
+**Dev:** "Otimizar query lenta", "Atualizar react-router"
+**Marketing:** "Re-editar copy pós A/B", "Limpar tags Mautic"
+
+### run
+Executar trabalho **recorrente** em cadência fixa.
+
+**Dev:** "Backup semanal", "Deploy quinzenal"
+**Marketing:** "Drenar inbox 9h", "Postar carrossel diário"
+
+### decide
+Escolher entre **opções concretas** com deliverable (ADR).
+
+**Dev:** "Veo 3 vs Runware (ADR)"
+**Marketing:** "Definir preço SHIFT 90"
+
+### research
+Entender **antes** de agir (spike, customer dev).
+
+**Dev:** "Por que essa query está lenta?"
+**Marketing:** "Analisar copy do concorrente Y"
+:::
+
+::: callout tip Anti-padrão — quando NÃO criar task
+"Pensar sobre X" → comentário num doc · "Lembrar de fazer Y" → comentário em task existente · "Conversar com cliente X" → evento de calendário · "Estudar curso Y" → bookmark (só vira `research` se gerar resumo/ADR).
+
+Se a "task" não tem **deliverable verificável** (commit, doc, asset publicado, ação executada), ela não é task — é nota.
+:::
+
+### Hierarquia ClickUp pra design-first (exemplo concreto)
+
+Suponha que o projeto cobaia se chame `lead-scoring` e mora no BU `vitascience`:
+
+```
+Workspace cup:   vita
+Space ClickUp:   vitascience
+Maestro group:   vita                       (excecao: space=workspace)
+Folder ClickUp:  lead-scoring                (kebab puro, sem [Area])
+  |
+  +-- List: build/score-engine               (bloco 1 do diagrama)
+  |   +-- Task type: build
+  |   +-- Tasks:
+  |       - "Implementar score-engine core"
+  |           +-- Subtask: "Schema de input"
+  |           +-- Subtask: "Funcao principal"
+  |           +-- Subtask: "Testes"
+  |       - "Documentar score-engine"
+  |       - "Deploy score-engine"
+  |
+  +-- List: build/lead-ingestion             (bloco 2 do diagrama)
+  |   +-- Tasks de tipo build...
+  |
+  +-- List: build/score-export               (bloco 3 do diagrama)
+  |   +-- Tasks de tipo build...
+  |
+  +-- List: research/scoring-models          (estudo pre-build)
+  +-- List: run/sync-leads-daily             (rotina pos-build)
+```
+
+**Mapping cross-axis:**
+
+| ClickUp list | Maestro agent | Disco branch | Disco path |
+|---|---|---|---|
+| `build/score-engine` | `score-engine-cc` | `build/score-engine` | `VibeworkV2/apps/vitascience/score-engine/` |
+| `build/lead-ingestion` | `lead-ingestion-cc` | `build/lead-ingestion` | `VibeworkV2/apps/vitascience/lead-ingestion/` |
+| `build/score-export` | `score-export-cc` | `build/score-export` | `VibeworkV2/apps/vitascience/score-export/` |
+
+### Decisão obrigatória: paralelo ou sequencial?
+
+::: callout warn Antes de criar 2+ lists ativas no mesmo projeto
+A skill **DEVE** perguntar: as lists vão rodar em **paralelo** (worktrees git separados) ou **sequencial** (você merge a próxima antes de começar)?
+
+**Sequencial** → `git checkout` resolve, zero overhead.
+**Paralelo** → criar worktree em `apps/worktrees/{projeto}-{tipo}-{slug}`.
+
+Se 2 frentes paralelas tocam o mesmo arquivo, **NÃO paraleliza** — usa custom field `blocked-by` no ClickUp pra sequenciar.
+:::
 
 ### Por que ClickUp e não Jira/Notion?
 
-Você já tem **sistema rodando** no ClickUp (cup CLI, custom fields, ia_session_id, attribution multi-tab). Reaproveita.
+Você já tem **sistema rodando** no ClickUp (`cup` CLI, custom fields, `ia_session_id`, attribution multi-tab, `project-registry.yaml` como fonte de verdade do mapping). Reaproveita.
 
-### Fluxo automatizado
+### Fluxo automatizado da fase
 
 ::: accordion-seq
-### Passo 1 · Lê specs.yaml
-Parser pega cada bloco do diagrama e mapeia para feature.
+### Passo 1 · Detecta workspace + space
+Lê path do `--content` pra inferir BU. Mapeia para profile `cup` correto (`gobbi`, `allin`, `vita`). Confirma via `~/.config/cup/config.json`.
 
-### Passo 2 · Cria folder
-`cup folder create "$NOME"` na workspace certa (gobbi/vita/allin).
+### Passo 2 · Cria folder (kebab puro, sem decoração)
+```bash
+cup -p vita folder create vitascience lead-scoring
+```
+Nome do folder = nome do projeto, kebab puro. Sem `[Área]`, sem CamelCase, sem espaço.
 
-### Passo 3 · Cria lists
-Uma list por bloco do diagrama. Nome = nome do bloco.
+### Passo 3 · Cria 1 list por bloco do diagrama
+Pra cada bloco em `specs.yaml`, cria list com prefixo de tipo:
+```bash
+cup -p vita list create <folder_id> build/score-engine
+cup -p vita list create <folder_id> build/lead-ingestion
+```
+Tipo padrão é `build` quando bloco gera algo novo. Use `improve` se bloco modifica existente, `fix` se bloco corrige bug, etc.
 
-### Passo 4 · Cria tasks
-Pra cada list: 1 task "Implementar", 1 task "Documentar", 1 task "Deploy". Spec do bloco vai na description da task "Implementar".
+### Passo 4 · Cria tasks com os 6 task types
+Pra cada list, cria 3 tasks padrão:
+- 1 task `build` (implementar)
+- 1 task `improve` (documentar — refina o existente)
+- 1 task `run` (deploy — se for recorrente) ou `build` (se one-shot)
 
-### Passo 5 · Cria subtasks
-Pra cada subtask em `specs.yaml` (sub-blocos), cria subtask no ClickUp.
+Spec do bloco vai na description da task "Implementar".
 
-### Passo 6 · Custom fields
-Popula `ia_session_id`, `priority`, `estimate` baseados em metadata.
+### Passo 5 · Cria subtasks com I/O da spec
+Cada campo de spec.yaml (Schema input, Função principal, Testes) vira subtask.
 
-### Passo 7 · Comenta hierarquia
-Posta comentário-resumo no folder com link pro diagrama e mockup.
+### Passo 6 · Cria agent Maestro 1:1 com cada list
+```bash
+maestro-cli agent create score-engine-cc \
+  --group vita \
+  --cwd VibeworkV2/apps/vitascience/score-engine \
+  --type claude-code
+```
+Sigla `-cc` = Claude Code (padrão). Sigla `-cdx` se for Codex, `-gem` se Gemini.
+
+### Passo 7 · Cria branch git que espelha a list
+```bash
+cd VibeworkV2/apps/vitascience/score-engine
+git checkout -b build/score-engine
+```
+Nome da branch = nome da list. Se paralelo, usa worktree:
+```bash
+git worktree add ../../worktrees/score-engine-build-score-engine build/score-engine
+```
+
+### Passo 8 · Registra mapping no project-registry.yaml
+```yaml
+projects:
+  lead-scoring:
+    bu: vitascience
+    cup_workspace: vita
+    clickup_space_id: <id>
+    clickup_folder_id: <id>
+    clickup_lists:
+      - id: <list_id>
+        name: build/score-engine
+        agent: score-engine-cc
+        branch: build/score-engine
+        cwd: VibeworkV2/apps/vitascience/score-engine
+```
+
+### Passo 9 · Popula custom fields
+Pra cada task: `ia_session_id` (CSV de tabs), `priority`, `estimate`.
+
+### Passo 10 · Comenta hierarquia no folder
+Posta comentário-resumo no folder com:
+- Link pro diagrama validado (fase 2)
+- Link pro mockup HTML (fase 3)
+- Lista de blocos → lists → agents
+- ASCII tree completo da hierarquia
 :::
 
 ### Outputs
 
-- Folder ClickUp pronto pra execução
-- URLs de cada list/task
-- `clickup-map.yaml` (mapping spec → task_id)
+- Folder ClickUp pronto pra execução (kebab puro)
+- N lists no formato `{tipo}/{slug-kebab}`
+- N agents Maestro no formato `{projeto}-{sigla}`
+- N branches git no formato `{tipo}/{slug-kebab}`
+- N folders de disco em `VibeworkV2/{tipo}/{bu}/{projeto}/`
+- `project-registry.yaml` atualizado com mapping cross-axis
+- Comentário no folder com ASCII tree completo
+
+### Validação obrigatória (checklist topology)
+
+::: callout warn Antes de fechar a fase
+- [ ] Workspace cup é um dos 3 fixos (`gobbi` / `allin` / `vita`)?
+- [ ] Space é kebab-strict, sem acento, sem maiúscula?
+- [ ] Maestro group segue `{workspace}-{space}` (ou excecão `allin`/`vita`)?
+- [ ] Folder ClickUp é kebab puro (sem `[Área]`, sem espaço)?
+- [ ] Toda list tem prefixo de tipo (`build/`, `fix/`, `improve/`, `run/`, `decide/`, `research/`)?
+- [ ] Todo agent tem sufixo de modelo (`-cc`, `-cdx`, `-oc`, `-gem`)?
+- [ ] cwd de cada agent aponta pra `VibeworkV2/{apps|services|tools|packages}/{bu}/{projeto}`?
+- [ ] `project-registry.yaml` tem o mapping completo das 3 colunas (ClickUp / Maestro / Disco)?
+
+Se qualquer item falha → **bloqueia**, volta pra fase 04 (dissect), refina, tenta de novo.
+:::
 
 ### Gate de saída
 
-Você abre o folder no ClickUp e vê **a estrutura inteira do projeto**, com cada bloco do diagrama virado list. Conferência visual.
+Você abre o folder no ClickUp e vê **a hierarquia inteira em ASCII tree**. Cada list tem agent Maestro pareado. Cada agent tem cwd válido. `project-registry.yaml` tem mapping completo. Tudo kebab-strict.
 
 ### Timebox
 
-**20 minutos** (a maior parte é automação via cup).
+**20 minutos** (90% automação via `cup`, `maestro-cli`, `git`).
 
 ---
 
@@ -506,23 +685,18 @@ Quando a IA codar, **não tem ambiguidade**. Os erros caem 60-80%.
 
 ### Loop de execução
 
-```mermaid
----
-config:
-  flowchart:
-    curve: linear
----
+::: mermaid-zoom
 flowchart LR
-    A[Task ClickUp] --> B[Lê spec]
+    A[Task ClickUp] --> B[Le spec]
     B --> C[Gera ARPB3]
     C --> D[Executa playbook]
-    D --> E[Testes passam?]
-    E -- não --> F[Debug bloco isolado]
+    D --> E{Testes passam?}
+    E -- nao --> F[Debug bloco isolado]
     F --> D
     E -- sim --> G[Commit]
-    G --> H[Move task pra Done]
-    H --> I[Próximo módulo]
-```
+    G --> H[Task to Done]
+    H --> I[Proximo modulo]
+:::
 
 ### Gate de saída
 
