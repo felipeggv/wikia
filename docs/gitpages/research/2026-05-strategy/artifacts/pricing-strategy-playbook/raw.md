@@ -69,6 +69,10 @@ Pricing é decidido por intuição na maior parte dos casos. O resultado é marg
   </footer>
 </div>
 
+::: callout tip Key insight
+Nos próximos 5 minutos, você vai conseguir **escolher o modelo de pricing certo** pra seu produto. Não pula a framework — ela existe pra evitar margem espremida.
+:::
+
 ## Tabela comparativa formal
 
 > Esta tabela foi gerada pelo **Codex (GPT-5.5 xhigh)** via `model-router.sh codex`. O motor de raciocínio: tabela numérica formal pede modelo "sério", não criativo.
@@ -182,6 +186,72 @@ flowchart TD
     style VB fill:#0f100f,stroke:#bed78e,color:#f2f2c0
     style ADD fill:#262121,stroke:#5b675b,color:#cec8ba
     style RES fill:#262121,stroke:#bed78e,color:#bed78e
+:::
+
+::: playground Calculadora LTV/CAC
+<style>
+  .pg-wrap { display: flex; flex-direction: column; gap: 16px; font-family: 'JetBrains Mono', monospace; color: #f2f2c0; }
+  .pg-row { display: flex; flex-direction: column; gap: 6px; }
+  .pg-row label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #cec8ba; font-weight: 600; }
+  .pg-row input[type=range] { width: 100%; accent-color: #5b675b; }
+  .pg-row .val { font-size: 14px; color: #f2f2c0; font-weight: 600; }
+  .pg-result { background: #0c0e0c; border: 1px solid #5b675b; border-radius: 6px; padding: 16px; }
+  .pg-result .label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #cec8ba; margin-bottom: 4px; }
+  .pg-result .num { font-size: 32px; font-weight: 700; color: #bed78e; line-height: 1; font-family: 'JetBrains Mono', monospace; }
+  .pg-result .verdict { font-size: 12px; color: #cec8ba; margin-top: 8px; }
+</style>
+<div class="pg-wrap">
+  <div class="pg-row">
+    <label>Receita mensal por cliente ($)</label>
+    <input type="range" id="pg-rev" min="10" max="1000" step="10" value="100">
+    <div class="val"><span id="pg-rev-v">100</span></div>
+  </div>
+  <div class="pg-row">
+    <label>Margem (%)</label>
+    <input type="range" id="pg-mar" min="10" max="90" step="5" value="70">
+    <div class="val"><span id="pg-mar-v">70</span>%</div>
+  </div>
+  <div class="pg-row">
+    <label>Churn mensal (%)</label>
+    <input type="range" id="pg-ch" min="1" max="20" step="0.5" value="5">
+    <div class="val"><span id="pg-ch-v">5</span>%</div>
+  </div>
+  <div class="pg-row">
+    <label>CAC ($)</label>
+    <input type="range" id="pg-cac" min="50" max="2000" step="50" value="200">
+    <div class="val"><span id="pg-cac-v">200</span></div>
+  </div>
+  <div class="pg-result">
+    <div class="label">LTV/CAC ratio</div>
+    <div class="num" id="pg-ratio">7.0</div>
+    <div class="verdict" id="pg-verdict">Saudável (> 3)</div>
+  </div>
+</div>
+<script>
+(function() {
+  function calc() {
+    const rev = +document.getElementById('pg-rev').value;
+    const mar = +document.getElementById('pg-mar').value / 100;
+    const ch = +document.getElementById('pg-ch').value / 100;
+    const cac = +document.getElementById('pg-cac').value;
+    const ltv = (rev * mar) / ch;
+    const ratio = (ltv / cac);
+    document.getElementById('pg-rev-v').textContent = rev;
+    document.getElementById('pg-mar-v').textContent = (mar * 100).toFixed(0);
+    document.getElementById('pg-ch-v').textContent = (ch * 100).toFixed(1);
+    document.getElementById('pg-cac-v').textContent = cac;
+    document.getElementById('pg-ratio').textContent = ratio.toFixed(1);
+    const verdict = document.getElementById('pg-verdict');
+    if (ratio > 3) { verdict.textContent = '✓ Saudável (> 3)'; verdict.style.color = '#bed78e'; }
+    else if (ratio > 1.5) { verdict.textContent = '⚠ Limítrofe (1.5 – 3)'; verdict.style.color = '#d0a795'; }
+    else { verdict.textContent = '✗ Insustentável (< 1.5)'; verdict.style.color = '#ff5555'; }
+  }
+  ['pg-rev', 'pg-mar', 'pg-ch', 'pg-cac'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', calc);
+  });
+  calc();
+})();
+</script>
 :::
 
 ## Sinais de que você escolheu errado

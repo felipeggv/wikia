@@ -274,46 +274,73 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   margin: 0;
 }
 
-/* Tree */
+/* =========================================================
+   TREE — Obsidian file-system style
+   Folders com chevron+folder icon, files com file-text icon,
+   indent visível via guide-lines, hover sutil
+   ========================================================= */
 .wk-tree {
   list-style: none;
-  padding: 0;
+  padding: 0 0 0 0;
   margin: 0;
+  font-size: 12.5px;
 }
-.wk-tree-tema {
-  margin: 0;
-}
+.wk-tree-tema { margin: 0; position: relative; }
+
+/* Tema (folder) header */
 .wk-tree-tema > .tema-label {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px var(--s-4);
-  color: var(--text-dim);
+  gap: 4px;
+  padding: 3px var(--s-4) 3px var(--s-3);
+  color: var(--text-main);
   cursor: pointer;
   user-select: none;
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  transition: color 0.12s;
+  font-weight: 500;
+  font-size: 12.5px;
+  transition: background 0.1s;
+  border-radius: 3px;
+  margin: 0 4px;
 }
-.wk-tree-tema > .tema-label:hover { color: var(--text-main); }
-.wk-tree-tema > .tema-label::before {
-  content: "▸";
-  color: var(--accent);
-  font-size: 9px;
-  width: 10px;
+.wk-tree-tema > .tema-label:hover { background: var(--accent-dim); }
+
+/* Chevron (rotates on open) */
+.wk-tree-tema > .tema-label .chev {
   display: inline-block;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  color: var(--text-dim);
   transition: transform 0.15s;
 }
-.wk-tree-tema[data-open="true"] > .tema-label::before {
-  transform: rotate(90deg);
+.wk-tree-tema[data-open="true"] > .tema-label .chev { transform: rotate(90deg); }
+
+/* Folder icon */
+.wk-tree-tema > .tema-label .folder-icon {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+.wk-tree-tema[data-open="true"] > .tema-label .folder-icon { color: var(--success); }
+
+.wk-tree-tema > .tema-label .label-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .wk-tree-tema > .tema-label .count {
-  color: var(--accent);
+  color: var(--text-dim);
   font-size: 10px;
   margin-left: auto;
   font-weight: 400;
+  font-variant-numeric: tabular-nums;
 }
+
+/* File list (children) */
 .wk-tree-tema > ul {
   list-style: none;
   padding: 0;
@@ -321,29 +348,65 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease;
+  position: relative;
 }
-.wk-tree-tema[data-open="true"] > ul {
-  max-height: 2000px;
+.wk-tree-tema[data-open="true"] > ul { max-height: 4000px; }
+
+/* Guide line (indent rail) */
+.wk-tree-tema > ul::before {
+  content: "";
+  position: absolute;
+  left: 21px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
 }
+
+/* File item */
 .wk-tree-tema > ul > li > a {
-  display: block;
-  padding: 3px var(--s-4) 3px 32px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px var(--s-4) 3px 30px;
   color: var(--text-dim);
   text-decoration: none;
   font-size: 12px;
   line-height: 1.5;
-  border-left: 2px solid transparent;
-  transition: all 0.12s;
+  transition: all 0.1s;
+  border-radius: 3px;
+  margin: 0 4px 0 0;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wk-tree-tema > ul > li > a .file-icon {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  color: var(--text-dim);
+  flex-shrink: 0;
 }
 .wk-tree-tema > ul > li > a:hover {
   color: var(--text-main);
   background: var(--accent-dim);
 }
+.wk-tree-tema > ul > li > a:hover .file-icon { color: var(--accent); }
 .wk-tree-tema > ul > li > a.current {
-  color: var(--accent);
+  color: var(--text-main);
   background: var(--accent-dim);
-  border-left-color: var(--accent);
   font-weight: 600;
+}
+.wk-tree-tema > ul > li > a.current .file-icon { color: var(--success); }
+.wk-tree-tema > ul > li > a.current::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
 }
 
 /* Recents */
@@ -687,6 +750,111 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 .ap-article { /* old class name */ }
 .ap-page { max-width: var(--content-w); margin: 0 auto; padding: var(--s-5); }
 
+/* =========================================================
+   CALLOUTS — inline highlights, variants via data-variant
+   variants: info | tip | warn | success | quote
+   ========================================================= */
+.ap-callout {
+  margin: var(--s-4) 0;
+  padding: var(--s-3) var(--s-4);
+  border-left: 3px solid var(--accent);
+  background: var(--bg-sidebar);
+  border-radius: 0 4px 4px 0;
+  color: var(--text-main);
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  position: relative;
+}
+.ap-callout[data-variant="tip"]    { border-left-color: var(--success); background: rgba(190, 215, 142, 0.06); }
+.ap-callout[data-variant="success"]{ border-left-color: var(--success); background: rgba(190, 215, 142, 0.08); }
+.ap-callout[data-variant="warn"]   { border-left-color: var(--warning); background: rgba(208, 167, 149, 0.06); }
+.ap-callout[data-variant="info"]   { border-left-color: var(--accent);  background: var(--bg-sidebar); }
+.ap-callout[data-variant="quote"]  { border-left-color: var(--text-dim); background: transparent; font-style: italic; color: var(--text-dim); }
+
+.ap-callout-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--success);
+  margin-bottom: 6px;
+}
+.ap-callout[data-variant="warn"] .ap-callout-title { color: var(--warning); }
+.ap-callout[data-variant="info"] .ap-callout-title { color: var(--accent); }
+.ap-callout[data-variant="quote"] .ap-callout-title { color: var(--text-dim); }
+.ap-callout-body > *:first-child { margin-top: 0; }
+.ap-callout-body > *:last-child { margin-bottom: 0; }
+.ap-callout-body p { margin-bottom: var(--s-2); font-size: var(--body-size); }
+
+/* =========================================================
+   PLAYGROUND TRIGGER (inline button + drawer right)
+   ========================================================= */
+.ap-playground-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin: var(--s-4) 0;
+  padding: var(--s-3) var(--s-4);
+  background: var(--bg-sidebar);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+}
+.ap-playground-trigger:hover {
+  background: var(--accent-dim);
+  border-color: var(--success);
+  transform: translateY(-1px);
+}
+.ap-playground-trigger-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--success);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.ap-playground-trigger-body { flex: 1; min-width: 0; }
+.ap-playground-trigger-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--success);
+  margin-bottom: 2px;
+}
+.ap-playground-trigger-title {
+  font-size: var(--body-size);
+  color: var(--text-main);
+  font-weight: 600;
+}
+.ap-playground-trigger-cta {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Drawer */
+#wk-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 480px; max-width: 100vw; background: var(--bg-sidebar); border-left: 1px solid var(--accent); z-index: 150; transform: translateX(100%); transition: transform 0.25s ease; box-shadow: -8px 0 24px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
+#wk-drawer.open { transform: translateX(0); }
+#wk-drawer-header { padding: var(--s-4); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
+#wk-drawer-header .label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--success); font-weight: 600; }
+#wk-drawer-header .title { font-size: var(--body-size); color: var(--text-main); font-weight: 600; margin-top: 2px; }
+#wk-drawer-close { width: 28px; height: 28px; background: transparent; border: 1px solid var(--border); border-radius: 4px; color: var(--text-dim); cursor: pointer; font-size: 14px; }
+#wk-drawer-close:hover { color: var(--text-main); border-color: var(--accent); }
+#wk-drawer-content { flex: 1; overflow-y: auto; padding: var(--s-5); }
+#wk-drawer-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 140; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+#wk-drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+@media (max-width: 700px) { #wk-drawer { width: 100vw; } }
+
 </style>
 
 </head>
@@ -704,8 +872,16 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
     <span class="kbd">⌘ K</span>
   </button>
   <div class="wk-width-toggle" role="group" aria-label="Reading width">
-    <button data-width="compact" class="active" title="Compact (720px)">⬛</button>
-    <button data-width="wide" title="Wide (960px)">▭</button>
+    <button data-width="compact" class="active" title="Compact reading (720px)" aria-label="Compact">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="4.5" y="2.5" width="7" height="11" rx="0.5"/>
+      </svg>
+    </button>
+    <button data-width="wide" title="Wide reading (960px)" aria-label="Wide">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="1.5" y="2.5" width="13" height="11" rx="0.5"/>
+      </svg>
+    </button>
   </div>
 </header>
 
@@ -721,7 +897,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <div class="wk-section">
     <h4>Knowledge</h4>
     <ul class="wk-tree">
-      <li class="wk-tree-tema" data-tema="2026-05-strategy"><div class="tema-label">2026 05 Strategy<span class="count">1</span></div><ul><li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-strategy/artifacts/pricing-strategy-playbook/" class="">Pricing Strategy Playbook</a></li></ul></li>
+      <li class="wk-tree-tema" data-tema="2026-05-strategy" data-open="false"><div class="tema-label"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">2026 05 Strategy</span><span class="count">1</span></div><ul><li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-strategy/artifacts/pricing-strategy-playbook/" class=""><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Pricing Strategy Playbook</span></a></li></ul></li>
     </ul>
   </div>
 
@@ -773,6 +949,19 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
     <input type="text" id="wk-search-input" placeholder="Buscar artigos por título, tema, tag..." autocomplete="off">
     <div id="wk-search-results"></div>
   </div>
+</div>
+
+<!-- Playground drawer (right side) -->
+<div id="wk-drawer-backdrop"></div>
+<div id="wk-drawer" aria-hidden="true">
+  <div id="wk-drawer-header">
+    <div>
+      <div class="label">Playground interativo</div>
+      <div class="title" id="wk-drawer-title">—</div>
+    </div>
+    <button id="wk-drawer-close" aria-label="Fechar drawer">×</button>
+  </div>
+  <div id="wk-drawer-content"></div>
 </div>
 
 <script>
@@ -854,6 +1043,43 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
     if ((e.metaKey || e.ctrlKey) && e.key === '\\') { e.preventDefault(); burger?.click(); }
     if (e.key === 'Escape') modal?.classList.remove('open');
   });
+
+  // ============ PLAYGROUND DRAWER ============
+  const drawer = document.getElementById('wk-drawer');
+  const drawerBackdrop = document.getElementById('wk-drawer-backdrop');
+  const drawerTitle = document.getElementById('wk-drawer-title');
+  const drawerContent = document.getElementById('wk-drawer-content');
+  const drawerClose = document.getElementById('wk-drawer-close');
+
+  function openDrawer(templateId) {
+    const tpl = document.getElementById(templateId);
+    if (!tpl) return;
+    drawerTitle.textContent = tpl.dataset.title || 'Playground';
+    drawerContent.innerHTML = tpl.innerHTML;
+    // Re-executa scripts injetados
+    drawerContent.querySelectorAll('script').forEach(old => {
+      const s = document.createElement('script');
+      if (old.src) s.src = old.src; else s.textContent = old.textContent;
+      old.replaceWith(s);
+    });
+    drawer.classList.add('open');
+    drawerBackdrop.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    drawerBackdrop.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawerContent.innerHTML = '';
+  }
+  window.wkOpenDrawer = openDrawer;
+  window.wkCloseDrawer = closeDrawer;
+
+  document.querySelectorAll('[data-playground-trigger]').forEach(btn => {
+    btn.addEventListener('click', () => openDrawer(btn.dataset.playgroundTrigger));
+  });
+  drawerClose?.addEventListener('click', closeDrawer);
+  drawerBackdrop?.addEventListener('click', closeDrawer);
 
   // Load search.json (relative to wiki base)
   const wikiBase = document.documentElement.dataset.wikiBase || '';
