@@ -19,8 +19,8 @@
    ========================================================= */
 :root {
   /* Theme tokens (snapshot Maestro) */
-    --bg-main: #0c0e0c;
-  --bg-sidebar: #0f100f;
+    --bg-main: #0a0b0a;
+  --bg-sidebar: #0c0c0d;
   --bg-activity: #141415;
   --border: #111311;
   --text-main: #f2ebc0;
@@ -205,6 +205,7 @@ html, body {
 }
 .wk-topbar .wk-width-toggle button:hover { color: var(--text-main); }
 .wk-topbar .wk-width-toggle button.active { background: var(--accent-dim); color: var(--accent); }
+.wk-topbar .wk-width-toggle button svg { pointer-events: none; }
 
 /* =========================================================
    APP SHELL — sidebar + main
@@ -956,7 +957,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 <div id="wk-drawer" aria-hidden="true">
   <div id="wk-drawer-header">
     <div>
-      <div class="label">Playground interativo</div>
+      <div class="label">TESTE INTERATIVO</div>
       <div class="title" id="wk-drawer-title">—</div>
     </div>
     <button id="wk-drawer-close" aria-label="Fechar drawer">×</button>
@@ -986,10 +987,11 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   }
   applyWidth(localStorage.getItem(WK) || 'compact');
   document.querySelectorAll('.wk-width-toggle button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const w = btn.dataset.width;
+    btn.addEventListener('click', (e) => {
+      const w = e.currentTarget.dataset.width;
       applyWidth(w);
       localStorage.setItem(WK, w);
+      console.log('[wikia] width →', w, 'body.dataset:', document.body.dataset.width); // DEBUG: remove em 07-cleanup
     });
   });
 
@@ -1054,7 +1056,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   function openDrawer(templateId) {
     const tpl = document.getElementById(templateId);
     if (!tpl) return;
-    drawerTitle.textContent = tpl.dataset.title || 'Playground';
+    drawerTitle.textContent = tpl.dataset.title || 'Teste interativo';
     drawerContent.innerHTML = tpl.innerHTML;
     // Re-executa scripts injetados
     drawerContent.querySelectorAll('script').forEach(old => {
@@ -1075,8 +1077,13 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   window.wkOpenDrawer = openDrawer;
   window.wkCloseDrawer = closeDrawer;
 
-  document.querySelectorAll('[data-playground-trigger]').forEach(btn => {
-    btn.addEventListener('click', () => openDrawer(btn.dataset.playgroundTrigger));
+  // Event delegation: triggers virão DEPOIS da decifragem AES, então NÃO usar querySelectorAll no load
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-playground-trigger]');
+    if (t) openDrawer(t.dataset.playgroundTrigger);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer?.classList.contains('open')) closeDrawer();
   });
   drawerClose?.addEventListener('click', closeDrawer);
   drawerBackdrop?.addEventListener('click', closeDrawer);
