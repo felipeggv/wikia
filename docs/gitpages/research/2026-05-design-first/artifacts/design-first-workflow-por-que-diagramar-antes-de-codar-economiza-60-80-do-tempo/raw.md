@@ -540,15 +540,148 @@ Folder ClickUp:  lead-scoring                (kebab puro, sem [Area])
 | `build/lead-ingestion` | `lead-ingestion-cc` | `build/lead-ingestion` | `VibeworkV2/apps/vitascience/lead-ingestion/` |
 | `build/score-export` | `score-export-cc` | `build/score-export` | `VibeworkV2/apps/vitascience/score-export/` |
 
-### Decisão obrigatória: paralelo ou sequencial?
+---
 
-::: callout warn Antes de criar 2+ lists ativas no mesmo projeto
-A skill **DEVE** perguntar: as lists vão rodar em **paralelo** (worktrees git separados) ou **sequencial** (você merge a próxima antes de começar)?
+### Branching Strategy — a Regra de Ouro do Paralelismo
 
-**Sequencial** → `git checkout` resolve, zero overhead.
-**Paralelo** → criar worktree em `apps/worktrees/{projeto}-{tipo}-{slug}`.
+::: callout warn Lei fundamental (decora isso)
+```
+REGRA 1 (sempre):
+  1 list = 1 branch propria
+  1 list = 1 agent = 1 cwd
+  N tabs no agent = N tasks da MESMA list
 
-Se 2 frentes paralelas tocam o mesmo arquivo, **NÃO paraleliza** — usa custom field `blocked-by` no ClickUp pra sequenciar.
+REGRA 2 (condicional):
+  trabalho SEQUENCIAL entre lists  ->  git checkout
+  trabalho PARALELO entre lists    ->  git worktree add
+                                       (1 worktree por list ativa simultanea)
+```
+Worktree **NÃO é antipattern** — é pré-requisito físico do paralelismo (git proíbe 2 branches checkoutadas no mesmo cwd). Antipattern é worktree-por-task dentro da MESMA list (use tabs do agent pra isso).
+:::
+
+### Decision tree de branching
+
+::: mermaid-zoom
+flowchart TD
+    A[Vou comecar trabalho novo] --> B{1 frente ou N frentes simultaneas?}
+    B -- 1 frente --> C[git checkout tipo/slug]
+    C --> D[Trabalha, commita, PR, merge]
+    D --> E[Proxima list: git checkout outra]
+
+    B -- N frentes --> F[git worktree add por frente]
+    F --> G[1 cwd separado por list]
+    G --> H[1 agent Maestro por worktree]
+
+    A --> I{Espiar outra branch 5 min?}
+    I -- sim --> J[git stash + checkout + checkout volta + stash pop]
+    J --> K[NAO cria worktree por isso]
+
+    F --> L{2 frentes tocam o MESMO arquivo?}
+    L -- sim --> M[NAO paraleliza]
+    M --> N[Cria blocked-by no ClickUp]
+    N --> O[B espera A mergear, B rebase, B continua]
+    L -- nao --> H
+:::
+
+### Tabela de decisões rápidas
+
+| Quero... | Faço... |
+|---|---|
+| Trabalhar em 1 list por vez (sequencial) | `git checkout {tipo}/{slug}` no projeto principal |
+| Trabalhar em 2+ lists em paralelo | 1 worktree por list ativa: `git worktree add ../worktrees/{projeto}-{tipo}-{slug}` |
+| Trabalhar em 2 tasks da MESMA list | 2 tabs no MESMO agent (mesma branch, mesma worktree) |
+| Espiar outra branch rapidinho (5 min) | `git stash` → `checkout` → volta → `stash pop` (não cria worktree) |
+| Mesma list em N branches diferentes | ❌ Anti-padrão. Cria outra list. |
+| Worktree por task dentro da mesma list | ❌ Anti-padrão. Use tabs do agent. |
+
+### Naming convention de branches e worktrees
+
+```
+LIST CLICKUP                          BRANCH GIT                            WORKTREE PATH
+=============================         =============================         ===========================================
+build/drccd-decision-engine           build/drccd-decision-engine           apps/worktrees/unbloq-build-drccd-decision-engine
+build/review-loop                     build/review-loop                     apps/worktrees/unbloq-build-review-loop
+fix/handoff-payload-validation        fix/handoff-payload-validation        apps/worktrees/unbloq-fix-handoff-payload-validation
+improve/cleanup-logs                  improve/cleanup-logs                  apps/worktrees/coverage-module-improve-cleanup-logs
+
+REGRA cristalizada:
+  nome da list  =  nome da branch  =  {projeto}-{nome-da-list} no worktree path
+  tudo kebab-case
+  tipo (build/fix/improve/run/decide/research) faz parte do nome
+  ZERO sufixo de agent no nome (-cc, -cdx ficam so no Maestro agent_name)
+```
+
+### Comandos nativos git (zero dependência de stack nova)
+
+::: accordion-seq
+### Criar worktree + branch nova de uma vez (caso comum)
+```bash
+cd VibeworkV2/apps/{projeto}
+git worktree add ../worktrees/{projeto}-{tipo}-{slug} -b {tipo}/{slug}
+```
+
+### Criar worktree em branch que JÁ existe
+```bash
+git worktree add ../worktrees/{projeto}-{tipo}-{slug} {tipo}/{slug}
+```
+
+### Listar todas worktrees ativas
+```bash
+git worktree list
+# saída exemplo:
+# /VibeworkV2/apps/unbloq                            abc1234 [main]
+# /VibeworkV2/apps/worktrees/unbloq-build-review     def5678 [build/review-loop]
+# /VibeworkV2/apps/worktrees/unbloq-build-connect    ghi9012 [build/connectors]
+```
+
+### Sincronizar worktree com main (rebase ou merge)
+```bash
+cd ../worktrees/{projeto}-{tipo}-{slug}
+git fetch origin
+git rebase origin/main      # historico linear (preferido)
+# OU
+git merge origin/main       # merge commit
+```
+
+### Cleanup após PR mergeado
+```bash
+cd VibeworkV2/apps/{projeto}
+git worktree remove ../worktrees/{projeto}-{tipo}-{slug}
+git branch -d {tipo}/{slug}                    # branch local
+git push origin --delete {tipo}/{slug}         # branch remote
+# E remover entry do project-registry.yaml.clickup_lists
+```
+:::
+
+### Política de merge entre worktrees paralelas
+
+```
+ORDEM DE MERGE = ORDEM DE DONE NO CLICKUP
+
+  list 1 vai pra DONE  -> PR aberto -> merge em main
+  list 2 vai pra DONE  -> rebase contra main atualizado -> PR -> merge
+  list 3 vai pra DONE  -> rebase -> PR -> merge
+
+REGRA DE CONFLITO:
+  se 2 frentes paralelas vao mexer no MESMO arquivo:
+  1. NAO paraleliza
+  2. cria dependency no ClickUp (custom field "blocked-by")
+  3. segunda frente espera primeira mergear
+  4. segunda frente faz rebase
+  5. continua o trabalho
+
+Worktree NAO resolve conflito semantico — so permite ter 2 cwds.
+Coordenacao humana ainda e necessaria.
+```
+
+### Resumo em 5 linhas (cole na cabeça)
+
+::: callout success Branching strategy compacta
+1. Toda list tem branch própria. ← lei (princípio 1)
+2. Sequencial: `git checkout` resolve. ← simples, zero overhead
+3. Paralelo: worktree obrigatório. ← física do git
+4. Comandos: git nativo já basta. ← zero stack nova
+5. Naming: list = branch = worktree. ← rastreabilidade 1:1
 :::
 
 ### Por que ClickUp e não Jira/Notion?

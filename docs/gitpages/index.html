@@ -373,20 +373,20 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 /* File item */
 .wk-tree-tema > ul > li > a {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
-  padding: 3px var(--s-4) 3px 30px;
+  padding: 4px var(--s-4) 4px 30px;
   color: var(--text-dim);
   text-decoration: none;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 11px;
+  line-height: 1.4;
   transition: all 0.1s;
   border-radius: 3px;
   margin: 0 4px 0 0;
   position: relative;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .wk-tree-tema > ul > li > a .file-icon {
   display: inline-flex;
@@ -394,6 +394,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   height: 12px;
   color: var(--text-dim);
   flex-shrink: 0;
+  margin-top: 2px;
 }
 .wk-tree-tema > ul > li > a:hover {
   color: var(--text-main);
@@ -421,22 +422,30 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 .wk-recents li { margin: 0; }
 .wk-recents a {
   display: block;
-  padding: 3px var(--s-4);
+  padding: 5px var(--s-4) 7px;
   color: var(--text-dim);
   text-decoration: none;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 11px;
+  line-height: 1.35;
   transition: all 0.12s;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  /* Cap em 3 linhas pra não inflar a sidebar */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .wk-recents a:hover { color: var(--text-main); background: var(--accent-dim); }
 .wk-recents a .date {
   display: block;
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--accent);
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 /* =========================================================
