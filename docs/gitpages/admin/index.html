@@ -13,8 +13,7 @@
 
 </style>
 
-<style>
-/* =========================================================
+<style>/* =========================================================
    WIKIA · BLOG/WIKI INTERNO
    Maestro dark green + 100% JetBrains Mono
    Heading sizes EM-based (extraídos do Maestro app.asar):
@@ -878,177 +877,260 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 
 
 /* === admin overrides === */
-/* WIKIA · ADMIN DASHBOARD — minimal CSS reusing theme tokens from _styles.css.tpl */
+/* =========================================================
+   ADMIN — minimal additions on top of _styles.css.tpl chassi
+   ========================================================= */
 
-.admin-shell {
-  min-height: calc(100vh - var(--topbar-h));
-  background: var(--bg-main);
-  color: var(--text-main);
-  font-family: var(--font);
-}
-#admin-state[data-state="locked"] .admin-unlocked { display: none; }
-#admin-state[data-state="unlocked"] .admin-locked { display: none; }
-
-/* Locked state: centered gate card */
-.admin-locked {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - var(--topbar-h) - 80px);
-  padding: var(--s-6);
-}
-.admin-gate-card {
-  width: 100%;
-  max-width: 420px;
-  background: var(--bg-sidebar);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: var(--s-7) var(--s-6);
-  text-align: center;
-}
-.admin-gate-card h1 { font-size: 1.3em; font-weight: 600; color: var(--text-main); margin: 0 0 var(--s-2); }
-.admin-gate-card p { font-size: 12px; color: var(--text-dim); margin: 0 0 var(--s-5); }
-.admin-gate-card input[type="password"] {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--bg-main);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: var(--text-main);
-  font: inherit;
+/* === Lead under H1 === */
+.wk-content .wk-lead {
   font-family: var(--font);
   font-size: 14px;
-  outline: none;
-  margin-bottom: var(--s-3);
-  letter-spacing: 0.05em;
-}
-.admin-gate-card input[type="password"]:focus { border-color: var(--accent); }
-.admin-gate-card .admin-error {
-  display: block;
-  min-height: 18px;
-  color: var(--warning);
-  font-size: 11px;
-  margin-top: var(--s-2);
-  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin: 0 0 var(--s-6) 0;
 }
 
-/* Unlocked state: 2-col layout */
-.admin-unlocked {
+/* === Lock form === */
+.admin-lock-form {
   display: flex;
-  gap: var(--s-5);
-  padding: var(--s-6);
-  min-height: calc(100vh - var(--topbar-h));
+  flex-direction: column;
+  gap: var(--s-3);
+  max-width: 420px;
+  margin: var(--s-7) 0 var(--s-4) 0;
 }
-#admin-articles-wrap { flex: 0 0 40%; min-width: 0; }
-#admin-actions { flex: 1; min-width: 0; }
-.admin-panel-title {
-  font-size: 10px;
+.admin-lock-form label {
+  font-family: var(--font);
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-dim);
-  margin: 0 0 var(--s-3);
 }
-
-/* Article list */
-#admin-articles {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  background: var(--bg-sidebar);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-}
-#admin-articles li {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: var(--s-2);
-  padding: var(--s-3) var(--s-4);
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  transition: background 0.12s;
-}
-#admin-articles li:last-child { border-bottom: none; }
-#admin-articles li:hover { background: var(--accent-dim); }
-#admin-articles li.current { background: var(--accent-dim); border-left: 2px solid var(--accent); }
-#admin-articles .slug { font-family: var(--font); font-size: 12px; color: var(--text-main); font-weight: 600; word-break: break-all; }
-#admin-articles .tema { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px; }
-#admin-articles .pass-cell { font-family: var(--font); font-size: 12px; color: var(--text-dim); letter-spacing: 0.1em; text-align: right; align-self: center; }
-#admin-articles .released-flag { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--success); font-weight: 600; margin-left: var(--s-2); }
-
-/* Action panel */
-#admin-actions {
-  background: var(--bg-sidebar);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: var(--s-5);
-}
-#admin-actions .placeholder { color: var(--text-dim); font-size: 12px; font-style: italic; }
-.admin-action-row { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-3) 0; }
-.admin-btn {
-  background: var(--bg-main);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 6px 12px;
-  color: var(--text-main);
-  font: inherit;
+.admin-lock-form input[type="password"] {
   font-family: var(--font);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.admin-btn:hover { border-color: var(--accent); color: var(--accent); }
-.admin-btn.primary { border-color: var(--accent); color: var(--accent); }
-.admin-btn.primary:hover { background: var(--accent-dim); color: var(--text-main); }
-.admin-btn.danger { border-color: var(--warning); color: var(--warning); }
-.admin-btn.danger:hover { background: rgba(208, 167, 149, 0.08); }
-.admin-output {
-  background: var(--bg-main);
+  font-size: 14px;
+  padding: 8px 12px;
+  background: var(--bg-sidebar);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: var(--s-3);
+  color: var(--text-main);
+  outline: none;
+  letter-spacing: 0.08em;
+}
+.admin-lock-form input[type="password"]:focus {
+  border-color: var(--accent);
+}
+.admin-lock-form button {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  background: var(--accent-dim);
+  color: var(--text-main);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.admin-lock-form button:hover {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+.admin-lock-err {
+  color: var(--error);
+  font-size: 12px;
+  min-height: 16px;
+}
+.admin-lock-note {
   font-family: var(--font);
   font-size: 11px;
   color: var(--text-dim);
-  white-space: pre-wrap;
-  word-break: break-all;
-  max-height: 240px;
-  overflow-y: auto;
+  max-width: 540px;
+  line-height: 1.6;
   margin: var(--s-3) 0;
 }
 
-/* Toast (bottom-right, fade) */
-#admin-toast {
-  position: fixed;
-  bottom: var(--s-5);
-  right: var(--s-5);
-  background: var(--bg-sidebar);
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  padding: 10px 16px;
+/* === Toolbar === */
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: var(--s-5) 0 var(--s-3) 0;
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--border);
+}
+.admin-count {
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.admin-secondary {
+  font-family: var(--font);
+  font-size: 11px;
+  padding: 4px 10px;
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.admin-secondary:hover {
   color: var(--text-main);
+  border-color: var(--accent);
+}
+
+/* === Table === */
+.wk-admin-table {
+  width: 100%;
+  border-collapse: collapse;
   font-family: var(--font);
   font-size: 12px;
+  margin: 0 0 var(--s-5) 0;
+}
+.wk-admin-table thead th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  padding: var(--s-2) var(--s-3);
+  background: var(--bg-sidebar);
+  position: sticky;
+  top: var(--topbar-h);
+  z-index: 10;
+}
+.wk-admin-table thead th.actions {
+  width: 200px;
+  text-align: right;
+}
+.wk-admin-table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+.wk-admin-table tbody tr:hover {
+  background: var(--accent-dim);
+}
+.wk-admin-table td {
+  padding: var(--s-3);
+  vertical-align: top;
+}
+.wk-admin-table .cell-slug {
+  font-weight: 600;
+  color: var(--text-main);
+  max-width: 320px;
+  word-break: break-all;
+}
+.wk-admin-table .cell-tema {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+.wk-admin-table .cell-pass {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wk-admin-table .cell-pass code {
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--text-main);
+  background: var(--bg-sidebar);
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+  min-width: 160px;
+  display: inline-block;
+}
+.wk-admin-table .pass-toggle,
+.wk-admin-table .pass-copy {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.wk-admin-table .pass-toggle:hover,
+.wk-admin-table .pass-copy:hover {
+  color: var(--text-main);
+  border-color: var(--accent);
+}
+.wk-admin-table .cell-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+.wk-admin-table .cell-actions button {
+  font-family: var(--font);
+  font-size: 11px;
+  padding: 4px 8px;
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 4px;
+}
+.wk-admin-table .cell-actions button:hover {
+  color: var(--text-main);
+  border-color: var(--accent);
+}
+.wk-admin-table .cell-actions .act-release:hover {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+.wk-admin-table .status-released {
+  font-size: 10px;
+  color: var(--warning);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border: 1px dashed var(--warning);
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* === Pending panel === */
+.admin-pending {
+  margin-top: var(--s-5);
+  padding: var(--s-3);
+  background: var(--bg-sidebar);
+  border: 1px solid var(--warning);
+  border-radius: 4px;
+}
+.admin-pending summary {
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--warning);
   letter-spacing: 0.04em;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.4);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(8px);
-  transition: opacity 0.2s, transform 0.2s;
-  z-index: 200;
 }
-#admin-toast.show { opacity: 1; transform: translateY(0); }
-
-@media (max-width: 880px) {
-  .admin-unlocked { flex-direction: column; padding: var(--s-4); }
-  #admin-articles-wrap { flex: 1 1 auto; }
+.admin-pending pre {
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--text-main);
+  background: var(--bg-main);
+  padding: var(--s-3);
+  border-radius: 3px;
+  overflow-x: auto;
+  margin: var(--s-3) 0;
+  line-height: 1.5;
 }
-
+.admin-pending-instr {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: var(--s-3) 0 var(--s-2) 0;
+}
 </style>
 </head>
-<body data-sidebar="collapsed">
+<body>
 
 <header class="wk-topbar">
   <button class="wk-burger" id="wk-burger" aria-label="Toggle sidebar" title="Toggle sidebar (⌘\)">☰</button>
@@ -1073,49 +1155,281 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 </header>
 
 
-<main class="admin-main">
-  <div id="admin-state" data-state="locked">
-
-    <!-- LOCKED STATE -->
-    <section class="admin-lock">
-      <div class="admin-lock-card">
-        <div class="admin-lock-badge">admin · masterpass</div>
-        <h1 class="admin-lock-title">Acesso ao painel admin</h1>
-        <p class="admin-lock-lead">Insira a masterpass para destravar lista de artigos, senhas e ações administrativas. A masterpass nunca persiste no browser.</p>
-        <form id="admin-lock-form">
-          <label for="masterpass">masterpass</label>
-          <input type="password" id="masterpass" autocomplete="off" autofocus spellcheck="false">
-          <button type="submit" id="unlock">› Destravar Admin</button>
-          <div class="admin-lock-err" id="admin-lock-err"></div>
-        </form>
-        <div class="admin-lock-footnote">
-          <div class="prompt">wikia · admin · aes-256-gcm · pbkdf2 100k</div>
-          A masterpass derruba o gate de TODOS os artigos via vault decifrado in-memory.
-        </div>
-      </div>
-    </section>
-
-    <!-- UNLOCKED STATE -->
-    <section class="admin-unlocked">
-      <div class="admin-grid">
-        <aside class="admin-list">
-          <div class="admin-list-header">
-            <span class="admin-list-title">Artigos</span>
-            <span class="admin-list-count" id="admin-list-count">—</span>
-          </div>
-          <ul id="admin-articles"></ul>
-        </aside>
-        <section class="admin-actions" id="admin-actions">
-          <div class="admin-actions-empty">selecione um artigo</div>
-        </section>
-      </div>
-    </section>
-
+<div class="wk-shell">
+  <aside class="wk-sidebar" id="wk-sidebar">
+  <!-- Collapsed rail (icons only) -->
+  <div class="wk-sidebar-rail">
+    <div class="rail-icon" title="wikia">w</div>
   </div>
-</main>
 
-<div id="admin-toast" class="admin-toast" role="status" aria-live="polite"></div>
+  <!-- Tree -->
+  <div class="wk-section">
+    <h4>Knowledge</h4>
+    <ul class="wk-tree">
+      <li class="wk-tree-tema" data-tema="2026-05-unbloq-status" data-open="false"><div class="tema-label"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">2026 05 Unbloq Status</span><span class="count">1</span></div><ul><li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-unbloq-status/artifacts/unbloq-field-manual-como-funciona-hoje/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>unbloq — Field Manual: Como Funciona Hoje</span></a></li></ul></li>
+<li class="wk-tree-tema" data-tema="2026-05-strategy" data-open="false"><div class="tema-label"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">2026 05 Strategy</span><span class="count">1</span></div><ul><li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-strategy/artifacts/pricing-strategy-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Pricing Strategy Playbook</span></a></li></ul></li>
+<li class="wk-tree-tema" data-tema="2026-05-design-first" data-open="false"><div class="tema-label"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">2026 05 Design First</span><span class="count">1</span></div><ul><li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-design-first/artifacts/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</span></a></li></ul></li>
+    </ul>
+  </div>
 
+  <!-- Recents -->
+  <div class="wk-section">
+    <h4>Recentes</h4>
+    <ul class="wk-recents">
+      <li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-unbloq-status/artifacts/unbloq-field-manual-como-funciona-hoje/"><span class="date">18 MAY</span>unbloq — Field Manual: Como Funciona Hoje</a></li>
+<li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-design-first/artifacts/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><span class="date">18 MAY</span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</a></li>
+<li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-strategy/artifacts/pricing-strategy-playbook/"><span class="date">18 MAY</span>Pricing Strategy Playbook</a></li>
+    </ul>
+  </div>
+</aside>
+
+
+  <main class="wk-main">
+    <div class="wk-content wk-article">
+
+      <nav class="wk-breadcrumb" aria-label="Breadcrumb">
+        <a href="https://felipeggv.github.io/wikia/gitpages/">wikia</a><span class="sep">›</span>
+        <span class="current">admin</span>
+      </nav>
+
+      <header class="wk-article-header">
+        <div class="wk-eyebrow">admin · masterpass</div>
+        <h1>Painel admin</h1>
+        <p class="wk-lead">Entre com a masterpass para gerenciar artigos do wikia.</p>
+      </header>
+
+      <!-- LOCKED STATE -->
+      <section id="admin-locked" data-state="locked">
+        <form id="admin-lock-form" class="admin-lock-form">
+          <label for="masterpass">Masterpass</label>
+          <input type="password" id="masterpass" autocomplete="off" autofocus spellcheck="false" placeholder="••••••••••••">
+          <button type="submit">Destravar painel</button>
+          <div class="admin-lock-err" id="admin-lock-err" role="alert"></div>
+        </form>
+        <p class="admin-lock-note">AES-256-GCM · PBKDF2-SHA256 100k. A masterpass nunca persiste — fica só em memória do browser durante a sessão.</p>
+      </section>
+
+      <!-- UNLOCKED STATE -->
+      <section id="admin-unlocked" data-state="unlocked" hidden>
+        <div class="admin-toolbar">
+          <span class="admin-count" id="admin-count">— artigos</span>
+          <button type="button" id="admin-lock-btn" class="admin-secondary">Travar painel</button>
+        </div>
+
+        <table class="wk-admin-table">
+          <thead>
+            <tr>
+              <th scope="col">Slug</th>
+              <th scope="col">Tema</th>
+              <th scope="col">Senha</th>
+              <th scope="col" class="actions">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="admin-rows">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+
+        <details class="admin-pending" id="admin-pending-panel" hidden>
+          <summary>Mudanças pendentes (<span id="admin-pending-count">0</span>)</summary>
+          <pre id="admin-pending-json"></pre>
+          <p class="admin-pending-instr">Após confirmar, rode no terminal:</p>
+          <pre><code id="admin-pending-cmd">bash ~/.claude/skills/artifacts-publisher/scripts/publish.sh --rebuild-all --apply-pending --masterpass &lt;sua-masterpass&gt; --repo felipeggv/wikia</code></pre>
+          <button type="button" id="admin-pending-clear" class="admin-secondary">Descartar mudanças locais</button>
+        </details>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- Search modal (global) -->
+<div id="wk-search-modal" onclick="wkCloseSearch(event)">
+  <div class="wk-search-card" onclick="event.stopPropagation()">
+    <input type="text" id="wk-search-input" placeholder="Buscar artigos por título, tema, tag..." autocomplete="off">
+    <div id="wk-search-results"></div>
+  </div>
+</div>
+
+<!-- Playground drawer (right side) -->
+<div id="wk-drawer-backdrop"></div>
+<div id="wk-drawer" aria-hidden="true">
+  <div id="wk-drawer-header">
+    <div>
+      <div class="label">TESTE INTERATIVO</div>
+      <div class="title" id="wk-drawer-title">—</div>
+    </div>
+    <button id="wk-drawer-close" aria-label="Fechar drawer">×</button>
+  </div>
+  <div id="wk-drawer-content"></div>
+</div>
+
+<script>
+(function() {
+  // ============ SIDEBAR TOGGLE ============
+  const burger = document.getElementById('wk-burger');
+  const SK = 'wikia-sidebar-state';
+  function applySidebar(state) { document.body.dataset.sidebar = state; }
+  applySidebar(localStorage.getItem(SK) || 'expanded');
+  burger?.addEventListener('click', () => {
+    const cur = document.body.dataset.sidebar || 'expanded';
+    const next = cur === 'collapsed' ? 'expanded' : 'collapsed';
+    applySidebar(next);
+    localStorage.setItem(SK, next);
+  });
+
+  // ============ WIDTH TOGGLE ============
+  const WK = 'wikia-content-width';
+  function applyWidth(w) {
+    document.body.dataset.width = w;
+    document.querySelectorAll('.wk-width-toggle button').forEach(b => b.classList.toggle('active', b.dataset.width === w));
+  }
+  applyWidth(localStorage.getItem(WK) || 'compact');
+  document.querySelectorAll('.wk-width-toggle button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const w = e.currentTarget.dataset.width;
+      applyWidth(w);
+      localStorage.setItem(WK, w);
+    });
+  });
+
+  // ============ TREE EXPAND/COLLAPSE ============
+  const TK = 'wikia-tree-state';
+  let treeState = {};
+  try { treeState = JSON.parse(localStorage.getItem(TK) || '{}'); } catch {}
+
+  document.querySelectorAll('.wk-tree-tema').forEach(node => {
+    const tema = node.dataset.tema;
+    // Default: tema do artigo atual aberto
+    const hasCurrent = !!node.querySelector('a.current');
+    const explicit = treeState[tema];
+    const open = explicit !== undefined ? explicit : hasCurrent;
+    node.dataset.open = open ? 'true' : 'false';
+    const label = node.querySelector('.tema-label');
+    label?.addEventListener('click', () => {
+      const newOpen = node.dataset.open !== 'true';
+      node.dataset.open = newOpen ? 'true' : 'false';
+      treeState[tema] = newOpen;
+      localStorage.setItem(TK, JSON.stringify(treeState));
+    });
+  });
+
+  // ============ SEARCH MODAL (⌘K) ============
+  const modal = document.getElementById('wk-search-modal');
+  const searchInput = document.getElementById('wk-search-input');
+  const searchResults = document.getElementById('wk-search-results');
+  const searchBtn = document.getElementById('wk-search-btn');
+  let searchIndex = [];
+  let selectedIdx = 0;
+  let filtered = [];
+
+  function openSearch() {
+    modal?.classList.add('open');
+    searchInput.value = '';
+    selectedIdx = 0;
+    renderResults('');
+    setTimeout(() => searchInput?.focus(), 50);
+  }
+  window.wkOpenSearch = openSearch;
+  window.wkCloseSearch = (e) => {
+    if (e && e.target.id !== 'wk-search-modal') return;
+    modal?.classList.remove('open');
+  };
+
+  searchBtn?.addEventListener('click', openSearch);
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if ((e.metaKey || e.ctrlKey) && e.key === '\\') { e.preventDefault(); burger?.click(); }
+    if (e.key === 'Escape') modal?.classList.remove('open');
+  });
+
+  // ============ PLAYGROUND DRAWER ============
+  const drawer = document.getElementById('wk-drawer');
+  const drawerBackdrop = document.getElementById('wk-drawer-backdrop');
+  const drawerTitle = document.getElementById('wk-drawer-title');
+  const drawerContent = document.getElementById('wk-drawer-content');
+  const drawerClose = document.getElementById('wk-drawer-close');
+
+  function openDrawer(templateId) {
+    const tpl = document.getElementById(templateId);
+    if (!tpl) return;
+    drawerTitle.textContent = tpl.dataset.title || 'Teste interativo';
+    drawerContent.innerHTML = tpl.innerHTML;
+    // Re-executa scripts injetados
+    drawerContent.querySelectorAll('script').forEach(old => {
+      const s = document.createElement('script');
+      if (old.src) s.src = old.src; else s.textContent = old.textContent;
+      old.replaceWith(s);
+    });
+    drawer.classList.add('open');
+    drawerBackdrop.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    drawerBackdrop.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawerContent.innerHTML = '';
+  }
+  window.wkOpenDrawer = openDrawer;
+  window.wkCloseDrawer = closeDrawer;
+
+  // Event delegation: triggers virão DEPOIS da decifragem AES, então NÃO usar querySelectorAll no load
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-playground-trigger]');
+    if (t) openDrawer(t.dataset.playgroundTrigger);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer?.classList.contains('open')) closeDrawer();
+  });
+  drawerClose?.addEventListener('click', closeDrawer);
+  drawerBackdrop?.addEventListener('click', closeDrawer);
+
+  // Load search.json (relative to wiki base)
+  const wikiBase = document.documentElement.dataset.wikiBase || '';
+  fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+
+  function score(item, q) {
+    const txt = (item.title + ' ' + item.tema + ' ' + (item.tags || []).join(' ') + ' ' + (item.snippet || '')).toLowerCase();
+    let s = 0;
+    for (const t of q.split(/\s+/).filter(Boolean)) {
+      if (txt.includes(t)) s += 1;
+      if ((item.title || '').toLowerCase().includes(t)) s += 3;
+    }
+    return s;
+  }
+
+  function renderResults(q) {
+    if (!q) {
+      // Show recent 8
+      filtered = searchIndex.slice(0, 8);
+    } else {
+      filtered = searchIndex.map(i => ({i, s: score(i, q)})).filter(x => x.s > 0).sort((a,b) => b.s - a.s).slice(0, 10).map(x => x.i);
+    }
+    if (!filtered.length) {
+      searchResults.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text-dim);font-size:13px">Nenhum resultado para "${q}"</div>`;
+      return;
+    }
+    searchResults.innerHTML = filtered.map((it, idx) => `
+      <a href="${wikiBase}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
+        <div class="title">${it.title}</div>
+        <div class="meta">${it.tema} · ${it.date}${(it.tags||[]).length ? ' · ' + it.tags.join(', ') : ''}</div>
+      </a>
+    `).join('');
+  }
+
+  searchInput?.addEventListener('input', () => { selectedIdx = 0; renderResults(searchInput.value.trim()); });
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); renderResults(searchInput.value.trim()); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); renderResults(searchInput.value.trim()); }
+    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = wikiBase + '/' + target.url; }
+  });
+})();
+</script>
+
+
+<!-- Admin logic (CSP-inline, no external src) -->
 <script>
 // admin-decrypt.js — Browser WebCrypto decryptor for the wikia password vault.
 // Mirrors the format produced by scripts/vault.mjs (AES-256-GCM, PBKDF2-SHA256, 100k iters).
@@ -1181,366 +1495,158 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 </script>
 
 <script>
-(function () {
-  'use strict';
+(function() {
+  // === STATE ===
+  let masterpass = null;
+  let vault = null;            // {slug: {password, tema, created, updated}}
+  let released = [];           // [slug, ...]
+  let pending = { release: [], rotate: {}, deletes: [] };
 
-  // ---------- State ----------
-  var WIKI_BASE = document.documentElement.dataset.wikiBase || '';
-  var vault = null;          // { slug: password, ... }
-  var released = [];          // [ "slug", ... ]
-  var pending = {};           // { vault?: b64, released?: [], rotations?: {...}, masterpass_changed?: bool }
-  var masterpassCache = null; // kept only in-memory for this session
-  var selectedSlug = null;
-  var revealed = {};          // { slug: true }
+  // === DOM ===
+  const $ = (s) => document.querySelector(s);
+  const lockSection = $('#admin-locked');
+  const unlockedSection = $('#admin-unlocked');
+  const masterpassInput = $('#masterpass');
+  const lockForm = $('#admin-lock-form');
+  const lockErr = $('#admin-lock-err');
+  const lockBtn = $('#admin-lock-btn');
+  const countEl = $('#admin-count');
+  const rowsEl = $('#admin-rows');
+  const pendingPanel = $('#admin-pending-panel');
+  const pendingCountEl = $('#admin-pending-count');
+  const pendingJsonEl = $('#admin-pending-json');
+  const pendingClearBtn = $('#admin-pending-clear');
 
-  // ---------- DOM ----------
-  var stateRoot = document.getElementById('admin-state');
-  var form = document.getElementById('admin-lock-form');
-  var input = document.getElementById('masterpass');
-  var err = document.getElementById('admin-lock-err');
-  var listEl = document.getElementById('admin-articles');
-  var countEl = document.getElementById('admin-list-count');
-  var actionsEl = document.getElementById('admin-actions');
-  var toastEl = document.getElementById('admin-toast');
+  const wikiBase = document.documentElement.dataset.wikiBase;
 
-  // ---------- Helpers ----------
-  function escapeHtml(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  // === HELPERS ===
+  function showLocked() {
+    lockSection.hidden = false;
+    unlockedSection.hidden = true;
+    masterpassInput.value = '';
+    lockErr.textContent = '';
+    masterpassInput.focus();
+  }
+  function showUnlocked() {
+    lockSection.hidden = true;
+    unlockedSection.hidden = false;
+  }
+  function showError(msg) {
+    lockErr.textContent = msg;
   }
 
-  function toast(msg, kind) {
-    toastEl.textContent = msg;
-    toastEl.dataset.kind = kind || 'info';
-    toastEl.classList.add('show');
-    setTimeout(function () { toastEl.classList.remove('show'); }, 2400);
-  }
-
-  function b64encode(bytes) {
-    var bin = '';
-    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-    return btoa(bin);
-  }
-
-  function bytesToB64Url(bytes) {
-    return b64encode(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  }
-
-  function genPasswordB64Url(byteLen) {
-    var raw = new Uint8Array(byteLen || 18);
-    crypto.getRandomValues(raw);
-    return bytesToB64Url(raw);
-  }
-
-  // PBKDF2 key derivation (mirrors admin-decrypt.js)
-  async function deriveKey(masterpass, salt) {
-    var base = await crypto.subtle.importKey(
-      'raw', new TextEncoder().encode(masterpass), 'PBKDF2', false, ['deriveKey']
-    );
-    return crypto.subtle.deriveKey(
-      { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
-      base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
-    );
-  }
-
-  // Re-encrypts the (mutated) vault back to the packed format used by vault.mjs:
-  //   <salt(16)><iv(12)><tag(16)><ciphertext>
-  // WebCrypto returns ciphertext WITH tag appended → we slice the tag off and put it before ct.
-  async function encryptVault(plainObj, masterpass) {
-    var salt = new Uint8Array(16); crypto.getRandomValues(salt);
-    var iv = new Uint8Array(12); crypto.getRandomValues(iv);
-    var key = await deriveKey(masterpass, salt);
-    var plainBuf = new TextEncoder().encode(JSON.stringify(plainObj));
-    var ctWithTag = new Uint8Array(await crypto.subtle.encrypt(
-      { name: 'AES-GCM', iv: iv, tagLength: 128 }, key, plainBuf
-    ));
-    var ct = ctWithTag.subarray(0, ctWithTag.length - 16);
-    var tag = ctWithTag.subarray(ctWithTag.length - 16);
-    var out = new Uint8Array(16 + 12 + 16 + ct.length);
-    out.set(salt, 0);
-    out.set(iv, 16);
-    out.set(tag, 16 + 12);
-    out.set(ct, 16 + 12 + 16);
-    return b64encode(out);
-  }
-
-  // ---------- Network ----------
-  async function fetchText(url) {
-    var r = await fetch(url, { cache: 'no-store' });
-    if (!r.ok) throw new Error('fetch failed: ' + url + ' (' + r.status + ')');
-    return r.text();
-  }
-
-  async function fetchJsonOrDefault(url, fallback) {
-    try {
-      var r = await fetch(url, { cache: 'no-store' });
-      if (!r.ok) return fallback;
-      var txt = (await r.text()).trim();
-      if (!txt) return fallback;
-      return JSON.parse(txt);
-    } catch (e) { return fallback; }
-  }
-
-  // ---------- Unlock flow ----------
-  async function unlock(masterpass) {
-    err.textContent = '';
-    if (!masterpass) { err.textContent = 'masterpass vazia'; return false; }
-    try {
-      var vaultB64 = (await fetchText(WIKI_BASE + '/_passwords.enc')).trim();
-      var plain = await window.WikiaVault.decryptVault(vaultB64, masterpass);
-      vault = plain;
-      released = await fetchJsonOrDefault(WIKI_BASE + '/_released.json', []);
-      pending = await fetchJsonOrDefault(WIKI_BASE + '/_pending-changes.json', {});
-      masterpassCache = masterpass;
-      stateRoot.dataset.state = 'unlocked';
-      renderList();
-      return true;
-    } catch (e) {
-      err.textContent = '✗ masterpass incorreta ou vault inválido';
-      vault = null; masterpassCache = null;
-      return false;
+  function renderRows() {
+    const slugs = Object.keys(vault).sort();
+    countEl.textContent = `${slugs.length} artigo${slugs.length === 1 ? '' : 's'}`;
+    rowsEl.innerHTML = '';
+    for (const slug of slugs) {
+      const entry = vault[slug];
+      const isReleased = released.includes(slug) || pending.release.includes(slug);
+      const tr = document.createElement('tr');
+      tr.dataset.slug = slug;
+      tr.innerHTML = `
+        <td class="cell-slug" title="${slug}">${slug}</td>
+        <td class="cell-tema">${entry.tema || ''}</td>
+        <td class="cell-pass">
+          <code class="pass-masked" data-mask="true">••••••••••••••••</code>
+          <button type="button" class="pass-toggle" title="Mostrar/esconder">👁</button>
+          <button type="button" class="pass-copy" title="Copiar">⧉</button>
+        </td>
+        <td class="cell-actions">
+          ${isReleased
+            ? '<span class="status-released">liberado (queue)</span>'
+            : '<button type="button" class="act-release">Liberar</button>'}
+          <button type="button" class="act-rotate">Rotacionar</button>
+        </td>
+      `;
+      rowsEl.appendChild(tr);
     }
+    renderPending();
   }
 
-  // ---------- List ----------
-  function renderList() {
-    var slugs = Object.keys(vault || {}).sort();
-    countEl.textContent = slugs.length + (slugs.length === 1 ? ' artigo' : ' artigos');
-    if (!slugs.length) {
-      listEl.innerHTML = '<li class="admin-empty">vault vazio</li>';
-      return;
-    }
-    var html = '';
-    for (var i = 0; i < slugs.length; i++) {
-      var slug = slugs[i];
-      var entry = vault[slug] || {};
-      var tema = entry.tema || '—';
-      var pwd = entry.password != null ? entry.password : entry;
-      var isReleased = released.indexOf(slug) >= 0;
-      var isCurrent = selectedSlug === slug;
-      var isRevealed = !!revealed[slug];
-      var pwdMasked = isRevealed ? escapeHtml(pwd) : '••••••••';
-      var releasedBadge = isReleased ? '<span class="admin-row-released">liberado</span>' : '';
-
-      html += '<li class="admin-row ' + (isCurrent ? 'current' : '') + '" data-slug="' + escapeHtml(slug) + '">'
-        + '  <div class="admin-row-main">'
-        + '    <div class="admin-row-slug">' + escapeHtml(slug) + releasedBadge + '</div>'
-        + '    <div class="admin-row-tema">' + escapeHtml(tema) + '</div>'
-        + '  </div>'
-        + '  <div class="admin-row-pwd">'
-        + '    <code class="pwd" data-slug="' + escapeHtml(slug) + '">' + pwdMasked + '</code>'
-        + '    <button class="iconbtn" data-action="toggle" data-slug="' + escapeHtml(slug) + '" title="Mostrar/ocultar senha">'
-        + '      ' + (isRevealed ? '🙈' : '👁')
-        + '    </button>'
-        + '    <button class="iconbtn" data-action="copy" data-slug="' + escapeHtml(slug) + '" title="Copiar senha">⎘</button>'
-        + '  </div>'
-        + '  <div class="admin-row-actions">'
-        + '    <button class="btn" data-action="release" data-slug="' + escapeHtml(slug) + '" ' + (isReleased ? 'disabled' : '') + '>Liberar</button>'
-        + '    <button class="btn" data-action="rotate" data-slug="' + escapeHtml(slug) + '">Rotacionar senha</button>'
-        + '  </div>'
-        + '</li>';
-    }
-    listEl.innerHTML = html;
+  function renderPending() {
+    const hasPending = pending.release.length > 0 || Object.keys(pending.rotate).length > 0 || pending.deletes.length > 0;
+    pendingPanel.hidden = !hasPending;
+    const totalPending = pending.release.length + Object.keys(pending.rotate).length + pending.deletes.length;
+    pendingCountEl.textContent = totalPending;
+    pendingJsonEl.textContent = JSON.stringify(pending, null, 2);
   }
 
-  function selectArticle(slug) {
-    selectedSlug = slug;
-    renderList();
-    var entry = vault[slug] || {};
-    var pwd = entry.password != null ? entry.password : entry;
-    var tema = entry.tema || '—';
-    actionsEl.innerHTML = ''
-      + '<div class="admin-actions-header">'
-      + '  <div class="admin-actions-slug">' + escapeHtml(slug) + '</div>'
-      + '  <div class="admin-actions-tema">' + escapeHtml(tema) + '</div>'
-      + '</div>'
-      + '<div class="admin-actions-pwd"><code>' + escapeHtml(pwd) + '</code></div>'
-      + '<p class="admin-actions-hint">Use Liberar / Rotacionar na lista. Para mudar a masterpass use o botão abaixo.</p>'
-      + '<button class="btn btn-secondary" data-action="open-change-masterpass">Definir masterpass…</button>';
-  }
+  // === ROW EVENT DELEGATION ===
+  rowsEl.addEventListener('click', async (e) => {
+    const tr = e.target.closest('tr[data-slug]');
+    if (!tr) return;
+    const slug = tr.dataset.slug;
+    const entry = vault[slug];
 
-  // ---------- Mutations ----------
-  function togglePasswordVisibility(slug) {
-    revealed[slug] = !revealed[slug];
-    renderList();
-  }
-
-  async function copyPassword(slug) {
-    var entry = vault[slug] || {};
-    var pwd = entry.password != null ? entry.password : entry;
-    try {
-      await navigator.clipboard.writeText(String(pwd));
-      toast('senha de ' + slug + ' copiada', 'success');
-    } catch (e) {
-      toast('clipboard bloqueada — selecione manualmente', 'warning');
-    }
-  }
-
-  async function releaseArticle(slug) {
-    if (released.indexOf(slug) >= 0) { toast('já liberado', 'info'); return; }
-    if (!confirm('Liberar "' + slug + '" remove o gate AES — o artigo fica PÚBLICO até a próxima rotação. Confirmar?')) return;
-    released = released.concat([slug]);
-    pending.released = released.slice();
-    await renderPendingPanel('release', slug);
-  }
-
-  async function rotatePassword(slug) {
-    if (!confirm('Rotacionar senha de "' + slug + '"? A senha anterior fica inválida assim que o próximo rebuild rodar.')) return;
-    var newPwd = genPasswordB64Url(18);
-    var entry = vault[slug] || {};
-    if (typeof entry === 'string') {
-      vault[slug] = { password: newPwd, tema: '' };
-    } else {
-      vault[slug] = Object.assign({}, entry, { password: newPwd });
-    }
-    pending.rotations = pending.rotations || {};
-    pending.rotations[slug] = newPwd;
-    try {
-      pending.vault = await encryptVault(vault, masterpassCache);
-    } catch (e) {
-      toast('falha ao re-encriptar vault: ' + e.message, 'error');
-      return;
-    }
-    revealed[slug] = true;
-    selectedSlug = slug;
-    await renderPendingPanel('rotate', slug);
-    renderList();
-  }
-
-  async function changeMasterpass(oldPass, newPass) {
-    if (oldPass !== masterpassCache) {
-      toast('masterpass atual incorreta', 'error');
-      return false;
-    }
-    if (!newPass || newPass.length < 8) {
-      toast('nova masterpass: mínimo 8 chars', 'error');
-      return false;
-    }
-    try {
-      pending.vault = await encryptVault(vault, newPass);
-      pending.masterpass_changed = true;
-      masterpassCache = newPass;
-      await renderPendingPanel('change-masterpass', null);
-      toast('masterpass alterada in-memory — commitar para vigorar', 'success');
-      return true;
-    } catch (e) {
-      toast('falha: ' + e.message, 'error');
-      return false;
-    }
-  }
-
-  // ---------- Pending panel (copy-paste commit) ----------
-  async function renderPendingPanel(kind, slug) {
-    var vaultB64 = pending.vault || '';
-    var releasedJson = JSON.stringify(released, null, 2);
-    var pendingJson = JSON.stringify(pending, null, 2);
-
-    var msg = '';
-    if (kind === 'release') msg = 'admin: release ' + (slug || '');
-    else if (kind === 'rotate') msg = 'admin: rotate ' + (slug || '');
-    else if (kind === 'change-masterpass') msg = 'admin: change masterpass';
-    else msg = 'admin: pending changes';
-
-    var script = ''
-      + 'cd /tmp/wikia-clone && \\\n'
-      + (vaultB64 ? "echo '" + vaultB64 + "' > docs/gitpages/_passwords.enc && \\\n" : '')
-      + "echo '" + releasedJson.replace(/'/g, "'\\''") + "' > docs/gitpages/_released.json && \\\n"
-      + "echo '" + pendingJson.replace(/'/g, "'\\''") + "' > docs/gitpages/_pending-changes.json && \\\n"
-      + "git add docs/gitpages/_passwords.enc docs/gitpages/_released.json docs/gitpages/_pending-changes.json && \\\n"
-      + "git commit -m '" + msg + "' && git push";
-
-    actionsEl.innerHTML = ''
-      + '<div class="admin-actions-header">'
-      + '  <div class="admin-actions-slug">' + escapeHtml(slug || 'pending') + '</div>'
-      + '  <div class="admin-actions-tema">' + escapeHtml(msg) + '</div>'
-      + '</div>'
-      + (vaultB64 ? '<details open><summary>_passwords.enc (novo, base64)</summary><textarea readonly>' + escapeHtml(vaultB64) + '</textarea></details>' : '')
-      + '<details open><summary>_released.json</summary><textarea readonly>' + escapeHtml(releasedJson) + '</textarea></details>'
-      + '<details><summary>_pending-changes.json</summary><textarea readonly>' + escapeHtml(pendingJson) + '</textarea></details>'
-      + '<details open><summary>commit script (copy + paste)</summary><textarea readonly id="admin-commit-script">' + escapeHtml(script) + '</textarea></details>'
-      + '<div class="admin-actions-buttons">'
-      + '  <button class="btn" data-action="copy-commit-script">Copy commit script</button>'
-      + '  <button class="btn btn-secondary" data-action="open-change-masterpass">Definir masterpass…</button>'
-      + '</div>'
-      + '<p class="admin-actions-hint">Modo seguro: rode <code>publish.sh --apply-pending</code> após o commit. Este script é só fallback.</p>';
-  }
-
-  function renderChangeMasterpassPanel() {
-    actionsEl.innerHTML = ''
-      + '<div class="admin-actions-header">'
-      + '  <div class="admin-actions-slug">change-masterpass</div>'
-      + '  <div class="admin-actions-tema">re-encripta vault com nova chave</div>'
-      + '</div>'
-      + '<form id="admin-change-mp">'
-      + '  <label>masterpass atual</label>'
-      + '  <input type="password" id="mp-old" autocomplete="off" spellcheck="false">'
-      + '  <label>nova masterpass</label>'
-      + '  <input type="password" id="mp-new" autocomplete="off" spellcheck="false">'
-      + '  <button class="btn" type="submit">Aplicar nova masterpass</button>'
-      + '</form>'
-      + '<p class="admin-actions-hint">A mudança só vigora após commit do _passwords.enc gerado.</p>';
-
-    var f = document.getElementById('admin-change-mp');
-    f.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      var oldP = document.getElementById('mp-old').value;
-      var newP = document.getElementById('mp-new').value;
-      await changeMasterpass(oldP, newP);
-    });
-  }
-
-  // ---------- Event wiring ----------
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    var ok = await unlock(input.value);
-    if (!ok) { input.value = ''; input.focus(); }
-  });
-
-  listEl.addEventListener('click', function (e) {
-    var row = e.target.closest('.admin-row');
-    var btn = e.target.closest('[data-action]');
-    if (btn) {
-      var action = btn.dataset.action;
-      var slug = btn.dataset.slug;
-      if (action === 'toggle') return togglePasswordVisibility(slug);
-      if (action === 'copy') return copyPassword(slug);
-      if (action === 'release') return releaseArticle(slug);
-      if (action === 'rotate') return rotatePassword(slug);
-    }
-    if (row && row.dataset.slug) selectArticle(row.dataset.slug);
-  });
-
-  actionsEl.addEventListener('click', async function (e) {
-    var btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    var action = btn.dataset.action;
-    if (action === 'open-change-masterpass') return renderChangeMasterpassPanel();
-    if (action === 'copy-commit-script') {
-      var ta = document.getElementById('admin-commit-script');
-      if (!ta) return;
+    if (e.target.classList.contains('pass-toggle')) {
+      const code = tr.querySelector('.pass-masked');
+      const masked = code.dataset.mask === 'true';
+      code.textContent = masked ? entry.password : '••••••••••••••••';
+      code.dataset.mask = masked ? 'false' : 'true';
+    } else if (e.target.classList.contains('pass-copy')) {
       try {
-        await navigator.clipboard.writeText(ta.value);
-        toast('commit script copiado', 'success');
-      } catch (err) {
-        ta.select();
-        toast('selecionado — Cmd+C', 'info');
-      }
+        await navigator.clipboard.writeText(entry.password);
+        e.target.textContent = '✓';
+        setTimeout(() => { e.target.textContent = '⧉'; }, 1200);
+      } catch {}
+    } else if (e.target.classList.contains('act-release')) {
+      if (!confirm(`Liberar "${slug}"?\n\nIsso vai REMOVER o gate de senha desse artigo. Ele ficará público SEM senha após você rodar publish.sh --apply-pending.`)) return;
+      if (!pending.release.includes(slug)) pending.release.push(slug);
+      renderRows();
+    } else if (e.target.classList.contains('act-rotate')) {
+      if (!confirm(`Rotacionar senha de "${slug}"?\n\nA senha atual será substituída por uma nova de 16 chars. A senha antiga PARA DE FUNCIONAR após publish.sh --apply-pending.`)) return;
+      const newBytes = new Uint8Array(12);
+      crypto.getRandomValues(newBytes);
+      const newPass = btoa(String.fromCharCode(...newBytes)).replace(/[+/=]/g, '').slice(0, 16);
+      pending.rotate[slug] = newPass;
+      alert(`Nova senha pra "${slug}":\n\n${newPass}\n\nCopiada pra clipboard. Guarde — só será efetivada após apply-pending.`);
+      try { await navigator.clipboard.writeText(newPass); } catch {}
+      renderRows();
     }
   });
 
-  // Expose for debugging / Playwright assertions
-  window.__admin = {
-    unlock: unlock,
-    togglePasswordVisibility: togglePasswordVisibility,
-    copyPassword: copyPassword,
-    releaseArticle: releaseArticle,
-    rotatePassword: rotatePassword,
-    changeMasterpass: changeMasterpass,
-    state: function () { return { vault: vault, released: released, pending: pending, selectedSlug: selectedSlug }; }
-  };
+  pendingClearBtn?.addEventListener('click', () => {
+    if (!confirm('Descartar TODAS as mudanças locais pendentes?')) return;
+    pending = { release: [], rotate: {}, deletes: [] };
+    renderRows();
+  });
+
+  lockBtn?.addEventListener('click', () => {
+    masterpass = null;
+    vault = null;
+    pending = { release: [], rotate: {}, deletes: [] };
+    showLocked();
+  });
+
+  // === UNLOCK FLOW ===
+  lockForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pass = masterpassInput.value;
+    if (!pass) { showError('Digite a masterpass.'); return; }
+    showError('');
+    try {
+      const [vaultRes, releasedRes] = await Promise.all([
+        fetch(wikiBase + '/_passwords.enc'),
+        fetch(wikiBase + '/_released.json'),
+      ]);
+      if (!vaultRes.ok) throw new Error(`vault HTTP ${vaultRes.status}`);
+      const vaultB64 = (await vaultRes.text()).trim();
+      vault = await window.WikiaVault.decryptVault(vaultB64, pass);
+      released = releasedRes.ok ? await releasedRes.json() : [];
+      masterpass = pass;
+      masterpassInput.value = '';
+      showUnlocked();
+      renderRows();
+    } catch (err) {
+      console.error(err);
+      showError('Masterpass incorreta ou vault indisponível.');
+    }
+  });
+
+  // Init
+  showLocked();
 })();
 </script>
-
 </body>
 </html>
