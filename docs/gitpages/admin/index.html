@@ -1128,6 +1128,157 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   color: var(--text-dim);
   margin: var(--s-3) 0 var(--s-2) 0;
 }
+
+/* ============================================================
+   WAVE 2 SIDEBAR TREE (BU/Project/Article)
+   Mirrors .wk-tree-tema styling for the new <bu>/<project>/<slug>
+   hierarchy. .wk-tree-bu = BU node, .wk-tree-project = project node,
+   .wk-tree-article = article leaf. Auto-flatten projects skip the
+   .wk-tree-project layer and render .wk-tree-article directly under .wk-tree-bu.
+   ============================================================ */
+.wk-tree-bu { margin: 0; position: relative; list-style: none; }
+.wk-tree-bu > .wk-tree-bu-link {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm, 4px);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.wk-tree-bu > .wk-tree-bu-link:hover { background: var(--accent-dim); }
+.wk-tree-bu > .wk-tree-bu-link .chev {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  color: var(--text-dim);
+  transition: transform 0.15s;
+  margin-top: 2px;
+}
+.wk-tree-bu[data-expanded="true"] > .wk-tree-bu-link .chev { transform: rotate(90deg); }
+.wk-tree-bu > .wk-tree-bu-link .folder-icon {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-right: 2px;
+  margin-top: 1px;
+}
+.wk-tree-bu[data-expanded="true"] > .wk-tree-bu-link .folder-icon { color: var(--success); }
+.wk-tree-bu > .wk-tree-bu-link .label-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wk-tree-bu > .wk-tree-bu-link .count {
+  font-size: 11px;
+  color: var(--text-dim);
+  background: var(--accent-dim);
+  padding: 1px 6px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+.wk-tree-bu.wk-current-bu > .wk-tree-bu-link { color: var(--text-main); background: var(--accent-dim); }
+.wk-tree-bu-empty > .wk-tree-bu-link .folder-icon { opacity: 0.45; }
+
+.wk-tree-projects {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 var(--s-4);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.18s;
+  position: relative;
+}
+.wk-tree-bu[data-expanded="true"] > .wk-tree-projects { max-height: 4000px; }
+.wk-tree-projects::before {
+  content: "";
+  position: absolute;
+  left: var(--s-3);
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: var(--border);
+}
+
+.wk-tree-project { margin: 0; position: relative; list-style: none; }
+.wk-tree-project > .wk-tree-project-link {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 4px var(--s-3);
+  text-decoration: none;
+  color: var(--text-dim);
+  font-size: 12px;
+  border-radius: var(--radius-sm, 4px);
+  cursor: pointer;
+}
+.wk-tree-project > .wk-tree-project-link:hover { background: var(--accent-dim); color: var(--text-main); }
+.wk-tree-project > .wk-tree-project-link .folder-icon {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+.wk-tree-project.wk-current-project > .wk-tree-project-link { color: var(--text-main); }
+
+.wk-tree-articles { list-style: none; margin: 0; padding: 0 0 0 var(--s-3); }
+
+.wk-tree-article { margin: 0; list-style: none; }
+.wk-tree-article > a {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 4px var(--s-3);
+  text-decoration: none;
+  color: var(--text-dim);
+  font-size: 12px;
+  border-radius: var(--radius-sm, 4px);
+  position: relative;
+}
+.wk-tree-article > a:hover { color: var(--text-main); background: var(--accent-dim); }
+.wk-tree-article > a:hover .file-icon { color: var(--accent); }
+.wk-tree-article > a .file-icon {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.wk-tree-article > a > span:not(.wk-gate-icon):not(.file-icon) {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wk-tree-article .wk-gate-icon {
+  font-size: 10px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.wk-tree-article.wk-current-article > a {
+  color: var(--text-main);
+  background: var(--accent-dim);
+}
+.wk-tree-article.wk-current-article > a .file-icon { color: var(--success); }
+.wk-tree-article.wk-current-article > a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+}
 </style>
 </head>
 <body>
