@@ -612,12 +612,31 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   background: var(--accent);
 }
 
-/* Recents */
+/* Recents — agrupado por data (Wave 2.1) */
 .wk-recents { list-style: none; padding: 0; margin: 0; }
-.wk-recents li { margin: 0; }
-.wk-recents a {
+.wk-recents-day {
+  list-style: none;
+  margin: 0 0 var(--s-3) 0;
+  padding: 0;
+}
+.wk-recents-day:last-child { margin-bottom: 0; }
+.wk-recents-date {
   display: block;
-  padding: 5px var(--s-4) 7px;
+  font-size: 9.5px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 4px 0;
+  padding: 0 var(--s-4);
+}
+.wk-recents-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wk-recents-items li { margin: 0; }
+.wk-recents-items a {
   color: var(--text-dim);
   text-decoration: none;
   font-size: 11px;
@@ -626,22 +645,14 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   word-break: break-word;
   overflow-wrap: anywhere;
   white-space: normal;
-  /* Cap em 3 linhas pra não inflar a sidebar */
+  padding: 3px var(--s-4);
+  /* Cap em 2 linhas pra não inflar a sidebar */
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.wk-recents a:hover { color: var(--text-main); background: var(--accent-dim); }
-.wk-recents a .date {
-  display: block;
-  font-size: 9.5px;
-  color: var(--accent);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
+.wk-recents-items a:hover { color: var(--text-main); background: var(--accent-dim); }
 
 /* =========================================================
    MAIN — centered content
@@ -1122,7 +1133,15 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <div class="wk-section">
     <h4>Recentes</h4>
     <ul class="wk-recents">
-      
+      <li class="wk-recents-day">
+<span class="wk-recents-date">19 MAY</span>
+<ul class="wk-recents-items">
+<li><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/">Pricing Strategy Playbook</a></li>
+<li><a href="https://felipeggv.github.io/wikia/gitpages/staging/gestao-projetos/clickup-linear-playbook/">Playbook Soviético: ClickUp com disciplina de Linear</a></li>
+<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/">Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</a></li>
+<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/">unbloq — Field Manual: Como Funciona Hoje</a></li>
+</ul>
+</li>
     </ul>
   </div>
 </aside>
@@ -1138,7 +1157,27 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
       </header>
 
       <ul class="wk-feed">
-        <li><p class="feed-snippet">Nenhum artigo publicado ainda.</p></li>
+        <li>
+          <div class="feed-meta">19 MAY<span class="accent">Staging/Test Project</span></div>
+          <a href="staging/test-project/pricing-strategy-playbook/" class="feed-title">Pricing Strategy Playbook</a>
+          <p class="feed-snippet">A escolha do modelo de pricing define **toda** a economia do produto: margem, velocidade de aquisição, perfil do cliente atraído e a viabilidade do crescimento.</p>
+          <a href="staging/test-project/pricing-strategy-playbook/" class="feed-link">ler →</a>
+        </li><li>
+          <div class="feed-meta">19 MAY<span class="accent">Staging/Gestao Projetos</span></div>
+          <a href="staging/gestao-projetos/clickup-linear-playbook/" class="feed-title">Playbook Soviético: ClickUp com disciplina de Linear</a>
+          <p class="feed-snippet">Linear venceu o mindshare porque impôs disciplina onde o resto deixou liberdade. ClickUp tem flexibilidade demais — e flexibilidade sem disciplina vira lixo. Es</p>
+          <a href="staging/gestao-projetos/clickup-linear-playbook/" class="feed-link">ler →</a>
+        </li><li>
+          <div class="feed-meta">19 MAY<span class="accent">Gobbi/Geral</span></div>
+          <a href="gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/" class="feed-title">Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</a>
+          <p class="feed-snippet">Você descreve uma ideia pra IA. Ela cospe código. O código não funciona ou não é o que você queria. Você corrige. Ela cospe de novo. Você corrige de novo. **80%</p>
+          <a href="gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/" class="feed-link">ler →</a>
+        </li><li>
+          <div class="feed-meta">19 MAY<span class="accent">Gobbi/Unbloq</span></div>
+          <a href="gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/" class="feed-title">unbloq — Field Manual: Como Funciona Hoje</a>
+          <p class="feed-snippet">::: callout info Resumo Operativo</p>
+          <a href="gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/" class="feed-link">ler →</a>
+        </li>
       </ul>
 
       <footer class="wk-article-footer" style="margin-top:64px">
