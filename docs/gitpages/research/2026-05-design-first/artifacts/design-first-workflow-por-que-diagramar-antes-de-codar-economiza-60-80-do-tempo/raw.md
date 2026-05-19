@@ -1,3 +1,12 @@
+---
+bu: gobbi
+project: geral
+slug: design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo
+title: 'Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo'
+date: 2026-05-18
+tags: [design-first, workflow]
+gate: <vault>
+---
 # Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo
 
 > Como parar de pedir código pra IA sem antes ter validado visualmente o sistema. Uma proposta de skill em 6 fases, com gates humanos entre cada uma, mockup HTML navegável antes de qualquer linha de produção, e integração nativa com ClickUp.
