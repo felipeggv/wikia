@@ -2,10 +2,11 @@
 eyebrow: NOTA INTERNA · CASE · MAIO 2026
 title: Customer Success na CASE · Alinhamento Eloise + Manual Resumido
 lead: O que foi conversado com a Eloise, de onde vieram essas decisões, e como o trabalho do consultor está desenhado hoje. Documento para alinhar a sócia/sócios antes de qualquer próxima conversa sobre o tema.
-tags: case, customer-success, operacao, mentoria, alinhamento
+tags: [case, customer-success, operacao, alinhamento]
 bu: allin
 project: case-cs
 slug: cs-na-case-alinhamento-eloise
+date: 2026-05-19
 ---
 
 <style>
