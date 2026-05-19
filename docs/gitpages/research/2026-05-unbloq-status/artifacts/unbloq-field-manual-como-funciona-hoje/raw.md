@@ -1,3 +1,12 @@
+---
+bu: gobbi
+project: unbloq
+slug: unbloq-field-manual-como-funciona-hoje
+title: 'unbloq — Field Manual: Como Funciona Hoje'
+date: 2026-05-18
+tags: [unbloq, field-manual]
+gate: <vault>
+---
 # unbloq — Field Manual: Como Funciona Hoje
 
 > Documento operacional. Foco no **estado atual**, não no roadmap.
