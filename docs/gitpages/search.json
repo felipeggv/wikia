@@ -1,26 +1,50 @@
 [
   {
-    "title": "Pricing Strategy Playbook",
-    "tema": "2026-05-strategy",
-    "tags": [],
+    "title": "Playbook Soviético: ClickUp com disciplina de Linear",
+    "tema": "staging/gestao-projetos",
+    "tags": [
+      "clickup",
+      "linear",
+      "playbook",
+      "gestao",
+      "processo",
+      "ia-agent"
+    ],
     "date": "2026-05-19",
-    "snippet": "Pricing Strategy Playbook A escolha do modelo de pricing define toda a economia do produto: margem, velocidade de aquisição, perfil do cliente atraído e a viabilidade do crescimento. Este playbook é um guia visual de decisão, não um manual exaustivo. Por que esse playbook existe Pricing é decidido p",
-    "url": "research/2026-05-strategy/artifacts/pricing-strategy-playbook/"
+    "snippet": "Playbook Soviético: ClickUp com disciplina de Linear Audiência: times de 2-5 executores humanos ou IA operando em alta performance. Promessa: transformar o ClickUp de board bagunçado em funil único de produção, com gate de qualidade, hierarquia clara e fluxo executável por agente. Linear venceu o mi",
+    "url": "staging/gestao-projetos/clickup-linear-playbook/"
   },
   {
-    "title": "Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo",
-    "tema": "2026-05-design-first",
-    "tags": [],
+    "title": "Pricing Strategy Playbook",
+    "tema": "staging/test-project",
+    "tags": [
+      "pricing",
+      "strategy"
+    ],
     "date": "2026-05-19",
-    "snippet": "Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo Como parar de pedir código pra IA sem antes ter validado visualmente o sistema. Uma proposta de skill em 6 fases, com gates humanos entre cada uma, mockup HTML navegável antes de qualquer linha de produção, e integraçã",
-    "url": "research/2026-05-design-first/artifacts/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"
+    "snippet": "Pricing Strategy Playbook A escolha do modelo de pricing define toda a economia do produto: margem, velocidade de aquisição, perfil do cliente atraído e a viabilidade do crescimento. Este playbook é um guia visual de decisão, não um manual exaustivo. Por que esse playbook existe Pricing é decidido p",
+    "url": "staging/test-project/pricing-strategy-playbook/"
   },
   {
     "title": "unbloq — Field Manual: Como Funciona Hoje",
-    "tema": "2026-05-unbloq-status",
-    "tags": [],
+    "tema": "gobbi/unbloq",
+    "tags": [
+      "unbloq",
+      "field-manual"
+    ],
     "date": "2026-05-19",
     "snippet": "unbloq — Field Manual: Como Funciona Hoje Documento operacional. Foco no estado atual, não no roadmap. Última coleta de dados: 2026-05-12. Sessão Maestro: cb52fb7a-9b3a-4e19-a8ef-27f88d6bceda. ::: callout info Resumo Operativo O unbloq é uma cabine de comando local para Felipe Gobbi orquestrar a sua",
-    "url": "research/2026-05-unbloq-status/artifacts/unbloq-field-manual-como-funciona-hoje/"
+    "url": "gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/"
+  },
+  {
+    "title": "Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo",
+    "tema": "gobbi/geral",
+    "tags": [
+      "design-first",
+      "workflow"
+    ],
+    "date": "2026-05-19",
+    "snippet": "Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo Como parar de pedir código pra IA sem antes ter validado visualmente o sistema. Uma proposta de skill em 6 fases, com gates humanos entre cada uma, mockup HTML navegável antes de qualquer linha de produção, e integraçã",
+    "url": "gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"
   }
 ]
