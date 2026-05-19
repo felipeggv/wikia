@@ -1,3 +1,12 @@
+---
+bu: staging
+project: test-project
+slug: pricing-strategy-playbook
+title: Pricing Strategy Playbook
+date: 2026-05-18
+tags: [pricing, strategy]
+gate: null
+---
 # Pricing Strategy Playbook
 
 A escolha do modelo de pricing define **toda** a economia do produto: margem, velocidade de aquisição, perfil do cliente atraído e a viabilidade do crescimento. Este playbook é um guia visual de decisão, não um manual exaustivo.
