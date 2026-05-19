@@ -432,11 +432,6 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   word-break: break-word;
   overflow-wrap: anywhere;
   white-space: normal;
-  /* Cap em 3 linhas pra não inflar a sidebar */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 .wk-recents a:hover { color: var(--text-main); background: var(--accent-dim); }
 .wk-recents a .date {
@@ -448,6 +443,28 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   text-transform: uppercase;
   margin-bottom: 3px;
 }
+
+/* Sidebar footer — admin link */
+.wk-sidebar-footer {
+  margin-top: var(--s-5);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--border);
+}
+.wk-admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px var(--s-4) 7px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.12s;
+}
+.wk-admin-link:hover { color: var(--text-main); }
+.wk-admin-link svg { flex-shrink: 0; opacity: 0.7; }
+.wk-admin-link:hover svg { opacity: 1; color: var(--accent); }
 
 /* =========================================================
    MAIN — centered content
@@ -924,10 +941,21 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <div class="wk-section">
     <h4>Recentes</h4>
     <ul class="wk-recents">
-      <li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-unbloq-status/artifacts/unbloq-field-manual-como-funciona-hoje/"><span class="date">18 May</span>unbloq — Field Manual: Como Funciona Hoje</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-strategy/artifacts/pricing-strategy-playbook/"><span class="date">18 May</span>Pricing Strategy Playbook</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-design-first/artifacts/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><span class="date">18 May</span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</a></li>
+      <li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-unbloq-status/artifacts/unbloq-field-manual-como-funciona-hoje/"><span class="date">19 May</span>unbloq — Field Manual: Como Funciona Hoje</a></li>
+<li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-strategy/artifacts/pricing-strategy-playbook/"><span class="date">19 May</span>Pricing Strategy Playbook</a></li>
+<li><a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-design-first/artifacts/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><span class="date">19 May</span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</a></li>
     </ul>
+  </div>
+
+  <!-- Admin (footer) -->
+  <div class="wk-section wk-sidebar-footer">
+    <a href="https://felipeggv.github.io/wikia/gitpages/admin/" class="wk-admin-link" title="Painel admin (masterpass-gated)">
+      <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="7" cy="7" r="2"/>
+        <path d="M7 1.5v1.6M7 10.9v1.6M1.5 7h1.6M10.9 7h1.6M3.1 3.1l1.1 1.1M9.8 9.8l1.1 1.1M3.1 10.9l1.1-1.1M9.8 4.2l1.1-1.1"/>
+      </svg>
+      <span>admin</span>
+    </a>
   </div>
 </aside>
 
@@ -943,17 +971,17 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 
       <ul class="wk-feed">
         <li>
-          <div class="feed-meta">18 MAY<span class="accent">2026 05 Unbloq Status</span></div>
+          <div class="feed-meta">19 MAY<span class="accent">2026 05 Unbloq Status</span></div>
           <a href="research/2026-05-unbloq-status/artifacts/unbloq-field-manual-como-funciona-hoje/" class="feed-title">unbloq — Field Manual: Como Funciona Hoje</a>
           <p class="feed-snippet">::: callout info Resumo Operativo</p>
           <a href="research/2026-05-unbloq-status/artifacts/unbloq-field-manual-como-funciona-hoje/" class="feed-link">ler →</a>
         </li><li>
-          <div class="feed-meta">18 MAY<span class="accent">2026 05 Strategy</span></div>
+          <div class="feed-meta">19 MAY<span class="accent">2026 05 Strategy</span></div>
           <a href="research/2026-05-strategy/artifacts/pricing-strategy-playbook/" class="feed-title">Pricing Strategy Playbook</a>
           <p class="feed-snippet">A escolha do modelo de pricing define **toda** a economia do produto: margem, velocidade de aquisição, perfil do cliente atraído e a viabilidade do crescimento.</p>
           <a href="research/2026-05-strategy/artifacts/pricing-strategy-playbook/" class="feed-link">ler →</a>
         </li><li>
-          <div class="feed-meta">18 MAY<span class="accent">2026 05 Design First</span></div>
+          <div class="feed-meta">19 MAY<span class="accent">2026 05 Design First</span></div>
           <a href="research/2026-05-design-first/artifacts/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/" class="feed-title">Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</a>
           <p class="feed-snippet">Você descreve uma ideia pra IA. Ela cospe código. O código não funciona ou não é o que você queria. Você corrige. Ela cospe de novo. Você corrige de novo. **80%</p>
           <a href="research/2026-05-design-first/artifacts/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/" class="feed-link">ler →</a>
