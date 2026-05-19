@@ -1129,26 +1129,30 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   margin: var(--s-3) 0 var(--s-2) 0;
 }
 
+
 /* ============================================================
    WAVE 2 SIDEBAR TREE (BU/Project/Article)
-   Mirrors .wk-tree-tema styling for the new <bu>/<project>/<slug>
-   hierarchy. .wk-tree-bu = BU node, .wk-tree-project = project node,
-   .wk-tree-article = article leaf. Auto-flatten projects skip the
-   .wk-tree-project layer and render .wk-tree-article directly under .wk-tree-bu.
+   Sizes match .wk-tree-tema legacy: 11.5px font, 4px padding,
+   12px chev, 14px folder, 10px count. Auto-flatten projects skip
+   the project-folder layer (article renders directly under BU).
+   Click on chevron toggles; click on label-text navigates.
    ============================================================ */
 .wk-tree-bu { margin: 0; position: relative; list-style: none; }
 .wk-tree-bu > .wk-tree-bu-link {
   display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  padding: var(--s-2) var(--s-3);
+  align-items: flex-start;
+  gap: 4px;
+  padding: 4px var(--s-4) 4px var(--s-3);
   text-decoration: none;
   color: var(--text-main);
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 500;
-  border-radius: var(--radius-sm, 4px);
+  line-height: 1.4;
+  border-radius: 3px;
   cursor: pointer;
-  transition: background 0.12s;
+  user-select: none;
+  margin: 0 4px;
+  transition: background 0.1s;
 }
 .wk-tree-bu > .wk-tree-bu-link:hover { background: var(--accent-dim); }
 .wk-tree-bu > .wk-tree-bu-link .chev {
@@ -1159,6 +1163,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   color: var(--text-dim);
   transition: transform 0.15s;
   margin-top: 2px;
+  cursor: pointer;
 }
 .wk-tree-bu[data-expanded="true"] > .wk-tree-bu-link .chev { transform: rotate(90deg); }
 .wk-tree-bu > .wk-tree-bu-link .folder-icon {
@@ -1173,25 +1178,28 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 .wk-tree-bu[data-expanded="true"] > .wk-tree-bu-link .folder-icon { color: var(--success); }
 .wk-tree-bu > .wk-tree-bu-link .label-text {
   flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .wk-tree-bu > .wk-tree-bu-link .count {
-  font-size: 11px;
   color: var(--text-dim);
-  background: var(--accent-dim);
-  padding: 1px 6px;
-  border-radius: 999px;
+  font-size: 10px;
+  margin-left: 4px;
+  margin-top: 2px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
   flex-shrink: 0;
 }
-.wk-tree-bu.wk-current-bu > .wk-tree-bu-link { color: var(--text-main); background: var(--accent-dim); }
+.wk-tree-bu.wk-current-bu > .wk-tree-bu-link { background: var(--accent-dim); }
 .wk-tree-bu-empty > .wk-tree-bu-link .folder-icon { opacity: 0.45; }
+.wk-tree-bu-empty > .wk-tree-bu-link .chev { visibility: hidden; }
 
 .wk-tree-projects {
   list-style: none;
   margin: 0;
-  padding: 0 0 0 var(--s-4);
+  padding: 0;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.18s;
@@ -1201,9 +1209,9 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 .wk-tree-projects::before {
   content: "";
   position: absolute;
-  left: var(--s-3);
-  top: 4px;
-  bottom: 4px;
+  left: calc(var(--s-3) + 6px);
+  top: 0;
+  bottom: 0;
   width: 1px;
   background: var(--border);
 }
@@ -1211,43 +1219,79 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 .wk-tree-project { margin: 0; position: relative; list-style: none; }
 .wk-tree-project > .wk-tree-project-link {
   display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  padding: 4px var(--s-3);
+  align-items: flex-start;
+  gap: 4px;
+  padding: 3px var(--s-4) 3px calc(var(--s-3) + 14px);
   text-decoration: none;
   color: var(--text-dim);
-  font-size: 12px;
-  border-radius: var(--radius-sm, 4px);
+  font-size: 11px;
+  line-height: 1.4;
+  border-radius: 3px;
+  margin: 0 4px;
   cursor: pointer;
+  user-select: none;
 }
 .wk-tree-project > .wk-tree-project-link:hover { background: var(--accent-dim); color: var(--text-main); }
-.wk-tree-project > .wk-tree-project-link .folder-icon {
-  display: inline-flex;
-  width: 12px;
-  height: 12px;
+.wk-tree-project > .wk-tree-project-link .chev {
+  width: 10px; height: 10px;
   color: var(--text-dim);
+  flex-shrink: 0;
+  margin-top: 3px;
+  transition: transform 0.15s;
+}
+.wk-tree-project[data-expanded="true"] > .wk-tree-project-link .chev { transform: rotate(90deg); }
+.wk-tree-project > .wk-tree-project-link .folder-icon {
+  width: 12px; height: 12px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.wk-tree-project > .wk-tree-project-link .label-text {
+  flex: 1; min-width: 0;
+  word-break: break-word;
+}
+.wk-tree-project > .wk-tree-project-link .count {
+  color: var(--text-dim);
+  font-size: 10px;
+  margin-left: 4px;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
   flex-shrink: 0;
 }
 .wk-tree-project.wk-current-project > .wk-tree-project-link { color: var(--text-main); }
 
-.wk-tree-articles { list-style: none; margin: 0; padding: 0 0 0 var(--s-3); }
+.wk-tree-articles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.18s;
+}
+.wk-tree-project[data-expanded="true"] > .wk-tree-articles { max-height: 4000px; }
 
 .wk-tree-article { margin: 0; list-style: none; }
 .wk-tree-article > a {
   display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  padding: 4px var(--s-3);
+  align-items: flex-start;
+  gap: 4px;
+  padding: 3px var(--s-4) 3px calc(var(--s-3) + 18px);
   text-decoration: none;
   color: var(--text-dim);
-  font-size: 12px;
-  border-radius: var(--radius-sm, 4px);
+  font-size: 11px;
+  line-height: 1.4;
+  border-radius: 3px;
+  margin: 0 4px;
   position: relative;
+  transition: background 0.1s, color 0.1s;
+}
+/* Auto-flatten articles (direct child of .wk-tree-projects with no project layer) have shallower indent */
+.wk-tree-projects > .wk-tree-article > a {
+  padding-left: calc(var(--s-3) + 14px);
 }
 .wk-tree-article > a:hover { color: var(--text-main); background: var(--accent-dim); }
 .wk-tree-article > a:hover .file-icon { color: var(--accent); }
 .wk-tree-article > a .file-icon {
-  display: inline-flex;
   width: 12px;
   height: 12px;
   color: var(--text-dim);
@@ -1255,15 +1299,16 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   margin-top: 2px;
 }
 .wk-tree-article > a > span:not(.wk-gate-icon):not(.file-icon) {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  flex: 1; min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .wk-tree-article .wk-gate-icon {
   font-size: 10px;
   opacity: 0.7;
   flex-shrink: 0;
+  margin-top: 1px;
 }
 .wk-tree-article.wk-current-article > a {
   color: var(--text-main);
@@ -1319,6 +1364,11 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
     <ul class="wk-tree">
       <nav class="wk-sidebar-nav"><ul class="wk-tree">
 <li class="wk-tree-bu" data-bu="staging" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/staging/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Staging</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="pricing-strategy-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Pricing Strategy Playbook</span></a></li></ul></li>
+<li class="wk-tree-bu wk-tree-bu-empty" data-bu="vita"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/vita/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Vitascience</span><span class="count">0</span></a></li>
+<li class="wk-tree-bu wk-tree-bu-empty" data-bu="allin"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">0</span></a></li>
+<li class="wk-tree-bu wk-tree-bu-empty" data-bu="aleyemma"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/aleyemma/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Aleyemma</span><span class="count">0</span></a></li>
+<li class="wk-tree-bu" data-bu="gobbi" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</span><span class="wk-gate-icon" title="locked">🔒</span></a></li><li class="wk-tree-article" data-slug="unbloq-field-manual-como-funciona-hoje"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>unbloq — Field Manual: Como Funciona Hoje</span><span class="wk-gate-icon" title="locked">🔒</span></a></li></ul></li>
+</ul></li>
 <li class="wk-tree-bu wk-tree-bu-empty" data-bu="vita"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/vita/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Vitascience</span><span class="count">0</span></a></li>
 <li class="wk-tree-bu wk-tree-bu-empty" data-bu="allin"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">0</span></a></li>
 <li class="wk-tree-bu wk-tree-bu-empty" data-bu="aleyemma"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/aleyemma/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Aleyemma</span><span class="count">0</span></a></li>
@@ -1800,6 +1850,56 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   // Init
   showLocked();
 })();
-</script>
+
+  // ============ WAVE 2 TREE TOGGLE (.wk-tree-bu / .wk-tree-project) ============
+  // Click on chevron toggles; click on label-text/folder-icon navigates via the <a>.
+  // BU/project containers persist state in localStorage just like .wk-tree-tema.
+  const TKW2 = 'wikia-tree-state-w2';
+  let w2State = {};
+  try { w2State = JSON.parse(localStorage.getItem(TKW2) || '{}'); } catch {}
+
+  function w2Toggle(node, key) {
+    const isOpen = node.dataset.expanded === 'true';
+    node.dataset.expanded = isOpen ? 'false' : 'true';
+    w2State[key] = !isOpen;
+    localStorage.setItem(TKW2, JSON.stringify(w2State));
+  }
+
+  // BU nodes
+  document.querySelectorAll('.wk-tree-bu:not(.wk-tree-bu-empty)').forEach(node => {
+    const key = 'bu:' + node.dataset.bu;
+    const hasCurrent = !!node.querySelector('.wk-current-article, .wk-current-project');
+    const explicit = w2State[key];
+    node.dataset.expanded = (explicit !== undefined ? explicit : (hasCurrent || node.classList.contains('wk-current-bu'))) ? 'true' : 'false';
+
+    const link = node.querySelector(':scope > .wk-tree-bu-link');
+    link?.addEventListener('click', (e) => {
+      // Chevron click → toggle (do NOT navigate)
+      if (e.target.closest('.chev')) {
+        e.preventDefault();
+        e.stopPropagation();
+        w2Toggle(node, key);
+      }
+      // Otherwise: native <a> navigation proceeds
+    });
+  });
+
+  // Project nodes
+  document.querySelectorAll('.wk-tree-project').forEach(node => {
+    const key = 'proj:' + (node.closest('.wk-tree-bu')?.dataset.bu || '?') + '/' + node.dataset.project;
+    const hasCurrent = !!node.querySelector('.wk-current-article');
+    const explicit = w2State[key];
+    node.dataset.expanded = (explicit !== undefined ? explicit : (hasCurrent || node.classList.contains('wk-current-project'))) ? 'true' : 'false';
+
+    const link = node.querySelector(':scope > .wk-tree-project-link');
+    link?.addEventListener('click', (e) => {
+      if (e.target.closest('.chev')) {
+        e.preventDefault();
+        e.stopPropagation();
+        w2Toggle(node, key);
+      }
+    });
+  });
+  </script>
 </body>
 </html>
