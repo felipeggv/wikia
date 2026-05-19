@@ -26,6 +26,20 @@
     "url": "staging/test-project/pricing-strategy-playbook/"
   },
   {
+    "title": "Customer Success na CASE",
+    "tema": "allin/case-cs",
+    "tags": [
+      "case",
+      "customer-success",
+      "operacao",
+      "mentoria",
+      "alinhamento"
+    ],
+    "date": "2026-05-19",
+    "snippet": "<style .cs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 18px 0; } .cs-card { border: 1px solid 2a4d3e; border-radius: 8px; padding: 16px; background: rgba26,61,46,0.15; } .cs-card h4 { margin: 0 0 8px 0; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.",
+    "url": "allin/case-cs/cs-na-case-alinhamento-eloise/"
+  },
+  {
     "title": "unbloq — Field Manual: Como Funciona Hoje",
     "tema": "gobbi/unbloq",
     "tags": [
