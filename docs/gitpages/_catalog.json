@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-05-20T12:53:24Z",
+  "generated_at": "2026-05-20T13:11:56Z",
   "records": [
     {
       "article_id": "9e3c1e655140e9702b2904092c7d0a6140e608ae91efd1119061260d5993256a",
@@ -43,39 +43,42 @@
       "article_id": "38516ec2d4a1a4bcf02c919e7374e3d3244e9890afdc0931d5e613e618d48955",
       "bu": "gobbi",
       "canonical_key": "gobbi/geral/twenty-spalla-operon-crm-fit",
-      "gate_status": "gated",
-      "idempotency_key": "c5bc07600f60c2f1b4fa559507fac6fa90d0f64e5626361de3f1110bec63509d",
+      "gate_status": "public",
+      "idempotency_key": "0863bb261c183e6e561138e338b4192863b557085a38323bf36e0ec653c32346",
       "output_url": "gobbi/geral/twenty-spalla-operon-crm-fit/",
       "project": "geral",
       "raw_hash": "5bd9ebe07009773a9204c641c2e85043329436491eda8bc411705cb32172de16",
-      "release_status": "unreleased",
-      "scope": "article",
+      "release_status": "released",
+      "scope": "public",
       "slug": "twenty-spalla-operon-crm-fit",
-      "tags": [],
-      "title_public": null,
-      "title_visible": false
+      "tags": [
+        "twenty",
+        "spalla",
+        "operon",
+        "crm",
+        "mentoria",
+        "consulting",
+        "fit-gap",
+        "bu-case"
+      ],
+      "title_public": "Twenty CRM para SPALLA/OPERON: fit-gap e arquitetura de adaptação",
+      "title_visible": true
     },
     {
       "article_id": "f105ceced8a66fca854ed1ffb39e5d47fac2bc651e7322f47e9958fef8dc95ed",
       "bu": "gobbi",
       "canonical_key": "gobbi/geral/wikia-operating-manual",
-      "gate_status": "public",
-      "idempotency_key": "efd38ace440c183f100312ff78d0bd9860b76e835f298c1193c05ce48806fae5",
+      "gate_status": "gated",
+      "idempotency_key": "16cea11fde57793b02f9d52dd13b2b3df553d496ec5d42149894a4db067fd640",
       "output_url": "gobbi/geral/wikia-operating-manual/",
       "project": "geral",
       "raw_hash": "107368500a594587c0064195eb9edb2508037cd8aaffffd74d0c21f70177a0b8",
-      "release_status": "released",
-      "scope": "public",
+      "release_status": "unreleased",
+      "scope": "article",
       "slug": "wikia-operating-manual",
-      "tags": [
-        "wikia",
-        "cms",
-        "knowledge-system",
-        "publishing",
-        "operating-manual"
-      ],
-      "title_public": "Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo",
-      "title_visible": true
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
     },
     {
       "article_id": "928c9dc003020885d5693e4d97c67ee58b3729257841c2e1622cb7a7aefc91fd",

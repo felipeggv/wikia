@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo · wikia</title>
-<meta name="description" content="O Wikia foi refatorado para funcionar como um **CMS estatico cifrado**.">
+<title>Protected article · wikia</title>
+<meta name="description" content="Encrypted wikia article. Unlock is required to read the content.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
@@ -986,7 +986,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
     <h4>Knowledge</h4>
     <nav class="wk-sidebar-nav">
       <ul class="wk-tree">
-        <li class="wk-tree-bu wk-current-bu" data-bu="gobbi" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article wk-current-article" data-slug="wikia-operating-manual"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/wikia-operating-manual/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</span></a></li></ul></li>
+        <li class="wk-tree-bu wk-current-bu" data-bu="gobbi" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article wk-current-article" data-slug="wikia-operating-manual"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/wikia-operating-manual/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>wikia operating manual</span><span class="wk-gate-icon" title="locked">🔒</span></a></li></ul></li>
       </ul>
     </nav>
   </div>
@@ -1004,617 +1004,109 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <main class="wk-main">
     <div class="wk-content wk-article">
 
-      
+      <div class="ap-gate-wrap">
+  <div id="ap-gate">
+    <div class="ap-gate-card">
+      <div class="ap-gate-badge">protected · wikia</div>
+      <h1 class="ap-gate-title">Acesso ao wiki</h1>
+      <p class="ap-gate-lead">Conteúdo criptografado AES-256-GCM. Senha única do wiki destrava todos os artigos nesta sessão.</p>
+      <form id="ap-gate-form">
+        <label for="ap-gate-input">senha</label>
+        <input type="password" id="ap-gate-input" autocomplete="off" autofocus spellcheck="false">
+        <button type="submit">› DESTRAVAR WIKI</button>
+        <div class="ap-gate-err" id="ap-gate-err"></div>
+      </form>
+      <div class="ap-gate-footnote">
+        <div class="prompt">wikia · aes-256-gcm · pbkdf2 100k</div>
+        Sua senha fica persistente neste browser (localStorage). Limpe os dados do site pra deslogar.
+      </div>
+    </div>
+  </div>
 
-        <nav class="wk-breadcrumb" aria-label="Breadcrumb">
-          <a href="https://felipeggv.github.io/wikia/gitpages/">wikia</a><span class="sep">›</span>
-          <a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-artifacts/">2026 05 Artifacts</a><span class="sep">›</span>
-          <span class="current">wikia-operating-manual</span>
-        </nav>
+  <div id="ap-content-mount" style="display:none"></div>
+</div>
 
-        <header class="wk-article-header">
-          <div class="wk-eyebrow">2026 05 Artifacts</div>
-          <h1>Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</h1>
-          <p class="wk-lead">O Wikia foi refatorado para funcionar como um **CMS estatico cifrado**.</p>
-          <div class="wk-meta-row">
-            <span>20 May 2026</span>
-            <span class="dot">·</span>
-            <span>9 min</span>
-            
-          </div>
-        </header>
-
-        <h1 id="wikia-operating-manual-como-publicar-conhecimento-sem-virar-bagunca-nem-vazar-segredo">Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</h1>
-<blockquote>O Wikia e o nosso cofre editorial: um lugar para transformar decisoes, playbooks, pesquisas e aprendizados em paginas lindas, pesquisaveis e protegidas. Ele nao e so um blog. E uma linha de montagem de conhecimento.</blockquote>
-<hr>
-<h2 id="resumo-executivo">Resumo executivo</h2>
-<p>O Wikia foi refatorado para funcionar como um <strong>CMS estatico cifrado</strong>.</p>
-<p>Em portugues claro:</p>
-<pre><code class="language-text">voce escreve um material uma vez
-   |
-   v
-o Wikia transforma isso em pagina, menu, busca e admin
-   |
-   v
-o que e publico aparece publico
-   |
-   v
-o que e privado fica criptografado antes de ir para o GitHub Pages</code></pre>
-<p>Analogia de marketing: antes, o Wikia era como uma pasta cheia de landing pages soltas. Agora ele parece mais um <strong>CRM de conteudo</strong>: cada artigo tem ficha, status, permissao, local certo, busca e trilha de publicacao.</p>
-<aside class="ap-callout" data-variant="tip"><div class="ap-callout-title">Ideia central</div><div class="ap-callout-body"><p>O Wikia nao deve ser tratado como "onde eu jogo textos". Ele deve ser tratado como o <strong>sistema operacional de conhecimento</strong> das BUs, projetos, processos e decisoes.</p></div></aside>
-<hr>
-<h2 id="o-que-mudou-de-verdade">O que mudou de verdade</h2>
-<div class="ap-comparator" data-comparator><div class="ap-comp-tabs"><button data-target="cmp-antes-0" class="active">Antes</button><button data-target="cmp-agora-1" class="">Agora</button></div><div class="ap-comp-panels"><div class="ap-comp-panel active" id="cmp-antes-0"><ul><li>Paginas podiam nascer soltas.</li><li>Menus podiam ficar dessincronizados.</li><li>O admin podia depender de estado velho.</li><li>Conteudo privado corria risco de aparecer como <code>raw.md</code> publico.</li><li>Publicar era mais parecido com "copiar arquivo e torcer".</li></ul></div><div class="ap-comp-panel " id="cmp-agora-1"><ul><li>Cada artigo vira um registro canonico.</li><li>Menus, busca, home, BU, projeto e admin derivam do mesmo estado.</li><li>Conteudo privado e cifrado antes de ir para o output publico.</li><li>O pipeline tem validacao antes de deploy.</li><li>O staging do Git e explicito, sem <code>git add -A</code> amplo.</li></ul></div></div></div>
-<p>Em termos de negocio:</p>
-<pre><code class="language-text">Antes: biblioteca bonita, mas fragil
-Agora: operacao editorial com controle, seguranca e repetibilidade</code></pre>
-<hr>
-<h2 id="o-modelo-mental">O modelo mental</h2>
-<p>Pense no Wikia como uma fabrica.</p>
-<pre><code class="language-text">Materia-prima
-  raw.md privado
-      |
-      v
-Linha de montagem
-  publish.sh + renderers + catalog + vault
-      |
-      v
-Produtos
-  pagina HTML
-  busca
-  menus
-  admin
-  catalogo
-      |
-      v
-Vitrine
-  GitHub Pages</code></pre>
-<p>O ponto importante: a vitrine e publica, mas o estoque sensivel nao pode ficar exposto.</p>
-<aside class="ap-callout" data-variant="warn"><div class="ap-callout-title">Regra de ouro</div><div class="ap-callout-body"><p><code>private source</code> pode conter texto puro. <code>public output</code> nao pode conter texto privado em plaintext.</p></div></aside>
-<hr>
-<h2 id="arquitetura-em-uma-tela">Arquitetura em uma tela</h2>
-<div class="ap-mermaid-zoom" data-mermaid-zoom><pre class="mermaid">---
-config:
-  flowchart:
-    curve: linear
-    htmlLabels: true
-  sequence:
-    diagramMarginX: 30
----
-flowchart LR
-    A[raw.md privado] --> B[publish.sh]
-    B --> C[_catalog.json publico e sanitizado]
-    B --> D[_admin.enc cifrado]
-    B --> E[_passwords.enc vault]
-    B --> F[index.html do artigo]
-    B --> G[search.json]
-    B --> H[home / BU / projeto]
-    F --> I[GitHub Pages]
-    G --> I
-    H --> I
-    D --> J[Admin unlock]
-    E --> J</pre></div>
-<p>Traduzindo:</p>
-<table><thead><tr><th>Peca</th><th>O que faz</th><th>Analogia</th></tr></thead><tbody><tr><td><code>raw.md</code> privado</td><td>Fonte editorial do artigo</td><td>Briefing original da campanha</td></tr><tr><td><code>publish.sh</code></td><td>Orquestra a publicacao</td><td>Gerente de trafego da esteira</td></tr><tr><td><code>_catalog.json</code></td><td>Catalogo publico sem segredo</td><td>Card publico no CRM</td></tr><tr><td><code>_admin.enc</code></td><td>Estado admin criptografado</td><td>Backoffice fechado</td></tr><tr><td><code>_passwords.enc</code></td><td>Cofre de senhas/escopos</td><td>Chaveiro da operacao</td></tr><tr><td><code>search.json</code></td><td>Busca publica/segura</td><td>Indice da biblioteca</td></tr><tr><td><code>index.html</code></td><td>Pagina final</td><td>Landing page do conhecimento</td></tr></tbody></table>
-<hr>
-<h2 id="por-que-o-wikia-nao-pode-ser-um-wordpress-mental">Por que o Wikia nao pode ser um WordPress mental</h2>
-<p>WordPress mental e pensar assim:</p>
-<pre><code class="language-text">"vou abrir uma pagina, editar, publicar e pronto"</code></pre>
-<p>Esse pensamento e perigoso aqui, porque o Wikia tem outro objetivo: <strong>conteudo versionado, seguro, auditavel e reconstruivel</strong>.</p>
-<pre><code class="language-text">Wikia bom
-   |
-   +-- fonte rastreavel
-   +-- output gerado
-   +-- permissao declarada
-   +-- validacao antes de deploy
-   +-- ClickUp com evidencia</code></pre>
-<p>Se alguem editar o HTML final manualmente, quebra o principio da fabrica. E como alterar o criativo direto no anuncio publicado, sem atualizar o arquivo-fonte, o briefing e o controle de versao.</p>
-<aside class="ap-callout" data-variant="quote"><div class="ap-callout-title">Frase para lembrar</div><div class="ap-callout-body"><p>Nao edite a vitrine. Edite a fonte e rode a linha de montagem.</p></div></aside>
-<hr>
-<h2 id="os-5-objetos-principais">Os 5 objetos principais</h2>
-<h3 id="1-artigo">1. Artigo</h3>
-<p>O artigo e a unidade de valor.</p>
-<p>Ele responde:</p>
-<ul><li>Qual conhecimento foi produzido?</li><li>Para qual BU?</li><li>Para qual projeto?</li><li>Qual slug?</li><li>E publico ou protegido?</li><li>Entra em qual arvore de navegacao?</li></ul>
-<p>Exemplo de frontmatter:</p>
-<pre><code class="language-yaml">---
-bu: gobbi
-project: geral
-slug: wikia-operating-manual
-title: 'Wikia Operating Manual'
-date: 2026-05-20
-tags: [wikia, cms, publishing]
-gate: &lt;vault&gt;
----</code></pre>
-<h3 id="2-bu">2. BU</h3>
-<p>BU e a prateleira principal.</p>
-<pre><code class="language-text">gobbi
-vita
-allin
-aleyemma
-staging</code></pre>
-<p>Ela serve para separar contextos de negocio. Nao e decoracao.</p>
-<h3 id="3-projeto">3. Projeto</h3>
-<p>Projeto e a colecao dentro da BU.</p>
-<pre><code class="language-text">gobbi / geral / artigo
-allin / case-cs / artigo
-gobbi / unbloq / artigo</code></pre>
-<h3 id="4-catalogo">4. Catalogo</h3>
-<p>O catalogo e a ficha publica e sanitizada.</p>
-<p>Ele diz que o artigo existe, mas nao precisa revelar o que nao deve revelar.</p>
-<h3 id="5-vault">5. Vault</h3>
-<p>O vault e o cofre.</p>
-<p>Ele segura senhas e escopos. Se voce perder a disciplina aqui, o sistema vira apenas "site bonito com falsa sensacao de seguranca".</p>
-<hr>
-<h2 id="o-fluxo-certo-de-publicacao">O fluxo certo de publicacao</h2>
-<ol class="ap-accordion-seq" data-accordion-seq><li><button class="ap-acc-trigger">1. Escrever a fonte privada</button><div class="ap-acc-body"><p>Crie o <code>raw.md</code> fora do output publico, em uma arvore privada. A fonte e onde mora o texto completo.</p></div></li><li><button class="ap-acc-trigger">2. Rodar validacao</button><div class="ap-acc-body"><p>Antes de publicar, rode o pipeline em modo de validacao. O objetivo e saber o que mudaria sem empurrar nada para producao.</p></div></li><li><button class="ap-acc-trigger">3. Publicar pelo pipeline</button><div class="ap-acc-body"><p>Se a validacao passar, rode o publish real. O script gera pagina, catalogo, busca, menus e criptografia.</p></div></li><li><button class="ap-acc-trigger">4. Conferir GitHub Pages</button><div class="ap-acc-body"><p>Abra a URL final e confirme que a pagina, a navegacao e a busca estao coerentes.</p></div></li><li><button class="ap-acc-trigger">5. Registrar no ClickUp</button><div class="ap-acc-body"><p>Cole no card o link final, os comandos, o resultado, riscos e proximos passos.</p></div></li></ol>
-<p>Em ASCII:</p>
-<pre><code class="language-text">raw.md privado
-   |
-   v
-publish --validate
-   |
-   +-- falhou -&gt; corrigir fonte ou pipeline
-   |
-   v
-publish real
-   |
-   v
-GitHub Pages
-   |
-   v
-ClickUp evidencia</code></pre>
-<hr>
-<h2 id="o-comando-de-publicacao">O comando de publicacao</h2>
-<p>Validacao:</p>
-<pre><code class="language-bash">bash /Users/felipegobbi/.codex/prompt-skills/artifacts-publisher/scripts/publish.sh \
-  --title "Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo" \
-  --content "/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor/Working/private-source/gobbi/geral/wikia-operating-manual/raw.md" \
-  --full \
-  --bu gobbi \
-  --project geral \
-  --slug wikia-operating-manual \
-  --private-source-root "/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor/Working/private-source" \
-  --validate</code></pre>
-<p>Publicacao:</p>
-<pre><code class="language-bash">bash /Users/felipegobbi/.codex/prompt-skills/artifacts-publisher/scripts/publish.sh \
-  --title "Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo" \
-  --content "/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor/Working/private-source/gobbi/geral/wikia-operating-manual/raw.md" \
-  --full \
-  --bu gobbi \
-  --project geral \
-  --slug wikia-operating-manual \
-  --private-source-root "/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor/Working/private-source"</code></pre>
-<aside class="ap-callout" data-variant="info"><div class="ap-callout-title">Nota sobre senha</div><div class="ap-callout-body"><p>Sem <code>--no-gate</code>, o pipeline cria uma pagina protegida por AES-GCM. O output publico deve carregar a pagina cifrada, nao o markdown puro.</p></div></aside>
-<hr>
-<h2 id="o-que-cada-pessoa-deve-fazer">O que cada pessoa deve fazer</h2>
-<table><thead><tr><th>Papel</th><th>Responsabilidade</th><th>Nao deve fazer</th></tr></thead><tbody><tr><td>Estrategista</td><td>Definir o valor do artigo e o publico</td><td>Mexer no HTML final</td></tr><tr><td>Editor</td><td>Escrever o <code>raw.md</code> com frontmatter correto</td><td>Publicar sem validacao</td></tr><tr><td>Agente IA</td><td>Estruturar, enriquecer, diagramar e validar</td><td>Inventar BU/projeto/slug</td></tr><tr><td>Operador</td><td>Rodar publish e conferir output</td><td>Usar <code>git add -A</code> amplo</td></tr><tr><td>Felipe</td><td>Aprovar criterio, risco e proximo passo</td><td>Ser gargalo de detalhes tecnicos</td></tr></tbody></table>
-<hr>
-<h2 id="quality-gate-antes-de-chamar-um-artigo-de-pronto">Quality gate antes de chamar um artigo de pronto</h2>
-<pre><code class="language-text">[ ] frontmatter tem bu, project, slug, title, tags
-[ ] fonte esta fora do public output
-[ ] validacao rodou sem issue critica
-[ ] pagina final abre
-[ ] busca e menus foram regenerados
-[ ] ClickUp recebeu evidencia
-[ ] riscos restantes estao escritos</code></pre>
-<p>Se qualquer item falhar, o artigo nao esta pronto. Ele esta em rascunho operacional.</p>
-<hr>
-<h2 id="padrao-de-conteudo-que-vale-publicar">Padrao de conteudo que vale publicar</h2>
-<p>O Wikia deve priorizar material que economiza tempo futuro.</p>
-<p>Bom material:</p>
-<ul><li>explica uma decisao dificil;</li><li>cria um manual reutilizavel;</li><li>documenta uma arquitetura;</li><li>transforma conversa em processo;</li><li>reduz perguntas repetidas;</li><li>registra tradeoffs;</li><li>vira referencia para agentes.</li></ul>
-<p>Material ruim:</p>
-<ul><li>anotacao solta;</li><li>pensamento sem decisao;</li><li>checklist sem contexto;</li><li>texto que so o autor entende;</li><li>output sem fonte, sem owner e sem proximo uso.</li></ul>
-<aside class="ap-callout" data-variant="tip"><div class="ap-callout-title">Heuristica</div><div class="ap-callout-body"><p>Se uma pessoa nova abrir o artigo daqui 90 dias e conseguir tomar uma decisao melhor, vale publicar. Se ela so disser "legal", nao vale.</p></div></aside>
-<hr>
-<h2 id="seguranca-a-parte-que-nao-da-para-romantizar">Seguranca: a parte que nao da para romantizar</h2>
-<p>GitHub Pages e estatico. Isso significa:</p>
-<pre><code class="language-text">nao existe servidor conferindo login
-   |
-   v
-a protecao real precisa estar na criptografia do conteudo</code></pre>
-<p>Por isso, o modelo correto e:</p>
-<pre><code class="language-text">publico:
-  chassi
-  menu sanitizado
-  metadados permitidos
-  artigo cifrado
-
-privado:
-  raw.md completo
-  masterpass
-  senhas de escopo
-  admin state decifrado</code></pre>
-<p>O risco principal nao e alguem "hackear o layout". O risco principal e alguem publicar sem querer um <code>raw.md</code> privado no output publico.</p>
-<hr>
-<h2 id="o-que-o-refactor-ja-garantiu">O que o refactor ja garantiu</h2>
-<table><thead><tr><th>Invariante</th><th>Status</th></tr></thead><tbody><tr><td>Sem <code>raw.md</code> privado publico</td><td>PASS</td></tr><tr><td>Catalogo e busca sincronizados</td><td>PASS</td></tr><tr><td>Admin metadata cifrado em <code>_admin.enc</code></td><td>PASS</td></tr><tr><td>Staging explicito no publish</td><td>PASS</td></tr><tr><td>Validacao sem push</td><td>PASS</td></tr><tr><td>Rebuild deterministico</td><td>PASS</td></tr><tr><td>Test suite deterministica</td><td>PASS, 14/14 no relatorio final</td></tr></tbody></table>
-<p>Isso nao quer dizer "nunca mais quebra". Quer dizer: agora existe um trilho claro para publicar sem depender de memoria humana.</p>
-<hr>
-<h2 id="como-escalar-isso-para-virar-arsenal-vivo">Como escalar isso para virar arsenal vivo</h2>
-<p>O Wikia fica poderoso quando deixa de ser "arquivo de textos" e vira <strong>sistema de ativos intelectuais</strong>.</p>
-<div class="ap-mermaid-zoom" data-mermaid-zoom><pre class="mermaid">---
-config:
-  flowchart:
-    curve: linear
-    htmlLabels: true
-  sequence:
-    diagramMarginX: 30
----
-flowchart TD
-    A[Conversa ou execucao] --> B{Vale virar ativo?}
-    B -- nao --> C[Descartar ou deixar em nota]
-    B -- sim --> D[Definir BU / projeto / slug]
-    D --> E[Escrever raw.md]
-    E --> F[Validar]
-    F --> G[Publicar]
-    G --> H[Registrar ClickUp]
-    H --> I[Reutilizar em prompts, playbooks e squads]</pre></div>
-<p>O destino final nao e "ter mais paginas". O destino final e criar um lugar onde agentes, humanos e processos bebem da mesma fonte.</p>
-<hr>
-<h2 id="roadmap-recomendado">Roadmap recomendado</h2>
-<h3 id="curto-prazo">Curto prazo</h3>
-<ul><li>Criar templates de artigo por tipo: decisao, manual, arquitetura, research, handoff.</li><li>Definir taxonomia oficial de tags.</li><li>Padronizar frontmatter por BU.</li><li>Criar checklist ClickUp para publicacao.</li></ul>
-<h3 id="medio-prazo">Medio prazo</h3>
-<ul><li>Ligar Wikia aos playbooks Auto Run.</li><li>Criar indice por processo e por squad.</li><li>Criar materiais "golden path" para onboarding de agentes.</li><li>Adicionar comentarios/revisao em cima do artigo.</li></ul>
-<h3 id="longo-prazo">Longo prazo</h3>
-<ul><li>Transformar o Wikia em camada de memoria operacional.</li><li>Fazer agentes consultarem artigos aprovados antes de executar.</li><li>Criar score de confianca por artigo.</li><li>Conectar Wikia, ClickUp, Maestro e repositorios como uma malha unica.</li></ul>
-<hr>
-<h2 id="decisao-operacional">Decisao operacional</h2>
-<p>A regra e simples:</p>
-<pre><code class="language-text">Se e conhecimento reutilizavel
-   |
-   v
-vira Wikia
-
-Se e tarefa executavel
-   |
-   v
-vira ClickUp
-
-Se e automacao recorrente
-   |
-   v
-vira playbook
-
-Se e comportamento de agente
-   |
-   v
-vira skill ou comando</code></pre>
-<p>O erro caro e misturar tudo. Wikia nao substitui ClickUp. ClickUp nao substitui Wikia. Maestro nao substitui nenhum dos dois.</p>
-<p>Cada um tem um papel.</p>
-<pre><code class="language-text">ClickUp = execucao
-Wikia   = conhecimento
-Maestro = orquestracao
-Git     = historico e deploy</code></pre>
-<p>Quando cada ferramenta faz seu trabalho, o sistema fica simples.</p>
-<hr>
-<h2 id="fechamento">Fechamento</h2>
-<p>O Wikia agora tem base para ser mais que um wiki bonito. Ele pode virar o <strong>manual vivo da operacao</strong>, com material rico, seguro, navegavel e reaproveitavel por humanos e agentes.</p>
-<p>O proximo salto nao e tecnico. E editorial.</p>
-<pre><code class="language-text">menos arquivo solto
-mais ativo reutilizavel
-
-menos "onde esta aquilo?"
-mais "abre o Wikia"
-
-menos conhecimento na conversa
-mais conhecimento operacionalizado</code></pre>
-<p>Esse e o papel do Wikia: transformar contexto em patrimonio.</p>
-<!-- Component: comparator
-     Quando usar: mostrar 2-3 opções/estados pra ensinar por contraste
-     Markup esperado:
-       <div class="ap-comparator" data-comparator>
-         <div class="ap-comp-tabs">
-           <button data-target="opt-a" class="active">Opção A</button>
-           <button data-target="opt-b">Opção B</button>
-         </div>
-         <div class="ap-comp-panels">
-           <div class="ap-comp-panel active" id="opt-a">conteúdo A</div>
-           <div class="ap-comp-panel" id="opt-b">conteúdo B</div>
-         </div>
-       </div>
--->
 <style>
-  .ap-comparator { margin: var(--space-5) 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg-sidebar); }
-  .ap-comp-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--bg-activity); }
-  .ap-comp-tabs button { flex: 1; padding: var(--space-3) var(--space-4); background: transparent; border: none; border-right: 1px solid var(--border); color: var(--text-dim); font: inherit; font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; cursor: pointer; letter-spacing: 0.03em; transition: all 0.15s; }
-  .ap-comp-tabs button:last-child { border-right: none; }
-  .ap-comp-tabs button:hover { color: var(--text-main); background: var(--accent-dim); }
-  .ap-comp-tabs button.active { color: var(--accent); background: var(--bg-sidebar); border-bottom: 2px solid var(--accent); margin-bottom: -1px; }
-  .ap-comp-panels { padding: var(--space-5); }
-  .ap-comp-panel { display: none; }
-  .ap-comp-panel.active { display: block; animation: apCompFade 0.2s ease-out; }
-  @keyframes apCompFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .ap-gate-wrap { display: block; width: 100%; }
+  #ap-gate { display:flex; align-items:center; justify-content:center; padding: var(--s-7) var(--s-5); background: radial-gradient(ellipse at center, rgba(91,103,91,0.06) 0%, transparent 60%); }
+  .ap-gate-card { background: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 8px; padding: var(--s-7) var(--s-6); max-width: 420px; width: 100%; box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+  .ap-gate-badge { display:inline-block; padding: 3px 10px; background: var(--accent-dim); color: var(--text-dim); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid var(--border); border-radius: 999px; margin-bottom: var(--s-4); font-family: var(--font); }
+  .ap-gate-title { font-family: var(--font); font-weight: 600; font-size: 1.5em; color: var(--text-main); margin: 0 0 var(--s-2); line-height: 1.3; }
+  .ap-gate-lead { color: var(--text-dim); font-size: 13px; margin: 0 0 var(--s-5); line-height: 1.6; }
+  .ap-gate-card label { display:block; color: var(--text-dim); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font); }
+  #ap-gate-input { width:100%; padding: 10px 12px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; color: var(--text-main); font: inherit; font-size: 14px; outline: none; transition: border-color 0.15s; }
+  #ap-gate-input:focus { border-color: var(--accent); }
+  .ap-gate-card button { width:100%; margin-top: var(--s-3); padding: 10px; background: var(--accent); color: var(--accent-text); border: 1px solid var(--accent); border-radius: 4px; font: inherit; font-weight: 600; cursor: pointer; letter-spacing: 0.06em; font-family: var(--font); transition: background 0.15s; font-size: 12px; }
+  .ap-gate-card button:hover { background: #6d796d; }
+  .ap-gate-err { color: var(--error); font-size: 12px; margin-top: var(--s-3); min-height: 1.2em; }
+  .ap-gate-footnote { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--border); color: var(--text-dim); font-size: 10px; line-height: 1.6; }
+  .ap-gate-footnote .prompt::before { content: "$ "; color: var(--accent); }
 </style>
-<script>
+
+<script id="ap-gate-script">
 (function() {
-  function init() {
-    // `:not([data-comp-initialized])` torna a re-execução idempotente —
-    // comparators já wired no run inicial são skipados em runs subsequentes.
-    document.querySelectorAll('[data-comparator]:not([data-comp-initialized])').forEach(comp => {
-      comp.setAttribute('data-comp-initialized', 'true');
-      const tabs = comp.querySelectorAll('.ap-comp-tabs button');
-      const panels = comp.querySelectorAll('.ap-comp-panel');
-      tabs.forEach(t => t.addEventListener('click', () => {
-        const target = t.dataset.target;
-        tabs.forEach(x => x.classList.toggle('active', x === t));
-        panels.forEach(p => p.classList.toggle('active', p.id === target));
-      }));
-    });
-  }
-  init();
-  document.addEventListener('wikia:unlocked', init);
-})();
-</script>
+  const ENCRYPTED_PAYLOAD = "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";
+  const SALT_B64 = "flldarxzn670eA4kny/BVg==";
+  const IV_B64 = "TJWUTNPWbWJGU2Cn";
+  // KEY de localStorage é POR BU — senha de uma BU não destrava outra (isolamento multi-tenant).
+  // gobbi é injetado pelo render-artifact ao gerar o HTML. Default cai em "wiki" pra páginas
+  // que ainda não passam BU explícita (compat). Para gate de artefato, sempre tem BU.
+  const STORAGE_KEY = "wikia-master-key-gobbi";
 
-<!-- Component: accordion-seq
-     Quando usar: progressive disclosure de conteúdo sequencial/dependente
-     Markup esperado:
-       <ol class="ap-accordion-seq" data-accordion-seq>
-         <li>
-           <button class="ap-acc-trigger">1. Passo um</button>
-           <div class="ap-acc-body">conteúdo</div>
-         </li>
-         ...
-       </ol>
--->
-<style>
-  .ap-accordion-seq { list-style: none; padding: 0; margin: var(--space-5) 0; counter-reset: apseq; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-  .ap-accordion-seq > li { border-bottom: 1px solid var(--border); }
-  .ap-accordion-seq > li:last-child { border-bottom: none; }
-  .ap-acc-trigger { width: 100%; text-align: left; padding: var(--space-4) var(--space-5); background: var(--bg-sidebar); border: none; color: var(--text-main); font: inherit; font-family: var(--font-sans); font-size: var(--text-base); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: var(--space-3); transition: background 0.15s; }
-  .ap-acc-trigger:hover { background: var(--accent-dim); }
-  .ap-acc-trigger::before { content: "▸"; color: var(--accent); transition: transform 0.2s; }
-  .ap-acc-trigger.open::before { transform: rotate(90deg); }
-  .ap-acc-body { padding: 0 var(--space-5); max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; background: var(--bg-main); }
-  .ap-acc-body.open { padding: var(--space-4) var(--space-5) var(--space-5); max-height: 2000px; }
-</style>
-<script>
-(function() {
-  function init() {
-    // Marca o trigger (não o container) — granularidade necessária se um
-    // accordion-seq for parcialmente renderizado em runs separados.
-    document.querySelectorAll('[data-accordion-seq] .ap-acc-trigger:not([data-acc-initialized])').forEach(btn => {
-      btn.setAttribute('data-acc-initialized', 'true');
-      btn.addEventListener('click', () => {
-        const body = btn.nextElementSibling;
-        btn.classList.toggle('open');
-        body.classList.toggle('open');
-      });
-    });
-  }
-  init();
-  document.addEventListener('wikia:unlocked', init);
-})();
-</script>
+  const gate = document.getElementById('ap-gate');
+  const mount = document.getElementById('ap-content-mount');
+  const form = document.getElementById('ap-gate-form');
+  const input = document.getElementById('ap-gate-input');
+  const err = document.getElementById('ap-gate-err');
 
-<!-- Component: mermaid-zoom (viewport grande, pan/zoom funcionais) -->
-<style>
-  .ap-mermaid-zoom {
-    position: relative;
-    background: var(--bg-sidebar);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    margin: var(--space-5) 0;
-    overflow: hidden;
-    min-height: 520px;
-    height: 520px;
-    width: 100%;
-  }
-  .ap-mermaid-zoom .ap-mz-toolbar {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    display: flex;
-    gap: 4px;
-    z-index: 10;
-    background: var(--bg-main);
-    padding: 4px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    opacity: 0;
-    transition: opacity 0.15s;
-  }
-  .ap-mermaid-zoom:hover .ap-mz-toolbar { opacity: 1; }
-  .ap-mz-toolbar button {
-    width: 28px;
-    height: 28px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    color: var(--text-dim);
-    cursor: pointer;
-    font: inherit;
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .ap-mz-toolbar button:hover {
-    color: var(--text-main);
-    border-color: var(--accent);
-    background: var(--accent-dim);
-  }
-  .ap-mermaid-zoom .mermaid {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: var(--space-4);
-  }
-  .ap-mermaid-zoom pre.mermaid {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    border: none;
-    overflow: visible;
-  }
-  .ap-mermaid-zoom svg {
-    max-width: 100%;
-    max-height: 100%;
-    width: 100%;
-    height: 100%;
-    cursor: grab;
-  }
-  .ap-mermaid-zoom svg:active { cursor: grabbing; }
-  .ap-mz-hint {
-    position: absolute;
-    bottom: 10px;
-    left: 14px;
-    font-family: var(--font);
-    font-size: 10px;
-    color: var(--text-dim);
-    opacity: 0.7;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-</style>
-<script>
-(function() {
-  function loadScript(src) {
-    return new Promise((res, rej) => {
-      const s = document.createElement('script');
-      s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s);
-    });
+  function b64(s) { const b = atob(s); const o = new Uint8Array(b.length); for (let i=0;i<b.length;i++) o[i] = b.charCodeAt(i); return o; }
+
+  async function deriveKey(pwd, salt) {
+    const baseKey = await crypto.subtle.importKey('raw', new TextEncoder().encode(pwd), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+      baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+    );
   }
 
-  let mermaidConfigured = false;
-
-  async function init() {
-    // Query DOM on each invocation — wraps podem aparecer após decifragem do gate.
-    const wraps = document.querySelectorAll('[data-mermaid-zoom]:not([data-mz-initialized])');
-    if (!wraps.length) return;
-
-    await loadScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js');
-    await loadScript('https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js');
-
-    if (!mermaidConfigured) {
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: 'base',
-        themeVariables: {
-          background: '#0a0a0a',
-          primaryColor: '#262121',
-          primaryTextColor: '#f2ebc0',
-          primaryBorderColor: '#5b675b',
-          lineColor: '#5b675b',
-          secondaryColor: '#141415',
-          tertiaryColor: '#0a0b0a',
-          fontFamily: '"JetBrains Mono", monospace',
-          fontSize: '13px'
-        }
-      });
-      mermaidConfigured = true;
-    }
-
-    // Batch render: pass ALL mermaid elements to a single mermaid.run() call.
-    // Mermaid 10 isolates failures per-node — one bad block doesn't abort siblings.
-    const elements = [];
-    for (const wrap of wraps) {
-      const el = wrap.querySelector('.mermaid');
-      if (el) elements.push(el);
-    }
+  async function tryUnlock(pwd) {
     try {
-      await mermaid.run({ nodes: elements });
-    } catch(e) {
-      console.warn('mermaid batch had partial failures', e);
-    }
-
-    for (const wrap of wraps) {
-      const mermaidEl = wrap.querySelector('.mermaid');
-      if (!mermaidEl) continue;
-      const svg = mermaidEl.querySelector('svg');
-      if (!svg) {
-        // Render failed. Increment retry counter; do NOT mark initialized.
-        const attempts = parseInt(wrap.dataset.mzAttempts || '0', 10);
-        if (attempts >= 3) {
-          console.error('mermaid-zoom giving up after 3 attempts on', wrap);
-          wrap.setAttribute('data-mz-initialized', 'failed');
-        } else {
-          wrap.dataset.mzAttempts = String(attempts + 1);
-        }
-        continue;
-      }
-      // Render succeeded — NOW mark as initialized.
-      wrap.setAttribute('data-mz-initialized', 'true');
-
-      svg.setAttribute('width', '100%');
-      svg.setAttribute('height', '100%');
-      svg.removeAttribute('style');
-      svg.style.maxWidth = '100%';
-      svg.style.maxHeight = '100%';
-
-      const pz = svgPanZoom(svg, {
-        zoomEnabled: true,
-        controlIconsEnabled: false,
-        fit: true,
-        center: true,
-        contain: true,
-        minZoom: 0.3,
-        maxZoom: 8,
-        zoomScaleSensitivity: 0.3,
-        dblClickZoomEnabled: true
+      const salt = b64(SALT_B64), iv = b64(IV_B64), cipher = b64(ENCRYPTED_PAYLOAD);
+      const key = await deriveKey(pwd, salt);
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, cipher);
+      const decrypted = new TextDecoder().decode(plain);
+      mount.innerHTML = decrypted;
+      mount.querySelectorAll('script').forEach(old => {
+        const s = document.createElement('script');
+        if (old.src) s.src = old.src; else s.textContent = old.textContent;
+        old.replaceWith(s);
       });
-
-      const tb = document.createElement('div');
-      tb.className = 'ap-mz-toolbar';
-      tb.innerHTML = '<button data-act="in" title="Zoom in">+</button><button data-act="out" title="Zoom out">−</button><button data-act="reset" title="Reset view">⊙</button><button data-act="full" title="Fullscreen">⛶</button>';
-      wrap.appendChild(tb);
-      tb.querySelector('[data-act=in]').addEventListener('click', (e) => { e.stopPropagation(); pz.zoomIn(); });
-      tb.querySelector('[data-act=out]').addEventListener('click', (e) => { e.stopPropagation(); pz.zoomOut(); });
-      tb.querySelector('[data-act=reset]').addEventListener('click', (e) => { e.stopPropagation(); pz.reset(); pz.fit(); pz.center(); });
-      tb.querySelector('[data-act=full]').addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!document.fullscreenElement) { wrap.requestFullscreen?.(); }
-        else { document.exitFullscreen?.(); }
-        setTimeout(() => { pz.resize(); pz.fit(); pz.center(); }, 100);
-      });
-
-      const hint = document.createElement('div');
-      hint.className = 'ap-mz-hint';
-      hint.textContent = 'scroll = zoom · drag = pan · ⛶ fullscreen';
-      wrap.appendChild(hint);
-
-      window.addEventListener('resize', () => { pz.resize(); pz.fit(); pz.center(); });
-
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => { setTimeout(() => { pz.resize(); pz.fit(); pz.center(); }, 50); });
-      }
-    }
+      gate.style.display = 'none';
+      mount.style.display = 'block';
+      // localStorage — persiste cross-page e cross-session
+      localStorage.setItem(STORAGE_KEY, pwd);
+      // Notifica componentes (mermaid-zoom, comparator, accordion-seq) que conteúdo
+      // criptografado foi injetado no DOM e podem (re)inicializar.
+      document.dispatchEvent(new CustomEvent('wikia:unlocked', { detail: { html: decrypted } }));
+      return true;
+    } catch (e) { return false; }
   }
 
-  // Run inicial (chassi/conteúdo já no DOM).
-  init().catch(e => console.error('mermaid-zoom init failed', e));
+  // Auto-unlock: se já tem chave salva no localStorage, tenta
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    tryUnlock(saved).then(ok => { if (!ok) localStorage.removeItem(STORAGE_KEY); });
+  }
 
-  // Re-init quando gate decifra novo conteúdo. Idempotência via
-  // `:not([data-mz-initialized])` no selector + setAttribute antes de processar.
-  document.addEventListener('wikia:unlocked', () => {
-    init().catch(e => console.error('mermaid-zoom re-init failed', e));
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.textContent = '';
+    const ok = await tryUnlock(input.value);
+    if (!ok) { err.textContent = '✗ senha incorreta'; input.value = ''; input.focus(); }
   });
 })();
 </script>
 
-
-        <footer class="wk-article-footer">
-          <div class="tags">
-            
-          </div>
-          <div class="meta">
-            <span><span class="accent">2026-05-20</span></span>
-            <span>·</span>
-            <span>claude</span>
-          </div>
-        </footer>
-
-      
 
       
 
