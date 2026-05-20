@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-05-20T12:00:52Z",
+  "generated_at": "2026-05-20T12:53:24Z",
   "records": [
     {
       "article_id": "9e3c1e655140e9702b2904092c7d0a6140e608ae91efd1119061260d5993256a",
@@ -35,6 +35,22 @@
       "release_status": "unreleased",
       "scope": "article",
       "slug": "design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo",
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
+    },
+    {
+      "article_id": "38516ec2d4a1a4bcf02c919e7374e3d3244e9890afdc0931d5e613e618d48955",
+      "bu": "gobbi",
+      "canonical_key": "gobbi/geral/twenty-spalla-operon-crm-fit",
+      "gate_status": "gated",
+      "idempotency_key": "c5bc07600f60c2f1b4fa559507fac6fa90d0f64e5626361de3f1110bec63509d",
+      "output_url": "gobbi/geral/twenty-spalla-operon-crm-fit/",
+      "project": "geral",
+      "raw_hash": "5bd9ebe07009773a9204c641c2e85043329436491eda8bc411705cb32172de16",
+      "release_status": "unreleased",
+      "scope": "article",
+      "slug": "twenty-spalla-operon-crm-fit",
       "tags": [],
       "title_public": null,
       "title_visible": false
