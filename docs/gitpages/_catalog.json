@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-05-20T00:58:14Z",
+  "generated_at": "2026-05-20T12:00:52Z",
   "records": [
     {
       "article_id": "9e3c1e655140e9702b2904092c7d0a6140e608ae91efd1119061260d5993256a",
@@ -38,6 +38,28 @@
       "tags": [],
       "title_public": null,
       "title_visible": false
+    },
+    {
+      "article_id": "f105ceced8a66fca854ed1ffb39e5d47fac2bc651e7322f47e9958fef8dc95ed",
+      "bu": "gobbi",
+      "canonical_key": "gobbi/geral/wikia-operating-manual",
+      "gate_status": "public",
+      "idempotency_key": "efd38ace440c183f100312ff78d0bd9860b76e835f298c1193c05ce48806fae5",
+      "output_url": "gobbi/geral/wikia-operating-manual/",
+      "project": "geral",
+      "raw_hash": "107368500a594587c0064195eb9edb2508037cd8aaffffd74d0c21f70177a0b8",
+      "release_status": "released",
+      "scope": "public",
+      "slug": "wikia-operating-manual",
+      "tags": [
+        "wikia",
+        "cms",
+        "knowledge-system",
+        "publishing",
+        "operating-manual"
+      ],
+      "title_public": "Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo",
+      "title_visible": true
     },
     {
       "article_id": "928c9dc003020885d5693e4d97c67ee58b3729257841c2e1622cb7a7aefc91fd",

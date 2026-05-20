@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-wiki-base="https://felipeggv.github.io/wikia/gitpages" data-bu="gobbi">
+<html lang="pt-BR" data-slug="wikia-operating-manual" data-repo="wikia" data-wiki-base="https://felipeggv.github.io/wikia/gitpages">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>wikia · Gobbi · wikia</title>
-<meta name="description" content="BU Gobbi — wikia">
+<title>Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo · wikia</title>
+<meta name="description" content="O Wikia foi refatorado para funcionar como um **CMS estatico cifrado**.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
@@ -951,9 +951,6 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 </head>
 <body>
 
-
-
-<template id="ap-content-tpl">
 <header class="wk-topbar">
   <button class="wk-burger" id="wk-burger" aria-label="Toggle sidebar" title="Toggle sidebar (⌘\)">☰</button>
   <a href="https://felipeggv.github.io/wikia/gitpages/" class="wk-brand">wikia <span class="dim">· knowledge</span></a>
@@ -989,11 +986,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
     <h4>Knowledge</h4>
     <nav class="wk-sidebar-nav">
       <ul class="wk-tree">
-        <li class="wk-tree-bu" data-bu="staging" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/staging/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Staging</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="clickup-linear-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/gestao-projetos/clickup-linear-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Playbook Soviético: ClickUp com disciplina de Linear</span></a></li><li class="wk-tree-article" data-slug="pricing-strategy-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Pricing Strategy Playbook</span></a></li></ul></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="vita"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/vita/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Vitascience</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu" data-bu="allin" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="cs-na-case-alinhamento-eloise"><a href="https://felipeggv.github.io/wikia/gitpages/allin/case-cs/cs-na-case-alinhamento-eloise/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Customer Success na CASE · Como a Rotina do CS Funciona</span></a></li></ul></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="aleyemma"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/aleyemma/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Aleyemma</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-current-bu" data-bu="gobbi" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="wikia-operating-manual"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/wikia-operating-manual/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</span></a></li></ul></li>
+        <li class="wk-tree-bu wk-current-bu" data-bu="gobbi" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article wk-current-article" data-slug="wikia-operating-manual"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/wikia-operating-manual/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</span></a></li></ul></li>
       </ul>
     </nav>
   </div>
@@ -1002,15 +995,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <div class="wk-section">
     <h4>Recentes</h4>
     <ul class="wk-recents">
-      <li class="wk-recents-day">
-<span class="wk-recents-date">20 MAY</span>
-<ul class="wk-recents-items">
-<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/wikia-operating-manual/">Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/">Pricing Strategy Playbook</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/staging/gestao-projetos/clickup-linear-playbook/">Playbook Soviético: ClickUp com disciplina de Linear</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/allin/case-cs/cs-na-case-alinhamento-eloise/">Customer Success na CASE · Como a Rotina do CS Funciona</a></li>
-</ul>
-</li>
+      
     </ul>
   </div>
 </aside>
@@ -1019,37 +1004,619 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <main class="wk-main">
     <div class="wk-content wk-article">
 
-      <nav class="wk-breadcrumb">wikia &rsaquo; Gobbi</nav>
+      
 
-      <header class="wk-article-header">
-        <div class="wk-eyebrow">wikia · BU · gobbi</div>
-        <h1>Gobbi</h1>
-        <p class="wk-lead">Felipe Gobbi — notas pessoais e playbooks.</p>
-      </header>
+        <nav class="wk-breadcrumb" aria-label="Breadcrumb">
+          <a href="https://felipeggv.github.io/wikia/gitpages/">wikia</a><span class="sep">›</span>
+          <a href="https://felipeggv.github.io/wikia/gitpages/research/2026-05-artifacts/">2026 05 Artifacts</a><span class="sep">›</span>
+          <span class="current">wikia-operating-manual</span>
+        </nav>
 
-      <section class="wk-bu-projects">
-        <h2 class="wk-section-title">Projetos</h2>
-        <ul class="wk-bu-projects-list">
-<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/"><span class="wk-bu-project-title">Geral</span><span class="wk-bu-project-count">1</span></a></li>
-</ul>
-      </section>
+        <header class="wk-article-header">
+          <div class="wk-eyebrow">2026 05 Artifacts</div>
+          <h1>Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</h1>
+          <p class="wk-lead">O Wikia foi refatorado para funcionar como um **CMS estatico cifrado**.</p>
+          <div class="wk-meta-row">
+            <span>20 May 2026</span>
+            <span class="dot">·</span>
+            <span>9 min</span>
+            
+          </div>
+        </header>
 
-      <section class="wk-bu-recent">
-        <h2 class="wk-section-title">Artigos recentes</h2>
-        <ul class="wk-bu-recent-list">
-<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/wikia-operating-manual/"><span class="date"></span><span class="wk-bu-recent-title">Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</span><span class="wk-bu-recent-project">Geral</span></a></li>
-</ul>
-      </section>
+        <h1 id="wikia-operating-manual-como-publicar-conhecimento-sem-virar-bagunca-nem-vazar-segredo">Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo</h1>
+<blockquote>O Wikia e o nosso cofre editorial: um lugar para transformar decisoes, playbooks, pesquisas e aprendizados em paginas lindas, pesquisaveis e protegidas. Ele nao e so um blog. E uma linha de montagem de conhecimento.</blockquote>
+<hr>
+<h2 id="resumo-executivo">Resumo executivo</h2>
+<p>O Wikia foi refatorado para funcionar como um <strong>CMS estatico cifrado</strong>.</p>
+<p>Em portugues claro:</p>
+<pre><code class="language-text">voce escreve um material uma vez
+   |
+   v
+o Wikia transforma isso em pagina, menu, busca e admin
+   |
+   v
+o que e publico aparece publico
+   |
+   v
+o que e privado fica criptografado antes de ir para o GitHub Pages</code></pre>
+<p>Analogia de marketing: antes, o Wikia era como uma pasta cheia de landing pages soltas. Agora ele parece mais um <strong>CRM de conteudo</strong>: cada artigo tem ficha, status, permissao, local certo, busca e trilha de publicacao.</p>
+<aside class="ap-callout" data-variant="tip"><div class="ap-callout-title">Ideia central</div><div class="ap-callout-body"><p>O Wikia nao deve ser tratado como "onde eu jogo textos". Ele deve ser tratado como o <strong>sistema operacional de conhecimento</strong> das BUs, projetos, processos e decisoes.</p></div></aside>
+<hr>
+<h2 id="o-que-mudou-de-verdade">O que mudou de verdade</h2>
+<div class="ap-comparator" data-comparator><div class="ap-comp-tabs"><button data-target="cmp-antes-0" class="active">Antes</button><button data-target="cmp-agora-1" class="">Agora</button></div><div class="ap-comp-panels"><div class="ap-comp-panel active" id="cmp-antes-0"><ul><li>Paginas podiam nascer soltas.</li><li>Menus podiam ficar dessincronizados.</li><li>O admin podia depender de estado velho.</li><li>Conteudo privado corria risco de aparecer como <code>raw.md</code> publico.</li><li>Publicar era mais parecido com "copiar arquivo e torcer".</li></ul></div><div class="ap-comp-panel " id="cmp-agora-1"><ul><li>Cada artigo vira um registro canonico.</li><li>Menus, busca, home, BU, projeto e admin derivam do mesmo estado.</li><li>Conteudo privado e cifrado antes de ir para o output publico.</li><li>O pipeline tem validacao antes de deploy.</li><li>O staging do Git e explicito, sem <code>git add -A</code> amplo.</li></ul></div></div></div>
+<p>Em termos de negocio:</p>
+<pre><code class="language-text">Antes: biblioteca bonita, mas fragil
+Agora: operacao editorial com controle, seguranca e repetibilidade</code></pre>
+<hr>
+<h2 id="o-modelo-mental">O modelo mental</h2>
+<p>Pense no Wikia como uma fabrica.</p>
+<pre><code class="language-text">Materia-prima
+  raw.md privado
+      |
+      v
+Linha de montagem
+  publish.sh + renderers + catalog + vault
+      |
+      v
+Produtos
+  pagina HTML
+  busca
+  menus
+  admin
+  catalogo
+      |
+      v
+Vitrine
+  GitHub Pages</code></pre>
+<p>O ponto importante: a vitrine e publica, mas o estoque sensivel nao pode ficar exposto.</p>
+<aside class="ap-callout" data-variant="warn"><div class="ap-callout-title">Regra de ouro</div><div class="ap-callout-body"><p><code>private source</code> pode conter texto puro. <code>public output</code> nao pode conter texto privado em plaintext.</p></div></aside>
+<hr>
+<h2 id="arquitetura-em-uma-tela">Arquitetura em uma tela</h2>
+<div class="ap-mermaid-zoom" data-mermaid-zoom><pre class="mermaid">---
+config:
+  flowchart:
+    curve: linear
+    htmlLabels: true
+  sequence:
+    diagramMarginX: 30
+---
+flowchart LR
+    A[raw.md privado] --> B[publish.sh]
+    B --> C[_catalog.json publico e sanitizado]
+    B --> D[_admin.enc cifrado]
+    B --> E[_passwords.enc vault]
+    B --> F[index.html do artigo]
+    B --> G[search.json]
+    B --> H[home / BU / projeto]
+    F --> I[GitHub Pages]
+    G --> I
+    H --> I
+    D --> J[Admin unlock]
+    E --> J</pre></div>
+<p>Traduzindo:</p>
+<table><thead><tr><th>Peca</th><th>O que faz</th><th>Analogia</th></tr></thead><tbody><tr><td><code>raw.md</code> privado</td><td>Fonte editorial do artigo</td><td>Briefing original da campanha</td></tr><tr><td><code>publish.sh</code></td><td>Orquestra a publicacao</td><td>Gerente de trafego da esteira</td></tr><tr><td><code>_catalog.json</code></td><td>Catalogo publico sem segredo</td><td>Card publico no CRM</td></tr><tr><td><code>_admin.enc</code></td><td>Estado admin criptografado</td><td>Backoffice fechado</td></tr><tr><td><code>_passwords.enc</code></td><td>Cofre de senhas/escopos</td><td>Chaveiro da operacao</td></tr><tr><td><code>search.json</code></td><td>Busca publica/segura</td><td>Indice da biblioteca</td></tr><tr><td><code>index.html</code></td><td>Pagina final</td><td>Landing page do conhecimento</td></tr></tbody></table>
+<hr>
+<h2 id="por-que-o-wikia-nao-pode-ser-um-wordpress-mental">Por que o Wikia nao pode ser um WordPress mental</h2>
+<p>WordPress mental e pensar assim:</p>
+<pre><code class="language-text">"vou abrir uma pagina, editar, publicar e pronto"</code></pre>
+<p>Esse pensamento e perigoso aqui, porque o Wikia tem outro objetivo: <strong>conteudo versionado, seguro, auditavel e reconstruivel</strong>.</p>
+<pre><code class="language-text">Wikia bom
+   |
+   +-- fonte rastreavel
+   +-- output gerado
+   +-- permissao declarada
+   +-- validacao antes de deploy
+   +-- ClickUp com evidencia</code></pre>
+<p>Se alguem editar o HTML final manualmente, quebra o principio da fabrica. E como alterar o criativo direto no anuncio publicado, sem atualizar o arquivo-fonte, o briefing e o controle de versao.</p>
+<aside class="ap-callout" data-variant="quote"><div class="ap-callout-title">Frase para lembrar</div><div class="ap-callout-body"><p>Nao edite a vitrine. Edite a fonte e rode a linha de montagem.</p></div></aside>
+<hr>
+<h2 id="os-5-objetos-principais">Os 5 objetos principais</h2>
+<h3 id="1-artigo">1. Artigo</h3>
+<p>O artigo e a unidade de valor.</p>
+<p>Ele responde:</p>
+<ul><li>Qual conhecimento foi produzido?</li><li>Para qual BU?</li><li>Para qual projeto?</li><li>Qual slug?</li><li>E publico ou protegido?</li><li>Entra em qual arvore de navegacao?</li></ul>
+<p>Exemplo de frontmatter:</p>
+<pre><code class="language-yaml">---
+bu: gobbi
+project: geral
+slug: wikia-operating-manual
+title: 'Wikia Operating Manual'
+date: 2026-05-20
+tags: [wikia, cms, publishing]
+gate: &lt;vault&gt;
+---</code></pre>
+<h3 id="2-bu">2. BU</h3>
+<p>BU e a prateleira principal.</p>
+<pre><code class="language-text">gobbi
+vita
+allin
+aleyemma
+staging</code></pre>
+<p>Ela serve para separar contextos de negocio. Nao e decoracao.</p>
+<h3 id="3-projeto">3. Projeto</h3>
+<p>Projeto e a colecao dentro da BU.</p>
+<pre><code class="language-text">gobbi / geral / artigo
+allin / case-cs / artigo
+gobbi / unbloq / artigo</code></pre>
+<h3 id="4-catalogo">4. Catalogo</h3>
+<p>O catalogo e a ficha publica e sanitizada.</p>
+<p>Ele diz que o artigo existe, mas nao precisa revelar o que nao deve revelar.</p>
+<h3 id="5-vault">5. Vault</h3>
+<p>O vault e o cofre.</p>
+<p>Ele segura senhas e escopos. Se voce perder a disciplina aqui, o sistema vira apenas "site bonito com falsa sensacao de seguranca".</p>
+<hr>
+<h2 id="o-fluxo-certo-de-publicacao">O fluxo certo de publicacao</h2>
+<ol class="ap-accordion-seq" data-accordion-seq><li><button class="ap-acc-trigger">1. Escrever a fonte privada</button><div class="ap-acc-body"><p>Crie o <code>raw.md</code> fora do output publico, em uma arvore privada. A fonte e onde mora o texto completo.</p></div></li><li><button class="ap-acc-trigger">2. Rodar validacao</button><div class="ap-acc-body"><p>Antes de publicar, rode o pipeline em modo de validacao. O objetivo e saber o que mudaria sem empurrar nada para producao.</p></div></li><li><button class="ap-acc-trigger">3. Publicar pelo pipeline</button><div class="ap-acc-body"><p>Se a validacao passar, rode o publish real. O script gera pagina, catalogo, busca, menus e criptografia.</p></div></li><li><button class="ap-acc-trigger">4. Conferir GitHub Pages</button><div class="ap-acc-body"><p>Abra a URL final e confirme que a pagina, a navegacao e a busca estao coerentes.</p></div></li><li><button class="ap-acc-trigger">5. Registrar no ClickUp</button><div class="ap-acc-body"><p>Cole no card o link final, os comandos, o resultado, riscos e proximos passos.</p></div></li></ol>
+<p>Em ASCII:</p>
+<pre><code class="language-text">raw.md privado
+   |
+   v
+publish --validate
+   |
+   +-- falhou -&gt; corrigir fonte ou pipeline
+   |
+   v
+publish real
+   |
+   v
+GitHub Pages
+   |
+   v
+ClickUp evidencia</code></pre>
+<hr>
+<h2 id="o-comando-de-publicacao">O comando de publicacao</h2>
+<p>Validacao:</p>
+<pre><code class="language-bash">bash /Users/felipegobbi/.codex/prompt-skills/artifacts-publisher/scripts/publish.sh \
+  --title "Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo" \
+  --content "/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor/Working/private-source/gobbi/geral/wikia-operating-manual/raw.md" \
+  --full \
+  --bu gobbi \
+  --project geral \
+  --slug wikia-operating-manual \
+  --private-source-root "/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor/Working/private-source" \
+  --validate</code></pre>
+<p>Publicacao:</p>
+<pre><code class="language-bash">bash /Users/felipegobbi/.codex/prompt-skills/artifacts-publisher/scripts/publish.sh \
+  --title "Wikia Operating Manual: como publicar conhecimento sem virar bagunca nem vazar segredo" \
+  --content "/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor/Working/private-source/gobbi/geral/wikia-operating-manual/raw.md" \
+  --full \
+  --bu gobbi \
+  --project geral \
+  --slug wikia-operating-manual \
+  --private-source-root "/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor/Working/private-source"</code></pre>
+<aside class="ap-callout" data-variant="info"><div class="ap-callout-title">Nota sobre senha</div><div class="ap-callout-body"><p>Sem <code>--no-gate</code>, o pipeline cria uma pagina protegida por AES-GCM. O output publico deve carregar a pagina cifrada, nao o markdown puro.</p></div></aside>
+<hr>
+<h2 id="o-que-cada-pessoa-deve-fazer">O que cada pessoa deve fazer</h2>
+<table><thead><tr><th>Papel</th><th>Responsabilidade</th><th>Nao deve fazer</th></tr></thead><tbody><tr><td>Estrategista</td><td>Definir o valor do artigo e o publico</td><td>Mexer no HTML final</td></tr><tr><td>Editor</td><td>Escrever o <code>raw.md</code> com frontmatter correto</td><td>Publicar sem validacao</td></tr><tr><td>Agente IA</td><td>Estruturar, enriquecer, diagramar e validar</td><td>Inventar BU/projeto/slug</td></tr><tr><td>Operador</td><td>Rodar publish e conferir output</td><td>Usar <code>git add -A</code> amplo</td></tr><tr><td>Felipe</td><td>Aprovar criterio, risco e proximo passo</td><td>Ser gargalo de detalhes tecnicos</td></tr></tbody></table>
+<hr>
+<h2 id="quality-gate-antes-de-chamar-um-artigo-de-pronto">Quality gate antes de chamar um artigo de pronto</h2>
+<pre><code class="language-text">[ ] frontmatter tem bu, project, slug, title, tags
+[ ] fonte esta fora do public output
+[ ] validacao rodou sem issue critica
+[ ] pagina final abre
+[ ] busca e menus foram regenerados
+[ ] ClickUp recebeu evidencia
+[ ] riscos restantes estao escritos</code></pre>
+<p>Se qualquer item falhar, o artigo nao esta pronto. Ele esta em rascunho operacional.</p>
+<hr>
+<h2 id="padrao-de-conteudo-que-vale-publicar">Padrao de conteudo que vale publicar</h2>
+<p>O Wikia deve priorizar material que economiza tempo futuro.</p>
+<p>Bom material:</p>
+<ul><li>explica uma decisao dificil;</li><li>cria um manual reutilizavel;</li><li>documenta uma arquitetura;</li><li>transforma conversa em processo;</li><li>reduz perguntas repetidas;</li><li>registra tradeoffs;</li><li>vira referencia para agentes.</li></ul>
+<p>Material ruim:</p>
+<ul><li>anotacao solta;</li><li>pensamento sem decisao;</li><li>checklist sem contexto;</li><li>texto que so o autor entende;</li><li>output sem fonte, sem owner e sem proximo uso.</li></ul>
+<aside class="ap-callout" data-variant="tip"><div class="ap-callout-title">Heuristica</div><div class="ap-callout-body"><p>Se uma pessoa nova abrir o artigo daqui 90 dias e conseguir tomar uma decisao melhor, vale publicar. Se ela so disser "legal", nao vale.</p></div></aside>
+<hr>
+<h2 id="seguranca-a-parte-que-nao-da-para-romantizar">Seguranca: a parte que nao da para romantizar</h2>
+<p>GitHub Pages e estatico. Isso significa:</p>
+<pre><code class="language-text">nao existe servidor conferindo login
+   |
+   v
+a protecao real precisa estar na criptografia do conteudo</code></pre>
+<p>Por isso, o modelo correto e:</p>
+<pre><code class="language-text">publico:
+  chassi
+  menu sanitizado
+  metadados permitidos
+  artigo cifrado
 
-      <footer class="wk-article-footer" style="margin-top:64px">
-        <div class="meta">
-          <span><span class="accent">wikia</span></span>
-          <span>·</span>
-          <span>Gobbi</span>
-          <span>·</span>
-          <span>artifacts-publisher</span>
-        </div>
-      </footer>
+privado:
+  raw.md completo
+  masterpass
+  senhas de escopo
+  admin state decifrado</code></pre>
+<p>O risco principal nao e alguem "hackear o layout". O risco principal e alguem publicar sem querer um <code>raw.md</code> privado no output publico.</p>
+<hr>
+<h2 id="o-que-o-refactor-ja-garantiu">O que o refactor ja garantiu</h2>
+<table><thead><tr><th>Invariante</th><th>Status</th></tr></thead><tbody><tr><td>Sem <code>raw.md</code> privado publico</td><td>PASS</td></tr><tr><td>Catalogo e busca sincronizados</td><td>PASS</td></tr><tr><td>Admin metadata cifrado em <code>_admin.enc</code></td><td>PASS</td></tr><tr><td>Staging explicito no publish</td><td>PASS</td></tr><tr><td>Validacao sem push</td><td>PASS</td></tr><tr><td>Rebuild deterministico</td><td>PASS</td></tr><tr><td>Test suite deterministica</td><td>PASS, 14/14 no relatorio final</td></tr></tbody></table>
+<p>Isso nao quer dizer "nunca mais quebra". Quer dizer: agora existe um trilho claro para publicar sem depender de memoria humana.</p>
+<hr>
+<h2 id="como-escalar-isso-para-virar-arsenal-vivo">Como escalar isso para virar arsenal vivo</h2>
+<p>O Wikia fica poderoso quando deixa de ser "arquivo de textos" e vira <strong>sistema de ativos intelectuais</strong>.</p>
+<div class="ap-mermaid-zoom" data-mermaid-zoom><pre class="mermaid">---
+config:
+  flowchart:
+    curve: linear
+    htmlLabels: true
+  sequence:
+    diagramMarginX: 30
+---
+flowchart TD
+    A[Conversa ou execucao] --> B{Vale virar ativo?}
+    B -- nao --> C[Descartar ou deixar em nota]
+    B -- sim --> D[Definir BU / projeto / slug]
+    D --> E[Escrever raw.md]
+    E --> F[Validar]
+    F --> G[Publicar]
+    G --> H[Registrar ClickUp]
+    H --> I[Reutilizar em prompts, playbooks e squads]</pre></div>
+<p>O destino final nao e "ter mais paginas". O destino final e criar um lugar onde agentes, humanos e processos bebem da mesma fonte.</p>
+<hr>
+<h2 id="roadmap-recomendado">Roadmap recomendado</h2>
+<h3 id="curto-prazo">Curto prazo</h3>
+<ul><li>Criar templates de artigo por tipo: decisao, manual, arquitetura, research, handoff.</li><li>Definir taxonomia oficial de tags.</li><li>Padronizar frontmatter por BU.</li><li>Criar checklist ClickUp para publicacao.</li></ul>
+<h3 id="medio-prazo">Medio prazo</h3>
+<ul><li>Ligar Wikia aos playbooks Auto Run.</li><li>Criar indice por processo e por squad.</li><li>Criar materiais "golden path" para onboarding de agentes.</li><li>Adicionar comentarios/revisao em cima do artigo.</li></ul>
+<h3 id="longo-prazo">Longo prazo</h3>
+<ul><li>Transformar o Wikia em camada de memoria operacional.</li><li>Fazer agentes consultarem artigos aprovados antes de executar.</li><li>Criar score de confianca por artigo.</li><li>Conectar Wikia, ClickUp, Maestro e repositorios como uma malha unica.</li></ul>
+<hr>
+<h2 id="decisao-operacional">Decisao operacional</h2>
+<p>A regra e simples:</p>
+<pre><code class="language-text">Se e conhecimento reutilizavel
+   |
+   v
+vira Wikia
+
+Se e tarefa executavel
+   |
+   v
+vira ClickUp
+
+Se e automacao recorrente
+   |
+   v
+vira playbook
+
+Se e comportamento de agente
+   |
+   v
+vira skill ou comando</code></pre>
+<p>O erro caro e misturar tudo. Wikia nao substitui ClickUp. ClickUp nao substitui Wikia. Maestro nao substitui nenhum dos dois.</p>
+<p>Cada um tem um papel.</p>
+<pre><code class="language-text">ClickUp = execucao
+Wikia   = conhecimento
+Maestro = orquestracao
+Git     = historico e deploy</code></pre>
+<p>Quando cada ferramenta faz seu trabalho, o sistema fica simples.</p>
+<hr>
+<h2 id="fechamento">Fechamento</h2>
+<p>O Wikia agora tem base para ser mais que um wiki bonito. Ele pode virar o <strong>manual vivo da operacao</strong>, com material rico, seguro, navegavel e reaproveitavel por humanos e agentes.</p>
+<p>O proximo salto nao e tecnico. E editorial.</p>
+<pre><code class="language-text">menos arquivo solto
+mais ativo reutilizavel
+
+menos "onde esta aquilo?"
+mais "abre o Wikia"
+
+menos conhecimento na conversa
+mais conhecimento operacionalizado</code></pre>
+<p>Esse e o papel do Wikia: transformar contexto em patrimonio.</p>
+<!-- Component: comparator
+     Quando usar: mostrar 2-3 opções/estados pra ensinar por contraste
+     Markup esperado:
+       <div class="ap-comparator" data-comparator>
+         <div class="ap-comp-tabs">
+           <button data-target="opt-a" class="active">Opção A</button>
+           <button data-target="opt-b">Opção B</button>
+         </div>
+         <div class="ap-comp-panels">
+           <div class="ap-comp-panel active" id="opt-a">conteúdo A</div>
+           <div class="ap-comp-panel" id="opt-b">conteúdo B</div>
+         </div>
+       </div>
+-->
+<style>
+  .ap-comparator { margin: var(--space-5) 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg-sidebar); }
+  .ap-comp-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--bg-activity); }
+  .ap-comp-tabs button { flex: 1; padding: var(--space-3) var(--space-4); background: transparent; border: none; border-right: 1px solid var(--border); color: var(--text-dim); font: inherit; font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; cursor: pointer; letter-spacing: 0.03em; transition: all 0.15s; }
+  .ap-comp-tabs button:last-child { border-right: none; }
+  .ap-comp-tabs button:hover { color: var(--text-main); background: var(--accent-dim); }
+  .ap-comp-tabs button.active { color: var(--accent); background: var(--bg-sidebar); border-bottom: 2px solid var(--accent); margin-bottom: -1px; }
+  .ap-comp-panels { padding: var(--space-5); }
+  .ap-comp-panel { display: none; }
+  .ap-comp-panel.active { display: block; animation: apCompFade 0.2s ease-out; }
+  @keyframes apCompFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+<script>
+(function() {
+  function init() {
+    // `:not([data-comp-initialized])` torna a re-execução idempotente —
+    // comparators já wired no run inicial são skipados em runs subsequentes.
+    document.querySelectorAll('[data-comparator]:not([data-comp-initialized])').forEach(comp => {
+      comp.setAttribute('data-comp-initialized', 'true');
+      const tabs = comp.querySelectorAll('.ap-comp-tabs button');
+      const panels = comp.querySelectorAll('.ap-comp-panel');
+      tabs.forEach(t => t.addEventListener('click', () => {
+        const target = t.dataset.target;
+        tabs.forEach(x => x.classList.toggle('active', x === t));
+        panels.forEach(p => p.classList.toggle('active', p.id === target));
+      }));
+    });
+  }
+  init();
+  document.addEventListener('wikia:unlocked', init);
+})();
+</script>
+
+<!-- Component: accordion-seq
+     Quando usar: progressive disclosure de conteúdo sequencial/dependente
+     Markup esperado:
+       <ol class="ap-accordion-seq" data-accordion-seq>
+         <li>
+           <button class="ap-acc-trigger">1. Passo um</button>
+           <div class="ap-acc-body">conteúdo</div>
+         </li>
+         ...
+       </ol>
+-->
+<style>
+  .ap-accordion-seq { list-style: none; padding: 0; margin: var(--space-5) 0; counter-reset: apseq; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .ap-accordion-seq > li { border-bottom: 1px solid var(--border); }
+  .ap-accordion-seq > li:last-child { border-bottom: none; }
+  .ap-acc-trigger { width: 100%; text-align: left; padding: var(--space-4) var(--space-5); background: var(--bg-sidebar); border: none; color: var(--text-main); font: inherit; font-family: var(--font-sans); font-size: var(--text-base); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: var(--space-3); transition: background 0.15s; }
+  .ap-acc-trigger:hover { background: var(--accent-dim); }
+  .ap-acc-trigger::before { content: "▸"; color: var(--accent); transition: transform 0.2s; }
+  .ap-acc-trigger.open::before { transform: rotate(90deg); }
+  .ap-acc-body { padding: 0 var(--space-5); max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; background: var(--bg-main); }
+  .ap-acc-body.open { padding: var(--space-4) var(--space-5) var(--space-5); max-height: 2000px; }
+</style>
+<script>
+(function() {
+  function init() {
+    // Marca o trigger (não o container) — granularidade necessária se um
+    // accordion-seq for parcialmente renderizado em runs separados.
+    document.querySelectorAll('[data-accordion-seq] .ap-acc-trigger:not([data-acc-initialized])').forEach(btn => {
+      btn.setAttribute('data-acc-initialized', 'true');
+      btn.addEventListener('click', () => {
+        const body = btn.nextElementSibling;
+        btn.classList.toggle('open');
+        body.classList.toggle('open');
+      });
+    });
+  }
+  init();
+  document.addEventListener('wikia:unlocked', init);
+})();
+</script>
+
+<!-- Component: mermaid-zoom (viewport grande, pan/zoom funcionais) -->
+<style>
+  .ap-mermaid-zoom {
+    position: relative;
+    background: var(--bg-sidebar);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin: var(--space-5) 0;
+    overflow: hidden;
+    min-height: 520px;
+    height: 520px;
+    width: 100%;
+  }
+  .ap-mermaid-zoom .ap-mz-toolbar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+    background: var(--bg-main);
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .ap-mermaid-zoom:hover .ap-mz-toolbar { opacity: 1; }
+  .ap-mz-toolbar button {
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-dim);
+    cursor: pointer;
+    font: inherit;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ap-mz-toolbar button:hover {
+    color: var(--text-main);
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .ap-mermaid-zoom .mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-4);
+  }
+  .ap-mermaid-zoom pre.mermaid {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    overflow: visible;
+  }
+  .ap-mermaid-zoom svg {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+  }
+  .ap-mermaid-zoom svg:active { cursor: grabbing; }
+  .ap-mz-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 14px;
+    font-family: var(--font);
+    font-size: 10px;
+    color: var(--text-dim);
+    opacity: 0.7;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+</style>
+<script>
+(function() {
+  function loadScript(src) {
+    return new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s);
+    });
+  }
+
+  let mermaidConfigured = false;
+
+  async function init() {
+    // Query DOM on each invocation — wraps podem aparecer após decifragem do gate.
+    const wraps = document.querySelectorAll('[data-mermaid-zoom]:not([data-mz-initialized])');
+    if (!wraps.length) return;
+
+    await loadScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js');
+
+    if (!mermaidConfigured) {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          background: '#0a0a0a',
+          primaryColor: '#262121',
+          primaryTextColor: '#f2ebc0',
+          primaryBorderColor: '#5b675b',
+          lineColor: '#5b675b',
+          secondaryColor: '#141415',
+          tertiaryColor: '#0a0b0a',
+          fontFamily: '"JetBrains Mono", monospace',
+          fontSize: '13px'
+        }
+      });
+      mermaidConfigured = true;
+    }
+
+    // Batch render: pass ALL mermaid elements to a single mermaid.run() call.
+    // Mermaid 10 isolates failures per-node — one bad block doesn't abort siblings.
+    const elements = [];
+    for (const wrap of wraps) {
+      const el = wrap.querySelector('.mermaid');
+      if (el) elements.push(el);
+    }
+    try {
+      await mermaid.run({ nodes: elements });
+    } catch(e) {
+      console.warn('mermaid batch had partial failures', e);
+    }
+
+    for (const wrap of wraps) {
+      const mermaidEl = wrap.querySelector('.mermaid');
+      if (!mermaidEl) continue;
+      const svg = mermaidEl.querySelector('svg');
+      if (!svg) {
+        // Render failed. Increment retry counter; do NOT mark initialized.
+        const attempts = parseInt(wrap.dataset.mzAttempts || '0', 10);
+        if (attempts >= 3) {
+          console.error('mermaid-zoom giving up after 3 attempts on', wrap);
+          wrap.setAttribute('data-mz-initialized', 'failed');
+        } else {
+          wrap.dataset.mzAttempts = String(attempts + 1);
+        }
+        continue;
+      }
+      // Render succeeded — NOW mark as initialized.
+      wrap.setAttribute('data-mz-initialized', 'true');
+
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '100%');
+      svg.removeAttribute('style');
+      svg.style.maxWidth = '100%';
+      svg.style.maxHeight = '100%';
+
+      const pz = svgPanZoom(svg, {
+        zoomEnabled: true,
+        controlIconsEnabled: false,
+        fit: true,
+        center: true,
+        contain: true,
+        minZoom: 0.3,
+        maxZoom: 8,
+        zoomScaleSensitivity: 0.3,
+        dblClickZoomEnabled: true
+      });
+
+      const tb = document.createElement('div');
+      tb.className = 'ap-mz-toolbar';
+      tb.innerHTML = '<button data-act="in" title="Zoom in">+</button><button data-act="out" title="Zoom out">−</button><button data-act="reset" title="Reset view">⊙</button><button data-act="full" title="Fullscreen">⛶</button>';
+      wrap.appendChild(tb);
+      tb.querySelector('[data-act=in]').addEventListener('click', (e) => { e.stopPropagation(); pz.zoomIn(); });
+      tb.querySelector('[data-act=out]').addEventListener('click', (e) => { e.stopPropagation(); pz.zoomOut(); });
+      tb.querySelector('[data-act=reset]').addEventListener('click', (e) => { e.stopPropagation(); pz.reset(); pz.fit(); pz.center(); });
+      tb.querySelector('[data-act=full]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement) { wrap.requestFullscreen?.(); }
+        else { document.exitFullscreen?.(); }
+        setTimeout(() => { pz.resize(); pz.fit(); pz.center(); }, 100);
+      });
+
+      const hint = document.createElement('div');
+      hint.className = 'ap-mz-hint';
+      hint.textContent = 'scroll = zoom · drag = pan · ⛶ fullscreen';
+      wrap.appendChild(hint);
+
+      window.addEventListener('resize', () => { pz.resize(); pz.fit(); pz.center(); });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => { setTimeout(() => { pz.resize(); pz.fit(); pz.center(); }, 50); });
+      }
+    }
+  }
+
+  // Run inicial (chassi/conteúdo já no DOM).
+  init().catch(e => console.error('mermaid-zoom init failed', e));
+
+  // Re-init quando gate decifra novo conteúdo. Idempotência via
+  // `:not([data-mz-initialized])` no selector + setAttribute antes de processar.
+  document.addEventListener('wikia:unlocked', () => {
+    init().catch(e => console.error('mermaid-zoom re-init failed', e));
+  });
+})();
+</script>
+
+
+        <footer class="wk-article-footer">
+          <div class="tags">
+            
+          </div>
+          <div class="meta">
+            <span><span class="accent">2026-05-20</span></span>
+            <span>·</span>
+            <span>claude</span>
+          </div>
+        </footer>
+
+      
+
+      
 
     </div>
   </main>
@@ -1289,26 +1856,6 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 })();
 </script>
 
-</template>
-
-<script>
-(function() {
-  const tpl = document.getElementById('ap-content-tpl');
-  if (!tpl) return;
-  const mount = document.getElementById('ap-content-mount');
-  if (mount) {
-    mount.innerHTML = tpl.innerHTML;
-    mount.querySelectorAll('script').forEach(old => {
-      const s = document.createElement('script');
-      if (old.src) s.src = old.src; else s.textContent = old.textContent;
-      old.replaceWith(s);
-    });
-    mount.style.display = 'block';
-  } else {
-    document.body.appendChild(tpl.content.cloneNode(true));
-  }
-})();
-</script>
 
 </body>
 </html>
