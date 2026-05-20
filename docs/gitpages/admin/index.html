@@ -7,13 +7,13 @@
 <meta name="description" content="Painel admin do wikia — masterpass-gated.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=optional">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=optional" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 
 </style>
 
-<style>/* =========================================================
+<style>
+/* =========================================================
    WIKIA · BLOG/WIKI INTERNO
    Maestro dark green + 100% JetBrains Mono
    Heading sizes EM-based (extraídos do Maestro app.asar):
@@ -24,7 +24,7 @@
 :root {
   /* Theme tokens (snapshot Maestro) */
     --bg-main: #0a0b0a;
-  --bg-sidebar: #0c0c0d;
+  --bg-sidebar: #0a0a0a;
   --bg-activity: #141415;
   --border: #111311;
   --text-main: #f2ebc0;
@@ -290,28 +290,32 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   margin: 0;
   font-size: 11.5px;
 }
-.wk-tree-tema { margin: 0; position: relative; }
 
-/* Tema (folder) header */
-.wk-tree-tema > .tema-label {
+/* ============================================================
+   WAVE 2 SIDEBAR TREE (BU/Project/Article)
+   11.5px font, 4px padding, 12px chev, 14px folder, 10px count.
+   Auto-flatten projects skip the project-folder layer (article renders directly under BU).
+   Click on chevron toggles; click on label-text navigates.
+   ============================================================ */
+.wk-tree-bu { margin: 0; position: relative; list-style: none; }
+.wk-tree-bu > .wk-tree-bu-link {
   display: flex;
   align-items: flex-start;
   gap: 4px;
   padding: 4px var(--s-4) 4px var(--s-3);
+  text-decoration: none;
   color: var(--text-main);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: 3px;
   cursor: pointer;
   user-select: none;
-  font-weight: 500;
-  font-size: 11.5px;
-  line-height: 1.4;
-  transition: background 0.1s;
-  border-radius: 3px;
   margin: 0 4px;
+  transition: background 0.1s;
 }
-.wk-tree-tema > .tema-label:hover { background: var(--accent-dim); }
-
-/* Chevron (rotates on open) */
-.wk-tree-tema > .tema-label .chev {
+.wk-tree-bu > .wk-tree-bu-link:hover { background: var(--accent-dim); }
+.wk-tree-bu > .wk-tree-bu-link .chev {
   display: inline-block;
   width: 12px;
   height: 12px;
@@ -319,11 +323,10 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   color: var(--text-dim);
   transition: transform 0.15s;
   margin-top: 2px;
+  cursor: pointer;
 }
-.wk-tree-tema[data-open="true"] > .tema-label .chev { transform: rotate(90deg); }
-
-/* Folder icon */
-.wk-tree-tema > .tema-label .folder-icon {
+.wk-tree-bu[data-expanded="true"] > .wk-tree-bu-link .chev { transform: rotate(90deg); }
+.wk-tree-bu > .wk-tree-bu-link .folder-icon {
   display: inline-flex;
   width: 14px;
   height: 14px;
@@ -332,16 +335,15 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   margin-right: 2px;
   margin-top: 1px;
 }
-.wk-tree-tema[data-open="true"] > .tema-label .folder-icon { color: var(--success); }
-
-.wk-tree-tema > .tema-label .label-text {
+.wk-tree-bu[data-expanded="true"] > .wk-tree-bu-link .folder-icon { color: var(--success); }
+.wk-tree-bu > .wk-tree-bu-link .label-text {
   flex: 1;
   min-width: 0;
   word-break: break-word;
   overflow-wrap: anywhere;
   white-space: normal;
 }
-.wk-tree-tema > .tema-label .count {
+.wk-tree-bu > .wk-tree-bu-link .count {
   color: var(--text-dim);
   font-size: 10px;
   margin-left: 4px;
@@ -350,68 +352,130 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
 }
+.wk-tree-bu.wk-current-bu > .wk-tree-bu-link { background: var(--accent-dim); }
+.wk-tree-bu-empty > .wk-tree-bu-link .folder-icon { opacity: 0.45; }
+.wk-tree-bu-empty > .wk-tree-bu-link .chev { visibility: hidden; }
 
-/* File list (children) */
-.wk-tree-tema > ul {
+.wk-tree-projects {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease;
+  transition: max-height 0.18s;
   position: relative;
 }
-.wk-tree-tema[data-open="true"] > ul { max-height: 4000px; }
-
-/* Guide line (indent rail) */
-.wk-tree-tema > ul::before {
+.wk-tree-bu[data-expanded="true"] > .wk-tree-projects { max-height: 4000px; }
+.wk-tree-projects::before {
   content: "";
   position: absolute;
-  left: 21px;
+  left: calc(var(--s-3) + 6px);
   top: 0;
   bottom: 0;
   width: 1px;
   background: var(--border);
 }
 
-/* File item */
-.wk-tree-tema > ul > li > a {
+.wk-tree-project { margin: 0; position: relative; list-style: none; }
+.wk-tree-project > .wk-tree-project-link {
   display: flex;
   align-items: flex-start;
-  gap: 6px;
-  padding: 4px var(--s-4) 4px 30px;
-  color: var(--text-dim);
+  gap: 4px;
+  padding: 3px var(--s-4) 3px calc(var(--s-3) + 14px);
   text-decoration: none;
+  color: var(--text-dim);
   font-size: 11px;
   line-height: 1.4;
-  transition: all 0.1s;
   border-radius: 3px;
-  margin: 0 4px 0 0;
-  position: relative;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
+  margin: 0 4px;
+  cursor: pointer;
+  user-select: none;
 }
-.wk-tree-tema > ul > li > a .file-icon {
-  display: inline-flex;
+.wk-tree-project > .wk-tree-project-link:hover { background: var(--accent-dim); color: var(--text-main); }
+.wk-tree-project > .wk-tree-project-link .chev {
+  width: 10px; height: 10px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  margin-top: 3px;
+  transition: transform 0.15s;
+}
+.wk-tree-project[data-expanded="true"] > .wk-tree-project-link .chev { transform: rotate(90deg); }
+.wk-tree-project > .wk-tree-project-link .folder-icon {
+  width: 12px; height: 12px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.wk-tree-project > .wk-tree-project-link .label-text {
+  flex: 1; min-width: 0;
+  word-break: break-word;
+}
+.wk-tree-project > .wk-tree-project-link .count {
+  color: var(--text-dim);
+  font-size: 10px;
+  margin-left: 4px;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.wk-tree-project.wk-current-project > .wk-tree-project-link { color: var(--text-main); }
+
+.wk-tree-articles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.18s;
+}
+.wk-tree-project[data-expanded="true"] > .wk-tree-articles { max-height: 4000px; }
+
+.wk-tree-article { margin: 0; list-style: none; }
+.wk-tree-article > a {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 3px var(--s-4) 3px calc(var(--s-3) + 18px);
+  text-decoration: none;
+  color: var(--text-dim);
+  font-size: 11px;
+  line-height: 1.4;
+  border-radius: 3px;
+  margin: 0 4px;
+  position: relative;
+  transition: background 0.1s, color 0.1s;
+}
+/* Auto-flatten articles (direct child of .wk-tree-projects with no project layer) have shallower indent */
+.wk-tree-projects > .wk-tree-article > a {
+  padding-left: calc(var(--s-3) + 14px);
+}
+.wk-tree-article > a:hover { color: var(--text-main); background: var(--accent-dim); }
+.wk-tree-article > a:hover .file-icon { color: var(--accent); }
+.wk-tree-article > a .file-icon {
   width: 12px;
   height: 12px;
   color: var(--text-dim);
   flex-shrink: 0;
   margin-top: 2px;
 }
-.wk-tree-tema > ul > li > a:hover {
+.wk-tree-article > a > span:not(.wk-gate-icon):not(.file-icon) {
+  flex: 1; min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.wk-tree-article .wk-gate-icon {
+  font-size: 10px;
+  opacity: 0.7;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.wk-tree-article.wk-current-article > a {
   color: var(--text-main);
   background: var(--accent-dim);
 }
-.wk-tree-tema > ul > li > a:hover .file-icon { color: var(--accent); }
-.wk-tree-tema > ul > li > a.current {
-  color: var(--text-main);
-  background: var(--accent-dim);
-  font-weight: 600;
-}
-.wk-tree-tema > ul > li > a.current .file-icon { color: var(--success); }
-.wk-tree-tema > ul > li > a.current::before {
+.wk-tree-article.wk-current-article > a .file-icon { color: var(--success); }
+.wk-tree-article.wk-current-article > a::before {
   content: "";
   position: absolute;
   left: 0;
@@ -421,12 +485,31 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   background: var(--accent);
 }
 
-/* Recents */
+/* Recents — agrupado por data (Wave 2.1) */
 .wk-recents { list-style: none; padding: 0; margin: 0; }
-.wk-recents li { margin: 0; }
-.wk-recents a {
+.wk-recents-day {
+  list-style: none;
+  margin: 0 0 var(--s-3) 0;
+  padding: 0;
+}
+.wk-recents-day:last-child { margin-bottom: 0; }
+.wk-recents-date {
   display: block;
-  padding: 5px var(--s-4) 7px;
+  font-size: 9.5px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 4px 0;
+  padding: 0 var(--s-4);
+}
+.wk-recents-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wk-recents-items li { margin: 0; }
+.wk-recents-items a {
   color: var(--text-dim);
   text-decoration: none;
   font-size: 11px;
@@ -435,22 +518,14 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   word-break: break-word;
   overflow-wrap: anywhere;
   white-space: normal;
-  /* Cap em 3 linhas pra não inflar a sidebar */
+  padding: 3px var(--s-4);
+  /* Cap em 2 linhas pra não inflar a sidebar */
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.wk-recents a:hover { color: var(--text-main); background: var(--accent-dim); }
-.wk-recents a .date {
-  display: block;
-  font-size: 9.5px;
-  color: var(--accent);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
+.wk-recents-items a:hover { color: var(--text-main); background: var(--accent-dim); }
 
 /* =========================================================
    MAIN — centered content
@@ -877,456 +952,54 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 
 
 /* === admin overrides === */
-/* =========================================================
-   ADMIN — minimal additions on top of _styles.css.tpl chassi
-   ========================================================= */
-
-/* === Lead under H1 === */
-.wk-content .wk-lead {
-  font-family: var(--font);
-  font-size: 14px;
+/* Admin locked shell: no catalog metadata is rendered before masterpass unlock. */
+.wk-tree-admin-shell {
+  list-style: none;
+  margin: 0 4px;
+  padding: 4px var(--s-4) 4px var(--s-3);
   color: var(--text-dim);
-  line-height: 1.6;
-  margin: 0 0 var(--s-6) 0;
+  font-size: 11px;
+  line-height: 1.45;
 }
 
-/* === Lock form === */
-.admin-lock-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-3);
-  max-width: 420px;
-  margin: var(--s-7) 0 var(--s-4) 0;
-}
-.admin-lock-form label {
-  font-family: var(--font);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-.admin-lock-form input[type="password"] {
-  font-family: var(--font);
-  font-size: 14px;
-  padding: 8px 12px;
-  background: var(--bg-sidebar);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: var(--text-main);
-  outline: none;
-  letter-spacing: 0.08em;
-}
-.admin-lock-form input[type="password"]:focus {
-  border-color: var(--accent);
-}
-.admin-lock-form button {
-  font-family: var(--font);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 8px 14px;
-  background: var(--accent-dim);
-  color: var(--text-main);
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  cursor: pointer;
-  align-self: flex-start;
-}
-.admin-lock-form button:hover {
-  background: var(--accent);
-  color: var(--accent-text);
-}
-.admin-lock-err {
-  color: var(--error);
-  font-size: 12px;
-  min-height: 16px;
-}
-.admin-lock-note {
-  font-family: var(--font);
-  font-size: 11px;
-  color: var(--text-dim);
-  max-width: 540px;
-  line-height: 1.6;
-  margin: var(--s-3) 0;
-}
-
-/* === Toolbar === */
-.admin-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: var(--s-5) 0 var(--s-3) 0;
-  padding-bottom: var(--s-3);
-  border-bottom: 1px solid var(--border);
-}
-.admin-count {
-  font-family: var(--font);
-  font-size: 11px;
-  color: var(--text-dim);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.admin-secondary {
-  font-family: var(--font);
-  font-size: 11px;
-  padding: 4px 10px;
-  background: transparent;
-  color: var(--text-dim);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  cursor: pointer;
-}
-.admin-secondary:hover {
-  color: var(--text-main);
-  border-color: var(--accent);
-}
-
-/* === Table === */
-.wk-admin-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font);
-  font-size: 12px;
-  margin: 0 0 var(--s-5) 0;
-}
-.wk-admin-table thead th {
-  text-align: left;
-  font-weight: 600;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-dim);
-  border-bottom: 1px solid var(--border);
-  padding: var(--s-2) var(--s-3);
-  background: var(--bg-sidebar);
-  position: sticky;
-  top: var(--topbar-h);
-  z-index: 10;
-}
-.wk-admin-table thead th.actions {
-  width: 200px;
-  text-align: right;
-}
-.wk-admin-table tbody tr {
-  border-bottom: 1px solid var(--border);
-}
-.wk-admin-table tbody tr:hover {
-  background: var(--accent-dim);
-}
-.wk-admin-table td {
-  padding: var(--s-3);
-  vertical-align: top;
-}
-.wk-admin-table .cell-slug {
-  font-weight: 600;
-  color: var(--text-main);
-  max-width: 320px;
-  word-break: break-all;
-}
-.wk-admin-table .cell-tema {
-  color: var(--text-dim);
-  font-size: 11px;
-}
-.wk-admin-table .cell-pass {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.wk-admin-table .cell-pass code {
-  font-family: var(--font);
-  font-size: 12px;
-  color: var(--text-main);
-  background: var(--bg-sidebar);
-  padding: 2px 6px;
-  border-radius: 3px;
-  letter-spacing: 0.05em;
-  min-width: 160px;
-  display: inline-block;
-}
-.wk-admin-table .pass-toggle,
-.wk-admin-table .pass-copy {
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  width: 24px;
-  height: 24px;
-  color: var(--text-dim);
-  cursor: pointer;
-  font-size: 11px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.wk-admin-table .pass-toggle:hover,
-.wk-admin-table .pass-copy:hover {
-  color: var(--text-main);
-  border-color: var(--accent);
-}
-.wk-admin-table .cell-actions {
-  text-align: right;
-  white-space: nowrap;
-}
-.wk-admin-table .cell-actions button {
-  font-family: var(--font);
-  font-size: 11px;
-  padding: 4px 8px;
-  background: transparent;
-  color: var(--text-dim);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  cursor: pointer;
-  margin-left: 4px;
-}
-.wk-admin-table .cell-actions button:hover {
-  color: var(--text-main);
-  border-color: var(--accent);
-}
-.wk-admin-table .cell-actions .act-release:hover {
-  color: var(--warning);
-  border-color: var(--warning);
-}
-.wk-admin-table .status-released {
-  font-size: 10px;
-  color: var(--warning);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 4px 8px;
-  border: 1px dashed var(--warning);
-  border-radius: 3px;
-  display: inline-block;
-}
-
-/* === Pending panel === */
-.admin-pending {
-  margin-top: var(--s-5);
-  padding: var(--s-3);
-  background: var(--bg-sidebar);
-  border: 1px solid var(--warning);
-  border-radius: 4px;
-}
-.admin-pending summary {
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--warning);
-  letter-spacing: 0.04em;
-}
-.admin-pending pre {
-  font-family: var(--font);
-  font-size: 11px;
-  color: var(--text-main);
-  background: var(--bg-main);
-  padding: var(--s-3);
-  border-radius: 3px;
-  overflow-x: auto;
-  margin: var(--s-3) 0;
-  line-height: 1.5;
-}
-.admin-pending-instr {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin: var(--s-3) 0 var(--s-2) 0;
-}
-
-
-/* ============================================================
-   WAVE 2 SIDEBAR TREE (BU/Project/Article)
-   Sizes match .wk-tree-tema legacy: 11.5px font, 4px padding,
-   12px chev, 14px folder, 10px count. Auto-flatten projects skip
-   the project-folder layer (article renders directly under BU).
-   Click on chevron toggles; click on label-text navigates.
-   ============================================================ */
-.wk-tree-bu { margin: 0; position: relative; list-style: none; }
-.wk-tree-bu > .wk-tree-bu-link {
+.wk-tree-admin-shell-label {
   display: flex;
   align-items: flex-start;
-  gap: 4px;
-  padding: 4px var(--s-4) 4px var(--s-3);
-  text-decoration: none;
+  gap: 6px;
   color: var(--text-main);
   font-size: 11.5px;
   font-weight: 500;
-  line-height: 1.4;
-  border-radius: 3px;
-  cursor: pointer;
-  user-select: none;
-  margin: 0 4px;
-  transition: background 0.1s;
 }
-.wk-tree-bu > .wk-tree-bu-link:hover { background: var(--accent-dim); }
-.wk-tree-bu > .wk-tree-bu-link .chev {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  color: var(--text-dim);
-  transition: transform 0.15s;
-  margin-top: 2px;
-  cursor: pointer;
-}
-.wk-tree-bu[data-expanded="true"] > .wk-tree-bu-link .chev { transform: rotate(90deg); }
-.wk-tree-bu > .wk-tree-bu-link .folder-icon {
-  display: inline-flex;
+
+.wk-tree-admin-shell-label .folder-icon {
   width: 14px;
   height: 14px;
   color: var(--accent);
   flex-shrink: 0;
-  margin-right: 2px;
   margin-top: 1px;
 }
-.wk-tree-bu[data-expanded="true"] > .wk-tree-bu-link .folder-icon { color: var(--success); }
-.wk-tree-bu > .wk-tree-bu-link .label-text {
-  flex: 1;
-  min-width: 0;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
-.wk-tree-bu > .wk-tree-bu-link .count {
-  color: var(--text-dim);
-  font-size: 10px;
-  margin-left: 4px;
-  margin-top: 2px;
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  flex-shrink: 0;
-}
-.wk-tree-bu.wk-current-bu > .wk-tree-bu-link { background: var(--accent-dim); }
-.wk-tree-bu-empty > .wk-tree-bu-link .folder-icon { opacity: 0.45; }
-.wk-tree-bu-empty > .wk-tree-bu-link .chev { visibility: hidden; }
 
-.wk-tree-projects {
+.wk-tree-admin-shell-note,
+.wk-recents-admin-shell {
+  margin: 4px 0 0;
+  color: var(--text-dim);
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+
+.wk-recents-admin-shell {
   list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.18s;
-  position: relative;
-}
-.wk-tree-bu[data-expanded="true"] > .wk-tree-projects { max-height: 4000px; }
-.wk-tree-projects::before {
-  content: "";
-  position: absolute;
-  left: calc(var(--s-3) + 6px);
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
+  padding: 0 var(--s-4);
 }
 
-.wk-tree-project { margin: 0; position: relative; list-style: none; }
-.wk-tree-project > .wk-tree-project-link {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 3px var(--s-4) 3px calc(var(--s-3) + 14px);
-  text-decoration: none;
-  color: var(--text-dim);
-  font-size: 11px;
-  line-height: 1.4;
-  border-radius: 3px;
-  margin: 0 4px;
-  cursor: pointer;
-  user-select: none;
+.wk-search-btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
-.wk-tree-project > .wk-tree-project-link:hover { background: var(--accent-dim); color: var(--text-main); }
-.wk-tree-project > .wk-tree-project-link .chev {
-  width: 10px; height: 10px;
-  color: var(--text-dim);
-  flex-shrink: 0;
-  margin-top: 3px;
-  transition: transform 0.15s;
-}
-.wk-tree-project[data-expanded="true"] > .wk-tree-project-link .chev { transform: rotate(90deg); }
-.wk-tree-project > .wk-tree-project-link .folder-icon {
-  width: 12px; height: 12px;
-  color: var(--text-dim);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.wk-tree-project > .wk-tree-project-link .label-text {
-  flex: 1; min-width: 0;
-  word-break: break-word;
-}
-.wk-tree-project > .wk-tree-project-link .count {
-  color: var(--text-dim);
-  font-size: 10px;
-  margin-left: 4px;
-  margin-top: 2px;
-  font-variant-numeric: tabular-nums;
-  flex-shrink: 0;
-}
-.wk-tree-project.wk-current-project > .wk-tree-project-link { color: var(--text-main); }
 
-.wk-tree-articles {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.18s;
-}
-.wk-tree-project[data-expanded="true"] > .wk-tree-articles { max-height: 4000px; }
-
-.wk-tree-article { margin: 0; list-style: none; }
-.wk-tree-article > a {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 3px var(--s-4) 3px calc(var(--s-3) + 18px);
-  text-decoration: none;
-  color: var(--text-dim);
-  font-size: 11px;
-  line-height: 1.4;
-  border-radius: 3px;
-  margin: 0 4px;
-  position: relative;
-  transition: background 0.1s, color 0.1s;
-}
-/* Auto-flatten articles (direct child of .wk-tree-projects with no project layer) have shallower indent */
-.wk-tree-projects > .wk-tree-article > a {
-  padding-left: calc(var(--s-3) + 14px);
-}
-.wk-tree-article > a:hover { color: var(--text-main); background: var(--accent-dim); }
-.wk-tree-article > a:hover .file-icon { color: var(--accent); }
-.wk-tree-article > a .file-icon {
-  width: 12px;
-  height: 12px;
-  color: var(--text-dim);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.wk-tree-article > a > span:not(.wk-gate-icon):not(.file-icon) {
-  flex: 1; min-width: 0;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
-.wk-tree-article .wk-gate-icon {
-  font-size: 10px;
-  opacity: 0.7;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.wk-tree-article.wk-current-article > a {
-  color: var(--text-main);
-  background: var(--accent-dim);
-}
-.wk-tree-article.wk-current-article > a .file-icon { color: var(--success); }
-.wk-tree-article.wk-current-article > a::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-}
 </style>
 </head>
-<body>
+<body data-sidebar="collapsed">
 
 <header class="wk-topbar">
   <button class="wk-burger" id="wk-burger" aria-label="Toggle sidebar" title="Toggle sidebar (⌘\)">☰</button>
@@ -1352,7 +1025,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 
 
 <div class="wk-shell">
-  <aside class="wk-sidebar" id="wk-sidebar">
+<aside class="wk-sidebar" id="wk-sidebar">
   <!-- Collapsed rail (icons only) -->
   <div class="wk-sidebar-rail">
     <div class="rail-icon" title="wikia">w</div>
@@ -1361,90 +1034,702 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <!-- Tree -->
   <div class="wk-section">
     <h4>Knowledge</h4>
-    <ul class="wk-tree">
-      <nav class="wk-sidebar-nav"><ul class="wk-tree">
-<li class="wk-tree-bu" data-bu="staging" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/staging/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Staging</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="pricing-strategy-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Pricing Strategy Playbook</span></a></li></ul></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="vita"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/vita/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Vitascience</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="allin"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="aleyemma"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/aleyemma/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Aleyemma</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu" data-bu="gobbi" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</span><span class="wk-gate-icon" title="locked">🔒</span></a></li><li class="wk-tree-article" data-slug="unbloq-field-manual-como-funciona-hoje"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>unbloq — Field Manual: Como Funciona Hoje</span><span class="wk-gate-icon" title="locked">🔒</span></a></li></ul></li>
-</ul></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="vita"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/vita/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Vitascience</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="allin"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="aleyemma"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/aleyemma/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Aleyemma</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu" data-bu="gobbi" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</span><span class="wk-gate-icon" title="locked">🔒</span></a></li><li class="wk-tree-article" data-slug="unbloq-field-manual-como-funciona-hoje"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>unbloq — Field Manual: Como Funciona Hoje</span><span class="wk-gate-icon" title="locked">🔒</span></a></li></ul></li>
-</ul></li>
-    </ul>
+    <nav class="wk-sidebar-nav">
+      <ul class="wk-tree">
+        <li class="wk-tree-admin-shell" data-admin-shell="locked"><div class="wk-tree-admin-shell-label"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Admin bloqueado</span></div><p class="wk-tree-admin-shell-note">Desbloqueie com masterpass para carregar artigos e acoes.</p></li>
+      </ul>
+    </nav>
   </div>
 
   <!-- Recents -->
   <div class="wk-section">
     <h4>Recentes</h4>
     <ul class="wk-recents">
-      
+      <li class="wk-recents-admin-shell">Nenhum catalogo e carregado antes do unlock.</li>
     </ul>
   </div>
 </aside>
 
+  <main class="wk-main admin-main">
+    <div class="wk-content">
+      <div id="admin-state" data-state="locked">
 
-  <main class="wk-main">
-    <div class="wk-content wk-article">
-
-      <nav class="wk-breadcrumb" aria-label="Breadcrumb">
-        <a href="https://felipeggv.github.io/wikia/gitpages/">wikia</a><span class="sep">›</span>
-        <span class="current">admin</span>
-      </nav>
-
-      <header class="wk-article-header">
-        <div class="wk-eyebrow">admin · masterpass</div>
-        <h1>Painel admin</h1>
-        <p class="wk-lead">Entre com a masterpass para gerenciar artigos do wikia.</p>
-      </header>
-
-      <!-- LOCKED STATE -->
-      <section id="admin-locked" data-state="locked">
-        <form id="admin-lock-form" class="admin-lock-form">
-          <label for="masterpass">Masterpass</label>
-          <input type="password" id="masterpass" autocomplete="off" autofocus spellcheck="false" placeholder="••••••••••••">
-          <button type="submit">Destravar painel</button>
-          <div class="admin-lock-err" id="admin-lock-err" role="alert"></div>
+    <!-- LOCKED STATE -->
+    <section class="admin-lock">
+      <div class="admin-lock-card">
+        <div class="admin-lock-badge">admin · masterpass</div>
+        <h1 class="admin-lock-title">Acesso ao painel admin</h1>
+        <p class="admin-lock-lead">Insira a masterpass para destravar lista de artigos, senhas e ações administrativas. A masterpass nunca persiste no browser.</p>
+        <form id="admin-lock-form">
+          <label for="masterpass">masterpass</label>
+          <input type="password" id="masterpass" autocomplete="off" autofocus spellcheck="false">
+          <button type="submit" id="unlock">› Destravar Admin</button>
+          <div class="admin-lock-err" id="admin-lock-err"></div>
         </form>
-        <p class="admin-lock-note">AES-256-GCM · PBKDF2-SHA256 100k. A masterpass nunca persiste — fica só em memória do browser durante a sessão.</p>
-      </section>
-
-      <!-- UNLOCKED STATE -->
-      <section id="admin-unlocked" data-state="unlocked" hidden>
-        <div class="admin-toolbar">
-          <span class="admin-count" id="admin-count">— artigos</span>
-          <button type="button" id="admin-lock-btn" class="admin-secondary">Travar painel</button>
+        <div class="admin-lock-footnote">
+          <div class="prompt">wikia · admin · aes-256-gcm · pbkdf2 100k</div>
+          A masterpass derruba o gate de TODOS os artigos via vault decifrado in-memory.
         </div>
+      </div>
+    </section>
 
-        <table class="wk-admin-table">
-          <thead>
-            <tr>
-              <th scope="col">Slug</th>
-              <th scope="col">Tema</th>
-              <th scope="col">Senha</th>
-              <th scope="col" class="actions">Ações</th>
-            </tr>
-          </thead>
-          <tbody id="admin-rows">
-            <!-- rows injected by JS -->
-          </tbody>
-        </table>
+    <!-- UNLOCKED STATE -->
+    <section class="admin-unlocked">
+      <div class="admin-grid">
+        <aside class="admin-list">
+          <div class="admin-list-header">
+            <span class="admin-list-title">Artigos</span>
+            <span class="admin-list-count" id="admin-list-count">—</span>
+          </div>
+          <ul id="admin-articles"></ul>
+        </aside>
+        <section class="admin-actions" id="admin-actions">
+          <div class="admin-actions-empty">selecione um artigo</div>
+        </section>
+      </div>
+    </section>
 
-        <details class="admin-pending" id="admin-pending-panel" hidden>
-          <summary>Mudanças pendentes (<span id="admin-pending-count">0</span>)</summary>
-          <pre id="admin-pending-json"></pre>
-          <p class="admin-pending-instr">Após confirmar, rode no terminal:</p>
-          <pre><code id="admin-pending-cmd">bash ~/.claude/skills/artifacts-publisher/scripts/publish.sh --rebuild-all --apply-pending --masterpass &lt;sua-masterpass&gt; --repo felipeggv/wikia</code></pre>
-          <button type="button" id="admin-pending-clear" class="admin-secondary">Descartar mudanças locais</button>
-        </details>
-      </section>
-
+      </div>
     </div>
   </main>
 </div>
+
+<div id="admin-toast" class="admin-toast" role="status" aria-live="polite"></div>
+
+<script>
+// admin-decrypt.js - Browser WebCrypto decryptor for the wikia password vault.
+// Mirrors scripts/vault.mjs: AES-256-GCM, PBKDF2-SHA256, 100k iterations.
+//
+// Packed vault format, base64:
+//   <salt(16)><iv(12)><tag(16)><ciphertext>
+//
+// WebCrypto AES-GCM expects ciphertext with the auth tag appended, so this
+// module reassembles ciphertext + tag before decrypting.
+
+(function (root) {
+  function b64ToBytes(b64) {
+    const bin = atob(b64);
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  async function decryptVault(b64, masterpass) {
+    const buf = b64ToBytes(b64);
+    const salt = buf.subarray(0, 16);
+    const iv = buf.subarray(16, 16 + 12);
+    const tag = buf.subarray(16 + 12, 16 + 12 + 16);
+    const ct = buf.subarray(16 + 12 + 16);
+    const ctWithTag = new Uint8Array(ct.length + tag.length);
+    ctWithTag.set(ct, 0);
+    ctWithTag.set(tag, ct.length);
+
+    const baseKey = await crypto.subtle.importKey(
+      'raw',
+      new TextEncoder().encode(masterpass),
+      'PBKDF2',
+      false,
+      ['deriveKey']
+    );
+    const key = await crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
+      baseKey,
+      { name: 'AES-GCM', length: 256 },
+      false,
+      ['decrypt']
+    );
+    const plain = await crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv: iv, tagLength: 128 },
+      key,
+      ctWithTag
+    );
+    return JSON.parse(new TextDecoder().decode(plain));
+  }
+
+  const api = { decryptVault: decryptVault };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = api;
+  } else {
+    root.WikiaVault = api;
+  }
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  // ---------- State ----------
+  var WIKI_BASE = document.documentElement.dataset.wikiBase || '';
+  var vault = null;          // password vault only; never defines article universe
+  var adminMetadata = null;  // decrypted _admin.enc payload
+  var adminArticles = [];    // normalized article records from encrypted admin metadata
+  var released = [];          // read-only public release ledger used for status display
+  var pending = {};           // _pending-changes.json intent queue only
+  var selectedKey = null;
+  var selectedSlug = null;
+  var revealed = {};          // { articleKey: true }
+  var vaultWarning = '';
+
+  // ---------- DOM ----------
+  var stateRoot = document.getElementById('admin-state');
+  var form = document.getElementById('admin-lock-form');
+  var input = document.getElementById('masterpass');
+  var err = document.getElementById('admin-lock-err');
+  var listEl = document.getElementById('admin-articles');
+  var countEl = document.getElementById('admin-list-count');
+  var actionsEl = document.getElementById('admin-actions');
+  var toastEl = document.getElementById('admin-toast');
+
+  // ---------- Helpers ----------
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function toast(msg, kind) {
+    toastEl.textContent = msg;
+    toastEl.dataset.kind = kind || 'info';
+    toastEl.classList.add('show');
+    setTimeout(function () { toastEl.classList.remove('show'); }, 2400);
+  }
+
+  function enableGlobalSearchAfterUnlock() {
+    var searchBtn = document.getElementById('wk-search-btn');
+    if (!searchBtn) return;
+    if (searchBtn.removeAttribute) searchBtn.removeAttribute('aria-disabled');
+    if (searchBtn.setAttribute) searchBtn.setAttribute('title', 'Buscar (⌘K)');
+  }
+
+  // ---------- Network ----------
+  async function fetchText(url) {
+    var r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error('fetch failed: ' + url + ' (' + r.status + ')');
+    return r.text();
+  }
+
+  async function fetchJsonOrDefault(url, fallback) {
+    try {
+      var r = await fetch(url, { cache: 'no-store' });
+      if (!r.ok) return fallback;
+      var txt = (await r.text()).trim();
+      if (!txt) return fallback;
+      return JSON.parse(txt);
+    } catch (e) { return fallback; }
+  }
+
+  // ---------- Admin metadata ----------
+  function compactUnique(items) {
+    var out = [];
+    var seen = {};
+    for (var i = 0; i < items.length; i++) {
+      var value = String(items[i] == null ? '' : items[i]).trim().replace(/^\/+|\/+$/g, '');
+      if (!value || seen[value]) continue;
+      seen[value] = true;
+      out.push(value);
+    }
+    return out;
+  }
+
+  function keyFromParts(article) {
+    var bu = String(article.bu || '').trim();
+    var project = String(article.project || article.tema || '').trim();
+    var slug = String(article.slug || '').trim();
+    return (bu && project && slug) ? [bu, project, slug].join('/') : slug;
+  }
+
+  function normalizeAdminArticles(payload) {
+    var source = [];
+    if (Array.isArray(payload)) source = payload;
+    else if (payload && Array.isArray(payload.articles)) source = payload.articles;
+    else if (payload && Array.isArray(payload.records)) source = payload.records;
+
+    var normalized = [];
+    for (var i = 0; i < source.length; i++) {
+      var item = source[i] || {};
+      var slug = String(item.slug || '').trim();
+      if (!slug) continue;
+      var article = Object.assign({}, item);
+      article.bu = String(article.bu || '').trim();
+      article.project = String(article.project || article.tema || '').trim();
+      article.slug = slug;
+      article.output_url = String(article.output_url || article.url || '').trim();
+      article.key = String(article.key || article.article_key || keyFromParts(article)).trim();
+      article.title = String(
+        article.title
+        || (article.title_visible && article.title_public ? article.title_public : '')
+        || slug.replace(/-/g, ' ')
+      );
+      normalized.push(article);
+    }
+    return normalized;
+  }
+
+  function articleKey(article) {
+    return String(article && (article.key || keyFromParts(article)) || '');
+  }
+
+  function articleByKey(key) {
+    for (var i = 0; i < adminArticles.length; i++) {
+      if (articleKey(adminArticles[i]) === key) return adminArticles[i];
+    }
+    return null;
+  }
+
+  function sortedAdminArticles() {
+    return adminArticles.slice().sort(function (a, b) {
+      var aa = [a.bu || '', a.project || '', a.slug || ''].join('/');
+      var bb = [b.bu || '', b.project || '', b.slug || ''].join('/');
+      return aa.localeCompare(bb);
+    });
+  }
+
+  function vaultCandidates(article) {
+    return compactUnique([
+      article && article.slug,
+      article && article.key,
+      article && keyFromParts(article),
+      article && article.output_url,
+      article && article.article_id
+    ]);
+  }
+
+  function getVaultEntry(article) {
+    if (!vault || typeof vault !== 'object') return null;
+    var candidates = vaultCandidates(article);
+    for (var i = 0; i < candidates.length; i++) {
+      if (Object.prototype.hasOwnProperty.call(vault, candidates[i])) {
+        return { key: candidates[i], value: vault[candidates[i]] };
+      }
+    }
+    return null;
+  }
+
+  function vaultKeyForArticle(article) {
+    var found = getVaultEntry(article);
+    return found ? found.key : String(article && article.slug || '');
+  }
+
+  function passwordInfoForArticle(article) {
+    var found = getVaultEntry(article);
+    if (!found) return { exists: false, password: '' };
+    var entry = found.value;
+    var password = (entry && typeof entry === 'object' && entry.password != null)
+      ? entry.password
+      : entry;
+    return { exists: password != null && password !== '', password: String(password), key: found.key, entry: entry };
+  }
+
+  function metaTextForArticle(article) {
+    var parts = compactUnique([article.bu, article.project || article.tema, article.scope]);
+    return parts.length ? parts.join(' / ') : '—';
+  }
+
+  function releasedTokenFromItem(item) {
+    if (typeof item === 'string') return item.replace(/^\/+|\/+$/g, '');
+    if (!item || typeof item !== 'object') return '';
+    if (item.bu && item.project && item.slug) return [item.bu, item.project, item.slug].join('/');
+    if (item.url) return String(item.url).replace(/^\/+|\/+$/g, '');
+    if (item.slug) return String(item.slug);
+    return '';
+  }
+
+  function isArticleReleased(article) {
+    if (String(article.release_status || '') === 'released') return true;
+    var tokens = vaultCandidates(article);
+    for (var i = 0; i < released.length; i++) {
+      if (tokens.indexOf(releasedTokenFromItem(released[i])) >= 0) return true;
+    }
+    return false;
+  }
+
+  function releaseIntentToken(article) {
+    return String(article.slug || articleKey(article));
+  }
+
+  function scopedArticleRef(article) {
+    return {
+      key: articleKey(article),
+      article_id: String(article.article_id || ''),
+      bu: String(article.bu || ''),
+      project: String(article.project || article.tema || ''),
+      slug: String(article.slug || ''),
+      output_url: String(article.output_url || ''),
+      current_scope: String(article.scope || 'article'),
+      release_status: String(article.release_status || 'unreleased')
+    };
+  }
+
+  function ensurePendingQueue() {
+    var base = (pending && typeof pending === 'object' && !Array.isArray(pending)) ? pending : {};
+    pending = Object.assign({}, base);
+    pending.schema_version = pending.schema_version || 1;
+    pending.release = Array.isArray(pending.release) ? pending.release : [];
+    pending.rotate = Array.isArray(pending.rotate) ? pending.rotate : [];
+    pending.remove = Array.isArray(pending.remove) ? pending.remove : [];
+    pending.scope = Array.isArray(pending.scope) ? pending.scope : [];
+    pending.intents = Array.isArray(pending.intents) ? pending.intents : [];
+    return pending;
+  }
+
+  function intentArticleKey(intent) {
+    if (typeof intent === 'string') return intent;
+    if (!intent || typeof intent !== 'object') return '';
+    if (intent.key) return String(intent.key);
+    if (intent.bu && intent.project && intent.slug) return [intent.bu, intent.project, intent.slug].join('/');
+    return String(intent.slug || '');
+  }
+
+  function removeQueuedArticleIntent(bucket, article) {
+    var queue = ensurePendingQueue();
+    var targetKey = articleKey(article);
+    var targetSlug = releaseIntentToken(article);
+    queue[bucket] = (queue[bucket] || []).filter(function (intent) {
+      var key = intentArticleKey(intent);
+      return key !== targetKey && key !== targetSlug;
+    });
+  }
+
+  function rebuildIntentIndex() {
+    var queue = ensurePendingQueue();
+    var merged = [];
+    ['release', 'rotate', 'remove', 'scope'].forEach(function (bucket) {
+      (queue[bucket] || []).forEach(function (intent) {
+        if (intent && typeof intent === 'object') merged.push(Object.assign({ action: bucket }, intent));
+        else if (intent) merged.push({ action: bucket, slug: String(intent) });
+      });
+    });
+    queue.intents = merged;
+  }
+
+  function queueScopedIntent(action, article, extra) {
+    var queue = ensurePendingQueue();
+    var ref = scopedArticleRef(article);
+    var intent = Object.assign({}, ref, extra || {}, {
+      queued_at: new Date().toISOString()
+    });
+
+    if (action === 'remove') {
+      removeQueuedArticleIntent('release', article);
+      removeQueuedArticleIntent('rotate', article);
+      removeQueuedArticleIntent('scope', article);
+    } else if (action === 'release') {
+      removeQueuedArticleIntent('remove', article);
+    } else if (action === 'scope') {
+      removeQueuedArticleIntent('scope', article);
+    } else if (action === 'rotate') {
+      removeQueuedArticleIntent('rotate', article);
+    }
+
+    ensurePendingQueue()[action].push(intent);
+    rebuildIntentIndex();
+    return intent;
+  }
+
+  function queuedActionsForArticle(article) {
+    var queue = ensurePendingQueue();
+    var targetKey = articleKey(article);
+    var targetSlug = releaseIntentToken(article);
+    var labels = [];
+    ['release', 'rotate', 'remove', 'scope'].forEach(function (bucket) {
+      (queue[bucket] || []).forEach(function (intent) {
+        var key = intentArticleKey(intent);
+        if (key === targetKey || key === targetSlug) labels.push(bucket);
+      });
+    });
+    return labels;
+  }
+
+  // ---------- Unlock flow ----------
+  async function unlock(masterpass) {
+    err.textContent = '';
+    if (!masterpass) { err.textContent = 'masterpass vazia'; return false; }
+    try {
+      var adminB64 = (await fetchText(WIKI_BASE + '/_admin.enc')).trim();
+      adminMetadata = await window.WikiaVault.decryptVault(adminB64, masterpass);
+      adminArticles = normalizeAdminArticles(adminMetadata);
+      if (!adminArticles.length) throw new Error('_admin.enc sem artigos');
+
+      try {
+        var vaultB64 = (await fetchText(WIKI_BASE + '/_passwords.enc')).trim();
+        var plain = await window.WikiaVault.decryptVault(vaultB64, masterpass);
+        vault = (plain && typeof plain === 'object') ? plain : {};
+        vaultWarning = '';
+      } catch (vaultErr) {
+        vault = {};
+        vaultWarning = vaultErr.message || 'vault indisponível';
+      }
+      released = await fetchJsonOrDefault(WIKI_BASE + '/_released.json', []);
+      pending = await fetchJsonOrDefault(WIKI_BASE + '/_pending-changes.json', {});
+      stateRoot.dataset.state = 'unlocked';
+      enableGlobalSearchAfterUnlock();
+      renderList();
+      return true;
+    } catch (e) {
+      err.textContent = '✗ masterpass incorreta ou metadata admin inválida';
+      vault = null; adminMetadata = null; adminArticles = [];
+      return false;
+    }
+  }
+
+  // ---------- List ----------
+  function renderList() {
+    var articles = sortedAdminArticles();
+    countEl.textContent = articles.length + (articles.length === 1 ? ' artigo' : ' artigos');
+    if (!articles.length) {
+      listEl.innerHTML = '<li class="admin-empty">metadata admin vazia</li>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < articles.length; i++) {
+      var article = articles[i];
+      var key = articleKey(article);
+      var slug = article.slug;
+      var metaText = metaTextForArticle(article);
+      var pwdInfo = passwordInfoForArticle(article);
+      var isReleased = isArticleReleased(article);
+      var isCurrent = selectedKey === key;
+      var isRevealed = !!revealed[key];
+      var queuedActions = queuedActionsForArticle(article);
+      var pwdMasked = !pwdInfo.exists ? 'sem senha no vault' : (isRevealed ? escapeHtml(pwdInfo.password) : '••••••••');
+      var releasedBadge = isReleased ? '<span class="admin-row-released">liberado</span>' : '';
+      var pendingBadge = queuedActions.length ? '<span class="admin-row-released">pendente: ' + escapeHtml(queuedActions.join(', ')) + '</span>' : '';
+      var title = article.title || slug;
+      var copyDisabled = pwdInfo.exists ? '' : ' disabled';
+
+      html += '<li class="admin-row ' + (isCurrent ? 'current' : '') + '" data-key="' + escapeHtml(key) + '" data-slug="' + escapeHtml(slug) + '">'
+        + '  <div class="admin-row-main">'
+        + '    <div class="admin-row-slug">' + escapeHtml(title) + releasedBadge + pendingBadge + '</div>'
+        + '    <div class="admin-row-tema">' + escapeHtml(metaText) + '</div>'
+        + '  </div>'
+        + '  <div class="admin-row-pwd">'
+        + '    <code class="pwd" data-key="' + escapeHtml(key) + '">' + pwdMasked + '</code>'
+        + '    <button class="iconbtn" data-action="toggle" data-key="' + escapeHtml(key) + '" title="Mostrar/ocultar senha"' + copyDisabled + '>'
+        + '      ' + (isRevealed ? '🙈' : '👁')
+        + '    </button>'
+        + '    <button class="iconbtn" data-action="copy" data-key="' + escapeHtml(key) + '" title="Copiar senha"' + copyDisabled + '>⎘</button>'
+        + '  </div>'
+        + '  <div class="admin-row-actions">'
+        + '    <button class="btn" data-action="release" data-key="' + escapeHtml(key) + '" ' + (isReleased ? 'disabled' : '') + '>Liberar</button>'
+        + '    <button class="btn" data-action="rotate" data-key="' + escapeHtml(key) + '">Rotacionar senha</button>'
+        + '    <button class="btn btn-secondary" data-action="remove" data-key="' + escapeHtml(key) + '">Remover</button>'
+        + '  </div>'
+        + '</li>';
+    }
+    if (vaultWarning) {
+      html += '<li class="admin-empty">senhas indisponíveis: ' + escapeHtml(vaultWarning) + '</li>';
+    }
+    listEl.innerHTML = html;
+  }
+
+  function selectArticle(key) {
+    var article = articleByKey(key);
+    if (!article) { toast('artigo não encontrado no metadata admin', 'error'); return; }
+    selectedKey = key;
+    selectedSlug = article.slug;
+    renderList();
+    var pwdInfo = passwordInfoForArticle(article);
+    var pwd = pwdInfo.exists ? pwdInfo.password : 'sem senha vinculada';
+    var metaText = metaTextForArticle(article);
+    var title = article.title || article.slug;
+    actionsEl.innerHTML = ''
+      + '<div class="admin-actions-header">'
+      + '  <div class="admin-actions-slug">' + escapeHtml(title) + '</div>'
+      + '  <div class="admin-actions-tema">' + escapeHtml(metaText) + '</div>'
+      + '</div>'
+      + '<div class="admin-actions-pwd"><code>' + escapeHtml(pwd) + '</code></div>'
+      + '<p class="admin-actions-hint">A lista vem de _admin.enc; _passwords.enc só anexa senhas quando houver correspondência.</p>'
+      + '<div class="admin-actions-buttons">'
+      + '  <button class="btn" data-action="release" data-key="' + escapeHtml(key) + '" ' + (isArticleReleased(article) ? 'disabled' : '') + '>Liberar</button>'
+      + '  <button class="btn" data-action="rotate" data-key="' + escapeHtml(key) + '">Rotacionar senha</button>'
+      + '  <button class="btn btn-secondary" data-action="remove" data-key="' + escapeHtml(key) + '">Remover</button>'
+      + '</div>'
+      + '<div class="admin-actions-buttons">'
+      + '  <button class="btn btn-secondary" data-action="scope-article" data-key="' + escapeHtml(key) + '">Escopo artigo</button>'
+      + '  <button class="btn btn-secondary" data-action="scope-project" data-key="' + escapeHtml(key) + '">Escopo projeto</button>'
+      + '  <button class="btn btn-secondary" data-action="scope-bu" data-key="' + escapeHtml(key) + '">Escopo BU</button>'
+      + '</div>';
+  }
+
+  // ---------- Mutations ----------
+  function togglePasswordVisibility(key) {
+    revealed[key] = !revealed[key];
+    renderList();
+  }
+
+  async function copyPassword(key) {
+    var article = articleByKey(key);
+    var pwdInfo = article ? passwordInfoForArticle(article) : { exists: false };
+    if (!pwdInfo.exists) { toast('sem senha no vault', 'warning'); return; }
+    try {
+      await navigator.clipboard.writeText(String(pwdInfo.password));
+      toast('senha de ' + article.slug + ' copiada', 'success');
+    } catch (e) {
+      toast('clipboard bloqueada — selecione manualmente', 'warning');
+    }
+  }
+
+  async function releaseArticle(key) {
+    var article = articleByKey(key);
+    if (!article) { toast('artigo não encontrado no metadata admin', 'error'); return; }
+    if (isArticleReleased(article)) { toast('já liberado', 'info'); return; }
+    if (!confirm('Enfileirar liberação de "' + article.slug + '"? O artigo só muda no próximo apply/rebuild.')) return;
+    queueScopedIntent('release', article, { target_release_status: 'released' });
+    await renderPendingPanel('release', article);
+    renderList();
+  }
+
+  async function rotatePassword(key) {
+    var article = articleByKey(key);
+    if (!article) { toast('artigo não encontrado no metadata admin', 'error'); return; }
+    if (!confirm('Enfileirar rotação de senha de "' + article.slug + '"? A senha nova será gerada pelo apply/rebuild, não pelo browser.')) return;
+    queueScopedIntent('rotate', article, { vault_key: vaultKeyForArticle(article) });
+    selectedKey = articleKey(article);
+    selectedSlug = article.slug;
+    await renderPendingPanel('rotate', article);
+    renderList();
+  }
+
+  async function removeArticle(key) {
+    var article = articleByKey(key);
+    if (!article) { toast('artigo não encontrado no metadata admin', 'error'); return; }
+    if (!confirm('Enfileirar remoção de "' + article.slug + '"? Nada será apagado no browser.')) return;
+    queueScopedIntent('remove', article, { target_release_status: 'removed' });
+    selectedKey = articleKey(article);
+    selectedSlug = article.slug;
+    await renderPendingPanel('remove', article);
+    renderList();
+  }
+
+  async function changeArticleScope(key, targetScope) {
+    var article = articleByKey(key);
+    if (!article) { toast('artigo não encontrado no metadata admin', 'error'); return; }
+    var allowed = { article: true, project: true, bu: true };
+    if (!allowed[targetScope]) { toast('escopo inválido', 'error'); return; }
+    if (String(article.scope || 'article') === targetScope) {
+      toast('artigo já está nesse escopo', 'info');
+      return;
+    }
+    if (!confirm('Enfileirar mudança de escopo de "' + article.slug + '" para "' + targetScope + '"?')) return;
+    queueScopedIntent('scope', article, {
+      from_scope: String(article.scope || 'article'),
+      to_scope: targetScope
+    });
+    selectedKey = articleKey(article);
+    selectedSlug = article.slug;
+    await renderPendingPanel('scope-' + targetScope, article);
+    renderList();
+  }
+
+  // ---------- Pending panel (copy-paste commit) ----------
+  async function renderPendingPanel(kind, article) {
+    ensurePendingQueue();
+    var pendingJson = JSON.stringify(pending, null, 2);
+    var slug = article ? article.slug : '';
+
+    var msg = '';
+    if (kind === 'release') msg = 'admin: release ' + (slug || '');
+    else if (kind === 'rotate') msg = 'admin: rotate ' + (slug || '');
+    else if (kind === 'remove') msg = 'admin: remove ' + (slug || '');
+    else if (String(kind || '').indexOf('scope-') === 0) msg = 'admin: ' + kind + ' ' + (slug || '');
+    else msg = 'admin: pending changes';
+
+    var script = ''
+      + 'cd /tmp/wikia-clone && \\\n'
+      + "cat > docs/gitpages/_pending-changes.json <<'WIKIA_PENDING_JSON'\n"
+      + pendingJson + "\n"
+      + "WIKIA_PENDING_JSON\n"
+      + "git add docs/gitpages/_pending-changes.json && \\\n"
+      + "git commit -m '" + msg + "' && git push";
+
+    actionsEl.innerHTML = ''
+      + '<div class="admin-actions-header">'
+      + '  <div class="admin-actions-slug">' + escapeHtml(slug || 'pending') + '</div>'
+      + '  <div class="admin-actions-tema">' + escapeHtml(msg) + '</div>'
+      + '</div>'
+      + '<details open><summary>_pending-changes.json</summary><textarea readonly>' + escapeHtml(pendingJson) + '</textarea></details>'
+      + '<details open><summary>commit script (copy + paste)</summary><textarea readonly id="admin-commit-script">' + escapeHtml(script) + '</textarea></details>'
+      + '<div class="admin-actions-buttons">'
+      + '  <button class="btn" data-action="copy-commit-script">Copy commit script</button>'
+      + '</div>'
+      + '<p class="admin-actions-hint">Modo seguro: o browser só grava intenção pendente. O apply/rebuild decide a mutação real.</p>';
+  }
+
+  // ---------- Event wiring ----------
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var ok = await unlock(input.value);
+    if (!ok) { input.value = ''; input.focus(); }
+  });
+
+  listEl.addEventListener('click', function (e) {
+    var row = e.target.closest('.admin-row');
+    var btn = e.target.closest('[data-action]');
+    if (btn) {
+      var action = btn.dataset.action;
+      var key = btn.dataset.key || btn.dataset.slug;
+      if (action === 'toggle') return togglePasswordVisibility(key);
+      if (action === 'copy') return copyPassword(key);
+      if (action === 'release') return releaseArticle(key);
+      if (action === 'rotate') return rotatePassword(key);
+      if (action === 'remove') return removeArticle(key);
+    }
+    if (row && row.dataset.key) selectArticle(row.dataset.key);
+  });
+
+  actionsEl.addEventListener('click', async function (e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.dataset.action;
+    var key = btn.dataset.key || selectedKey;
+    if (action === 'release') return releaseArticle(key);
+    if (action === 'rotate') return rotatePassword(key);
+    if (action === 'remove') return removeArticle(key);
+    if (action === 'scope-article') return changeArticleScope(key, 'article');
+    if (action === 'scope-project') return changeArticleScope(key, 'project');
+    if (action === 'scope-bu') return changeArticleScope(key, 'bu');
+    if (action === 'copy-commit-script') {
+      var ta = document.getElementById('admin-commit-script');
+      if (!ta) return;
+      try {
+        await navigator.clipboard.writeText(ta.value);
+        toast('commit script copiado', 'success');
+      } catch (err) {
+        ta.select();
+        toast('selecionado — Cmd+C', 'info');
+      }
+    }
+  });
+
+  // Expose for debugging / Playwright assertions
+  window.__admin = {
+    unlock: unlock,
+    normalizeAdminArticles: normalizeAdminArticles,
+    renderList: renderList,
+    togglePasswordVisibility: togglePasswordVisibility,
+    copyPassword: copyPassword,
+    releaseArticle: releaseArticle,
+    rotatePassword: rotatePassword,
+    removeArticle: removeArticle,
+    changeArticleScope: changeArticleScope,
+    queueScopedIntent: queueScopedIntent,
+    state: function () {
+      return {
+        vault: vault,
+        adminMetadata: adminMetadata,
+        adminArticles: adminArticles,
+        released: released,
+        pending: pending,
+        selectedKey: selectedKey,
+        selectedSlug: selectedSlug
+      };
+    }
+  };
+})();
+</script>
 
 <!-- Search modal (global) -->
 <div id="wk-search-modal" onclick="wkCloseSearch(event)">
@@ -1497,23 +1782,53 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   });
 
   // ============ TREE EXPAND/COLLAPSE ============
-  const TK = 'wikia-tree-state';
-  let treeState = {};
-  try { treeState = JSON.parse(localStorage.getItem(TK) || '{}'); } catch {}
+  // ============ WAVE 2 TREE TOGGLE (.wk-tree-bu / .wk-tree-project) ============
+  // Click on chevron toggles; click on label-text/folder-icon navigates via the <a>.
+  // BU/project containers persist expanded state in localStorage.
+  const TKW2 = 'wikia-tree-state-w2';
+  let w2State = {};
+  try { w2State = JSON.parse(localStorage.getItem(TKW2) || '{}'); } catch {}
 
-  document.querySelectorAll('.wk-tree-tema').forEach(node => {
-    const tema = node.dataset.tema;
-    // Default: tema do artigo atual aberto
-    const hasCurrent = !!node.querySelector('a.current');
-    const explicit = treeState[tema];
-    const open = explicit !== undefined ? explicit : hasCurrent;
-    node.dataset.open = open ? 'true' : 'false';
-    const label = node.querySelector('.tema-label');
-    label?.addEventListener('click', () => {
-      const newOpen = node.dataset.open !== 'true';
-      node.dataset.open = newOpen ? 'true' : 'false';
-      treeState[tema] = newOpen;
-      localStorage.setItem(TK, JSON.stringify(treeState));
+  function w2Toggle(node, key) {
+    const isOpen = node.dataset.expanded === 'true';
+    node.dataset.expanded = isOpen ? 'false' : 'true';
+    w2State[key] = !isOpen;
+    localStorage.setItem(TKW2, JSON.stringify(w2State));
+  }
+
+  // BU nodes
+  document.querySelectorAll('.wk-tree-bu:not(.wk-tree-bu-empty)').forEach(node => {
+    const key = 'bu:' + node.dataset.bu;
+    const hasCurrent = !!node.querySelector('.wk-current-article, .wk-current-project');
+    const explicit = w2State[key];
+    node.dataset.expanded = (explicit !== undefined ? explicit : (hasCurrent || node.classList.contains('wk-current-bu'))) ? 'true' : 'false';
+
+    const link = node.querySelector(':scope > .wk-tree-bu-link');
+    link?.addEventListener('click', (e) => {
+      // Chevron click → toggle (do NOT navigate)
+      if (e.target.closest('.chev')) {
+        e.preventDefault();
+        e.stopPropagation();
+        w2Toggle(node, key);
+      }
+      // Otherwise: native <a> navigation proceeds
+    });
+  });
+
+  // Project nodes
+  document.querySelectorAll('.wk-tree-project').forEach(node => {
+    const key = 'proj:' + (node.closest('.wk-tree-bu')?.dataset.bu || '?') + '/' + node.dataset.project;
+    const hasCurrent = !!node.querySelector('.wk-current-article');
+    const explicit = w2State[key];
+    node.dataset.expanded = (explicit !== undefined ? explicit : (hasCurrent || node.classList.contains('wk-current-project'))) ? 'true' : 'false';
+
+    const link = node.querySelector(':scope > .wk-tree-project-link');
+    link?.addEventListener('click', (e) => {
+      if (e.target.closest('.chev')) {
+        e.preventDefault();
+        e.stopPropagation();
+        w2Toggle(node, key);
+      }
     });
   });
 
@@ -1522,11 +1837,31 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   const searchInput = document.getElementById('wk-search-input');
   const searchResults = document.getElementById('wk-search-results');
   const searchBtn = document.getElementById('wk-search-btn');
+  const adminStateRoot = document.getElementById('admin-state');
   let searchIndex = [];
   let selectedIdx = 0;
   let filtered = [];
+  let searchIndexLoaded = false;
+
+  function isAdminLockedShell() {
+    return adminStateRoot?.dataset.state === 'locked';
+  }
+
+  function loadSearchIndex() {
+    if (searchIndexLoaded || isAdminLockedShell()) return;
+    searchIndexLoaded = true;
+    const wikiBase = document.documentElement.dataset.wikiBase || '';
+    fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+  }
+
+  if (isAdminLockedShell()) {
+    searchBtn?.setAttribute('aria-disabled', 'true');
+    searchBtn?.setAttribute('title', 'Busca disponivel apos unlock');
+  }
 
   function openSearch() {
+    if (isAdminLockedShell()) return;
+    loadSearchIndex();
     modal?.classList.add('open');
     searchInput.value = '';
     selectedIdx = 0;
@@ -1589,9 +1924,8 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   drawerClose?.addEventListener('click', closeDrawer);
   drawerBackdrop?.addEventListener('click', closeDrawer);
 
-  // Load search.json (relative to wiki base)
-  const wikiBase = document.documentElement.dataset.wikiBase || '';
-  fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+  // Load search.json (relative to wiki base). Admin waits until unlock.
+  if (!isAdminLockedShell()) loadSearchIndex();
 
   function score(item, q) {
     const txt = (item.title + ' ' + item.tema + ' ' + (item.tags || []).join(' ') + ' ' + (item.snippet || '')).toLowerCase();
@@ -1615,7 +1949,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
       return;
     }
     searchResults.innerHTML = filtered.map((it, idx) => `
-      <a href="${wikiBase}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
+      <a href="${(document.documentElement.dataset.wikiBase || '')}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
         <div class="title">${it.title}</div>
         <div class="meta">${it.tema} · ${it.date}${(it.tags||[]).length ? ' · ' + it.tags.join(', ') : ''}</div>
       </a>
@@ -1626,280 +1960,11 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   searchInput?.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); renderResults(searchInput.value.trim()); }
     if (e.key === 'ArrowUp') { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); renderResults(searchInput.value.trim()); }
-    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = wikiBase + '/' + target.url; }
+    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = (document.documentElement.dataset.wikiBase || '') + '/' + target.url; }
   });
 })();
 </script>
 
 
-<!-- Admin logic (CSP-inline, no external src) -->
-<script>
-// admin-decrypt.js — Browser WebCrypto decryptor for the wikia password vault.
-// Mirrors the format produced by scripts/vault.mjs (AES-256-GCM, PBKDF2-SHA256, 100k iters).
-//
-// Packed vault format (base64):
-//   <salt(16)><iv(12)><tag(16)><ciphertext>
-//
-// WebCrypto AES-GCM expects ciphertext with the auth tag APPENDED, so we
-// reassemble before calling crypto.subtle.decrypt.
-//
-// Empirically verified against vault.mjs in headless Chromium via
-// state/repro/vault-crossplatform-test.mjs (Phase 2 Task 3).
-
-(function (root) {
-  function b64ToBytes(b64) {
-    const bin = atob(b64);
-    const out = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-    return out;
-  }
-
-  async function decryptVault(b64, masterpass) {
-    const buf = b64ToBytes(b64);
-    const salt = buf.subarray(0, 16);
-    const iv = buf.subarray(16, 16 + 12);
-    const tag = buf.subarray(16 + 12, 16 + 12 + 16);
-    const ct = buf.subarray(16 + 12 + 16);
-    const ctWithTag = new Uint8Array(ct.length + tag.length);
-    ctWithTag.set(ct, 0);
-    ctWithTag.set(tag, ct.length);
-
-    const baseKey = await crypto.subtle.importKey(
-      'raw',
-      new TextEncoder().encode(masterpass),
-      'PBKDF2',
-      false,
-      ['deriveKey']
-    );
-    const key = await crypto.subtle.deriveKey(
-      { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
-      baseKey,
-      { name: 'AES-GCM', length: 256 },
-      false,
-      ['decrypt']
-    );
-    const plain = await crypto.subtle.decrypt(
-      { name: 'AES-GCM', iv: iv, tagLength: 128 },
-      key,
-      ctWithTag
-    );
-    return JSON.parse(new TextDecoder().decode(plain));
-  }
-
-  const api = { decryptVault: decryptVault };
-
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = api;
-  } else {
-    root.WikiaVault = api;
-  }
-})(typeof window !== 'undefined' ? window : globalThis);
-
-</script>
-
-<script>
-(function() {
-  // === STATE ===
-  let masterpass = null;
-  let vault = null;            // {slug: {password, tema, created, updated}}
-  let released = [];           // [slug, ...]
-  let pending = { release: [], rotate: {}, deletes: [] };
-
-  // === DOM ===
-  const $ = (s) => document.querySelector(s);
-  const lockSection = $('#admin-locked');
-  const unlockedSection = $('#admin-unlocked');
-  const masterpassInput = $('#masterpass');
-  const lockForm = $('#admin-lock-form');
-  const lockErr = $('#admin-lock-err');
-  const lockBtn = $('#admin-lock-btn');
-  const countEl = $('#admin-count');
-  const rowsEl = $('#admin-rows');
-  const pendingPanel = $('#admin-pending-panel');
-  const pendingCountEl = $('#admin-pending-count');
-  const pendingJsonEl = $('#admin-pending-json');
-  const pendingClearBtn = $('#admin-pending-clear');
-
-  const wikiBase = document.documentElement.dataset.wikiBase;
-
-  // === HELPERS ===
-  function showLocked() {
-    lockSection.hidden = false;
-    unlockedSection.hidden = true;
-    masterpassInput.value = '';
-    lockErr.textContent = '';
-    masterpassInput.focus();
-  }
-  function showUnlocked() {
-    lockSection.hidden = true;
-    unlockedSection.hidden = false;
-  }
-  function showError(msg) {
-    lockErr.textContent = msg;
-  }
-
-  function renderRows() {
-    const slugs = Object.keys(vault).sort();
-    countEl.textContent = `${slugs.length} artigo${slugs.length === 1 ? '' : 's'}`;
-    rowsEl.innerHTML = '';
-    for (const slug of slugs) {
-      const entry = vault[slug];
-      const isReleased = released.includes(slug) || pending.release.includes(slug);
-      const tr = document.createElement('tr');
-      tr.dataset.slug = slug;
-      tr.innerHTML = `
-        <td class="cell-slug" title="${slug}">${slug}</td>
-        <td class="cell-tema">${entry.tema || ''}</td>
-        <td class="cell-pass">
-          <code class="pass-masked" data-mask="true">••••••••••••••••</code>
-          <button type="button" class="pass-toggle" title="Mostrar/esconder">👁</button>
-          <button type="button" class="pass-copy" title="Copiar">⧉</button>
-        </td>
-        <td class="cell-actions">
-          ${isReleased
-            ? '<span class="status-released">liberado (queue)</span>'
-            : '<button type="button" class="act-release">Liberar</button>'}
-          <button type="button" class="act-rotate">Rotacionar</button>
-        </td>
-      `;
-      rowsEl.appendChild(tr);
-    }
-    renderPending();
-  }
-
-  function renderPending() {
-    const hasPending = pending.release.length > 0 || Object.keys(pending.rotate).length > 0 || pending.deletes.length > 0;
-    pendingPanel.hidden = !hasPending;
-    const totalPending = pending.release.length + Object.keys(pending.rotate).length + pending.deletes.length;
-    pendingCountEl.textContent = totalPending;
-    pendingJsonEl.textContent = JSON.stringify(pending, null, 2);
-  }
-
-  // === ROW EVENT DELEGATION ===
-  rowsEl.addEventListener('click', async (e) => {
-    const tr = e.target.closest('tr[data-slug]');
-    if (!tr) return;
-    const slug = tr.dataset.slug;
-    const entry = vault[slug];
-
-    if (e.target.classList.contains('pass-toggle')) {
-      const code = tr.querySelector('.pass-masked');
-      const masked = code.dataset.mask === 'true';
-      code.textContent = masked ? entry.password : '••••••••••••••••';
-      code.dataset.mask = masked ? 'false' : 'true';
-    } else if (e.target.classList.contains('pass-copy')) {
-      try {
-        await navigator.clipboard.writeText(entry.password);
-        e.target.textContent = '✓';
-        setTimeout(() => { e.target.textContent = '⧉'; }, 1200);
-      } catch {}
-    } else if (e.target.classList.contains('act-release')) {
-      if (!confirm(`Liberar "${slug}"?\n\nIsso vai REMOVER o gate de senha desse artigo. Ele ficará público SEM senha após você rodar publish.sh --apply-pending.`)) return;
-      if (!pending.release.includes(slug)) pending.release.push(slug);
-      renderRows();
-    } else if (e.target.classList.contains('act-rotate')) {
-      if (!confirm(`Rotacionar senha de "${slug}"?\n\nA senha atual será substituída por uma nova de 16 chars. A senha antiga PARA DE FUNCIONAR após publish.sh --apply-pending.`)) return;
-      const newBytes = new Uint8Array(12);
-      crypto.getRandomValues(newBytes);
-      const newPass = btoa(String.fromCharCode(...newBytes)).replace(/[+/=]/g, '').slice(0, 16);
-      pending.rotate[slug] = newPass;
-      alert(`Nova senha pra "${slug}":\n\n${newPass}\n\nCopiada pra clipboard. Guarde — só será efetivada após apply-pending.`);
-      try { await navigator.clipboard.writeText(newPass); } catch {}
-      renderRows();
-    }
-  });
-
-  pendingClearBtn?.addEventListener('click', () => {
-    if (!confirm('Descartar TODAS as mudanças locais pendentes?')) return;
-    pending = { release: [], rotate: {}, deletes: [] };
-    renderRows();
-  });
-
-  lockBtn?.addEventListener('click', () => {
-    masterpass = null;
-    vault = null;
-    pending = { release: [], rotate: {}, deletes: [] };
-    showLocked();
-  });
-
-  // === UNLOCK FLOW ===
-  lockForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const pass = masterpassInput.value;
-    if (!pass) { showError('Digite a masterpass.'); return; }
-    showError('');
-    try {
-      const [vaultRes, releasedRes] = await Promise.all([
-        fetch(wikiBase + '/_passwords.enc'),
-        fetch(wikiBase + '/_released.json'),
-      ]);
-      if (!vaultRes.ok) throw new Error(`vault HTTP ${vaultRes.status}`);
-      const vaultB64 = (await vaultRes.text()).trim();
-      vault = await window.WikiaVault.decryptVault(vaultB64, pass);
-      released = releasedRes.ok ? await releasedRes.json() : [];
-      masterpass = pass;
-      masterpassInput.value = '';
-      showUnlocked();
-      renderRows();
-    } catch (err) {
-      console.error(err);
-      showError('Masterpass incorreta ou vault indisponível.');
-    }
-  });
-
-  // Init
-  showLocked();
-})();
-
-  // ============ WAVE 2 TREE TOGGLE (.wk-tree-bu / .wk-tree-project) ============
-  // Click on chevron toggles; click on label-text/folder-icon navigates via the <a>.
-  // BU/project containers persist state in localStorage just like .wk-tree-tema.
-  const TKW2 = 'wikia-tree-state-w2';
-  let w2State = {};
-  try { w2State = JSON.parse(localStorage.getItem(TKW2) || '{}'); } catch {}
-
-  function w2Toggle(node, key) {
-    const isOpen = node.dataset.expanded === 'true';
-    node.dataset.expanded = isOpen ? 'false' : 'true';
-    w2State[key] = !isOpen;
-    localStorage.setItem(TKW2, JSON.stringify(w2State));
-  }
-
-  // BU nodes
-  document.querySelectorAll('.wk-tree-bu:not(.wk-tree-bu-empty)').forEach(node => {
-    const key = 'bu:' + node.dataset.bu;
-    const hasCurrent = !!node.querySelector('.wk-current-article, .wk-current-project');
-    const explicit = w2State[key];
-    node.dataset.expanded = (explicit !== undefined ? explicit : (hasCurrent || node.classList.contains('wk-current-bu'))) ? 'true' : 'false';
-
-    const link = node.querySelector(':scope > .wk-tree-bu-link');
-    link?.addEventListener('click', (e) => {
-      // Chevron click → toggle (do NOT navigate)
-      if (e.target.closest('.chev')) {
-        e.preventDefault();
-        e.stopPropagation();
-        w2Toggle(node, key);
-      }
-      // Otherwise: native <a> navigation proceeds
-    });
-  });
-
-  // Project nodes
-  document.querySelectorAll('.wk-tree-project').forEach(node => {
-    const key = 'proj:' + (node.closest('.wk-tree-bu')?.dataset.bu || '?') + '/' + node.dataset.project;
-    const hasCurrent = !!node.querySelector('.wk-current-article');
-    const explicit = w2State[key];
-    node.dataset.expanded = (explicit !== undefined ? explicit : (hasCurrent || node.classList.contains('wk-current-project'))) ? 'true' : 'false';
-
-    const link = node.querySelector(':scope > .wk-tree-project-link');
-    link?.addEventListener('click', (e) => {
-      if (e.target.closest('.chev')) {
-        e.preventDefault();
-        e.stopPropagation();
-        w2Toggle(node, key);
-      }
-    });
-  });
-  </script>
 </body>
 </html>

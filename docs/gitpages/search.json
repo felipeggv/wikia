@@ -1,5 +1,18 @@
 [
   {
+    "title": "Customer Success na CASE · Como a Rotina do CS Funciona",
+    "tema": "allin/case-cs",
+    "tags": [
+      "case",
+      "customer-success",
+      "operacao",
+      "alinhamento"
+    ],
+    "date": "2026-05-19",
+    "snippet": "",
+    "url": "allin/case-cs/cs-na-case-alinhamento-eloise/"
+  },
+  {
     "title": "Playbook Soviético: ClickUp com disciplina de Linear",
     "tema": "staging/gestao-projetos",
     "tags": [
@@ -11,7 +24,7 @@
       "ia-agent"
     ],
     "date": "2026-05-19",
-    "snippet": "Playbook Soviético: ClickUp com disciplina de Linear Audiência: times de 2-5 executores humanos ou IA operando em alta performance. Promessa: transformar o ClickUp de board bagunçado em funil único de produção, com gate de qualidade, hierarquia clara e fluxo executável por agente. Linear venceu o mi",
+    "snippet": "",
     "url": "staging/gestao-projetos/clickup-linear-playbook/"
   },
   {
@@ -22,42 +35,7 @@
       "strategy"
     ],
     "date": "2026-05-19",
-    "snippet": "Pricing Strategy Playbook A escolha do modelo de pricing define toda a economia do produto: margem, velocidade de aquisição, perfil do cliente atraído e a viabilidade do crescimento. Este playbook é um guia visual de decisão, não um manual exaustivo. Por que esse playbook existe Pricing é decidido p",
+    "snippet": "",
     "url": "staging/test-project/pricing-strategy-playbook/"
-  },
-  {
-    "title": "Customer Success na CASE",
-    "tema": "allin/case-cs",
-    "tags": [
-      "case",
-      "customer-success",
-      "operacao",
-      "alinhamento"
-    ],
-    "date": "2026-05-19",
-    "snippet": "<style .cs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 18px 0; } .cs-card { border: 1px solid 2a4d3e; border-radius: 8px; padding: 16px; background: rgba26,61,46,0.15; } .cs-card h4 { margin: 0 0 8px 0; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.",
-    "url": "allin/case-cs/cs-na-case-alinhamento-eloise/"
-  },
-  {
-    "title": "unbloq — Field Manual: Como Funciona Hoje",
-    "tema": "gobbi/unbloq",
-    "tags": [
-      "unbloq",
-      "field-manual"
-    ],
-    "date": "2026-05-19",
-    "snippet": "unbloq — Field Manual: Como Funciona Hoje Documento operacional. Foco no estado atual, não no roadmap. Última coleta de dados: 2026-05-12. Sessão Maestro: cb52fb7a-9b3a-4e19-a8ef-27f88d6bceda. ::: callout info Resumo Operativo O unbloq é uma cabine de comando local para Felipe Gobbi orquestrar a sua",
-    "url": "gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/"
-  },
-  {
-    "title": "Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo",
-    "tema": "gobbi/geral",
-    "tags": [
-      "design-first",
-      "workflow"
-    ],
-    "date": "2026-05-19",
-    "snippet": "Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo Como parar de pedir código pra IA sem antes ter validado visualmente o sistema. Uma proposta de skill em 6 fases, com gates humanos entre cada uma, mockup HTML navegável antes de qualquer linha de produção, e integraçã",
-    "url": "gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"
   }
 ]

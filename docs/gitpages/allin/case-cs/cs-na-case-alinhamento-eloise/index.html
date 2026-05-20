@@ -286,142 +286,11 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   margin: 0;
   font-size: 11.5px;
 }
-.wk-tree-tema { margin: 0; position: relative; }
-
-/* Tema (folder) header */
-.wk-tree-tema > .tema-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 4px var(--s-4) 4px var(--s-3);
-  color: var(--text-main);
-  cursor: pointer;
-  user-select: none;
-  font-weight: 500;
-  font-size: 11.5px;
-  line-height: 1.4;
-  transition: background 0.1s;
-  border-radius: 3px;
-  margin: 0 4px;
-}
-.wk-tree-tema > .tema-label:hover { background: var(--accent-dim); }
-
-/* Chevron (rotates on open) */
-.wk-tree-tema > .tema-label .chev {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  color: var(--text-dim);
-  transition: transform 0.15s;
-  margin-top: 2px;
-}
-.wk-tree-tema[data-open="true"] > .tema-label .chev { transform: rotate(90deg); }
-
-/* Folder icon */
-.wk-tree-tema > .tema-label .folder-icon {
-  display: inline-flex;
-  width: 14px;
-  height: 14px;
-  color: var(--accent);
-  flex-shrink: 0;
-  margin-right: 2px;
-  margin-top: 1px;
-}
-.wk-tree-tema[data-open="true"] > .tema-label .folder-icon { color: var(--success); }
-
-.wk-tree-tema > .tema-label .label-text {
-  flex: 1;
-  min-width: 0;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
-.wk-tree-tema > .tema-label .count {
-  color: var(--text-dim);
-  font-size: 10px;
-  margin-left: 4px;
-  margin-top: 2px;
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  flex-shrink: 0;
-}
-
-/* File list (children) */
-.wk-tree-tema > ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease;
-  position: relative;
-}
-.wk-tree-tema[data-open="true"] > ul { max-height: 4000px; }
-
-/* Guide line (indent rail) */
-.wk-tree-tema > ul::before {
-  content: "";
-  position: absolute;
-  left: 21px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
-}
-
-/* File item */
-.wk-tree-tema > ul > li > a {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  padding: 4px var(--s-4) 4px 30px;
-  color: var(--text-dim);
-  text-decoration: none;
-  font-size: 11px;
-  line-height: 1.4;
-  transition: all 0.1s;
-  border-radius: 3px;
-  margin: 0 4px 0 0;
-  position: relative;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
-.wk-tree-tema > ul > li > a .file-icon {
-  display: inline-flex;
-  width: 12px;
-  height: 12px;
-  color: var(--text-dim);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.wk-tree-tema > ul > li > a:hover {
-  color: var(--text-main);
-  background: var(--accent-dim);
-}
-.wk-tree-tema > ul > li > a:hover .file-icon { color: var(--accent); }
-.wk-tree-tema > ul > li > a.current {
-  color: var(--text-main);
-  background: var(--accent-dim);
-  font-weight: 600;
-}
-.wk-tree-tema > ul > li > a.current .file-icon { color: var(--success); }
-.wk-tree-tema > ul > li > a.current::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-}
 
 /* ============================================================
    WAVE 2 SIDEBAR TREE (BU/Project/Article)
-   Sizes match .wk-tree-tema legacy: 11.5px font, 4px padding,
-   12px chev, 14px folder, 10px count. Auto-flatten projects skip
-   the project-folder layer (article renders directly under BU).
+   11.5px font, 4px padding, 12px chev, 14px folder, 10px count.
+   Auto-flatten projects skip the project-folder layer (article renders directly under BU).
    Click on chevron toggles; click on label-text navigates.
    ============================================================ */
 .wk-tree-bu { margin: 0; position: relative; list-style: none; }
@@ -1115,11 +984,11 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <!-- Tree -->
   <div class="wk-section">
     <h4>Knowledge</h4>
-    <ul class="wk-tree">
-      <nav class="wk-sidebar-nav"><ul class="wk-tree">
-<li class="wk-tree-bu wk-current-bu" data-bu="allin" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article wk-current-article" data-slug="cs-na-case-alinhamento-eloise"><a href="https://felipeggv.github.io/wikia/gitpages/allin/case-cs/cs-na-case-alinhamento-eloise/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Customer Success na CASE · Como a Rotina do CS Funciona</span></a></li></ul></li>
-</ul></nav>
-    </ul>
+    <nav class="wk-sidebar-nav">
+      <ul class="wk-tree">
+        <li class="wk-tree-bu wk-current-bu" data-bu="allin" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article wk-current-article" data-slug="cs-na-case-alinhamento-eloise"><a href="https://felipeggv.github.io/wikia/gitpages/allin/case-cs/cs-na-case-alinhamento-eloise/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Customer Success na CASE · Como a Rotina do CS Funciona</span></a></li></ul></li>
+      </ul>
+    </nav>
   </div>
 
   <!-- Recents -->
@@ -1135,109 +1004,480 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <main class="wk-main">
     <div class="wk-content wk-article">
 
-      <div class="ap-gate-wrap">
-  <div id="ap-gate">
-    <div class="ap-gate-card">
-      <div class="ap-gate-badge">protected · wikia</div>
-      <h1 class="ap-gate-title">Acesso ao wiki</h1>
-      <p class="ap-gate-lead">Conteúdo criptografado AES-256-GCM. Senha única do wiki destrava todos os artigos nesta sessão.</p>
-      <form id="ap-gate-form">
-        <label for="ap-gate-input">senha</label>
-        <input type="password" id="ap-gate-input" autocomplete="off" autofocus spellcheck="false">
-        <button type="submit">› DESTRAVAR WIKI</button>
-        <div class="ap-gate-err" id="ap-gate-err"></div>
-      </form>
-      <div class="ap-gate-footnote">
-        <div class="prompt">wikia · aes-256-gcm · pbkdf2 100k</div>
-        Sua senha fica persistente neste browser (localStorage). Limpe os dados do site pra deslogar.
+      
+
+        <nav class="wk-breadcrumb" aria-label="Breadcrumb">
+          <a href="https://felipeggv.github.io/wikia/gitpages/">wikia</a><span class="sep">›</span>
+          <a href="https://felipeggv.github.io/wikia/gitpages/research/case-cs/">Case Cs</a><span class="sep">›</span>
+          <span class="current">cs-na-case-alinhamento-eloise</span>
+        </nav>
+
+        <header class="wk-article-header">
+          <div class="wk-eyebrow">Case Cs</div>
+          <h1>Customer Success na CASE · Como a Rotina do CS Funciona</h1>
+          <p class="wk-lead">Em **14 de maio de 2026**, Felipe e Eloise sentaram para um alinhamento de pré-contratação. A pauta foi simples: **como a rotina do CS funciona aqui dentro**.</p>
+          <div class="wk-meta-row">
+            <span>19 May 2026</span>
+            <span class="dot">·</span>
+            <span>27 min</span>
+            
+          </div>
+        </header>
+
+        <style>
+.cs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 18px 0; }
+.cs-card { border: 1px solid #2a4d3e; border-radius: 8px; padding: 16px; background: rgba(26,61,46,0.15); }
+.cs-card h4 { margin: 0 0 8px 0; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.08em; color: #7fb89a; }
+.cs-card p { margin: 0; font-size: 0.92em; line-height: 1.55; }
+.cs-card.warn { border-color: #6e4d1a; background: rgba(110,77,26,0.15); }
+.cs-card.warn h4 { color: #d4a857; }
+.cs-card.ok { border-color: #2a6e4a; background: rgba(42,110,74,0.18); }
+.cs-card.ok h4 { color: #5fd8a0; }
+.cs-card.purple { border-color: #4d2a6e; background: rgba(77,42,110,0.18); }
+.cs-card.purple h4 { color: #b88adf; }
+
+/* ROTINAS · accordion sem numeração */
+.cs-rotinas { list-style: none; padding: 0; margin: 18px 0; border: 1px solid #2a4d3e; border-radius: 8px; overflow: hidden; }
+.cs-rotinas > li { border-bottom: 1px solid #2a4d3e; }
+.cs-rotinas > li:last-child { border-bottom: none; }
+.cs-rot-trigger { width: 100%; text-align: left; padding: 14px 18px; background: #0e2419; border: none; color: #f2f2c0; font: inherit; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background 0.15s; font-size: 0.94em; }
+.cs-rot-trigger:hover { background: rgba(42,110,74,0.18); }
+.cs-rot-trigger::before { content: "▸"; color: #5fd8a0; transition: transform 0.2s; font-size: 0.85em; }
+.cs-rot-trigger.open::before { transform: rotate(90deg); }
+.cs-rot-trigger .tag { margin-left: auto; font-size: 0.7em; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 3px; }
+.cs-rot-trigger .tag.fix { background: #1a3d2e; color: #5fd8a0; }
+.cs-rot-trigger .tag.call { background: #2a3d5e; color: #b8c4e0; }
+.cs-rot-trigger .tag.foco { background: #4d2a6e; color: #d4b8e0; }
+.cs-rot-body { padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; background: #0a1814; }
+.cs-rot-body.open { padding: 14px 18px 18px; max-height: 4000px; }
+.cs-rot-body .row { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding: 6px 0; border-bottom: 1px dashed #1a3d2e; font-size: 0.88em; }
+.cs-rot-body .row:last-child { border-bottom: none; }
+.cs-rot-body .row .key { color: #7fb89a; font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.cs-rot-body .row .val { color: #d4d4c0; line-height: 1.55; }
+.cs-rot-body .pipeline { margin-top: 10px; padding: 10px 12px; border-radius: 6px; background: rgba(26,61,46,0.25); border: 1px solid #2a4d3e; font-size: 0.85em; }
+.cs-rot-body .pipeline ol { margin: 6px 0 0 18px; padding: 0; }
+.cs-rot-body .pipeline ol li { padding: 3px 0; }
+.cs-rot-body .pipeline .cs { color: #5fd8a0; font-weight: 600; }
+
+/* AGENDA · semana lúdica */
+.cs-agenda { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 0.82em; }
+.cs-agenda th, .cs-agenda td { border: 1px solid #2a4d3e; padding: 8px 10px; text-align: center; vertical-align: middle; }
+.cs-agenda th { background: #1a3d2e; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.74em; font-weight: 600; }
+.cs-agenda td.period { background: #0e2419; color: #7fb89a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.74em; width: 90px; }
+.cs-agenda .a-fix { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.78em; font-weight: 600; }
+.cs-agenda .fix-daily { background: #2a4d3e; color: #b8d4c2; }
+.cs-agenda .fix-pulse { background: #1a3d2e; color: #5fd8a0; border: 1px solid #2a6e4a; }
+.cs-agenda .fix-conf { background: #3d2a4d; color: #d4b8e0; }
+.cs-agenda .fix-rond { background: #5e4a1a; color: #e0d4b8; }
+.cs-agenda .fix-weekly { background: #4d1a3d; color: #e0b8d4; }
+.cs-agenda .a-livre { padding: 6px 8px; border: 1px dashed #4a5a4a; border-radius: 4px; color: #8a9a90; font-size: 0.78em; font-style: italic; }
+.cs-anchors { margin: 10px 0; padding: 10px 14px; background: rgba(26,61,46,0.18); border-left: 3px solid #5fd8a0; border-radius: 0 4px 4px 0; font-size: 0.85em; }
+.cs-anchors b { color: #5fd8a0; }
+
+/* CALCULADORA · capacidade interativa */
+.cs-calc { margin: 20px 0; padding: 20px; border: 1px solid #2a6e4a; border-radius: 10px; background: rgba(26,61,46,0.2); }
+.cs-calc h4 { margin: 0 0 4px 0; color: #5fd8a0; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.08em; }
+.cs-calc p.hint { margin: 0 0 14px 0; font-size: 0.84em; color: #8a9a90; }
+.cs-calc-inputs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+.cs-calc-inputs label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78em; color: #7fb89a; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.cs-calc-inputs input { background: #0a1814; border: 1px solid #2a4d3e; color: #f2f2c0; padding: 8px 10px; border-radius: 4px; font: inherit; font-size: 1.1em; font-weight: 600; text-align: center; }
+.cs-calc-inputs input:focus { outline: none; border-color: #5fd8a0; }
+.cs-calc-out { display: grid; grid-template-columns: 1fr 2fr; gap: 18px; align-items: center; padding: 14px 18px; background: #0a1814; border-radius: 6px; }
+.cs-calc-pct { font-size: 2.6em; font-weight: 700; line-height: 1; }
+.cs-calc-pct.ok { color: #5fd8a0; }
+.cs-calc-pct.warn { color: #d4a857; }
+.cs-calc-pct.bad { color: #d47857; }
+.cs-calc-bar { height: 6px; background: #2a4d3e; border-radius: 3px; overflow: hidden; margin: 10px 0; }
+.cs-calc-bar > i { display: block; height: 100%; transition: width 0.25s ease-out; }
+.cs-calc-bar > i.ok { background: linear-gradient(90deg, #5fd8a0, #2a6e4a); }
+.cs-calc-bar > i.warn { background: linear-gradient(90deg, #d4a857, #6e4d1a); }
+.cs-calc-bar > i.bad { background: linear-gradient(90deg, #d47857, #6e2a1a); }
+.cs-calc-status { font-size: 0.88em; color: #d4d4c0; line-height: 1.5; }
+.cs-calc-status .label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.78em; }
+
+.cs-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+.cs-pair > div { padding: 14px; border-radius: 8px; }
+.cs-pair .yes { border: 1px solid #2a6e4a; background: rgba(42,110,74,0.12); }
+.cs-pair .no { border: 1px solid #6e2a4a; background: rgba(110,42,74,0.12); }
+.cs-pair h4 { margin: 0 0 10px 0; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.08em; }
+.cs-pair .yes h4 { color: #5fd8a0; }
+.cs-pair .no h4 { color: #d47ca0; }
+.cs-pair ul { margin: 0; padding-left: 18px; font-size: 0.88em; line-height: 1.65; }
+</style>
+<h1 id="1-a-pauta-da-reunião">1. A Pauta da Reunião</h1>
+<p>Em <strong>14 de maio de 2026</strong>, Felipe e Eloise sentaram para um alinhamento de pré-contratação. A pauta foi simples: <strong>como a rotina do CS funciona aqui dentro</strong>.</p>
+<p>Este documento responde a essa pauta. Mostra o papel do consultor, as rotinas que ele opera, a agenda em que essas rotinas se distribuem, e uma calculadora para dimensionar capacidade. No final, um resumo curto dos tópicos que apareceram na conversa.</p>
+<aside class="ap-callout" data-variant="quote"><div class="ap-callout-title">O princípio que sustenta tudo</div><div class="ap-callout-body"><p><strong>CS ensina. CS não faz.</strong> O consultor sustenta o processo enquanto o mentorado aprende a carregar o próprio negócio. Adulto aprende quando aplica critério em problema real, não quando assiste outra pessoa resolver.</p></div></aside>
+<hr>
+<h1 id="2-o-papel-do-consultor-de-cs">2. O Papel do Consultor de CS</h1>
+<p>O consultor é o <strong>dono operacional</strong> de uma carteira de até 20 mentorados. Pensa nele como um gerente de conta que cuida da saúde do negócio do cliente — mas <strong>não produz pelo cliente</strong>.</p>
+<div class="cs-pair">
+  <div class="yes">
+    <h4>✓ O que o consultor faz</h4>
+    <ul>
+      <li>Dá critério para o mentorado decidir</li>
+      <li>Revisa o raciocínio</li>
+      <li>Cobra prazo e qualidade</li>
+      <li>Aponta gaps no dossiê (não reescreve)</li>
+      <li>Orienta calendário editorial</li>
+      <li>Transforma pedido repetido em ativo reutilizável</li>
+    </ul>
+  </div>
+  <div class="no">
+    <h4>✕ O que o consultor não faz</h4>
+    <ul>
+      <li>Não decide no lugar do mentorado</li>
+      <li>Não reescreve a entrega</li>
+      <li>Não alivia toda tensão para evitar desconforto</li>
+      <li>Não escreve copy pelo mentorado</li>
+      <li>Não escreve o dossiê (cabe ao estrategista)</li>
+      <li>Não responde individualmente a dúvidas que viram aula</li>
+    </ul>
+  </div>
+</div>
+<h3 id="métricas-de-sucesso">Métricas de Sucesso</h3>
+<div class="cs-grid">
+  <div class="cs-card">
+    <h4>SLA WhatsApp</h4>
+    <p><b>≤ 1 hora</b> de primeira resposta em horário comercial. Sem SLA em fim de semana.</p>
+  </div>
+  <div class="cs-card">
+    <h4>Rondas por dia</h4>
+    <p><b>4 a 5</b> rondas de WhatsApp. Fecha quando a fila zera, não quando o relógio bate.</p>
+  </div>
+  <div class="cs-card">
+    <h4>Combinados rastreáveis</h4>
+    <p><b>100%</b> no ClickUp · zero promessa solta · tudo vira tarefa com prazo e dono.</p>
+  </div>
+  <div class="cs-card">
+    <h4>Carteira ativa</h4>
+    <p>Até <b>20 mentorados</b> por consultor para manter qualidade.</p>
+  </div>
+  <div class="cs-card">
+    <h4>Aproveitamento sustentável</h4>
+    <p><b>67%</b> da semana em reuniões · 33% para foco, prep extra e contingência.</p>
+  </div>
+  <div class="cs-card">
+    <h4>Reuniões com prep</h4>
+    <p><b>100%</b> · sem preparação no turno anterior, remarca.</p>
+  </div>
+</div>
+<hr>
+<h1 id="3-as-rotinas-do-cs">3. As Rotinas do CS</h1>
+<p>O trabalho do consultor cai em três tipos: <strong>rotinas fixas</strong> (acontecem todo dia/semana/mês no mesmo lugar), <strong>reuniões com mentorado</strong> (variam entre onboarding, dossiê e alinhamentos), e <strong>trabalho de foco profundo</strong> (solo, sem mentorado).</p>
+<p>Clica em cada rotina para ver detalhamento.</p>
+<ol class="cs-rotinas" data-cs-rotinas>
+
+<li>
+<button class="cs-rot-trigger">Daily / Stand-up Assíncrono<span class="tag fix">Fixa · diária</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Registro curto de progresso. Não é reunião — é nota no ClickUp.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Segunda a quinta, no início do dia (entre 8h e 9h).</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">~15 minutos.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">3 linhas no canal do time: o que fechei ontem, o que farei hoje, onde travei.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">"Tá tudo bem" sem trazer bloqueio real. Daily sem update útil consome tempo do time e não devolve nada.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Rondas de WhatsApp<span class="tag fix">Fixa · diária</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Varrer conversas com mentorados, responder pendências, cobrar retorno, fechar loops.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">4 a 5 vezes ao longo do dia · cedo, antes do almoço, meio da tarde, fim de expediente.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">~10 minutos cada · fecha quando a fila zera, não pelo relógio.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">2 frentes: <b>proativa</b> (situar o mentorado em que etapa está, fixar planejamento no grupo) e <b>reativa</b> (varrer dúvidas não respondidas, organizar lista para áudios dos especialistas).</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">"Rolando conversas" — ficar no WhatsApp o dia todo sem objetivo claro. Ronda tem início, meio e fim.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Confirmação de Reuniões · 15 dias<span class="tag fix">Fixa · diária</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Funil de confirmação das reuniões marcadas para os próximos 15 dias. Só quem ainda não confirmou entra na lista do dia.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Fim da manhã, todo dia útil.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">~10 minutos.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Olha quem ainda não confirmou a reunião dos próximos 15 dias e manda mensagem direta. Se confirmou, sai da fila.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">Confirmar tudo na véspera. Se alguém desmarca em cima da hora, não dá tempo de remanejar nem avisar a produção do dossiê.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Dedo no Pulso<span class="tag fix">Fixa · semanal</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Revisão semanal da carteira inteira. O consultor olha cada mentorado e responde 4 perguntas: tá vendendo? tá executando o plano? tá produzindo conteúdo? onde travou?</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Toda segunda-feira pela manhã.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">60 minutos.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Postura "segunda é o dia mundial do recomeço" — vamos do zero se precisar, sem culpa por não ter começado.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">Entrar na semana cego, sem ter olhado o mapa da carteira. O resto da semana vira reação a quem grita mais alto.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Weekly Produto + CS<span class="tag fix">Fixa · semanal</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Reunião do time interno (Kaique, Marisa, Lara, Heitor, Felipe) para alinhar prioridades da próxima semana, ancoradas nos aprendizados da semana que está fechando.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Toda sexta-feira, 15h–16h30.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">90 minutos.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Cada um chega com 1 bloqueio, 1 aprendizado, 1 pergunta. Saída: direcionamento de agenda da semana que vem alinhado entre Produto e CS.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">"Ritual passivo" — comparecer sem preparar nada. Cria ilusão de alinhamento.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Raio-X dos Mentorados<span class="tag fix">Fixa · mensal</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Análise estratégica concentrada em uma única semana do mês. Resolve o "matar um leão por dia" da operação.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Última semana do mês. Seg–qui = Ronda Completa (varrer carteira). Sexta 15h = Raio-X com Queila e Hugo.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">4 dias úteis de varredura + 2h de validação com estrategistas.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Na varredura, o consultor analisa por mentorado: Instagram, plano, dossiê, sinais. Output: plano sugerido por mentorado. No Raio-X, ele chega <b>com plano pronto</b> — estrategistas <b>validam</b>, não constroem do zero. Distribuição na segunda seguinte.</span></div>
+<div class="row"><span class="key">Por que funciona</span><span class="val">Concentra análise (libera 3 semanas para execução pura), transforma estrategistas em revisores (não produtores), gera ritmo para o mentorado (plano novo todo início de mês), e alimenta a padronização (gargalos identificados viram ferramentas).</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Onboarding<span class="tag call">Reunião · variável</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Primeira reunião com o mentorado novo. Serve para <b>alinhar expectativa</b>, não para descoberta profunda.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">No início da jornada do mentorado, na semana de entrada.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">60 min de call + 30 min de prep no turno anterior + 15 min de buffer pós · <b>105 min totais</b>.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Cliente sai entendendo: pessoas do grupo, canais, responsáveis, acessos, aulas, call de estratégia, próximos 30 dias, contrato. Termina com PDF de resumo enviado.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">Tratar como "descoberta profunda do cliente". Não é. É alinhamento de expectativa para o cliente saber como a mentoria funciona.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Apresentação de Dossiê<span class="tag call">Reunião · variável</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Call em que o consultor apresenta o dossiê estratégico já produzido para o mentorado.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Após a versão final do dossiê estar aprovada na cadeia de produção.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">90 min de call + 60 min de prep no turno anterior + 15 min de buffer · <b>165 min totais</b>.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Foco: validar oferta/produto, depois funil, depois geração de demanda por conteúdo. Dossiê <b>simplificado</b>: storytelling longo fica como material interno, não no centro da apresentação.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">Chegar sem ter estudado o dossiê final no turno anterior. Cliente percebe na hora — vira call de atualização genérica em vez de avanço real.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Revisão / Alinhamentos<span class="tag call">Reunião · variável</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Calls de apoio com o mentorado: alinhar execução, tirar dúvidas estratégicas mediadas, ajustar plano de ação.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Conforme a fase do mentorado pede. Cap operacional: 4 a 6 slots por semana, default 5.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">60 min de call + 30 min de prep + 15 min de buffer · <b>105 min totais</b>.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Plano de ação gerado na reunião vira tarefa no ClickUp com responsável, prazo e entrega esperada. Sem promessa solta.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">Aceitar reunião em cima da hora como regra. Padrão é 7 dias de antecedência. Exceção exige pauta e convite imediato.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Revisão de Dossiê<span class="tag foco">Foco profundo · solo</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Trabalho solo do consultor para ler o dossiê produzido pelo estrategista, comentar no documento, apontar gaps e incoerências. <b>Não é reunião.</b></span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Encaixado em blocos de foco profundo, em algum momento entre a 1ª entrega e a apresentação ao cliente.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">Variável (~60 min por dossiê), em bloco de foco sem interrupção.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Lê o documento, comenta na lateral, aponta o que está frágil ou incompleto. Não reescreve.</span></div>
+<div class="pipeline">
+<b>Pipeline real do dossiê</b> · 7 estágios (o consultor entra nos pontos marcados em verde):
+<ol>
+<li>Pós-call do mentorado · estrategista captura pontos discutidos</li>
+<li>1ª Entrega · estrategista produz primeira versão</li>
+<li class="cs">Revisão da 1ª Entrega · <b>consultor</b> comenta no doc, aponta gaps · não reescreve</li>
+<li>Execução dos ajustes · estrategista incorpora apontamentos</li>
+<li class="cs">Aprovação final · <b>consultor</b> confirma que está pronto</li>
+<li>Entrega ao cliente · documento sobe para o mentorado</li>
+<li class="cs">Call de Apresentação · <b>consultor</b> apresenta (vide rotina acima)</li>
+</ol>
+</div>
+<div class="row"><span class="key">Armadilha</span><span class="val">"Consultor escrevendo dossiê" — quando o estrategista atrasa e o consultor começa a reescrever parágrafos para ajudar. O papel correto quando a cadeia atrasa é <b>cobrador</b>, não substituto.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Construção de Ferramentas e Checklists<span class="tag foco">Foco profundo · solo</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Quando uma demanda aparece repetidamente entre mentorados, o consultor cria um ativo reutilizável (ferramenta, checklist, vídeo curto, tutorial) em vez de responder individualmente.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Em blocos de foco profundo. Insumo principal: gargalos identificados na Ronda Completa do Raio-X.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">Variável — geralmente bloco ≥ 2h sem interrupção.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Identifica padrão de pedido repetido → transforma em ativo escalável → distribui com suporte dos consultores. Resolve 1 vez e atende 10 mentorados.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">"Foco fatiado" — tentar construir ferramenta em pedaços de 15 minutos entre outras atividades. Bloco ≥ 2h é regra.</span></div>
+</div>
+</li>
+
+<li>
+<button class="cs-rot-trigger">Padronização de Processos<span class="tag foco">Foco profundo · solo</span></button>
+<div class="cs-rot-body">
+<div class="row"><span class="key">O que é</span><span class="val">Documentar o que funcionou e o que não funcionou em cada ciclo. Atualizar templates de onboarding/dossiê/follow-up. Propor mudanças no manual.</span></div>
+<div class="row"><span class="key">Quando</span><span class="val">Após o Raio-X mensal (com gargalos frescos) e ao longo do mês em blocos de foco profundo.</span></div>
+<div class="row"><span class="key">Duração</span><span class="val">Variável.</span></div>
+<div class="row"><span class="key">Como fazer</span><span class="val">Pega o aprendizado do ciclo, atualiza o template, propõe a mudança. Próximo ciclo executa com o template novo.</span></div>
+<div class="row"><span class="key">Armadilha</span><span class="val">Deixar a lição na cabeça e não no template. Próximo consultor (ou Eloise no onboarding) repete o erro.</span></div>
+</div>
+</li>
+
+</ol>
+<script>
+(function() {
+  function init() {
+    document.querySelectorAll('[data-cs-rotinas] .cs-rot-trigger:not([data-init])').forEach(btn => {
+      btn.setAttribute('data-init', '1');
+      btn.addEventListener('click', () => {
+        const body = btn.nextElementSibling;
+        btn.classList.toggle('open');
+        body.classList.toggle('open');
+      });
+    });
+  }
+  init();
+  document.addEventListener('wikia:unlocked', init);
+})();
+</script>
+<hr>
+<h1 id="4-a-agenda-da-operação">4. A Agenda da Operação</h1>
+<p>A semana modelo do consultor combina <strong>rotinas-âncora</strong> (acontecem sempre no mesmo horário, todo dia ou toda semana) e <strong>blocos livres</strong> (preenchidos conforme a semana pede — uma reunião ou um bloco de foco).</p>
+<div class="cs-anchors">
+<b>As âncoras fixas da semana:</b><br>
+Daily no início do dia · Rondas de WhatsApp 4 a 5×/dia · Confirmação de Reuniões 15d no fim da manhã · Dedo no Pulso na segunda · Weekly Produto+CS na sexta tarde · Raio-X na última semana do mês.
+</div>
+<table class="cs-agenda">
+<thead>
+<tr><th></th><th>Segunda</th><th>Terça</th><th>Quarta</th><th>Quinta</th><th>Sexta</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td class="period">Manhã</td>
+  <td><span class="a-fix fix-daily">Daily</span><br><span class="a-fix fix-pulse">Dedo no Pulso</span></td>
+  <td><span class="a-fix fix-daily">Daily</span><br><span class="a-livre">Reunião ou Foco</span></td>
+  <td><span class="a-fix fix-daily">Daily</span><br><span class="a-livre">Reunião ou Foco</span></td>
+  <td><span class="a-fix fix-daily">Daily</span><br><span class="a-livre">Reunião ou Foco</span></td>
+  <td><span class="a-fix fix-daily">Daily</span><br><span class="a-livre">Foco ou Buffer</span></td>
+</tr>
+<tr>
+  <td class="period">Fim manhã</td>
+  <td colspan="5" style="background:rgba(61,42,77,0.15);"><span class="a-fix fix-conf">Confirmação de Reuniões dos próximos 15 dias</span></td>
+</tr>
+<tr>
+  <td class="period">Tarde</td>
+  <td><span class="a-livre">Reunião ou Foco</span></td>
+  <td><span class="a-livre">Reunião ou Foco</span></td>
+  <td><span class="a-livre">Reunião ou Foco</span></td>
+  <td><span class="a-livre">Reunião ou Foco</span></td>
+  <td><span class="a-fix fix-weekly">Weekly Produto + CS · 15h–16h30</span></td>
+</tr>
+<tr>
+  <td class="period">Contínuo</td>
+  <td colspan="5" style="background:rgba(94,74,26,0.12);"><span class="a-fix fix-rond">Rondas de WhatsApp · 4 a 5 vezes ao longo do dia</span></td>
+</tr>
+</tbody>
+</table>
+<aside class="ap-callout" data-variant="tip"><div class="ap-callout-title">Como o consultor preenche os blocos livres</div><div class="ap-callout-body"><p><strong>"Reunião"</strong> pode ser uma das três: Onboarding, Apresentação de Dossiê, ou Revisão/Alinhamentos. <strong>"Foco"</strong> pode ser uma das três: Revisão de Dossiê (leitura solo), Construção de Ferramentas, ou Padronização de Processos.</p>
+<p>A cabeça do consultor distribui esses blocos conforme a semana pede. Segunda-feira costuma ser mais carregada de foco (depois do Dedo no Pulso) e sem reunião com mentorado, para recuperar visibilidade. Terça/quarta/quinta concentram as calls. Sexta tem buffer de manhã e Weekly à tarde.</p></div></aside>
+<hr>
+<h1 id="5-capacidade-do-consultor-cabe-ou-não-cabe">5. Capacidade do Consultor · Cabe ou Não Cabe?</h1>
+<p>A pergunta que orientou esta seção: <strong>se eu precisar fazer muitas reuniões na semana, ainda cabe na minha agenda?</strong></p>
+<p>A conta tem duas pontas. Por um lado, o consultor tem <strong>28 horas líquidas por semana</strong> para reuniões (40h brutas menos 12h de rotinas-âncora + foco mínimo). Por outro, cada reunião consome <strong>prep + call + buffer</strong>:</p>
+<ul><li><strong>Onboarding</strong> · 30 + 60 + 15 = <strong>105 min</strong></li><li><strong>Apresentação de Dossiê</strong> · 60 + 90 + 15 = <strong>165 min</strong></li><li><strong>Revisão / Alinhamentos</strong> · 30 + 60 + 15 = <strong>105 min</strong></li></ul>
+<p>A calculadora abaixo aplica essa conta direto. Mexe nos campos e vê o que acontece.</p>
+<div class="cs-calc" id="cs-calc">
+  <h4>Calculadora · capacidade semanal do consultor</h4>
+  <p class="hint">Inputs · ajuste os números para simular sua semana</p>
+  <div class="cs-calc-inputs">
+    <label>Mentorados na carteira<input type="number" id="cs-i-ment" value="20" min="1" max="40"></label>
+    <label>Onboardings na semana<input type="number" id="cs-i-onb" value="1" min="0" max="10"></label>
+    <label>Apresentações de Dossiê<input type="number" id="cs-i-dos" value="3" min="0" max="10"></label>
+    <label>Revisões / Alinhamentos<input type="number" id="cs-i-rev" value="5" min="0" max="10"></label>
+  </div>
+  <div class="cs-calc-out">
+    <div>
+      <div class="cs-calc-pct ok" id="cs-o-pct">67%</div>
+    </div>
+    <div>
+      <div class="cs-calc-bar"><i class="ok" id="cs-o-bar" style="width:67%"></i></div>
+      <div class="cs-calc-status">
+        <span class="label" id="cs-o-label" style="color:#d4a857;">Sustentável · apertado</span><br>
+        <span id="cs-o-detail">5h15 sobrando na semana para foco profundo, prep extra e contingência.</span>
       </div>
     </div>
   </div>
-
-  <div id="ap-content-mount" style="display:none"></div>
 </div>
-
-<style>
-  .ap-gate-wrap { display: block; width: 100%; }
-  #ap-gate { display:flex; align-items:center; justify-content:center; padding: var(--s-7) var(--s-5); background: radial-gradient(ellipse at center, rgba(91,103,91,0.06) 0%, transparent 60%); }
-  .ap-gate-card { background: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 8px; padding: var(--s-7) var(--s-6); max-width: 420px; width: 100%; box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
-  .ap-gate-badge { display:inline-block; padding: 3px 10px; background: var(--accent-dim); color: var(--text-dim); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid var(--border); border-radius: 999px; margin-bottom: var(--s-4); font-family: var(--font); }
-  .ap-gate-title { font-family: var(--font); font-weight: 600; font-size: 1.5em; color: var(--text-main); margin: 0 0 var(--s-2); line-height: 1.3; }
-  .ap-gate-lead { color: var(--text-dim); font-size: 13px; margin: 0 0 var(--s-5); line-height: 1.6; }
-  .ap-gate-card label { display:block; color: var(--text-dim); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font); }
-  #ap-gate-input { width:100%; padding: 10px 12px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; color: var(--text-main); font: inherit; font-size: 14px; outline: none; transition: border-color 0.15s; }
-  #ap-gate-input:focus { border-color: var(--accent); }
-  .ap-gate-card button { width:100%; margin-top: var(--s-3); padding: 10px; background: var(--accent); color: var(--accent-text); border: 1px solid var(--accent); border-radius: 4px; font: inherit; font-weight: 600; cursor: pointer; letter-spacing: 0.06em; font-family: var(--font); transition: background 0.15s; font-size: 12px; }
-  .ap-gate-card button:hover { background: #6d796d; }
-  .ap-gate-err { color: var(--error); font-size: 12px; margin-top: var(--s-3); min-height: 1.2em; }
-  .ap-gate-footnote { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--border); color: var(--text-dim); font-size: 10px; line-height: 1.6; }
-  .ap-gate-footnote .prompt::before { content: "$ "; color: var(--accent); }
-</style>
-
-<script id="ap-gate-script">
+<script>
 (function() {
-  const ENCRYPTED_PAYLOAD = "pqA9bhntvSethPOfu3NRk7b7rg1kGDyhmsRLq2KXZEq9RNG4X/2B+yKn0ekFg51vxehmvpaZDND17amW+jmPckOFHghCCfSKAJQRzAkrJvauJs48rVt/mXTtCQRKrCJF2h+QriaVYl4/qohkw9Ugr8+VKYys15bujPTGWfY8CRAbn+ozLQ8+mLHYl3gpmxGgiDE7gyImoRskeJl47wBrR/eJmMI/5ALqLj9HgrtLTyqoxkdfR0k9Ozv+4JLQISJovbOd+dhs5ixfvNVGHDiSCOm9ckVIo6DbgwuITmGIY/s1xfSJVLrpNwz788lxt0HemHt31KJbHswVK7zfwitNYid9ZUdwv5r5OIWA3xEhvy25tteBAWGsmL+W/wY19C8RtHT6IN/CHDFPhPNVMVzosTyNlqLaWdoksD1HbgproBkLtQ2aTrrGQ2szSypwuZzlna+03ycnEV2IJlNz8kW3cDtVWDB4xVuH12HuXpNU5i7YiEaOCfilQ51OosZN24JSBt/9FVSs1h+C5f1kVBcKOBeWWKhoncaOS/Bp8cO9i8zYzx7oatAfwNMJCdkcgF4HArdMEl8le8c2pCeV0HnMWtj1H1yQlycl3UxAHB8J2js2yyc+ISfinlR3yEN8f2rV/EXqnEN3hMGcrWqCPOSpIDiS8bLUZvchk41BYgYQ4Q6mAyjtrvMIRxjWx0NPOfXVobpJQz6hIiDe46ChvwmViXsvL4g77pq+SUEUlwumQj01X5tozb9/reNmqZNr40ruZW5XQFo28oJM4J9mPmeCpfK9TSj+tsnL7c3/vLqQKoXPQD/Ay3lKX5lofsXQI31GpnM8Hs06yAaFtNrcudsHf2JnjJgylC99Qt3CG6p2amO0c6TJIQCUx5Sqv/V7MaWOTbWH3kMkDanGSsUxXlclYHrZHbYP7p6pyD3ZAiar0CvB4I1W+y32zRLbp0Ma6+0kW9G20vgAlBSZwrgF5tvLG267D9R0lVkYB/vjR+q9qTEvLQmZeiZF7GztBFI02o02k1Iwr+deFt6RAIKCpvvIXHCNLoPBKp4TbMALoumQBcOtEX3MJW0mX9azIX4ZWgFPreIUDo6HGFVC2HMSkteztL+e8lOppxtH0T7jVXBlPJj7U0Oa84F5sXn8C5nc8cBrQQXod9m+ome02RvreHvcmfTJx4cElmJHT3/25AOhd6C+kBpBeQAdbqyk9MIFehOjdakRHtmSX6jrzRrkuRxlSYIQ5xprGx7UmAGgQcx/sx7ftVR6kuOnnti6+2I0ahT/AewT1xK2xzDg1y7NBmzu5kYSzRAz5G+7kfHhY//f8yjFsx1Nk76ZAP5dcGW4zii0kiL7shXY+KTpxdA3cieK+cFzjlFNSyFqI+NUIN6YLoeT0VfK+WbdqTlqRouYnBKGQkNjj9PYaVLkmieZdu6rRGj0eiyiRRbF7MaOj/H1ISkcooqinGaWejpRFd7Tj2Ea7wqc6y19r9WnLN70kKtHHtJxWBirh7wQC2dmdJuQtaAWo57bJ54icVW0rAnF5P3hl09B4H3nGyG5nA1/Y1PdemgF1/0xMDltTvzFsqvcVsW298M4E2zSKifKcMcE/LHlyPZlTjZLfXv6CV603VracyHtXaMpJh19vYxmkP8YpSyNXCVUec138Ac+ytxoIEf3pE0lwJP4FhSTB2nL+yVsJ8nKctlX37FdQB69TM4NlO+MwOSLG68ONa/5gzL6sPq+EiqVxgkbC5YvRjJvIYG9uMCbPPbb/r0HDHx+B0BwPv/kgIMamIy4BTrea+CT7EOdwlHD1QtBxyNKNJQkXYWqqQaJnPCiFQ7aovy8LUn75OpHn7Ugp97kS5IyGqyNhiM0kRCQi9B8efT70g6QYINhP6MC1qRPxj6SxbBnoPRItXOsBD3n16H2I8nqAkJBvC4GzWaadjpLM/JcJmK/ym1pzYumx2U5y687XoNow6pbdprRavQLKf7rbqtgUoKWMHsoK1B1d7AtVMbyv558KiLW9nWCNp5T5/NHfq9O5AcCJCFRxWZY0kifXUr7V20wwTEyWZQBPEZSGHKMbzuf77rxSckzughp7WuCMsivowzqspkjP8mf1Tu3ZQONo4BlTfpAFx5YLfGCvTOKriG+EKgW1N82jozv6NMaKMvMgMsBw4873JMATuRBO7lMPaSU+2RlhGc4+IoinZHUZ3lull8vzeW922HqiXesKs1SGk3YilDSZIteVE/dS013n1JxYvbSgU8JO9GbZyhOsgV6Om34dwAgv9O9Ila5ofpQd2e7k12Kmye6TQ+4SNCclLm6lcXAyFaGyIZ0b8veLkL1Dn5wpwO9db+OHrWKnJ3RTW24+5eIJVYkWk0CIZj1G2DF12a5BRqGIodOV5fBUe+rsqLbAUYYGLStwZrq1qLwhxiMqZD45OoNhiFWNolbLv2KHjPDIdYdkb+BsIPSMNG5tpdUrM5sxqD4u7qgAyq63KVWl62qq7A9Ldv912CeXzRDOklsxY7Wg1bKau9Z+28WOio8AiLf0XFv7pnrzMYQucYskQDkPpX7VjFcgb1NaTrYReFQSjsrBskzIapaz9oviLGml1JlKVz4N7Cy87OPcwdCZM7vBo3t8SBGEAevN+V7DUEAx1furKeFq6n2y0EF0SfK75NyjBzrxeJxoI7IwXCXzd1/ka5OkJily7vU8x3yoBU6sL/LMrH9qLxtlU+rmLv58fgWgFoI159GDOo2Gwgl1vMcIl3aG4M5xpMnJw4BZahlU0E4Ep+fDDleZYmkvPDLg4bQtVha9btn2skjQnXo46reP/CiRlvYXDVXRbnV50J0I9ihiSyWJpHRWIhIANmQ2p3YJJ9umalZKLeUun0mBmibbngasJUSEzPZhhqkwgCr8p/diPW14ivfDcxwE+VilKu1haBxtg+IG4YMNGDjcjA5yiYgPDA0AbJVZVDO8GlYqK6YPnbVf7Sju8aamWmDBXu260ZJeR4mLY8zcXLjOFBP0DrsDdUa6ItdqQoi0QHJKdcSCUjoIQiRYKmkoyqGGpg+tBMqyFLrf+/1eLXxAINSO7NnNftHLpZzVFc6uU5rI5/GJIYqisFYjceIeY9pj45VxhLLVP2EXr6b4qhrNCO+x7aNMbgTG9TBim/fU1w+UJaIiw6a5NMiH9SZahgk9mNQysvDC1wfXThcakL0yNCo9OEu/6A0u+sm59nDkfuTrytJ8YJQ32EoqBn/PopaHdUETRaUFEIMKF22pikZDkyE1a6fH148xJjwCTPBMYDAhYAzEmChHmFbrVZ/yS6P2yFag4z+bI0KjGaRPoQkaMgiWpWGfN77A5EqeNY0nCeKjvt3OhcslZ82grRl3AIzZ461T+7sK/epmM3Mf4Acwo3X4KsSK1XFVsmICThufl5ulf+GpBF+JMB8S/ME3VkiOP4od9QEZauqxdsW4ztHrXJBIwIsUVheZs/6oD7VsfKAcPgfVILRejZJx6WFyxZ21gO+TjeT1iOmnt1NE9X3T4DSRLMlQzQPQw1oCSF3HwI85zmfOOrWUwBeWVGFkFwkFT8ilH+nm6NrqmfruNwCa8GGUvNgWu3hAyG/QiN27CCMS61eJ5uJ5QYxTv6wYB9SU1JrRs5VRh3djt57fdoL8bviRg3AFlmOKb9pRD7fNhaCq1pdJHbFY+xVRLoxSaDqcW1Q2Qg7YxL7ClgfPTQqvq8H6c3cKXhz3nlnE0iztuaokPctZHxmmv1UJqWkdoYFRXHKOmh6jK7x+Ksh8MmuQsa4p6EbxjM5e0bcyYBN0x2Eco1NFycxMaVPrYi4nqyNHlStLBxZ7kmlbpFqXsTNqEdND594VPDbHuPgK7iI2Dfa0W7Kng2RnGII41wnZgYfxKUi/7YvvBNE3WZQVQ/GqPfF51nHfFsriSfLtsREqWLQHIjXOE3EZX8SsdiEd3QIW9bCNV9ASTAzInbJOD5WjDKOmV8xSsylq+sln9+kTwBw9JozWkuM+Cp+S67hYdZy8wGoazNP7d2LTA88hGa/qT8Wouwh9mCv48I/J4k2wSadpaqWR5ddPYLjyyppl/s0WrZqAPlF2m0QVWIsPmtS8YVrUIGmf5Q1+yL/z2rumIBy71A+KGwJukVKhsolfTkDsQIVoHLFufmdFWu9Wrmsm4kEQBTdtHzGGPVqVBxMNkzAjnum5tcnehG3/vwuuxQjCPs7NSpoUM6JKE6wGjlvh2RchDPvpvbwUCQ4JOspyWcGugjavgYEDqgekYF3W2IGnGTuTu7rM3MIuiaCgsM04MHGM89YYhNKEWSgrXOAi5FcmzOJ05cYFiX+Gm6Cq1q3huJp3Sx2AGq8U5kC7txE3eqVyVW19D1EAB/NKIoHR45/eqlTeABB8WwJRT6zSRWGwF17TbI3Ov8MrV50jwzjrPoQBXgwUewI40hvs2Wb4YHwmWFCS875mSg/ntQ+XE8ycyc2buMhwSfPWzvawpOGH7dOCo3FaM0cQWlZhr9VckgA+w3okCbUFDFixlogYKO1QVlM0yh03Or1j/KZMRsrulqkPV5gR8a1xd2csWy7z9/ofDbmQ5aVPFobcSCdL3RWQ/vE0CZRH8KqXtAHF+E5e8xXdBz5mkuoCNIn8iS1h5pFjksB7HJsf9NfRylI3kgKahbvZINbKcATJZ7JS7oxAsKMf1QL7cQaQERXXneqoG/F3PyeAFtGj6yyWbYNXuVEoFYGwnRscicssvm3zmCXObs8J6hsL96KlWUjgxmOZI1Kzxjdf5tWC5RY2o/svqVbK+vrbYZ2brO8vcw3voxUjY3ULTgoIz835VbF6T4/VvYUZ5cB6HoNVt5RIaSMf2lA7v03moPkLIlDKBE7Of5nrl7GCT5bdPl6cFCSAKMxUHHEqsBt3vOiMgxbxbMVRCqDG2FAKHO+ICMbINKZ0e/KvNi6w70IgLWZwWXg41dJL1KibFAF3nvY1p46DrcaiBJIrHZiLfMS/J7Me9IFfMBXhVf3354/e/G/xXcTwgaQXkbCv8CwTheDh4M9GRomV0q1JRUgKJneHOx8DYKrbI5HX3OpGQdMA0ubk/ZZIJo9h1/xiOzDP1MAN3IyhA0Cf26aWPXEG9fZOT2ld28OccSWTd86a87chS22TKDJDoBpii4bUmEueGUMFDCCp3QF0qiGcO8A1ObbHItPpGb44rDpzafkcTPVzbzkEk0qMLyCYXHFW1F+8LjXeKRZ6M0sW8nw5G9OYjG/4/qm966ju/+1VDChSawuaGD/guJizR+dfvr+fNdQA/q3q+gdVkFhGRRxjxlSMXmpM68dOWYw6AwMO+8zXLzA5BouhODyu0WwATBld/atYTY4TLBeCR+VZpLpEqZRept3OEQVwX6HCax50XPY+Jo1XL/OBl3vPjA9MBavlknHLdMkJ70L2AqdIBcATpQDfzjSqhvvjfO9MFs/uZA+QdovmKvx+wRlc5PmhFeS+DT6d4Oy9yVKFPtb5Cxvg1fPRCwreOuBDT/MP7hVnXxPo9PWhEDfSzWeDQlFY6UQ2leTx1dZxo3yvecl0IyJhkSxvMIJTh2+tmRXSKVP6NpdOnBj0tG0wyguFGgBMDcT6DOnz4D/DgxhtcZuL5T8WTZ/zXApDTw/NoSq5fecuS0dpjxC2/SwV8w7VZhCfFO5slAjTJ5aVsJoRAkxtFKMPcTzzGIY9dWYiXc5GDBey6WXGp2EiO27326ggz6rQ0b+DhiKW0bxVNUQSCo9jVz5g4khuz5yOWZE0OR0fHSTPQVeeiKpmFvndpDjLQfdfweXDzAKyest2n6lPW7zgNANyCgbKd89Dkan8N+qE5fg9SrLgo2fiZgmBsNjGyVy4Y3QcwLDuWsyZAdZWTfBzrPlDMGr3dTPqyRCGJj819ivxFHlxLvs791K6mhI1bsW1A85BHYv5A9/E8LodRt2rNPpZmsJSEX17CyfdknbkcCX8GlJxHFvTi5jjMMfTb4wHfDn4vGEKc0kHsn3SFinT1euEfImr/4FumijUYi0+jt6s8TxK+bReSt2EEZYsd933ySAj766L/C6M+RkIvg0c2KQ7zkda5r5ir3+eD9wSAFNWM8Rz/acPxXMSSQJYO33p8DQPhgZ/yUyP1hj9RzamhakUtseYm1d94JxFqTHiZOmmdO06G3Mjimb2m6DTtZQ8QGQW80L+DFowl77utaZCKyRVYHMsKZPLi1KE21gaNxA+GjwDTrM98oq1YpMUHlEtwAgNi1IuUMbv7dhVGJhDN0T3BrqdiJ9opdtAPkYFH6OJL40T3oHIDLS9TQPSym1b88h+R1MxwFU1GB7UjmIDZho8sswaSWAouZWQViewUTTfVrNwbBPVv5lCUFD+eXFJlQiM6XajieP3iztkG2m6yH8NNzUtgSouiBFfr1wkOtz44HBOnNwhutxGtNn02SryQz2uVhpL+Myt09zLiAkbj0iYSpr3iaPLzaYnfAbAIKYjhGnquq36O72FavOBKCDUdLo3IzI87kXarcOcGr6/vt+EulE5LpefQ2llfilXDQHmq66pFaQwHjpmym+IlGRfl7wKypbGqEFZRGUPPeILUGXrd6sl4h0yibZLqgUhYsypXW08nObaywF+b0j5YSd72UH58dsuP/AlmOMc5HA333fSkqCrOvfN4oKO5k1JXtIUoMR88gTwQ7xRCIB05uDVgNoQREDv++r87HITjcH+uaM3GxLjWVonSLYs5jlAZeSpKaNX07QTz6Bd9pD18lMwEjyJM8x/UqyDDvcBXibvQig5zo/vLHXESPIHfT9Yy/Cx5MQR6h1qHPgclmQi5+nBUwn4TivKqexluJsGQDErMp6FOlUumsn7P7Jl+/ziDj9T30BNBvGpUQ5vQNosd8bUCSSmQOkpirMCVSvV6jnVH7qxZXJXWVcqYLaw8XmdFmcmig2bRFX/u+S44FC2cnUNzKhPHMswbgarWk4Cn9pc/dDmA0dsTnQTDt2u2ccI55wtQcpzklyYV/3lyu9utl8tSBAONhBaz5UMGZQmNXAYU3aT6dVlV6RH5MLg26X/UC9Q+TITLPxf9ZoBhmg1NzQ9y8u54/xTJSoroWuUSiWzqmDXLrX+Z81Cg4XzyQEf84QTGU5CFlg3tRPy89gwEPrL/cDKcoUSW/5fW2pSaubkgpYQdsFTPC70zRaw+gnYn9Un8zwRpuAmrliFXCfuybb5Zh5BqcxbUwlwihAOKzZWlColYCnbXLjVfas/UVhkalPRMsgDOco6J/jd7YVxSzKMQB6jvvOERm2b0xrZdB/BcDQXBaaxTy6x+hGic4rJqJ+vFzfVYWv6ZibBuSxk0l+AguvrTfsrePDCbeZ4KsjA+4tukoJxNscMSlRAX67PFznSYw4FdpdP67SPpwJzAe5Z8AjtKF/vcISVnw2+t6zm2Q34otPnir6xIe222rteHebhE7bqdfConVtfg2/yP5J4z59lzre7Whv6CSUClPB+0U2JO9JyDb5i8VziuU7MYhsmKrURjp1kmo7tWmoIRrNwZgGxb1SjHcbhFryVlzLe95V9VI+nJUB/kkV5s3AvB4umOZhaQpuozbvc14oNGUPoY+GUkeEyGiW6VmSOKAtUeVg0ddQkaAdbwtW9MQ8z9liA0eTtXs7jhXO1dtUPoB+rVz+vCGI1sOG8elI9yUeznRhlhHVv0XZ5o+PvcLwcFbD4MIcu+tFEKkTLq8apyA0Hu/pxQZDmhBCF5WMROmOKTPAXGv8PiZ6VYxUmu9bwtwIJ23+MsvbaQhx6XXqxA8p8CWtCm+VpcOQ/VpfcjxJPvEGo27L8EDrNlxTSM3e1gQIHt58FdJBNmIKy0oK9eFz3WeL09OX6p/nXlX2JMoZ4eCHWhIUbIPuh8ldiYwwo6qC0kZizZaLwaQXJ7xZmWN+0tgucUfIIjPb6ktrDYQWhCVsTJgx7q4PH+1MZlBl5cWNreV3bfLraFgAOcxB9teGJUz9NAHsz5LCLkX8XUkCusnaIf2q3F42i35UpiVIHLemDkIe4Rcdj5eRFP5urE5VOJusWq7/KADiUJxIbq7QP96GJFvBwCNPSlZ7cSwIMmmM4G/DR5hO/PJ8oQjqQd6I81eIJ/y6sxnkWB6fuktyNih/FIAeFDZyMXyFjsu6Kd+lA5vYXTy98TiLKCdoUTaBrM8bVwkZELj8F1fP+Zv5o7eCjNuhFhOiiX+UcJSrW6cVjzzKbaCKZcR8fbIUAvWhiyLvyi7FL9fvAj34TM8ZrP8iTiW3XI3g2h5YeFDrmHm+QBIt0OhwhGwAIImDA+HsCPvl/UoXSQiLmJD//Qh8bfHyKoa6tAl+4MWIlM9yzwinpJK+d6doDRYakTUKiDtU/1V2tWFWTMhvPDVvLHmYUZuAQn39/M8K/eCDdHGVRIXlqrZTxa4MJgtNRjgKKJz9X8wGNjgiJt2Taylnh9RdQRlcBKhnpU2aSWWIfJ21T0utpA0XzkogjzrLahFFycHMIBApd4NNoou76h33Ubem6jIDVO4KN6HjPEOCM94pz+JZs9xJnCW2kNLfyq9GcU6QWvVRWVbNUhVAE6G26zegq6Ax51Qwq+lDylfyRABc/U71wSZKiMw0OU+qAGqKEhnwrdiuZer51qRhIY0Lj6+/Q5LP0693gekP4AtUhjHodeWBpCEnBzEf/6OlmXz4vQMuLyMR0MzIheAlWJYGvC5/xnQP/4a0XWI76X2zggtdP+yfAMO2VQhN8s1SRaKz5HTzzYSyzyJ8dgtAKWr1f9tLD18bAIdlXrphZ+XDpgfhYERAHIqRRps/sih/xVHVGtiI3SH3/soOd28Zfa7KlsPJ6rPDnXYTN4RsYNP4fYkBCrtbYS9OdCZyB97X82PqoVnsXgZTKD39Hu36KeqXDrSqfNx/UMBeK86Yn7yyMCUMav9hbq3Boql2AfkYEqMudhMUMuSh2tC/9+Za4eZCEiMO0cnVBTXL+GakfbDHpKA5aVmz6+b4Fb3w5kCkuGKz5suu9Zs4vqXSYBNdZwCTp72n+FlYS+AJiMfsTtfIrgJHivo5DI9rWUkksoeXgyY3u7yHsYftIjWZpEbfMuSPc81gDQ6IJ+1pknA79chkEfwOhv4zuvwzeDS/NpUx815eLknPb/ZcRq3mWaE5Z8jbaTgZIe20GyP6DUkr280danPgutFmiQ0Cn/Ak68hkDXKyyXZRXMIx/oCTdEs8m0VyevmyDjo06Aoq5ZG+bq/h1jgAwfOhxFbMQES9d3qY1xr2HSfRaVdC67aOatbwIkxKGLnj4rJQa32BYylmEq+njOdHr1eiKaZmQ8im1d62c/8AcqBxQA6sa1aKE928xgldNl8ivik70bEOHNnmq/gwNkhvJFTp7f5MFw/InS331Q4hR+XtGOXy/xW5Q+6qRRqSxWUYvnxbJOsd6QcQL+QP0k2dv/EfryLo8NzffoMKf1Z6T3paq31WkKBzneJSHT1f21maB6G8svwTbbkZOUY4BOcbITcqIBRUM7gjFTEpf7uH4D06j7OtqaQqcJFK1Gli1DUs9IJN2NynvOhkcIGC0z/nfQN9Tk3N2BCpfpa7oQSGiv9kXMIcFGe7BxlcwCz5wNqYOE+UjUEkbNlgsGWKXE/0x2jsl7INPyKnZW54kd99Q+Jn/NXz/dAB274M/IAeJGfhlnu8DUL4m1wBiTdm/tEuZMpJarnrYRMRN98847wm+cXJMdUrpU9IlFf9Xpka0zArBNuEfGNA4b+PDEqfPUVcH4KplpTFBY1MW9Mravqm1ISEHJksl+Br/HLFfqJaJ/Y++Gk9VoV0fmqKTVfwVv+W8Hl8vEE1sG8CBfpSt2PHDr1vxwgMZa0+4/3nAe2dfRFqyt72QHl3KUiMm8gwcD5poqdOkBYFftrbiMkE18FvW0gYptoHMDerzAqdDZ26vbK6pvspwb7ZlHEZwtz+uGI0VloEwjcDGXaD5VhUwrldT/N/6iwWcC5QeZkj2OWDy6QV/xY+JyLUiOnRK/shteAW5qyCkRTiZ/SxVn32AQGigcgm/GODL703/AnOUIFXd2n7p69YYLY1FNyAoL0kz/WsU37UYW80UU3d18Sn79Je7O3eoOTsfypdoubazgGDwLGbcnRUJMFSvnJoixEMeeMIf4CqcILpmuLkcy5ifeamN5Dd4OL++foMcPTSBZeXNdVKHvKhmih7aVUsaZ7RM9MOlDvj5ru0Q+EXGJ7lwKaWSgH4ZyFYvf3hU1VBzcXQTkP2CMI8F40x1edrYdsIBMbZjjxcSoZLMb0/I1wHy/JuPzDWmAUGX5YtfIRrNEZ79ELnAVgKfPXc8gNHfrBV/powTxIrFyvMWKnLiuccYc/JlPZ7K7trt/Gq7yYF3wFe//RFO3t7KKtMvTjlY6cDqi6WY9WibQUaK2bS92TJWL+L9Z8Mw+ijtWk/yJZIgXDtLXkrh+E/r71UhRPgdJi2ZksBKHGYkgEI4WFDyCNHdsuORmcv2f3E7LMYWO6b894GbDwQu42gZRU1AGYzN7bJYQLdoQBmTsR5M2I6S9iv7Chi/NVhqiiavOi3aiGV4eynaEVmglWTxaWeDAvIyMJsUplP7Y+Ft8mYA6RAWvX5iDL7Y3WG1wL1jKA2qsydpWP/GNx7ar9r4Wghhb9acd02hrohd4D/W1Ya2iJkZzR9gQj+1Neuf3oqDmhUQsv0wrdueNaXAWjFc6iahzaNHYwiNzC+Q/BHU7IExCM70/IgDQjlLuPsrphxvnE9OfLIgsqXhDJ+tlkaciUcCowVHR+3Ogs2qKNfYgR6JL9cuFN/O813HXOIrManKEZN2eHGD1Pe4BkBoaS1J0zCX9pyMngGi5CrU8098kOeYDbooqEJ2Kb5KoxkIa9+Jxw7msRNEo7Ue8bDmAawnUtdetCfB27WLGXW5eB987JFJD9xG/KUXs1tVEAZ8SgvoBbJvG4sVFs0QOF7GjDWerq31nDPJZJIGY4H9JZ5IL4aV3Xh9Jrf2EBK+WI0hYzZM1hsajMFUfnokwiGaWlDEmfRRRtraJT95jLXgEppXpBK8XxqQczmnveJfCM4pfreDDQxi51WL3Lvl0zfPtG5iF+6m2Utl4STRDEJHacXF41NTsp08iTWNxgRtI+WRI9Y0U6fe6zUAcv1re2FqWMzSfHRsnFG7yaIPgw8J9E3ND/igAAdcIIX9dNcP0tv7xbAryk1BEGdX1p8aBM/ikIf8zpGRVyk8GroMO90VNAmuFqqDZsHQ3CBbhfpnWHbu8csD1h/CGH4+f4Ev8HkQ+r3+GlldlEGTVUHPWkhf6tV/ygXukpuQghEJMh/RwiVeyGtb0PU8UEb7jqp9ICXDyQFNAr3IWx1ChxyNHlkRdHXD2G0zjbmzJlvKCmmPjDhtt74eMr+WbL9ugTeewSSBMigxSvIXj4G7zFaL0oyc9BbvpW3i0KLVZIo2UOKlfLBokROC4wAJ96jmUVwuy0+Gqi91BRnArB6Y03BdUy7k86eUXiinot6k53VHictakyTESfZC1riuGff6Iaywv3CcOBNN017fupxpHznEc/EUEv0QOEFV6Hqn9+1E/ZGmA56o44PEINlxCyAFCohpNUOLIfnGmtD3NKoGHz2cVqBRknXDps679EyuqxtrulFL4st01y+zHTEWmNiI1fYbqpXBXNQYNIkpqKdPo2ZTuTnKmCUyVOOjaKjrcsqfb7HOEfi2oYWkGN65mrj049pDu3y3U114mX32zDiZTFXrN3MxOBqHbhxIqK+Zw3mfgnfVZ7a2k98UjGp3VHPo9qn9lKnSj0hk6BpO71l6vKT3Ho7HPsgfN2+gfv5F25g6o/IHmEepcleoeVJvRbyfUMV1EwELDNPkP2l0o/jRBhf5Ke/7n5hbo/JN0w/d9BJE7TCQERl2WJlVgA1WYfhAWTFzxxJnuAOHLHu3eLjduVjSfr7EkqtEhTTv+LlezsOFWCJxrTNu299at8SfKemgSf4478C8ew/hGfFNGtMXXPwSlXJjLShHDyo4e5ASHO9pePTZuR+KKW137tPHDVeDvVJ2kNr+GrkWtokNtlmx4cbIRA6BMZkjRGPmRPvmciv1Se80+pS+2WpeWxBQQo6UYsM1gc62Z1OinsbmTMyLsPAVn1LKqoFmNSURvTd8RPOMQn82TBIur3Fbm+FqDKRrSdK2ZY4i9tk1Whl0E5EZCMrlhmk5SoF9iO7Evi69IUSMguUuYRkIWMUk78GRs5+U/0HwVmsZJcLW2omcRpJsoJ2bAmV9x15fypUiv7Uy07vso84jnucm+wnDXcnDE61wniYLqUbgaIDdv5eBP9GsKemyTvb3n+LQmZBvnY6KWF3K24c3Uor+2fZvsj5cdzVbN6EunwocQfFfhVdLNTPpj/RqWLrD+wa8kgv/M+LG9MKQfJHPx7PzKBqACM+efeK41rQfEH74aJcSnK16n6qT/DngpYoWh7LD0qhklPpRIY1KOzPtjZxqERwxICsjLcSxtgILS+UFspivqPMgZVkBRwL/wAR/lAIuGJ7MADflP23bVSXKhsuvT6mPQ+98BGaxiXwXN1/eL8NnN64U7t0LrzmHlwaIt1AYp6vch5+AF89VBFrx8rqIIP/b0f9yL1j5PjRIa5KJjanMvMpCAiXqey+SmOg4T59tAaURTe5YorglehtGOWZxAXLLl2dcXG8HcqCeT3fjp9p6cBSxfXHYy/xDjpJMTMVAJ35fgeLhiKjCZV9bnN6aS/aS6sDTdUYvpkOhJVl1rA/ojodWbb0y+oZlcohl0xDKc25VgtIz8mUYw//ZtOnMKg7QFdcojkLKcK+4XMWhhyVVwcdPRFqHqTilP72P5nIT7zqW3MSCkGRPrj6KKKuYwk49tuyyUVKAXPfJX4XZ0znxUk66KSHw9p52y2dsGzasHYZcuIMB9DlAQCgX8KH7gRGpwl8+mXBw1sDB/zSFmAhkiVXFxoAGpmOFHT1/hDeOx50MtkFbat52ctFFKZNzLExMsgQjuMRokElBIixA8slS5uk3i4ciPmExlmFvOlVFUfgB1FUxpjwFsw/gzJbMtcZ6ejJpfqtf76q+rnyrXg9M3i6k1Frn9nqM+wttGADJtkfv5t7pmHNdOdXGUbTHJ9eONGmorkfFSw18en5dHyOtE4+m6YGx4HeY6rqXk48QupMAMSAbQnxWdeMxNB7pPG7hJNVlouViVJrnG8V6kSmgfSulhpp+qMx7oDb5mpCN56zxuELl8VX+rnkQGpAi2jG5v7jnxWu6Ox7bp6L5IyyLhvdkaRhhDrw/c2Rze2+3k7/NdLl11h58Kc8TGOz5nrkpCK1mOcav6RJe+0ONEuYVex/nhGwfpBkkHZJRtd7zQnkE0QQZW/+X+NR1g5+6n8Z6LBzrSaBX9f7A80i+jeCxyUYPwTpcZs1nX8OWSbY3oPJJhkI0a2Qe/JZOpdxa4GRE2T+PuA5kotyjZI7c6y3ZB4kYjgO2Dg4S12/WhsSC60QBVIQZqZ9mlichaGFU0VoSBsfD1ZbDd6RI3or86dZBzdXbEtmZDCmyC/2sKU/Olk2TGjTYiDPJb0turRTqGsFLcw+oIdjjocvA+ywkO3o3f2650ArdvQ2NesjE7XJAWxclKWMfL06Kp4JDPDpeOgeG9GQvSlH9NsBH318GsWVVXJt1Lo451IK4m8YEr1ZVJYjVLs9wcX6hsp6DaUFrRsPdMx6CmHJHflYG62HR26YzaoV0CguAoT4jA/+vu00DNKRbxzXUgXL2TXj6qYKT9kJz/5y4jBE7uOM8yfqRpWJERTgTvwVGSFh0deba97F0vSLQdI6eG/mKlybh9iXZ/NhqLVdx7SGKakjcXPjfUG4Qc7a+NSGzgqkZ/kWUWE3XNdQcTLnAp2bI3BkntpOw4SHWRuRkA3w2veNIYdH9Ol8HHg/cKEzvlG6R7lmT1x1BmYiDdiWp7NbeMDNJzn0AQa1oulGjUkpKz+ji42XZkYD6dPfT6k9+b/RNtAHttbHneVdUtv6WHWMT/e4fpFtmoPNqACfyDxrH6HTwT4J1939DKJKnlC7CHCTbkuCzfxnAVrTCHw/HoBJiHTPjm4xjQXOUbH0Ad7CPegjbrS0kSxdSznje5+35PVoATsImGAyvDWuYvwfx7Sg7HtmqH5E/sA+x0qRqS20pBo9+duu+HA/57CLWUV4ExmMP6cgijWtEjXu7HtgXDGvq73Q0WRuAtvQKtgtGSPtqMRQyS/zBSIwYKCHy2gMLuM+DzutgVXAF+lOlX1wq2hWX4Di6g77aJ+DI05m0n5tz3TDTuYVo31YRDiCpSzgGjWEXklczdykhflcaqif18LURA/rOnMqeDISW8znBRM/Pg5KCOgFZn/aFC2FzZSmi7bMVL7a2+PwL8Sg6cUX7OBIhJDpkqc/GJDn+gDtvGCMXCKRXtujfl3s3EwiM8l/oquxph4xS/r5lbyMZvnFwkCfZbbJxiptfvmSbvTPh2TOOGtM6yUleBX9u7FdmVmeZQV5ye4j8SXVF+TgxT7WLDG+jzPkRwhMB0pinT0lf1iONkjgxF5F3J3aH8k9iDDaxLz5gGR5AXG01ZY3X2LmVZ7eCyIv5zEUghWaXfQRzt7glglhlEKlp+zmgQKsrbMuFZTurtCzWaO34s5CdOnIhABc2lyVURgQSMPC348t4/HAmPmn9zZW24k9yXANxAomwLcBNHgwtK61El9xBRv4aRdGkSZJoUoH5+uPT7C3l4Bkn12bobHgak1VUYrEn+oW9V7JHR49A6EH2gXvKo6rECCOsy+LUwg/gHOxPCJcj0jmo1tkN0vV0tCOcogCdMlWZMvGqozy9zbaaGKbS84e4027+bW7L0DKdforzFowV1CeAcaog4dxyTKPFwGXji4weIV9PkKM1w4RdNOzbo1AkZULRQ7cT50G5/mv8yt57IE4ZSVEI1vjFULdhWkZaJVkSng/1cXV+GgUN2quXbQPrpAb40PYqboNN5LPn5Xm/EnJuXxXaokKVMugtv9O+M7kvOJrLBbvuNHIGum5nFR4ZJlRVwptirWqE+szglwz1jhP9IJrFVXoaEGHDSbdjk7HljnTNBv42fTJwa4zyo24rncRWXFze3NgJ7eVo2EiAUH9c+uviaCl4pwuARH9MbEib7l6KupleGqd1IwkopN2/8zxHMQtGZjhJg94d1Xbvg8xWime2d6+lgvgYbXIbJjcBLCJHbwD4ZH1wIt9179X6t7wYLCkTP3kimcMcX+qwWw0RDz47/Q965m62QkM+WbrpU6BmKgbIfZZCgopxTku6RRFRfAbAnuia1Lvm6fNh6KCf1XRBE4/e1C2yAG7xMgWPQH8sU9WMVg/cDxgymXTuWj/n+8dEJvqoo9xz8w9lJ/WykXpZ2YrYQPv6ENMDKu9gM3zvbLdYI1JtN5xpZnNmvnKx5EBnFo+TkbQwsnFuAUkKQD3OLKXqdH/9Wl2Wbzp6bpDNjP81ad61LsBZuyj6RrKMW8cviP6euy+v3XoHDiZx4hi7aD/Iqer0ayclQS7mCWqzBEJq2ptD0jB/Q4Rs/jpbCSHkvCmCwz5gr36XEjOyM7qRghibHF0mYtpFSHlkjaXDl5UV+/Pagq6HYEx+Bva0eCGQYqk+eoLB5V6DZSSBofRD8xPOZqiVB1gWiljQcwfCTJD+XQ5SAbY4n145aCJK3KiSFjIRCNjVBS+tt/MUbioBN+pYGHRmBRjCGrPz4bw1o3WvMpUcu5Vdx8cP16sIzmmdPBd1utNjHPxDe/mRrM/l4yN6+zV1EmLzIctYOYfUT4cWl/dwWS5qxbU8UzaekOFpRANK+0OH29362i4ElhnNxu2QMX81fu+E6QmhIkL6fMlqYIwL4ARViIQ3Mufxeoefgajk8WJmHWm9O96COtp2cQ0SprZQqRCc7R3YUGB3BOHSnPRNf6SjV6iXo6NdT0ueNRXh1+tTvRg81JqE7V/MMeW5y7wdXsuUTGsleGfYRatbRnqQvqtwwJMGlUo54VjSES3vyJwfFt5oFxJeAK0JeDBO0JZJjQ+tz+nOmb5H8tzaViEGYwuxFlC8e0s4sjr29eMA38EvXFAgJ5ZnIWLy+sw1t82o1QQu1Xg7FOEV4Q85omYmN4MMaSRiRj+ys2Z5Lj+fbNtxsHvBWRW6poy2CC1syUu9KysBnrfHa7krfNHntcu+bBcfWS/dFxEXfAYvMrJ2EtGA3hlLkahLRr3g27yDz205+N6rIDaS/HdPWC0xJg1xGaIoyjUQTSNH9q3/Mmr2WPb6uurqoPOcGb4emTUX8PH4EOgApWtVcV+abENydU5kijpvWqgoJJti6YQazsHFNr2BqiPxe9RHvkqrWS+rk5MWFOjls2tqU2Tc8ubSPSSLZUBEEaeHZe8hdOR7DF0NulLZ/MUU3e5y++OMhpB60p6HzJRggoR7KPLznPDIYXnUk2H4RN4jJ/brWe8MGHmFh14yyJrkw/mdd40iCJs1RECXPYgUoYtfAJnKc4o5kkgsfzeVOQVdhp9OXpFdta/BhFctn+D9Xi45HjogfktPqSzDsknR75LFJQdMSeiNWv/2pe8Ng73leF6DwTnEwt0LRgd/q5S0Xk3MEDXzEmvOLK35ssCsEa/UpSt0O3wN88UiwmBaYmgmwiirIn2locpgiRYfUYxfaCeL3GBOoZbmTIzvaPRHHKFSprhRE2u3gdEl40heeueU9DJnpx+cRmR7Y4Jtxspt0n4sw4tMr4XPxDw6gguwC13mWV+g2hKcc08vPe6D0++AGWRgwqHsOJe+pTndQx/Bpkbs6b2JMXe6kZyGVyiY1nraMavFTxaOGZt86fEmIvHUJw2DrP4QkRwibyGIZmtCtW5HWqoMG8fTGF/uj7ua7XCVYJuCUCxrwojbnAX/9XefE8jk/vsk5JEe/+LmXOSq5duFx2UGBHfM0CxjAApwHO9ZzDfg3pnUNMyGKa4CWbtcJhToZNAUMRanAn6g5wbFiOvJrXGpOHaFHB1d+NxTTzgHHD55xiVEfIdGyfm8NAZ/SRRf+EBlBBx+P3DPGGqLFZNHN/SfEFrc7vSDtsJkbcmIa4mF0rgxpuj14+stf+SD4p/iT5lqdYSo0Jkw79BTaJbLp6U13x5tvsQKjmcibuUTamBUxWc/Y42MSo8FABuXSILgT6PzV0zLJW0ZkmXSc1NZuakJu/aapxeStnx735eE3+NtKDTWaevxWt5MjO/LzINn7hmoRCjhJP3xBMTEL20HVskY2pWGihJKr+p9sqevdbdWFPNgX+3rnJXlMzOk//GcJK+poVVXmY/CKe2lfHTff5RanioKL5wAOLBwLW1RAVSJZqLeyDCWsDQjv/Qd7eM/u7vfkTlgAwk4OUbtXRuQcjb8YrFu9pSmz+MIqskIK2P6wVagVX+cTEnQuIz16ZjYu9R8OnSN5xqz+jqORelqd8loIQV83PZDrC9c9GpsnJmXS6B2RtEJoW+ZjFpkWovHtUQbMT378favuR0AVvG6fwhj1WLfwnI+P5hGq4Vbt658GP156k+aqlH++3o6yOhV+cD1tLDRNzuUYF4fKFl4rb5CzEX+2G2h11dgjQqqgFFh+L6uoYPuSk3OTOh+6XJAzbTNI/m/tEkl9weFzfKhloTquU8bCFNCSv8+UvgNJiCpgO4U2m3ZeffCFV4YSsmL4KOki1s6+pz91gceeOqpRDELWX7c8Dn5AH5ffA/BHoFk9nCvdAKq1J6eUCtF++F43TR6aNsdLwD+60S2M2QZUyu5gt/EXiiWVURaCsWOx7uJXdWGqE4+xvs1jTcuVeYTyUOetwgJ5StzswftC0QE4585hR9FiK2HzqHrN+gpadd0AhGDcxMhxXoJiflhmmXUB2FvZETlspxJsHMsaPkOvxm+nqWOyBwKd+AhH6ddUbObKRcX68wZUpT4Oy0f+BMYuksAPmWX4SclkuIkv0IH5NPVMY+z/2hwBqWgs7VlLKAcQ9QNHAHrB1a6EHV39bCyneeXCPTS0NH4Na9R16Zwa3ZzA17m02f5WGvHYckbfvZV4+dbYVcP8n7EdnAFxMwr8w3/SqNKAdmGumUN47LJjtfdm0OAQkmZpC7wVCgkHtaTvpVNZVfjFT81EWvE9HvA0y5zx1wd8p3jTVrZ1n/Df/ep6xQ4xUchE/589gQbfaU0vFFVWVKgSGU7eEgMZ3KFFMEh5dWTIxvMVOE9MtlX48soijEgWsaRGP/9VE934B/wNrngZnmTbcTepkCRDE5Xw3QfFsVQ/yrs03c9O5Ms+G6ddkbthcDvMRVhv3IuUzqCpJ0DGmX42vunWWDoZqe5KXeBoWTpg7HsMjvVAxTn3989bXeY0Gd2E3MZVMJV/GqfBwct2xzyXUxxBw0+BnuSqTi75Csr7VRwpg9KeyEH9IHwmVLqAfkctoZ3U3Z7DmAknLC4+Ogx0YFwhM4gPjIm2/zhOUa29i1HVZv6fo+uetQYOS/afV2jmThaLagQDcpkFTtT0c56YV1r8P+BJKrQ6OUyk1zLRS2Y2diEWBi+4HQT83rWc0QgGKI8acOdoO7PUNVkr8ddDecZ4H1FN41SpmNuQEqUCC9ilAjHtSwCZx9t5ZjnUrAZLa9yaO7Fe+bXy2vt8ttuz7+Nsc6IzSw5ZH5L+LBH9gvO5JSyZS0AKdgH9nPL18UZWD1vr/S15J0Zki8kmvbVvs+EqMmEV9HuBX7xRsUPbwp/F+Plaua/1F2Atiuh/lMlB3R+UvVLS3wrn5XRIwr4UAhXmZ5yT/cltocIwvoymYIBhhAVdXJrB9/kMB4Yi2qdz4ucQ3g3sDElVZeNmikDJkCSE/snAYewV7GC5uAdBnUIqNxl/Sji4vuPnGiUZNWW9uh6lD2qeQuvFGosMl3T8UijArLjqqnHw2JpgotiiT9/tRCUbqPtIlvfdx234w4BjYRggsiHSk1CQJDa2KU/XAreQ55tsckr3JGwj7gYnaRchjDHd56jIv9gdPEVv9d1hqfrpCl1iHE1hD7cdb5k3jrvXXJPVrLcc8Q9jXdFQ91TdWgnLarKq0r7iOyx5/Obu3KDz6koNDgNG57KCJIkKLigNZWIA3pBWbnJQ9us08HUdnmQkkocoUIl9gRXOjef1FwNg4TS5vcGZQNQrFe1iNZbM/RJjOK52sky90ysrOqxcVmlUx1GVZswWUPQGh+g00K8QBkqgl7Mckz6D11iY58lmtPBp40d6kXchu1WBFnY5oPZzJtcL/4lPoY/lKck3Uc0kDOgekW6pte0uCNAZIHXEOBqLRxkHv9g2BRjYw2yBzqH8S19vr1MOXoPlFzBte/22ycDiNIY6Nhlv3uZseak1OOlAaAqiMZk8mLdGj47UDQ9Jo/gkSe599dIUVICRJMD6NhuPmi6Cyr9QZ/i3OJAm4BK2X1BQrGCIqfh5lma+QWEOOqA3oCzBooqSaiXfEpSiF9esTOa2RZ8BlB+C57kKx6gP4PeduRBlhPRX3HF7l70Jz/co4KVDaIfksjc4/cLlgc2znTgo0961Oj+csss+9yxpXuNM+jzgklyGtrnYLeLkNB3nUaEUmVfnMiVGMfRBGLDjLYQjvyQarj4F2pPV/bxp+eTtR//Ge6dS5y66+jDw6Udoe1YQ2AbfQTEM1UmI0aHBRt/cNqgAUJlq+J3xwoKj5cBE/DEj0HcQQDvV41JAnMyLOmhpJe7ovLN4i0Rpj8X7293s7Uu2xb9zHUBtWySzHBn0YOWn5yf3ix2srVF02GgrGLOQp4t+ZA0R0e2cvki6Lv5L1WrherLJgIsFcJecBqAmOUZyoIx0yd4hsSD/TKtdIpocZLlixUEDIvH7eKq+fUc4bokraAwfPqznoYFbS5DSncG8ltTxuJn4jl/B29nLGpdgAabhHx4nN6jXe9DdPm8LYK6TxQyt9Li/ADrBRdy3rhMSO5OSlE7UQD0qP7C+F2GM34WiuO7Kv+878IN2F46+iNKyxoCTtWTic0mWWjy5bmdzbzNnkhloAsW9hOxVrXBFszVwDt2zjKu0eWjIbeuTBYL9D9zwmSmRqCUuyqm1GIXwxLIU+Z/ipU1wZ6if87fYkCm0JPmb3v5JDAWtsabXJID96XxWybTQZxL/D1uwxPHJiWcBndv2UrVgUJCsbqLhJ2eUe1Z8oOzMvYkKu++8biA9/zO9r3aJiV8s6AHVqwdDZwYmxMx6X1jKKVfJc25g6K6SqumAfmPQ1uI1sP+VjqGvyXXEQnYBDzYCiGLBeh72LQOqXeTETLbsirwiD8uRVAWEh6bdWuLsRK417X4VIvvWAqGq1YTySPR0thRFeeeF+oMkDg8gp6DVpF3YHXHTeewQQd1097fSudbY/HNYpQsOYxl77NUJzXTGV8w2J/RHx3qU0n//fsNXNuH2aP3h1AUDMmmqKYxCKzWD4Sx32oAnKxC5Huw565hOqeIiIQJ0GcTa8glkHpxXHEK+k6yntrnEDJQjqoKAxnE9O+sggAYubTMNyG4+1aZqtjVMPUOWN0tpEyT2AnOAw9yJEMGJEOM1p8ykqihYyMp2/wLK/F3AiouaPPhHJAyNwutEA5+cUTjq6qIu3Sbb9+tCCjQcfxWsSO/AstlLvzML6yTcrKmhpMCLZcVglRtr04w0dru9Wjazbn4viRsa7b35aaWnLO/64TIK0njn+k03lUK2UR2UE6vywwP0ubVOJCCVQ8zARIRf80FM+2k3XvkowbbFgiLqe3DBI6CyYJzL4V2IbKRns6QJ2JdrzwyUZPIcBiTRuapw2V0coysjligjJHgsxt+WkHfzIEnm5Pfg8V/bReRLETEVtdeszoPtlnJHODrcQUPIx248D0w1it/8NtFUQbr9rrZcswoqvS+0yU8zpINgNi/dZFF/hmZ7cDSppPZHFZkY4eL2NPD81C9RkoexfrVe1z5Jj2uPcIyvPhe7bko/ezvI+VSGftda1H/mCDLgmAEILcT5ZeVY5Jx4Gef40l5vNIpXPMQFbEQYeoTKb5RbgEKr+wAeIEAdRVW/8FC9n1k61tsHztb/+NEM+TzJlk/kmyuMKx2gVW823N/wx9TROSk4shq2ifU5K8hZ+uhzFyfgDaLhiuOBSbrPab18OlGyO3jpd3f80SUf1GwPYacuxk6Lttbv4qMy1Xr8iU5vw90/NjE/h8bMNA/VPyJBk3Ut9OM4s/SfgLH9GCScxF1mYpLQiMAB1CqTQGxzEkINzJiW8IJKu+TtywoIyA7YJ5YYKnZ2mGlkeUkalkovML/pTP8vgSn0FbVqh5cwpt/aoCZZMrkfy1V3noaM+0r2n7BfGjTzCdauP1aCfl7hJY1GVtyzSsat80ih/xqfyxxTGCUbf5D9DY0Jp0nIGn0ToejAANqW896QNVlApY7FhsPBqJWgSW5n9NghRZZrKSBGi//1Eb8rVYDttJzMBPWqprXia8nNvS+ewUtK18UXktJlRBJjKSwupdKmjo6g8VZMFIFC8ILf7TTmhUNGmjxPkb1WFXJCyiLvUUCVNgZLEAtHifVzupaMYyLpHGX9OA359W16SLxptRet+ib1oPFigpv1V3/Rkzc8nF5qBMNwSKe9o+M6Oc6ljKnEFqrSxI5FJHY1c+FIMbgg3s8i4hckHlPoY30KHY9pN92bg5HlcAuIKMBIwVn1FqgQXxTpR8gaqzjLST6Q3pg0b0p6IOt7fhmIhV1Xy+oPCHabSmZGYzTRqeTGw917CXRSpC3mL4klMlyQxzlmy257hLLrthJ3pqQIZP5j/OuSBZdMdgWrRox8jG1zvL0HR1W2aySZJ9AKmhE+X+PjI4D36hMqcp/+vbqEhyJLWSEyNNWYL8zyIx9vBqTImq6oznOfvKI2y5zF7W4Tks9AC2Ly1DBNZTr188X2a3Pb6ihIQUQH0mv9/jIqyCtv0FAtL8CWroSZGCSFOPdjusHNVeShA+Kkmch7QaqRnU0dBvJ4jS/B4D+po1oQPiLOzloGorABZN1x5lL8OGDFcJdBOax0cuPKGwUV2ILiMCHfLozJRS1yjzRWRydqJMlFvUGykkcjGpQ7yySG+YzuchYMA5GOuBa+P1s6velr2rLS75FZU27MHawst3jcODiqlPj4cqaH8z+JGk+UlJ9CNnu45NH2CVye4fB2ottRlzH+roQMk6Hz+y4e4C70b0Ds+G0qDxg1HRKFvLM082tuSSffXjRsEjNVIiTVMKv0Oq7cSmC4r8yz97thKEi4qIi9AOykrb05QUnzABvgdQIE+ykrpistC4aA7f/OdlU3Emcc+/8RFaDEOUtrCPetOUzPgWJ3wdd0IsTWZ6opE0iQfUb3OhMZKYcbVIOiHB3i+DSthbUPTtTAMgBbYi2akdWRRzaAkaqG94K2lw0d7XuAl8kyOkh6EMVXNpKjZByPK1XoN+nbOH+4dq0eBk/oY3Ztmr0PWjY/DOjtY/h1oonfpUhiHk8Sw1tUHszt0meoaZq9AVyDBnE/RSNt2hi2ZDXUOH3Ioja/hy7WFHP0ShHPHO6QRh/KAHwdBvBeKRns4ZProfa15x0EuNZVKsi+cXO6IrG1/gm3ceJiJ/ID5vdJl2NUTHZEASXw6GErnbWT4bGHpSWIcKZohjZknGEDO0kk6264j47Z/lPyU6UmpVhoktBvCoewxiEHrQRzXhybskw5lbRxwSBGYbGiOEJm6PVIkMQE25tPCZqMT28i1yuWQFf1CNVDHDVsCK5XcZ25KdeGfx9clKyky3z1Ax0tsFiB2W8yuFVMYgi7abVNMhJ9jrnUoEmN2mxR18d44Nf3i6YuYxJzrX6bjpS/Vc1eFpvMCYLTpy1lGXpbbyFRVZ79Rgx5Ct1lmGbYzydA2Hp6CntuOkCTE3sldOE+XZ3mKQkh3KnxwD2MuZBb8X/noLEciFb2U7djgQ1de0w+iEWXHhf2qoCTvDNwatrapmVooVkNIs8CsLbzI96/30Xmcv9i2vWQ+Jfnkr0pixgTPr2RO4MU7yNwk7G+Jgk/zc/6GpzNMJAu2WuLL9gy9FnUdv4HUDQ+5EvRTlhTNYMW1bO6y/dN7j24hgE9hCOva06ylehBE2zzqKYhBURKeMbit7YoTcV+oxmErOCADt1t5H8DnLdMzDsMksgvk5ebQJh3hOSEqliy9/XXinu76uTlTx7ZduqRoZKK9a2Tl8STBVdW3rpyxYAm2OHC56RO6+mUlRsS8oM6RIBRN6Y5RdMATZe3eRcbuZvA5tMQ39GDiGlwVy+pObm27B6ymar6lnHH7H89gP7xDfg22qEqrem2fbhfedwkb2lP4gAz8omCHQA4sgDZg5PxP2K1NjKr9RPoYXktnrYoZg36GQJQUMbR8lMB+FikRbPra1PJquvQW/4uvjmqWwZv3rHnVsfRFElRu/PdRI2PbJE5vIdOPfiSkY7byRvVM2n3KrKZfwJzLVKxDmVWfEji30VYlL/lwU65ccS8H8y8cg6b/iQ4Q2P/PONppQtAYb17rP4WnZS302SK0dxivs+HqgoQccknn6CpDoPabfqcu5J1zlso7H9bLHb10/32w65+MiFO1NU7ZaFeUbLIPjQFXLtlL7gPJliAs7Kp/xnLQS8TGFe8xT3vhitLXpcGq44KiDKRqz5zANI59y2qv2v8UjGeSqlynBGcxmmB9te6c+JcIsei1nxNcuSwZBQCxiDXVurFUQGX9toKycNsrLtdR8aORbWqQT4mnOwCz/ooaN6I91UtdUFscesB6Caj+5RMjiDjeAPJWHdqHzxsUb2TE2cjB8oTS4Ygau2cjLD9vZS4X48qhwUfQXAz2GRLDCMVAPU3F32KLdynR1JbLe2B4jEsA/iE7SXpyreTKDTUAryVeT+bkuQmsYF5rZLDkaNquCouMeYFTPfvP1NCXQsygeVuA8gXb/gCQvXj4xcr3y9DsMknnpgQU/tY2w0cJvYOm4Liu62XI77UZ4C9EgScehXPoYHg7QqGdGrplX0L3LaCr7kEZfDdzmUkszY0pC22laDPrfPO/LxIECc7YR2RqVGwa9bTncZ7cR8azUKowg41r4taYoZQTCAP8+V6wuTuMSHkq2pNejREhfR/2ZvDbdbFIkgXNxO4X2S+Fnt24AZM9eZYRK6iSy24vnBInS6nmU6F1LwoDFkHYI8aLosMrEo8fXUlGE0FKv2avs2JuEdFsxvSNnv/wxpHQMe23Kil7Cwr4sY5eUWOVJIzf8Ed6WBTaFv1AKD7uns+nTjlQvrgcm9VKadtey/m6Qg/AoK1YVN1WTObw9P5VPKUmjwb0UoQRQHQOsXVSGZBBe03NAp81y0GGv/uZDSWCRdLprWLsVdyUScwyH5KJBIfNHY9IRHs+GCdXXNHW+dCIvmeiVgqtt+m428dYlSi8JRmn1FkFMfAXJWznIyWUH61F5XdaMFpbgu0F6zFzQw3pb8QwJRAnkls+opYtwXER1YLpNvFVNsQjpxezcHBmWs9eOYIjrh+1uG8rQP9TfKaXdk8VYEE16PaIFbSvGDH7Asea07Zm3sQ+4NSta7Q3vDfLaaaT0ZjUAr6rtTa2tUCakTKDup+ThUMEFxuDUQZbCZ8axzBwhNtmFJcKH09qPVDOU+q63mb83ZGfmw/mB3erxejrXYmoNlAE05WHF02GmByoX+NNi0wXaTrxcOc16qAHZJpDPAC7MmQzEjGceIbCb1zWwv298bgXANFhMD1hJ8alrZrhQsFtrjMAcQT5Vn4hEES2SXRCMy3vYAEXvHyi6w2gikXrzC60IKA5TKikqfP0gya64Bk1te1qBiAXTms2/9pXM4WOSx5+Gk2gkd/i+k1YnXKBLPnmegjjHmNAG014F2usooKMKhTpXAz+QHTeJUe8ipNCQ19OJHqedKJslGoEQgE2Hdi5tx22OwAizbUulgdDs9ItJ/svu0vRf6QCdixfXb2ap0R+oHBu/9EUykZHrwbvZWwqXdvlLAtMR00Yeupogi7K52yE0zqzcFpBe9FZXR+Xy9/ccpi0hrtMIUmJAvAhZJVWxyAUcxhIJSQ2sfNqNKQEY7UhaSRVnN96Btd53u70rn7z8TMGimHgHRm1JA7Q59M3/CriCN7/OcBZOgZD9P35TKEtAvHsTM0r+AbpaUQkjRwzUp2p6xNOvslQAoqT3tYQhQnPoGOU7X7sqUUzmmm4KV0bJ9k0GAq70VjsbetqH/UEHVZRMjoUURXCLeSK0Kp46Cv4KKxAFBQ2oW6u1g8r9s6bmCyLRsZHfm1BeBx/B+0AOyHsXKngosOyT6p9d26yFhYO/mxFwTV2WWSJBrP0OEwLl+XGg6UwRd3q2NFM09kIDHxMABvmOhI2KENElaSwPB4NecSzTfzCriqHCjFmXnjMXgEjhdvu5XFOgDhMtF//jec54zgc7KqXHmDxcgujyPeu4r+7d29cT8snKkgzdw7ue0j+TRCqxZK8DQ0XMleN6XWer52aD3TE2HvjwDsUQEoke2tDptYR7kAw3as+jB3JiYD6Lurv+hFkwraRrFN7hMQ5FlTZ5/yvft40IyTrZs3U3MFL7s8I4AiKFmJ66i6i2kZX3uPz++Da2LrmWKaRiZfbdNFH4neDvkkAkB6kj694v7AWqp9ptUv7QRmkxebUp/nqpmhzOLHCctVjqr40HXSbVfOUi+3ovIXoYLL+2PXD9MEsWMocScBbxfPMNhMLFgjDZZ3yg3b82eiEt6jTLdMWsCCMcwQIpHF04Y9kgb1pRdptlVPSI8MGSdBGDHIt83pB0X2Dq4wZeJetmyw/Wtb5uugmK6RpRMNmVuZZwq9zyGHxw4mdXfBYyYpGYjh99FSP20owmwJKLZposJJNbDsPfYFK7eGe/l6aEkIN64KtqqdwO6RQVrq7b3Cs9i+uD0gauBpkSbBEYjz8sXbI08ZpH0z9oR3bqKB5k7y1koqak+hbm5/6NBstxAWjbNRjvB8L9Ki4qtbv46TgalsfaUaddBjhkaMt1oqztJHL6DrdqabaP8+K+l4MuXw3vDaQaYVTX+1HgnaMo/mHRNFS3sU6On3N+5dJedIWm5tECmVypQjtNmZOfWGJ2te+FugxpIkdHIOUu13ZJ7cz3XQyqUVt8jA8TzRsQnBh2SvKbE9O3k7ep5ObXYAjhvzNiQqspoWEz2DTYLgE5usivaaf5k5RPosQYzQd6Z96xeglI7dyZKXFrxfbEIJy+Ox85uGt6zBFzWcBOWrRBA8pR12VJj46d0hOQKuthb10Yuw6THRt9pEfmHNBn2DjNe/LxfoS6IaBp983zmTs9CkdFQhDm2n0BJLZTCE9tV9J22AdhK3GsM3EYBZJwEa1pJsWKJxEq337zeGQFp5MJq1VlY20UoNX5GmZv9ngRUmHr8VI/o7K3XSk6rwcTnYlhMvfNsVZnhToFUfKGaRtTnvtIitG+pMqRBdHo5oAzYfrMWbqEka9YAGnUkHLQP9/g6tsDUP8x3O2pSExweclrNOh7qaL1st+o4HkScLPmRprCDYybCmQ0oyA9HeG/Z7/emB9z5/Rq7zzqzZK4jnGjDqhV30/4+fkQcm9R/R+eOZpLlxQQG+AbLZr+C1YuZoKjqtqf1EUeqkZOzI2QOcotikxUA1EUwfDWuZv/fTWVE1zTptXEzHCEmms09k+slMVSiCZDeQ/Eo7xoTjW2PLpKvZQkakosMGXAI+s8DQmDFx4Q3QYHtIrg+DY92NpP6D6SxsQ6j35fXnCEK5ohgu/fKD9/UWlOrjONyjJ/SMkn2C69uthkc+I/laf2/fVteDN88Zfis252E0xqdPDn4GbrHEUhekgKygBoM5T1bZByNzrZ1qhPapV1Q3HGu4ZGbxkTlbyzaYswyk15ouqDLwDjD/3Bm2ZpAPLNpDsd/fTMKu0ZJqifDW1ocN4L7kOrBx9/5L0ZFFoBp5vUzSX7jPrsC2qTG+XqFUCv1EKzdiAj2lHNGSyJyAOhqtMx1hfh6wfhBfVmD3oVEMDIQCRBO1T02aiey1UHYqKq+PwX0OSWBhWz+xCzPdCgZ3iYVTP9RcccXgcL6bTy8cX4cxyIXO6hHfFbg31IfHOMFvFB05p3WFvo8Lwa0XZ461IPlaNE5sep0eCY4VTsJD8wqdbMnJDHh30Kp4A1CdJRXdRj3ApQ6aWvub1Nd609tdsBepvbF8bUJW8v/s2iO6U5m2SHUYOnW0mASi+0TUOhKjb9bLRWhZolS/z4RMTUDYFLoDJJ1o00GEKPYk07KCNt79qbpeKvFyCOjxvu7qfOffQxO7ki3ocD9yyL85ISMWDHT9rjX4gU02IRvMaWf9/HpCDkfhyBvE2/WqIqt4Rh/0KNoZ8zwDhvPC/lfZQFOmh4+lSA9qf1iVXp4Qcr5SfjfL8U6CMHzlUUypekas0T0LUuZ0rrel44sb0DQteOQNvC94IzD2VZzJN0Sh07fWlMpoLHMNztqiSLbTQQ6Lnsz3bSSaEtfjkAt02f0fsJdQ28IV/VwLYo+0UyoJ0P3j+2zM3/sM7jdEsw6P97DZ44kfrBO6RrZgfuO/KZV2o5RhAsOseKh+lBALeZvolQpUiUG30tBS1FCmQCePPuj8rIk3vp1UHffJlO07YPmwU10ZRJ6YgvLepq8WgcBc7choT+VaK9XtWzByYPk20IDtkfpISlZwrO5ksUlzSvyYORyzTB94wMjzg7dQMtrzs2csGRKc+d//FTBTN1AMiAQcj+6KmKfQQFeW3MlE1Lh3HehTCHwaYKBqrFBv4jyiXeItWgr9UA44u8xCZpv67BtgxbvPhxFv1X+dGsc3znPWy+LfRnbojXl3v75OCmlXdXHA9BpoZpeYceMlz4eW/KBwc4sIgZVIG/ht/I7zKC67d7cT5gpg8P9FdlPR/0OJP40SrPY8bIksIMglOKpfg7Tg49lkVZHBd2NN06omxh7JgRxkQFovoCa/3o39b6IbGbkYwSQsaVT1DLJ01kSr354VUhDpbh/9VTIEIyDsonP/eRd/Vlq9iQf9tcJzMubtwizXrmjrmJc5NFcv6ru4dx2BvfEYU0I+Ivl8flHnUpMNRlnrTzPzotnhlldZg+B3qpSPD5OjXjDTR5CpWLuL0IS+fPRjBFx22WNmVcvxS2uzXbXKK0gwqfZSUAND5P02d7W2wkkOKJsm6dC2GlWcMU3rN6q0iFOeemTWetYC1uS4aw0rZe/XtTG6Dhsw87aeboeZ2KGoab/zSIQ2KCfkRUEOaq1alOvHky7sllY1HBocQlSJhazYkALHeplm21JjHr4KxXoJ24eMzmB8SBaxetKFIaPwLgb/n5D4Py1QL69ibADIe5/rxkDC8TMnS/9l7EoEbMvpRvjMUxYWqz5lk6yYDH6lVTuqUG81obSwv6L0HVaiP/fi2l63DhlcpLSj2yNvHFKtbnHkfzLBaegW4HPvmWzp/jagZyrMOlTB4+p1bvgdnmpSPZ0OdUUDgkFvn28iY+6XfdJWu0Fmvkv/59C5CJEtbOD+d7lQSJ2PeM1xOBMjjoQdrsj+J/tzBUeje7M3DUGkgDa+OCWXCn1OS7e0dXoNv8fqgYxwY6+JxnvQgjZNnAx+f2H3ZaDbiIt5omeXKOr1++sHSNJSbDJ+vZGij02euwkyiP74KW/p6Zza/VgdD+5zZeoJB8oBO0zWBIY3yr2Se7wCgIDuuTxkz3E17sbDDzQOu0v8I/TcWQ23wrc/Qh4H0aeJSWRjM87DYiTDPGqPLLirErIArsMhMKnkpxCmyGK07yFlmykTnn/W2G/capxUG3JxkPjkOQOnoE08UhSxuXuLa1mXP2HEmvS90pPwQaw1gbTgiB0YvYCkPpeMuDJwmsTmn0FyF9sa57ujRcDnARLybY2T+VLLAMvu6gADSMZZltwCV2I4pm7jpMHj2Qego8IE9pRWRtiWXe+9GOey0A4Z4+Ve06eupsZSo9uUorYHEDMgJrjGs7uz+7mQFkE41M/NDx4F3ilnyJRz0wwxQ4Uc4BrUnQgM3VEhOFNcp2EEGGXOjwYlvXpLjT66LUZjFZGMwkuhT1vE4L4NLUhwV2K1bKjYItwO2AtHcjEPV8eEqU7g0DAH/Fb/YHZU5EFv8Y/HRsAbWLnOHLpPhU4KfMIpu1tEomvQDdcHIksxcf0x+rYSB43kUqQw0WMPv0Gej+5UMz0mhEzjHzcVH6jY+UQ2mhul8PT3FL7tCLoiqTLfGRtqfqOcGFVKU6EXqtUGl1T2ndFrkMon0Isflao8eTEQSzWW71XGQmRyHbl+ciDnoZwaaeL620kFbDcYcIMmWbVe/HjiyU4cU7nR4A4ZFpYGZ9Pb1554IcrYtfBH4SmlT48eidxTuJJGrCgU6DaMstTH/s/XOmkkX49kRI6tdpUsef6MPsigQilRXchwQXMyrDTJyh9QW/MaCAn9hFdGCzoNWHhB0UGgxtLNUgPpoAW9nSybbdZHowbor/PKlPSFjZWLVMq8iljrVqfMjSMDYRvMI+//bqcCqhu+7JlMzxjdFYPLmXHtd9q0mYG2oeXtrroh+WgSkDxmccMWXgPHbDXJHDZh++KPFkc9/8az183ufSYfgB7Ow6m5KlRaDA9krGQEMeJru8KoL3sHBioa2pK9YMTCFdtQUg9Hn8aStCFEmjEfzjy6U14SCLwUOogqrJi6ZY2HZCI92kJLQ8x4RN1xmhPwNfCzkB+qT98APwietj4jBVbCM045XUVzqEh4NJi6IrIcCTruboNKZwG/J3LULNIcHPujDsJrFKHWNcEXAX4iKTciNM2zsnfBcKSuCpwZfVtDuFeA5a1EzGYJ7s3LD9EwOEhk4iqf4fBsi/yCwnBite/bK0ujcC7gTBitzafN1IgHXsodLMXqrZHoHosnkblKhR/KDkPQZD2GQ7Yn11zNBQlAgiI1wPoP25bXtNwAaRdPGOmdiSdO2LpKEvaEce+q76j9Pmoj0Etr8duPE3hAX+7HyPzvCRTR0Rs4F+pNI3gNP46RjrbcbNjBJTQlz5+y6UgPZhsSxcp3exPsNckLAfjBwiuEzqxfXlbZm7PMgm/ROKESbcF05OzDOyU/rm8sZXHi2FtIKhX6sUK5Irvf3qV7CZqNsmlcmQ91TqqfsDzZVrs41At1zD6DzTrsceNkMgitCU3vQhxY29W6qwIqXMqwzVPn8d+VFY0lEIpFLV7hdv+Cv7ax/RSb1n9pkxkV5M8ezJjq1d5b/6D39byiOcYy8qyJXOhkFL2bufPXY46UA73OM4XdSMnfBi6F2CkpREZH+AXNA1/wEV/ouUqYj0DdtC0Kn0E8bkXze0JsqhSfE/oGrSA+jpsvK7QVeyUNt3Pyko3kIS/J17Pav7KZdbxLLXMEG0mPys+ypoknVXMDsrHuKrvOXEk0EJxDwG4jaXC6L+gvYIrMyZS4EGeycN6cL/Lk/MakK2DwtBeqOgEXxkyZ6kEDQqYhUuIIvN7UGGieoSs7pioJ6XaJD7CHiWITl/KUWU2cLbvbkJMG8iLGLQC6yPm2FWMXEJvrGEAO0KylFkrVSi2gX0q7zHB7+3nRDJ3Qadt+CFVQc8bBqsArM87SbU92eTo7fNe48rFockOiwq+cAmtgVXi9wQzvJvKpRv+eF8mkelBJyecy+vJLBx5N6KjsAjlgwUadcNmMG8admakkdFt2ZOVgdXZDMycOq6Fasqcuu/z5TzDqGtfr7asJkGKAqbQl29W/+CyR9EJkZNlzmijvdB4InKg3QmvDcRwcLPCb5giXmN2bmakNf+lPVMujck3HMBZJ1Q3JPbNx2aw1TZgmPY6v8iBXZzGwq2gkKyaCxoood+icBaGVG5ak+OW72OQ3FBYIz5i9DyTOXa/69Bu46cY7+QPsH2lWWyYEk3BVzB+6Fh8/RntGATi6IZNadxKm5sti/mzatEajiGpTsy389a/euslz4dBE/wPPxpI4AQszAgg3QuVpn/mAnqNTEGQmMZb0mTwLxu/AJzwlbUo7hv3tRAr/fomyMNMLnOLMVq+HqyBT2+R+rHzbG4AYJ9OswtQQBMRbw1XHB+PBF0BdjYGwpp1m7MRVhO/ggkZ8w8ZZQhSVaFbe3FlwZ9x1d0Ul58zeQAsFtd1n+gaofXkzCcR27TX9YdrC89F78cBBoKvjvphLOiSty/m2ZqI2yU9lW6SyDdSskQBu5Ly8hEjiBa0rgTpp78+bHXQ4lsNg+h3PQ+tx+ZfRoA3WdRLMB5ZI4cVuAJsxzRkiqKg+uVihZ8FeZFhDA1SfBzflKF8t4iuFGT93FFgWSiY1gK8DXsAISiIqg92Qw3lNnzH6ya/PUGNmW8Mx8J3NwRcIlWO3SylMMgAb2tcjltpQzhNYXwEHNLzFGqQBtZgGslCGocLLwdShQZwyqyhXxrWFt/nsAzHcgO1X7iBIFG0Ql+zAGEXph7DPA5CWbYY6vcwE6csg1ve4AsgzOUuBIZO7rBk/It5HPT1tJAI12URN9+ToIiHPeXo1fdql8H6n7Kd4rSN02zLe8RI542aQHuPL6ChtdZrdhAdqsr6JtSKACGtwJIBRzgQ4wEIBRGiGEc3aDTR3j+omilsXgAZ7ZFCBRKmNumG5pVBMOKRh4jxkOylSdttJMQGXOVtVbnpp8YiiNWTJi2tFXtvAtrW73GNzAQWc0VxqJDMg9CS+K98HLYDi8QX1NN2NIV4Z6PBgNto6G+FsOCCBNC2tLlvlDXdTMTishafVOIy6WqFwIc4DofzadyCWm8gzEzH4aO+P5hz3jCWttv//hTtaxzjGdkPga6r16lyhNxy2YHoPMu2NptfaMVkp3QDi9JiC+sVjmQp/UaTH5mRQ6dBSiCFe9g9EX4yR7A7ejDDhkSMfxFtYO5IfuxuEKE1P+rhTavakCofKXg9D/O8OZ4kpMMOIml42IAqzJoJeauZUgpy1CYdg5Jgrw+/khhJdxJLiMG/kXOBcAKrjDFNtlnpiWk3fuJCreMqUVlp6MfjWK7OTmfYuflcNj8ca02ND3UAeJl74Qzt7rrK2QbccrRGuQeU2gqYKIBrgpZvZNXpRsFjSOe4OX8hEorqjmveBX9PBmgoAe0VXqiroI08x8dTBBIUqGCSZX3+fAhfbt38d1vsoEgCf48qsq9UcqRBqm6bHb+TV2E8MdTuFbxwRHjwKkWBBw/BVvGaRAB7hm9p0QZbX94Xpqwl2+AiAMc+BJrw8bukUKdSlvVjIEGzNqWSei2m/Gqff33WKMvffuuJwEEkDYFObUocaiujWsAiefHnLmSi0JKVoAC7TcbSEuVY1/AWyUld5cFmWtH4ht9eRP8kVcvHTW+tY7akkY3OUDpYs89yZrkxOgdcrlTleVnD1cTXjd3gblVHcbXVH46ofNjzRirkM+Vx3vyXobjTQ/EoRNCmyx2kwb1JSiS7ockJAmMwoxCXGH/8Za1Fv9/CMryIsXNcTxG0uBkt4Ah5ROYyjMIa6tRHzJYVbX7yMWpmUvgFU6iMG1pQSf71Tz3YHEcV/YT1Dvw1rCEL1sDIOq1Mi6j4FKbYBGJRnnSFKGxga9d0zxzHlo8+Z3lvuWSDZLWBxYoDToF5EDxfqnFI+g2+ld4rrc0OiGhCRUSPq8PencUUeKQETyqsFIiaFLLKL/cbOEEUGZUGuomKdBIbjeWdJ/L5wAHSDAiONs05ryW9DGH/9jkU+c5XACotNs3Z6ZqYmLmR4lFOYn7DbpAtm2GGKFC/16PYpRaCzWkmCInkMFuWJczW5mvwgg3NDY7dkNOUr8hF1FphWg7LcNAW5K9XVP+HtvbAzUIIPKtU94hz/B6mrqL99I/DiWOQG2eLrLs1G6GUYhm94cu/4fFaZ2IGe8aAwLwdHPYp8smZZ099ETemp4LEusY69e6KUB0nnNSzwoJdnTTuYb9HoEiiZhNiKxthqJP724DE+n6MYpp2NH/syrAF6b9oVTlkF7pjY+i5V9jUo7bOH/WYnuA3vycrKgL/+EJM669WBVqAtW4tpCJjp4cAAv3A6dy3+d3oaa1FxVNr8VFDTpzliV4LpvGTpwj63UiG08TsymdCYtgDBGTCyJ9V7HeYjxM93xDXNvKJrtnyaCITsp9jl0nREBKTwhhm2495zppM0Wcuqk3YiMph+Ez+F12tVFie2XNJOi2h+0lzR3DyQEfK4BYpX6mj3Lwd02L/feCV3J4LSZSPK3BByzEiG3VshUDvrUyHSXWBS5lRDk7vpsYPlCaRAtFDY4Vu4LbQWH/X5FCz1gLfpAyOD6GOkAU9yUj/uWz0AUimzocw+LPl4EO1ZcTDKj2E77pcT217jauBaqIBoDpc47v8HNqd/n9yYrioC7cTpKVMP4/+DxewzcrulAItJCoCZHiN8ZaVijmtq/eERIyHyUAIcHp5t+Y+RDf0Lv1LnxwCBErOltP2CXQPwLjvLiHwQxk1j+8qK7JXeOFGr/t5FhgcXiViQ2JgxQj16+cOH8Q1x/xXBkbskPi63/ibsl7vQr0DNlI9/O2lzwrBqsqVRcgEnyifpBW2LSDXhXqqbCnOlM58o61mXjgAC9ROLJj3dHBZktEajLMiakPgPKRtKa0+ZV7YVpwpNKWtlwuvuIJPkMzQadb7uIbV/1TT8/eo543qU0I1x6A1WeH4Z5wldXC7HstaZqTpu8fltM0LC5fr0fHAi+CA+PJS17AO6W5fYH2LDi8cHPIi+QfbXnJ1i+FhRfX+b59WTAY1Bbmq60m66eezW7pd6Nm+E1vMIt0iYLbLS2FiLvgFnEPgyx9sJ5x6mT9oito12OKv0szabWDIJY3ZT9ZAJVJWAxCNFFpCpSPyn3at6qjhe6ycSEhQFUueXjbsm/BYjt3+B3XHOvqWkokHckaA3E4tJdW9R1tc91taE8Eb82f4qtaYAmGH+tu/6BJyocmWyvjgJYoupC3bBT8t4HUPy7bHXlnEkaWHnny48Po9ravJuuMcdUMo++9zdNDMTKfMvXIqoZBfVRu3hI/XjKBqxIC+3CW7rBsJww2UAN4sfg9z7U/BUR+1kPA18AX3G/SPm+/vewWTrRAP8nq+p5Lnp3+KZvlHVDf2jER3qmGcinMrNGYiCdzCB3Zr6dk7Tsk+EtjubTOkaQvAvnTXip50bwsa98TAuR/bMyEKAWid3FZdrDOqB1kW8Z+r1eOtO20hLQ2fw/Vy+4GsRAKChfbDs7UPBX881/xG+cYvDS0IxyfneIh8JecYEFnouKBtX0dNBwYIRIXpcy+JYTFC2zjb0VDaUyPKwjLF+QtXEuW7JO1rMFaIOlSDCAtD0tZP5HgXbcZ1sWkmx0Ukx7qriumNkJGoGwM3ULd3a4uomibhPV0jkV3F6Ep37CYjVRVdsdHCz+Qk2OC3QUqCpE+m4Dy0jPHBOKJFYFc7ShysxBPWuLRtVSJRL9J11pqx2ykRCfQxJbfrwN+UP3xAjAq7gw2IAmVHSaOzRDCZvN31Sy3hM24cQvx8epUyZvUQgon3Wc90EAfvg5NB1H+YXStv8gfNWmWsITVJrrUI9lhpcioFbBRkvs/m1UoqJyqNWZ77p/L7XItDk2Z3/jbx0opugxLvOBI0Vm7+tprJtUcmqLwZ9eitmQFI4QUnD7SAnkCizl4YYhBJIOPcTnHOi5fO838yZwd0Cdn8Wg5fB265kaGgm5BF9qhh6Ca0SrFyyvGPjStyyCncBHiPlm3O8G06MqsoRM9RJmR+fDOi0F4zHXjgIgujdgNNQnQ5WX2yd5WOFWf0eFbNlMDmwUhSPClZc8k58GLU3nT9Q0AOWvD6mxEPgLJY7tNDUnpGs295F3mkg8r1Q271NSBgLQUl8dYd0hN5T1h/z1zj3Odvou+DSFWUXj5aIkJTgdUT07NA7nAEMfEoLfiIJRqrSdwyj4TpqbGq9lx44JHnyqjmlaH+uM3PtmjuQ4SrlqoK5w5MGJT0z5NZ7cIqc6zxYXbmRfDAzkLSfLBNXMI+zDjYoWxkuG7/sbN6bt68xAmy4SO101kx4evc3lUPD4EYjzWWKVGLxG0RYyrbhmAMr/jHCoOzxrd56EO/i0fxqtvVknfcjHvQybgYyMX4bxpdlTZtME3+pZi37Ph1UcanfSSmhRe0PU3asjtJoAJXG67Fmo2vuuWEfTuDdk6cSlwlK81iOzN1YIY7cnSWbjkY6xMIh3Gd0HawhXpN4w1gbygH1hcppEc2JPK9hC0veT3tVwqvmTynrjLf+kFTgtf/gcnNBa1vOI7Wd6MhaEEp18rbpaKPbwruuj5ewCUXiB/Q6Hl/JHiNp/XFUV0f5ekElXhXTZIRTEeEYQigUTHBY5bGdJBHFbN9qMZHtT/n/Rj9PGdr1U/rs5PhQfulgpVNG5WrLUFZs+XBkXk4zPjlbFCBvacSeoulcqMFIDPG96lEMgCJn/WzAIZU4sIV1V6mKoiXS+pZptycfSwPD0IIZuGw69tmdJ53hkAHSnWMD1287OkAPy8/YUke3neLTzzzhqY/Xcbv98Tvi7hGNKtIB0NpZDgfg0du5RoWDQB1Xb5tzZx9rpHdfxGp/jMT2Ugbe1aWp0y+fA77XQg+pjYGPFPrj3enLIecjjunzosIMF/cRcWp+Tcd+KoNCSsGekKzuT0wogqle9MwcSXaVi06fTIMk1VQzVa2lPOwKyK2qE9QUTT8YSJAiSrd+e2pg5Ip5rkeyik6vU/Up8LgOrrf3g97JI8W2rOkmEm5U7DgX4SlB5knO5ygOf/Dq9gCa+gyup09X2LAJ22IHdaYPGYvgElpo/69qvi2eTkq6sZstBkGB8i59gHzuhEznAQ6y+8Eet1CqDcbrkWcXoFBNX2VzEGBD0L+4qIrWhhUjZMLkYkpPyWjpe6R6kBLUHt0Qjd5iikSdBy7MEs4qNMh5sS8WYxzXi1dWyiudAGJ/PW0fzyEazXVnalGJP4DSTm3BAYrYrZSOqXKIwK5O1deol/gGXgJVyy+jSXeUHF3QAb9Ht8wd25+OqA0txodVROXrSX+9a4r2vH83lP09yAvVGnufOkwVP4exFDT68xM/EY2xyw+wU3DZ3b1EY1KcQ6vdU/twrFHrDGmYXUjGyTlJEPEbGgx8SpIEC+G8aBV4HINiY2PtxxnrvYpjaCQjTbPnOI3za5IDgU+t+hrneHBTxIhq0gLT2m1j3pkOnpeeyNdLc+FQIqP5qm8edWebIKLk5falNUJs9oBLNxa47/t3g+OYu9xkzYlhl2tAzXGBwJsrooKeU00KNwY7ZtVD+AXx1oK18kCFHJtBV6lGrHsZmSNtYY3vanhC/O8rAvtgyASDjrGRjMC5+1vYDrwExBqIf3CrmH52wr6LmrlbO9MliBh7ttL1grIRi289ciIw2HPhdphLIOI0EjfHjDU8RPT3k4RqxyajBkq8nJaL9o2P9ARPX+xJtsYS00My6Uci32PtXG8IkXpxRIWM1Z/l8ciW5ZwxsveBPcohK4X6UDh1eQrf8gnUpMFZ109Ifgd7D7OaHPNHihLlOT9b+d1dRHxAl8lP+PGMtrGIqbS8EZrZjPjMXZDF4QTAQE/SIb86qZf22q9bC7SvATb+wPFOHr9KU3dI/KXyTUxu9ePD+87lZ/hT6J2PcBnMqI2KrGzMv5U0sutLuVemqN0HTjEy3+quhBO8CJdHgwlqTbz6QcOUX7aXXqVEncaE+7Q70eOja7XTT+PcV3fuC5kHpJiDYZhdp9wrukLRdm7I8FXOvTh8u4xoxTHCTca15FT9t8zknuf174RyklEqbE+uXfoNXTnQz+kJq72SBJHH9igr85zAmUf+lt1V4zvF2l8dk20GNVH/i5prAMJ9LyYu4wYyxWbBOpRdbwnlRCv9sO7mjjfLMUzFZkaWuiP3CYQ6Kql0ckoJFdssh62Wo3HwlMcBOZvQByyIPBqDd4loxzCjlkGYWyXwDimZoTG6RNMBz1vmqiCAxTetTwhzcKq+T6RdiJJTl+Ign8UXO5ARTF0jymnxLFK5twuc2AY8ejUcUgkRMj/wLw80HIEpAr/UdjSGBsnCGo+NbCRx/2ujG5H621pUFIez/Y9CnHGW8KoPp51uyjvLVtgxUrT9lu6j+00byAwvvxazr11vNHn8Tf5eFVby2zeIfgp9gDohAsyqbjn90/M9IHmEJXO+3DiVdu7jmUTN9kYVENokh1dhc49ChLxisiQAG/RI6udeZvZZnCN8Wh+7xA63xluoIkIxRffIFlwtobxi5fTUf/GRvh3hWTiLeqKgOQmyeh60IoltPYno8KG1eBYjejtS14xy8+2IprLCUWZnGo/rDsUJpX7HEC/szWj/h0ZP6Ecf1zfKLjmYTHbNZ/Sk9UEFnxDiwDewSH98vfbaqFWMU/B9uNl6u7MXOOA+x0rgfyxxCa7b9gqXXu+7g5gM3ta8+bTx5Fzlx/ZfcJy+ngt22zcWvqUdV1/EHwwvfEBsjiqQ5UcdWkCrJ6ZdqasUFPbAcoOYspTIFARJxg/nWVqLewyBzpwA4KlpEkobBhGVVU3yKphBaYuGQfDvjFSGajwDTLMPZR85/ft7bRC72XQFKjn14p9ETGgZzc4aLCLepT1cYlKl21z4UqRMOwfkbcLR1Dj8+QQQzy9KtIbgjfHtF6lEkLV/EU6USRJ1Adgxz26INt+mNlZ/LRZOCoDN0hc6sXzO1kGd6gEkDxwZoz1vezKhf69L3D2KBL3iBXyIkVGaKaDGtTF4L5AXrBFYpNJzJJ2i5gXog8mfswcbuKpU1gvskwVT6E8gTbdPC1tNZYbyf5ls6IyUWg58F4swDzBo4uA5BddIJr7blIS6CM7OXIMUKB1BplfQbYYoK5RlhweO7HewNfjjeZJQDMyNGppemugGiXS0SvWo6nfHv6jNT/Do38jmXOVUMpzuxFZHzzKZmM97G5Gbly0EGP4xvLTSyDJR/QJ8sd2i1f5muy7HJlppUuwMga71M9Yq5LK8Jhn/M/x1pQ8dInsL0snjVI6DckR9qqwN4DbzyMaCTLn66wTBAOhxry3k0N36TbPW3PMNwhyhroNqwE5RHGdj5hTY8OW5xSmqzGS4AdLi1ZXRDtCut1b1COzuClIlaYVkXjXTsgrjJ4G/ljWcH58iKsSqVtf2Sy3Y+QKFF1DVdbpaP3M3yG3XoSRxT+nNhWtbKrS7jK39hEQ9VPXIf0G9NWZVIY+rn+WgRYpCVXYIZ6g67hXW6C0XoCS/jORv1c0QDVi8nYaLNmkkd4tTGV77aycwYV5a1eAV4YpRWg/NPAuRxQOUqoy38X1MrMCTAwBwVHzCYnM5Od1Tyo4l373/5eaSOxkMfD6TCVHqhfrxUukLskYFC1wIT0P2SkGbRXy2mjYXmusXBYy9MscEEXtfJmqXI86QPM8ouHrYNBL069uni/oMSmpTedT7RcPTqLV5Iy2l9fDxutkVeQ+jL2/H4o78hTeh8v9JXkwt6k5yJHfDvxLslQFj1y0BO+LeijBXfLQCx7CElbdD2mcTT4JwB2A0tAYC8UK0NlZ6qUi8raelFSEMs4Wu12fIGyAhXCo+0O8ima/A94Cq0Bb5upi0pHQGVtiNw0z1LIOxPij7cmsrx8P3xeC6xs517PR7e62mLnBBexRCGJ5DyTcMaQzDZwJHXmO6s9+7aTlKzXAdwqmiKtPwZIFWtVS3nOruTNBFfxASMtehVB9+IVZB1MjhFfdbP5fwboYhLhoqK66XCYUz3XyL6bSOlw8cckhQSjghXTGbW9ZWlT7sF0/YbTaFZKN++dnni8Zlp9NQX5EjidoZT4nkdfg2oBMXkGDthxI5l2aCuGhAjpJVI2z8sxIPSIUPUCtILoWyahdr2mnoXcOvbY8jO/Nc16vkvAPSh2oNGBJIHQuLqrwdIbh+1bfTFP+HHwfcapP2vbM/sEf4ugDe9KVYLppX717zSVvuFhqYiVC+1bvAknypxViNTU6/NXaPW/OJVp+knDz3eXuzl3UKEqNHoQMbkNaBzhpAMKoxuDFrVmxc7URYM46nyyfPvWgVWg6oPCa724LvkwO4zE+BR51qJSVGH0rPqKTFiaAzRjdWE7jN1/35gqHccRyaGw3EplK7sQzD3faFETWHYjiCh4SZ8FGK0a4xf2buCA5WxF2i3pllaEHtC8LKAKrW2cXl1LA2bNY5yKsQKO3KClybWCx7BNkKWA3WaYb2TMUcwEC3pRQdIkIud3JA2A2smMiitdzOjDurtzpiR65+QkPcBFOrZerBWUYg2VKJnyCR+NMuUl90+dNBvb29FRmT02XmriLcU9bk3iCsaLuPLjt1llOrDbj2HsxWFDmFWvOj0MDAcxVuDX4xeCJ3KI6u/IfThZTBbE4IuUx0K7VmlwivxxPzEidbvI2ga4TnHMw7bN19bX8gJQbLXMTmSA9NiERQC+K7URfojND1x8Vd1U04WstAoJfVHsinKe5NR2HTb3TKY7BzccYU4q/DVvQzcKAWKg0cJVz1llIB7oK25QZaJ6ORi6JxfPChk0ych0yP8XOzt0FW4XZEHYi1k8trdDw229Z9SgImbL5tYLrwxMwoi2ROi9UB/iVjOSCZnfwRW+FxjPT5+Be2i4JYdWYkL0xOnjco2sKQ0z967M5uYmiWZI1N4MXmYKec0jo6uaOMSpFe6tojaFHJXcItaKwQydQcxNnUPatT1ZsCcUn9sIdhW04b4eTPFuleB99psO5K13Xy68Gm/Pyjf7YoM9GsElQeZc+3nAWR2CoppR3aDyUmyuQyXP0YbWA2ZCnSLCN3Gxk5rEGukM/fD5+NrVHuZe6KLzBEgpB7LrALPG9KIM6v0ZL66z6H9Ao6HRnfZl20vZLXKBtYd2rmZZFtJcT94VLC3zNF3aIFZuh6RDElSyl5YjlIhmplzAajXwg71LUFs1wDWVSApwYz25k/5NNk5cm8jNGQtRcF/P4/YdfTVY+DQOyRs6b8mtUGGXlWn/Sz0GZVsCu3uNICwKBXuu7q5aX8eJojBNHsUN3Rh9sT9YLAYcdxPdGAkHCjlefclYovtKQpJ8xSVn7ue9to09Gpj7Iw1hZCkWbDu5jZulaBHXAY66iX42qL6qUi+Lo5eM6rGOufoySgqjnrVDLsEDBgKBi8WDF/UxFD4568tBBfl/H5tEJhSGmqqF0/JAKab3TBd5QdULYrxJoqEO0in0bYMJhpu/kRDV8ZFpWY6dS4Mox781HM36YJ3G3gStlOnsNN6a5EP/8niRe/8MRDQWC4bwcPda5cRvrIpYJsofuMTNp0FFofvYYEWvoMqmusMY7bPTL2drKs6hGek1/Vh9AIzZsMwUfZvwMsX4QmvBQXFsc3c3EsLMtTnJRaxTDDRs/JXPexKHG5ZUwk2US3EMh/p5IFXYpxd84z3gMB6+rw3Ph5UXZDYS3BKZiWyLIj730gd/YJuS709mkFLNzbVc9C+VOHhlpUnjUOZu+wEdq74u5nRh530TyzUDd+b/3uEaM7F7ZYTiN95/JJ2TBbyGBF+O0YN7OX1Qz0cPMT16Zn5lquGbn+H6YMdlCpM6t3+Yz01aqEek4caO5THBWqHKIe9nx8N7tII0IhFrNgxr5HbLyE+EGa1K0LzVTKi0oZHQFh5Jr/BCSvkxEsoERU2EukMzLHuv8oPl5bRvk+IQGs3StcnMp9DrhUAXaWCQvOn+WCGvWH7Ra4yuB8niotGNB1EfOLvEDCydP70HZ6+LJrvxQhsQlHr8qhYQzW433fm4sBktKVFYxIuen261pu85UzMUVT5SLxtjnfSxjmolzJyU1YLI8YFSf7H9cIF4w33GeU4EMdT6aEbfLrKEw1TQ7cACwHSP+KDetY6Wc1jHf0CmpF0EzM6gr6V2iMXpAHwy0IizC63+XYIkc4er0K4o0D/WZnMYcJMp/5tQIKlY7XaZG7kM9YEbhmLphjiboIDlxyKze0LHb1AAoYTYdkoARnVI4RjWsm7LwIkfXcrGa2YhW46qzcBdVHSlpoC+COwU84soTfmTcC/K9nxJwx8pc2mLuuTAShVpubhAazkKmLsRkuu8+VxfHfvHmX/w3kBJ0Pi3aiKZQ2wu15pVPMkPXQuVn41G8BkRMJ9a1E//6zPgAlw8wgD54LVpJQR2+vnNiFFvikmNeMthSWWrV2dkVb8XHVZCJKKIb4NzFqcAc649dOfJgnrhG/ExQEd0duFr9JOR6OiADRFoMyFoiN/Ea4ZYvbTiv5XXgDKGQNEay+gAxE23jFlG5/hU1LYTIDVnMce0ki2aK6wSmp02Rzt3GHIX0tDIQ9R+p+kMtKbLN2g3djHOOqDRWJO8sXydm4gFq+eLKlGXxt7BhYpes6kXdB58XG6y0Y65FdeZRqwI3saVin0+r7ztsrSRqMbKhvPlHCnqW7MS55uNbX117JYRqVZoVfVSZKtqWYoAog/dEOzqPl+CThTtBHK7P383MonMm0yWLKiw5vjzqFyTp7bqHAKt5SOTL2VCjuwscf6wsYZRkmrcEAhrlW8Y/ncSRK96GqG6TvFOEK0lgkCeIZAe0LA77H5R6HLxc1k6sdgOSPv418CLdpvqu2O3PHIzFTkIhLenRjQhLkIuok0Fy2UTMqQXzhElZDM30C+OKUmfnsihuOc/SNzJ0FFToVL5fzVDC9++AEx/QvL14mH68pFryBbNCURr0cuKum9bJIOm1pxO5Afs4bsotreuDuIji7k1JcFXRgMI/TZp/WHy4vMXre8TNDcagmuaPHyHgt8UZBbx7pY6whK5HH44eWRgSi7LexE4uoxrQBXSmgDo0h0/RP8sv5nCzUJS5H2KaLNLP6lOvnZv61PZ7FecuAzYnkl2uZMfe5hfz/nQl3n3e8jl/vGgWygsupVwcnAP9DwooFWB32uRSRAK5ro7fegZ8DWcjCItTku6psIekLKCJd2i6rghNH7Ws6YglbzTustwlZrmaPnwIztKfefXxMXuD5iofGwUZCg709IymSe8PY0S7A0Ln4/1R4zKDy3j6zzjWZL+6mh+TZFAcWcgnhMdpSIsf2ZULS2VSpIoTTpYfSwRWI3+GLqe6EZYPIl6KqsF9Iv5ces7a8YWhYb6rZ8D992xc5dFmW+/ZFHyEma5X1l9+iFyp0tkkIWT4boeRPvd4VU1+hVHWjTYiCFgEMW2EOnRUa78ghBiW8aiaRki4C0pNbt+uVGXgiwfDGuGSxjAdoc0tAeCbQqzFNGoGsdUr5BrdRLEswzDu0vj4skPtxFDCIZLHkGdxdyL2ibcPpHwv7KX12APTfrocZoG2/GM4M6dCIryAZ99nhfR5GygwgfdPsLmpa7P2ZtizE3GP6PQb9SOD8/4qGS0vK5JuvszUdBN1VaQy+e9/Ju9Vo+nyGi2vbo8kruyzVGbMXmzVd12HulFAqaeWFpEG1lNjUHvokNvoHnSEW21TQorAjXeYe3M8IhHPlUxCXU02QGmG9qLpYw5E5hTDvvrqiez7OVzG5K3dRihQj/5qJoAJh8CMCYtbUL83MNa6cSOJfOkpxj9k5No5y4DTZuspHXD0YEYiB19K3+3cqG+eK36Urk/fM3duyBR3Modu8nqZXr0MqVxi3oKIBCN+NJ8N1SzN/OSjGqVJkN25YyYmv5F+Jc5U/MQouiZ3vZpZX3N1gimQU85UJ0O1oFpKkNrYyKySOcUDyFyNZ1doOtAN36DdMFM4yUnPPygu96wFb5TRbl1d9MgeUkJx9MdSdcxJE/NVoKAmDDxm4lmJJxTLGaY9s8R09kc5kBoSmBN46yF+HH5fqRl2l3Hu9WCYJRVyqjlhu549Gjm0Rzeov7Ld++unQGR+jJZFSO9Bk3II7gP1ySX5Mkv2Bdrs0O01KWhdnHN5e7Uxud3/D7NPlFk6bgIL5aZv/CdpLh2iRWlxSbGnTGg0wS5gUjAYHx/NMvjSNsrjWb+wLaEaRoAhR44a13jAt4KcVuNjW76IiNswB5YcFDEg1RLPgWuEWMrmI/9Q3m++5Io7hSMbeK5o1pwHyKGufkHs7DAWejzlpycLVRTZCe94SA6ffTB8siVXevIcgu7dh/0k5IfH/5NUIF6s7OW60MGjVW7atxw8RmW2HLoHqpzD4LSVF6DJj9dyZosb+0AL0jBJkxDzl+cbJtLd9eyc94CQvzVJeasp74JvFDbg8RKPJWimRKlDCyW0lhcJ5fsmCTct43Q9h3cBI8XPga5A71lLW2RhwB3iWs9xp8qGMXVTcXwsrd9oaX3M3iP1ZOk7ZXUmjW88CDT+Vx2mpinonIs/QdkzdMPFXOj25JfPXypqB1Kg4ndybSVRb5vXdnAv2eIuYjXtugpp9036yysZfSS8m8qZuTRJCQeZtIhGV1p4JgpdWBbOtXcmMEhFllZ3zwuN7qnuqB2Fhv9N6cQajL6NsH54OtCn3avENr8Q7e/F0+z9Atdh5wbnq+And8d8BfDpeiaRz97WuVuKO8BRPRgMGSM1ElrCb8QaPlUvufzXFqJshUmA1QNCepCQLtmeShiYgaaKzbJh/ceuA2sygOeQUYDsS3T8YfIOZiq9R+Br+jzuBQuFd0SU68laRJ6KRBOdj9kaHdPpgTW90BLUbhvMboB/2h74kskYdtwwVyB9/p3/Pjc5v9MZrjsJ+oqj9t8dsc3z8c4Fo1BZh+3JLb9/MkNs6jQuMgh2Ek3yLgBFLKkkMRhAAtbR/Y2OExyl5kbukPIpYrvHXbNKJo404wKf807vS6jpVgAhSRJgvpMOgnUQSWsAsgUpivgRdKw4beksW8RTy3OKSiAdiX3oYO13Sl/0mAbMAhStZ5ukZ0Oe24MiZADekHMPT/kWf0oIe5eL03U0Bt79FBNFt8uys/lDMxI1t4BehZRa1ukhAUNv4D986E87hg6XfMaY5n53lgHnpItD7WHHllQXreFwa6/fiklH5KtferGNRNm0Tq0ljeBBJWOUh6c31ijtBgc8ueg1u6SuQ+nAuzTn7ufVbDzqH69MTMfreVm3G4b04rVSvkb8N7H5up/PwBjtdClxoiYSo8MKv6dlQqhqyMkn/qCEwlx+1ls3CA8YmA0GldvzgJZeM8fMnEHi982/MiErjNMAEYEKMYnNzULKScxciOemgSjJBcZXbsavw1H4KOgKfdV/cDt4/E5k9ePQe5GXZj2Vw7fBP+LwaHkNmqz97mQhW6RZSDluEPzuFFy9upo0XBN+7g+qWLVz5VZ6AXs++tgjngmQCpXVKLE9ThdfnqkWp96+jAPK1CwV3tJQzggSkRZouQJcE36+hOd6qd759y8KEmqUsYgcOAp/JNpSZ2fRBHo6OMNfriQXf9VvVek3PH52kZ8c7OxVL27o+EapxhruN/GhxuPmhhcJ25ZHjVu3rH42u0V2QnqTIbK/mMQexFFDhBZ54CF9HShs4keVQJARkaA+AyrCwuQPNikouDrkihQMfN4SVnr5Szt5wxUwnmA7HwzSom4nDX/xrGzazgdbU1pQEQG/o4irQGmqfw02+47igpvpchcw/RcqYQqXA275RWPjH/cvAP9H11NXeVb92vwg9f8ysCnFGT2pDS41lbRPrygDW6PI6OS0cO/mqznStnVvfPKy9Pvmxt9qouZReEZJq/UCMPmkesp071GdXssmHHRRZZOAPiXllbLdEoy3IhTl4EYVYWE2GrzzY09Pf88GE8kb/J24x50lAcUhfjOPKpdnSPvhNXSfeMVt+B1ajmYOU7hEWdwW2C/jcvHZXZCYEXTtkMxd22ksSY38rEOZzdBLUU5I0Osa6ettRliVNunqsh9807a/De94XolHXPe6Wxh3Zk9iuTJUce0ZooTXTWY75w1h4poNPF/0x4qFKFlnesQuVVIy1kUg1EIHt36/lMYJguyyMxCUB38j3vPYZkhjCFXKThv18+NnpUnNAErvSIsSnu1cWhg41VrRnGYQF/iF2CA+g+8eGVrUnTJPfrqOD76s/QbiDdUY52kvbgLgM3w09LuiInA5WtfwhTpWVdug8Lo5kE5fjkZU7VO4uKhMPYjRSq3Tvh8BMRD1Al4Nywweb6Evb7waOFknn7bYkq2rNdFNUeEXcFQP+6Zw0MmBFYI4wDwK6Cy5nLJRL3HPPvlL0FVRoOgecycI/xAZPp6s/7/nPtjyQdq6qRnKSrqVfRFSVz8yavSog/hCcmtuxWzoig5SL+NI1oOq+Zoh8nB+PYhz3zykOB25Kxre0qdpk5yeEZwHpcNfjBpK2cGYNgkoKjau6e3XrUrBHwdqDOl0Ri6igE/ocy0g/dEsbVPUDGol9UTfuEUE0vh+eYWfCsAebHOi6HfYwnC41S0gWZnm+B9nxons2m0iyKcBfe3uIzI1bhjXUdkz2+BlM5RyZe2KXe3OFqA1+SziFC/BxaJygHeFvJFWu88w4YJxEA1vxpPRocDiYf8HH2lx4wKnM9IC+GJgxFOo09GsBfAc91kYcEm/bVpdDnfwvSXBjmJMSFBzJpgSDWfD0B7LfHMb/Hqg2a3pJ1ow0EmWu6RaWfNmp2beS6FBHw1giiJx6kByxLIKGM6ddkWKklr2KIwBS9t/bXPJZT0AeqRV/yZd76RdYFhq7bm2oNcolx4hyMftVOjx+UQSgzC3tfxqZ9S1kgFmh37FpHcJkWcO+1Nb1jRsXc+p2ROH9S9vJCr3VitP2E7mBojCBHOLTXgdjeOATOXY4Tui67ONlvuHCHojClZTJju0tF1DHRijUeyowBKZ4NurBAPE8KdfFpc9SH9w6jZi9pm6IthdEOEO7K0bZR9ISu931AVKi1oNnwei/n3uBcZ+Xy7m82lKwsgVdRqjASeOhBwJ5cU0EH/VR5ztFjj2X9U8e/9jtTSeZroBVLgixERewlN4fGhC2g7XLHBU0Tj5p18/59Ar2XYcX63X+SCmurcFzaFJJvigGWk6P0P0gnYXGUlFO8Vqr4r1hDeT8IrkUC/x4a5ykQO9TRm1kUmWgXJMUtxx8TT9oPfq2ZS/RoMuduV+fQkaWFj9qR7Dmp/nYmudx9U3WS4aN1dxg73P7BjA0bsJqPIJo1FKSGe9Ll0qMmgH5jWU9lFG5D8Lgka2sUzhtVic3WJFUhTO1VjyZXnA35NjbRyyY/BnBFF/8HpvESXgdpVtA/XUV0xZSO4p69bAMHr0669OWU9hHKdQUnDHTRzSn/wbQfPNgimdhCXPubC15F+5W7xSl01L4TiyBVpdbe1G3ypFrDEJesTbNUa6iyq0FZBG40O2GPjn/4l6GrxoQja6hA732tQhjnj1WV1EENx1JSLxuH+eC9HDJWczw1V+t8rSMNaS1P6v/TenXbb9qxSO1yhe6KJQ1TWEeUJ9nKZoBLgCjoWxaN8Au79OeGWIOw9YjoQtuxOOcneuyfKY9DxxrArVUnhczsagOBCuw7/ZW7zrxrRXTwaMk18iMb0konv+jRriMX76hp3i1xurbJWn3DpsirNslKiqSWq1jzYXUvJxe42ZkStUhuqMNh1qJ4j7KINlAGln8YCCHwM5NxQl1OCOCyPX34tDQyFoXuLg4Gk4ahYrbKD9t3V0YxxT+gHtxPclUcsE6K+E3AmtOwP7tJcnULkzlVqBZi7UJFF1nzvcj5Lx1opExVZ8jTgPWUoXQ4kTsGd8DGnmsJqsbZl705UZADa7HyMFCO23+sdy/sQi3TYQfZvG3lU5ujz4UplPCnJLx1XYrobW6HxR7E0fdWB/5/TCyA5UuR/gB+EQF2BVXXtL6EeMO6zDT1tyacz3+ZZk/YImuImF1hEbg7ENE9by7t6f24jeG2Rdf+8mX7GgICkEgsjiNJNSVwCpWVpUZX8LzQOatBubtGZxWBRwPBDZa/I+Iex4CIwvzNGkWDjrWhvncdhT+tF5rp/Qn2kcunTmByQNnFln6NapQ2u1z8Ektm6QAD6iY2HqORbCQnEB7fYd5YLG+NVKogq7sOz89srmAF0VibC2oM5ah8rsvzM57JO5Cx3BkFXCtzwFFdA2aofk+M9zUl+6nSVpcEadWVRDzVH33u7OAom3+MkS08f7A21w6sHJQXoYSPiHJ538Zk976OIfJ48gJYTjKv+Y+mJTLAbqpGw4pCD0XXRMj9fTrnx18MHzbfFdBZJ1TG+C5aF6/mm1uuCg9bB3cFouyxMb8NCgVc+V9SMEbsOcQJhDaGzkfUSbheCXrJ3s0amWx9sw9I68Oowegfk4U2R/Yuh1zxTWbW/jF6qiLpyDDvzhbHiL/i1utNUdk1caKE7AETsKTy+XWHlVR0uYFTVqo+AByWu2ZS8fpfvZi0wz3J9SBE5f4yBLL2dAORt36+qOyFp+SRZsb880EiANrpMFCcx4ON2KFA0cLaY7Zg43src4BjLwS4UZhT+4WCOm5lKW/sDpfuTHuLKHNXhoEwyEWt8PiFRelsfYqCee+pUwqp4BE8UUO6CIt9YUKL0Rh8xNxk1F1U2jOUE8SeVnoQOkzA1O785FAOo42r3H+kE2xs0eHTagU/xMHdvYmLGiIgrCLEsX8KH0C4NzisswQ4hmUB+dUU12hql2EBIsiWeZ1Bxfju/6PoJp8gPyR0KFyZx4tv4JuE73/THpNjoY9Vg5nwXF7jXAuhdnocEAjBJyrApuMiYpjrmu75vciwpFgfZWn9R99OM2+3Iuau9Iby38+SAZhuE3FxYc5hTERoOWiwmQgaA5aM0H15dSDi4KE82neeF7LUgHbX7687WTQZ5cRmDosIB70wccHfgeECL+paRnflyWA70khm4fx/2Lra5jCZE+HcxSXbaZjpn7YBZgTLAlDgm5aTKI/ffL7gdrAX/wwVMHdMrF2JQTuWe1w1ArP3pRIJ30wgqXc4MCyCUi37QSXbCfvNBb+zsCPdOqnQKMsNWvctK7WvhN6BxAbjbVCdswhWSG3Utpqn+ke08bxCcAfcNaEEVeLG0JvvvJHEtWt81V1h4ainBq5vYJ38O/8i9bRamMwg56OMgyuDO502nXFwGr5vWjOyDO4bU2MYZhG9z7LIvo8xbhe2cWPNXy2mm4+SOgg37azpTzCG1brju+RZdbMuEQkaT92eO1werw3EMMEYbKh5CtPzndSPBc1hv9f6m1wvrhAUHCCpFzI7CaHX/F3fCivs4CT5VOCZqN9qcDIDJLo9UBxdNbr/Iy/okiUQ4f2AbDPmk3TZChYwiuUu78Cr0T656k3dZRwp0rdwLXxHn2TG1mFgR13z19764r2Rqq5IYLnvF9I4EGPuUQCZYEGXP2769KyjIBLglHt956gHiGmAaKgZVc2mbc/vk4LW6FUTnlEpN1xHuZoqCs8CcvrHRpu4WT3YSjFBQcys4wrGiI8XqsCdKJlRc/O71IiBJA2xqtNSugcWlQGLJM3lO9xmADDdDfwVHa99iyi5Con6ciypbqYNqoHmnvTrjWsQ0HI9pHTZDaPTr65DOT1tbPYNrDfW4r4/hxr7bkDsM/uwVRjIr4Zfd/q30/uYD0pn54oGPE3QqGDYb8bqNZfzqtC4l90lyM/9aUCetxl2lzk+7uRF/qV2pcFwYHGF3AxIGfxe9oGFM3Zw285JYSqYJcJ5wd8D381YoH/g5rbfOIyPKoI3jZEoxYWcRGFn0svCuBI8niE9Tynl8nynT93OMKE2ktj5GW0f5vsL3yCbY1c9GtSIxhJDKJp4yhEoiVhtVqfg4fC+dsv0ThXfP6nrZ89of4Ilsp6RhAMBjBZbLMwmQIf75k4JLYkBLCRyUjrohTGH1Fm7yWcKA+1AhWFbxKp5s+cWmBoS4pmYQfrJTRBs9XwtgsRYA2Ca4dM7+TZofYf+TMD0WgONzjTiyi0A7LD6HnVi6KFAsKiEAWpTFybWzwDAp6ke5XBzrb6TyOFftzY+STTxZMDlmkg1g2WZs2G0fIOV7iXyYVs6WOPi5CjRe4aTCBXlpvWJBDMFfIRsVtnstIqY3mC7kYM7VYkJCaGxG2UParb0AK5++Q/Y6z0voNWNclnaf6TNg3f9rviIhnBF7x6qBFHrKhTOF8J5EDyNNlR69u71qVaP3xRd/GxBtrglW6bQv23clGenVHFeD+6UkomhGh1WtZIuUsQ6rBPxN5nC7u4unAD4I1MJXfYavqEI7UaDwkyFX5GgQL7qPPTzcavYKRkXjtzh/Xv5qtmgS1TUWPmckWtJVBtC0KDtwwMQl+e5+ZA+zucBMTqx1j+0Z6ekM9xx5LAZ0eciINIMpDQ6hROAHMslyeV7KdJVNzaBL0W11n125P13fJYeiuPGgXomQLmVopzi2Nqm77WIEeEacoWki+iq6y9Vw1lj4mLUz58Y7K4Uf4WFKn+bXEzYdF/lk49MHMUV09TmrFKNAvzrCJoDNbMCzKLkQRfPGfrSmJ+NXvFrbehBI3vZHCPG4tK4VmAU0l9BQpL7z+5gI+GscHn/GKWhvKSB6kHXAMolw+BuJHxH0XTObnzA1Vwa7VxvNfMV7rJWMtCYqAXzyIRXDYS10hfdmKeZU9S2xXkCFZH9BxGfYkAqMAYg1TbX6xh25R6dvdIInesoeUMdFe9DL8lVm0B9p4nHEH+lFTExFEX+KqQUr/776UNTkyXF3ERyQ+VdLcGQ+d5P+CL3/+ZUdqBQIh2rQgkZULhlq4sevLUVCrq+/aTn1DehotwiQti41hURMM42bfCEp/lroWkYTkS2wF+1PQ0zta7++wN4fkjcfG4qh1tW5RHBjToXiP7MticeDWfxerON1Gfvh3ThsFqffbDDAhE7XpeiqbRP8UVAoIuLnxHoh1suAk8uY/TydoQtZrJtjjha+jJcmoXbKvj2MOD+p5ZYD37i0nGZ4lbd0w6cVKYCWVTgXwEoKZozgIhZZLZIntBaxF/6EA9vq4HiXUvIEEJdSZaVp03qt+hjbuRDJ9jA4VCYpque9aO8nLZ+60E6B6lJhuIBDwvbmFSPFKnk360OdMd0UOH4F80k00qZU55N/eFzVH20wg4g7OrUKCA1f5duYgEdnv8pZC3ZzyhBwUt+kkDfllby7lb2DCoHZP8fEX8ZjqralqEoFQPs3nV2xJPSStlchWTayaoRRm29RTOsr7KcPjO1lVqXeisaoxqUaVUngpbEdBrca3kfkjLai8VcDFF0ZWC0ZRzqT4tZrtelGy2o+ff/R+XJPMhN25JOVLn9bCLc/v92GYwtY9EhslAx0VdHbaDsO+nIgzyiFKTRTyqAQW4qQN6lC5Mjb0ZJvEuTmqb4UdQx2YmBF5iJ/S6ET5HYxpcHof0+DL9hY1kCTrA==";
-  const SALT_B64 = "oHQHRlllHIostyxYL0Y1yg==";
-  const IV_B64 = "MigVCLwHEprjpt/G";
-  // KEY de localStorage é POR BU — senha de uma BU não destrava outra (isolamento multi-tenant).
-  // allin é injetado pelo render-artifact ao gerar o HTML. Default cai em "wiki" pra páginas
-  // que ainda não passam BU explícita (compat). Para gate de artefato, sempre tem BU.
-  const STORAGE_KEY = "wikia-master-key-allin";
-
-  const gate = document.getElementById('ap-gate');
-  const mount = document.getElementById('ap-content-mount');
-  const form = document.getElementById('ap-gate-form');
-  const input = document.getElementById('ap-gate-input');
-  const err = document.getElementById('ap-gate-err');
-
-  function b64(s) { const b = atob(s); const o = new Uint8Array(b.length); for (let i=0;i<b.length;i++) o[i] = b.charCodeAt(i); return o; }
-
-  async function deriveKey(pwd, salt) {
-    const baseKey = await crypto.subtle.importKey('raw', new TextEncoder().encode(pwd), 'PBKDF2', false, ['deriveKey']);
-    return crypto.subtle.deriveKey(
-      { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
-      baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
-    );
+  function fmt(min) {
+    const h = Math.floor(Math.abs(min) / 60);
+    const m = Math.abs(min) % 60;
+    return (min < 0 ? '−' : '') + h + 'h' + (m < 10 ? '0' : '') + m;
   }
-
-  async function tryUnlock(pwd) {
-    try {
-      const salt = b64(SALT_B64), iv = b64(IV_B64), cipher = b64(ENCRYPTED_PAYLOAD);
-      const key = await deriveKey(pwd, salt);
-      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, cipher);
-      const decrypted = new TextDecoder().decode(plain);
-      mount.innerHTML = decrypted;
-      mount.querySelectorAll('script').forEach(old => {
-        const s = document.createElement('script');
-        if (old.src) s.src = old.src; else s.textContent = old.textContent;
-        old.replaceWith(s);
-      });
-      gate.style.display = 'none';
-      mount.style.display = 'block';
-      // localStorage — persiste cross-page e cross-session
-      localStorage.setItem(STORAGE_KEY, pwd);
-      // Notifica componentes (mermaid-zoom, comparator, accordion-seq) que conteúdo
-      // criptografado foi injetado no DOM e podem (re)inicializar.
-      document.dispatchEvent(new CustomEvent('wikia:unlocked', { detail: { html: decrypted } }));
-      return true;
-    } catch (e) { return false; }
+  function calc() {
+    const onb = +document.getElementById('cs-i-onb').value || 0;
+    const dos = +document.getElementById('cs-i-dos').value || 0;
+    const rev = +document.getElementById('cs-i-rev').value || 0;
+    const total = onb*105 + dos*165 + rev*105;
+    const cap = 1680;
+    const pct = Math.round(total / cap * 100);
+    const sobra = cap - total;
+    const pctEl = document.getElementById('cs-o-pct');
+    const barEl = document.getElementById('cs-o-bar');
+    const lblEl = document.getElementById('cs-o-label');
+    const detEl = document.getElementById('cs-o-detail');
+    pctEl.textContent = pct + '%';
+    barEl.style.width = Math.min(pct, 100) + '%';
+    let cls, label, detail;
+    if (pct < 55) {
+      cls = 'ok'; label = 'Folgada'; lblEl.style.color = '#5fd8a0';
+      detail = fmt(sobra) + ' sobrando na semana. Bastante espaço para foco profundo, gravação de conteúdo, absorção de imprevistos.';
+    } else if (pct < 75) {
+      cls = 'ok'; label = 'Sustentável · típica'; lblEl.style.color = '#5fd8a0';
+      detail = fmt(sobra) + ' sobrando na semana para foco profundo, prep extra e contingência.';
+    } else if (pct < 95) {
+      cls = 'warn'; label = 'No limite · sustentável só por 1 semana isolada'; lblEl.style.color = '#d4a857';
+      detail = fmt(sobra) + ' de sobra apenas. Foco profundo cai para o mínimo. Qualquer imprevisto força hora extra.';
+    } else if (pct <= 100) {
+      cls = 'warn'; label = 'Saturado · sem margem'; lblEl.style.color = '#d4a857';
+      detail = fmt(sobra) + ' de sobra. Toda contingência sumiu. Imprevisto = hora extra garantida.';
+    } else {
+      cls = 'bad'; label = 'Estoura · inviável recorrente'; lblEl.style.color = '#d47857';
+      detail = 'Estoura em ' + fmt(total - cap) + '. Reuniões precisam ser reduzidas ou redistribuídas para semana seguinte.';
+    }
+    pctEl.className = 'cs-calc-pct ' + cls;
+    barEl.className = cls;
+    lblEl.textContent = label;
+    detEl.textContent = detail;
   }
-
-  // Auto-unlock: se já tem chave salva no localStorage, tenta
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    tryUnlock(saved).then(ok => { if (!ok) localStorage.removeItem(STORAGE_KEY); });
+  function bind() {
+    ['cs-i-ment','cs-i-onb','cs-i-dos','cs-i-rev'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.dataset.init) {
+        el.dataset.init = '1';
+        el.addEventListener('input', calc);
+      }
+    });
+    calc();
   }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    err.textContent = '';
-    const ok = await tryUnlock(input.value);
-    if (!ok) { err.textContent = '✗ senha incorreta'; input.value = ''; input.focus(); }
-  });
+  bind();
+  document.addEventListener('wikia:unlocked', bind);
 })();
 </script>
+<aside class="ap-callout" data-variant="warn"><div class="ap-callout-title">O que a calculadora revela</div><div class="ap-callout-body"><p>Carteira de 20 mentorados com <strong>1 Onb + 3 Dossiê + 5 Revisões</strong> dá 67% — sustentável. Sobe para <strong>2 Onb + 4 Dossiê + 5 Revisões</strong> e já vai a 83%, no limite. Acima disso, qualquer imprevisto vira hora extra. <strong>Esse teto afeta decisões de venda e expansão da equipe.</strong></p></div></aside>
+<hr>
+<h1 id="6-tópicos-da-reunião-com-a-eloise">6. Tópicos da Reunião com a Eloise</h1>
+<p>A conversa de 14/05 não criou regra nova. Ela validou e reforçou o que o manual de CS já estabelecia, e identificou pontos que estavam verbalizados mas não consolidados. Os principais tópicos discutidos:</p>
+<p>A reunião abriu com o <strong>diagnóstico do que vinha falhando</strong>: combinados que se perdiam fora do ClickUp, reuniões mal preparadas, dossiês apresentados sem revisão prévia, dúvidas estratégicas do cliente ficando sem resposta. Felipe deixou claro à Eloise que o problema central não é falta de sofisticação estratégica — é falha no básico operacional.</p>
+<p>A partir disso, conversamos sobre o <strong>papel do consultor como dono operacional do mentorado</strong> — equivalente a um Product Owner. O consultor é a ponte entre o cliente e a equipe interna, traduz a necessidade do mentorado para os especialistas e devolve resposta. Não existe call semanal individual com Hugo e Queila como padrão; o consultor é quem media.</p>
+<p>Discutimos as <strong>rotinas-âncora</strong> que precisam estar sempre presentes (Daily, Rondas, Confirmação 15d, Dedo no Pulso, Weekly), os <strong>três tipos de reunião com mentorado</strong> (Onboarding, Apresentação de Dossiê, Revisão/Alinhamentos), e o <strong>trabalho de foco profundo</strong> que cabe ao consultor solo (revisão de dossiê, construção de ferramentas, padronização).</p>
+<p>Conversamos sobre o <strong>Raio-X mensal</strong> como engrenagem central da operação: concentrar análise estratégica em uma semana resolve o ciclo de "matar um leão por dia" e transforma Hugo e Queila em revisores em vez de produtores de plano do zero.</p>
+<p>Falamos sobre o <strong>escopo da consultoria</strong>: educa e revisa, não executa pelo mentorado. Calendário editorial pode ser revisado com antecedência; copy não se escreve pelo cliente. Pedidos repetidos viram ativos reutilizáveis (aulas, ferramentas, vídeos).</p>
+<p>A Eloise validou a estrutura e fez observações sobre <strong>visibilidade do mentorado</strong> (proposta de documento fixado no grupo) e sobre <strong>disponibilidade pessoal</strong> (compromissos em outra consultoria nas quintas e sextas). Combinamos uma entrada <strong>gradual</strong> dela na operação, começando como observadora em reuniões com Felipe e acompanhando a Lara, antes de assumir mentorados próprios.</p>
+<aside class="ap-callout" data-variant="info"><div class="ap-callout-title">Como esses tópicos se conectam ao Manual de CS</div><div class="ap-callout-body"><p>Tudo o que apareceu na conversa está consolidado no <strong>Manual do CS</strong> (ClickUp Doc <code>8cj22vu-11751</code>) e no documento <strong>CS Rotinas</strong> (<code>8cj22vu-11311</code>). O manual é a consolidação dos erros que o time aprendeu ao longo da jornada — cada decisão verbalizada na reunião corresponde a uma lição operacional registrada lá. Este handoff é a versão executiva desse mesmo conteúdo.</p></div></aside>
 
+        <footer class="wk-article-footer">
+          <div class="tags">
+            
+          </div>
+          <div class="meta">
+            <span><span class="accent">2026-05-19</span></span>
+            <span>·</span>
+            <span>claude</span>
+          </div>
+        </footer>
+
+      
 
       
 
@@ -1296,29 +1536,9 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   });
 
   // ============ TREE EXPAND/COLLAPSE ============
-  const TK = 'wikia-tree-state';
-  let treeState = {};
-  try { treeState = JSON.parse(localStorage.getItem(TK) || '{}'); } catch {}
-
-  document.querySelectorAll('.wk-tree-tema').forEach(node => {
-    const tema = node.dataset.tema;
-    // Default: tema do artigo atual aberto
-    const hasCurrent = !!node.querySelector('a.current');
-    const explicit = treeState[tema];
-    const open = explicit !== undefined ? explicit : hasCurrent;
-    node.dataset.open = open ? 'true' : 'false';
-    const label = node.querySelector('.tema-label');
-    label?.addEventListener('click', () => {
-      const newOpen = node.dataset.open !== 'true';
-      node.dataset.open = newOpen ? 'true' : 'false';
-      treeState[tema] = newOpen;
-      localStorage.setItem(TK, JSON.stringify(treeState));
-    });
-  });
-
   // ============ WAVE 2 TREE TOGGLE (.wk-tree-bu / .wk-tree-project) ============
   // Click on chevron toggles; click on label-text/folder-icon navigates via the <a>.
-  // BU/project containers persist state in localStorage just like .wk-tree-tema.
+  // BU/project containers persist expanded state in localStorage.
   const TKW2 = 'wikia-tree-state-w2';
   let w2State = {};
   try { w2State = JSON.parse(localStorage.getItem(TKW2) || '{}'); } catch {}
@@ -1371,11 +1591,31 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   const searchInput = document.getElementById('wk-search-input');
   const searchResults = document.getElementById('wk-search-results');
   const searchBtn = document.getElementById('wk-search-btn');
+  const adminStateRoot = document.getElementById('admin-state');
   let searchIndex = [];
   let selectedIdx = 0;
   let filtered = [];
+  let searchIndexLoaded = false;
+
+  function isAdminLockedShell() {
+    return adminStateRoot?.dataset.state === 'locked';
+  }
+
+  function loadSearchIndex() {
+    if (searchIndexLoaded || isAdminLockedShell()) return;
+    searchIndexLoaded = true;
+    const wikiBase = document.documentElement.dataset.wikiBase || '';
+    fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+  }
+
+  if (isAdminLockedShell()) {
+    searchBtn?.setAttribute('aria-disabled', 'true');
+    searchBtn?.setAttribute('title', 'Busca disponivel apos unlock');
+  }
 
   function openSearch() {
+    if (isAdminLockedShell()) return;
+    loadSearchIndex();
     modal?.classList.add('open');
     searchInput.value = '';
     selectedIdx = 0;
@@ -1438,9 +1678,8 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   drawerClose?.addEventListener('click', closeDrawer);
   drawerBackdrop?.addEventListener('click', closeDrawer);
 
-  // Load search.json (relative to wiki base)
-  const wikiBase = document.documentElement.dataset.wikiBase || '';
-  fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+  // Load search.json (relative to wiki base). Admin waits until unlock.
+  if (!isAdminLockedShell()) loadSearchIndex();
 
   function score(item, q) {
     const txt = (item.title + ' ' + item.tema + ' ' + (item.tags || []).join(' ') + ' ' + (item.snippet || '')).toLowerCase();
@@ -1464,7 +1703,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
       return;
     }
     searchResults.innerHTML = filtered.map((it, idx) => `
-      <a href="${wikiBase}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
+      <a href="${(document.documentElement.dataset.wikiBase || '')}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
         <div class="title">${it.title}</div>
         <div class="meta">${it.tema} · ${it.date}${(it.tags||[]).length ? ' · ' + it.tags.join(', ') : ''}</div>
       </a>
@@ -1475,7 +1714,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   searchInput?.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); renderResults(searchInput.value.trim()); }
     if (e.key === 'ArrowUp') { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); renderResults(searchInput.value.trim()); }
-    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = wikiBase + '/' + target.url; }
+    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = (document.documentElement.dataset.wikiBase || '') + '/' + target.url; }
   });
 })();
 </script>

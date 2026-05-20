@@ -286,142 +286,11 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   margin: 0;
   font-size: 11.5px;
 }
-.wk-tree-tema { margin: 0; position: relative; }
-
-/* Tema (folder) header */
-.wk-tree-tema > .tema-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 4px var(--s-4) 4px var(--s-3);
-  color: var(--text-main);
-  cursor: pointer;
-  user-select: none;
-  font-weight: 500;
-  font-size: 11.5px;
-  line-height: 1.4;
-  transition: background 0.1s;
-  border-radius: 3px;
-  margin: 0 4px;
-}
-.wk-tree-tema > .tema-label:hover { background: var(--accent-dim); }
-
-/* Chevron (rotates on open) */
-.wk-tree-tema > .tema-label .chev {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  color: var(--text-dim);
-  transition: transform 0.15s;
-  margin-top: 2px;
-}
-.wk-tree-tema[data-open="true"] > .tema-label .chev { transform: rotate(90deg); }
-
-/* Folder icon */
-.wk-tree-tema > .tema-label .folder-icon {
-  display: inline-flex;
-  width: 14px;
-  height: 14px;
-  color: var(--accent);
-  flex-shrink: 0;
-  margin-right: 2px;
-  margin-top: 1px;
-}
-.wk-tree-tema[data-open="true"] > .tema-label .folder-icon { color: var(--success); }
-
-.wk-tree-tema > .tema-label .label-text {
-  flex: 1;
-  min-width: 0;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
-.wk-tree-tema > .tema-label .count {
-  color: var(--text-dim);
-  font-size: 10px;
-  margin-left: 4px;
-  margin-top: 2px;
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  flex-shrink: 0;
-}
-
-/* File list (children) */
-.wk-tree-tema > ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease;
-  position: relative;
-}
-.wk-tree-tema[data-open="true"] > ul { max-height: 4000px; }
-
-/* Guide line (indent rail) */
-.wk-tree-tema > ul::before {
-  content: "";
-  position: absolute;
-  left: 21px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
-}
-
-/* File item */
-.wk-tree-tema > ul > li > a {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  padding: 4px var(--s-4) 4px 30px;
-  color: var(--text-dim);
-  text-decoration: none;
-  font-size: 11px;
-  line-height: 1.4;
-  transition: all 0.1s;
-  border-radius: 3px;
-  margin: 0 4px 0 0;
-  position: relative;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
-.wk-tree-tema > ul > li > a .file-icon {
-  display: inline-flex;
-  width: 12px;
-  height: 12px;
-  color: var(--text-dim);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.wk-tree-tema > ul > li > a:hover {
-  color: var(--text-main);
-  background: var(--accent-dim);
-}
-.wk-tree-tema > ul > li > a:hover .file-icon { color: var(--accent); }
-.wk-tree-tema > ul > li > a.current {
-  color: var(--text-main);
-  background: var(--accent-dim);
-  font-weight: 600;
-}
-.wk-tree-tema > ul > li > a.current .file-icon { color: var(--success); }
-.wk-tree-tema > ul > li > a.current::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-}
 
 /* ============================================================
    WAVE 2 SIDEBAR TREE (BU/Project/Article)
-   Sizes match .wk-tree-tema legacy: 11.5px font, 4px padding,
-   12px chev, 14px folder, 10px count. Auto-flatten projects skip
-   the project-folder layer (article renders directly under BU).
+   11.5px font, 4px padding, 12px chev, 14px folder, 10px count.
+   Auto-flatten projects skip the project-folder layer (article renders directly under BU).
    Click on chevron toggles; click on label-text navigates.
    ============================================================ */
 .wk-tree-bu { margin: 0; position: relative; list-style: none; }
@@ -1118,15 +987,15 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <!-- Tree -->
   <div class="wk-section">
     <h4>Knowledge</h4>
-    <ul class="wk-tree">
-      <nav class="wk-sidebar-nav"><ul class="wk-tree">
-<li class="wk-tree-bu wk-current-bu" data-bu="staging" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/staging/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Staging</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="clickup-linear-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/gestao-projetos/clickup-linear-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Playbook Soviético: ClickUp com disciplina de Linear</span></a></li><li class="wk-tree-article" data-slug="pricing-strategy-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Pricing Strategy Playbook</span></a></li></ul></li>
+    <nav class="wk-sidebar-nav">
+      <ul class="wk-tree">
+        <li class="wk-tree-bu wk-current-bu" data-bu="staging" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/staging/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Staging</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="clickup-linear-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/gestao-projetos/clickup-linear-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Playbook Soviético: ClickUp com disciplina de Linear</span></a></li><li class="wk-tree-article" data-slug="pricing-strategy-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Pricing Strategy Playbook</span></a></li></ul></li>
 <li class="wk-tree-bu wk-tree-bu-empty" data-bu="vita"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/vita/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Vitascience</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="allin"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">0</span></a></li>
+<li class="wk-tree-bu" data-bu="allin" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="cs-na-case-alinhamento-eloise"><a href="https://felipeggv.github.io/wikia/gitpages/allin/case-cs/cs-na-case-alinhamento-eloise/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Customer Success na CASE · Como a Rotina do CS Funciona</span></a></li></ul></li>
 <li class="wk-tree-bu wk-tree-bu-empty" data-bu="aleyemma"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/aleyemma/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Aleyemma</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu" data-bu="gobbi" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</span><span class="wk-gate-icon" title="locked">🔒</span></a></li><li class="wk-tree-article" data-slug="unbloq-field-manual-como-funciona-hoje"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>unbloq — Field Manual: Como Funciona Hoje</span><span class="wk-gate-icon" title="locked">🔒</span></a></li></ul></li>
-</ul></nav>
-    </ul>
+<li class="wk-tree-bu wk-tree-bu-empty" data-bu="gobbi"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">0</span></a></li>
+      </ul>
+    </nav>
   </div>
 
   <!-- Recents -->
@@ -1136,10 +1005,9 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
       <li class="wk-recents-day">
 <span class="wk-recents-date">19 MAY</span>
 <ul class="wk-recents-items">
+<li><a href="https://felipeggv.github.io/wikia/gitpages/allin/case-cs/cs-na-case-alinhamento-eloise/">Customer Success na CASE · Como a Rotina do CS Funciona</a></li>
 <li><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/">Pricing Strategy Playbook</a></li>
 <li><a href="https://felipeggv.github.io/wikia/gitpages/staging/gestao-projetos/clickup-linear-playbook/">Playbook Soviético: ClickUp com disciplina de Linear</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/">Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/">unbloq — Field Manual: Como Funciona Hoje</a></li>
 </ul>
 </li>
     </ul>
@@ -1161,7 +1029,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
       <section class="wk-project-articles">
         <h2 class="wk-section-title">Artigos</h2>
         <ul class="wk-project-articles-list">
-<li><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/"><span class="date">2026-05-18</span><span class="wk-project-article-title">Pricing Strategy Playbook</span></a></li>
+<li><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/"><span class="date"></span><span class="wk-project-article-title">Pricing Strategy Playbook</span></a></li>
 </ul>
       </section>
 
@@ -1230,29 +1098,9 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   });
 
   // ============ TREE EXPAND/COLLAPSE ============
-  const TK = 'wikia-tree-state';
-  let treeState = {};
-  try { treeState = JSON.parse(localStorage.getItem(TK) || '{}'); } catch {}
-
-  document.querySelectorAll('.wk-tree-tema').forEach(node => {
-    const tema = node.dataset.tema;
-    // Default: tema do artigo atual aberto
-    const hasCurrent = !!node.querySelector('a.current');
-    const explicit = treeState[tema];
-    const open = explicit !== undefined ? explicit : hasCurrent;
-    node.dataset.open = open ? 'true' : 'false';
-    const label = node.querySelector('.tema-label');
-    label?.addEventListener('click', () => {
-      const newOpen = node.dataset.open !== 'true';
-      node.dataset.open = newOpen ? 'true' : 'false';
-      treeState[tema] = newOpen;
-      localStorage.setItem(TK, JSON.stringify(treeState));
-    });
-  });
-
   // ============ WAVE 2 TREE TOGGLE (.wk-tree-bu / .wk-tree-project) ============
   // Click on chevron toggles; click on label-text/folder-icon navigates via the <a>.
-  // BU/project containers persist state in localStorage just like .wk-tree-tema.
+  // BU/project containers persist expanded state in localStorage.
   const TKW2 = 'wikia-tree-state-w2';
   let w2State = {};
   try { w2State = JSON.parse(localStorage.getItem(TKW2) || '{}'); } catch {}
@@ -1305,11 +1153,31 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   const searchInput = document.getElementById('wk-search-input');
   const searchResults = document.getElementById('wk-search-results');
   const searchBtn = document.getElementById('wk-search-btn');
+  const adminStateRoot = document.getElementById('admin-state');
   let searchIndex = [];
   let selectedIdx = 0;
   let filtered = [];
+  let searchIndexLoaded = false;
+
+  function isAdminLockedShell() {
+    return adminStateRoot?.dataset.state === 'locked';
+  }
+
+  function loadSearchIndex() {
+    if (searchIndexLoaded || isAdminLockedShell()) return;
+    searchIndexLoaded = true;
+    const wikiBase = document.documentElement.dataset.wikiBase || '';
+    fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+  }
+
+  if (isAdminLockedShell()) {
+    searchBtn?.setAttribute('aria-disabled', 'true');
+    searchBtn?.setAttribute('title', 'Busca disponivel apos unlock');
+  }
 
   function openSearch() {
+    if (isAdminLockedShell()) return;
+    loadSearchIndex();
     modal?.classList.add('open');
     searchInput.value = '';
     selectedIdx = 0;
@@ -1372,9 +1240,8 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   drawerClose?.addEventListener('click', closeDrawer);
   drawerBackdrop?.addEventListener('click', closeDrawer);
 
-  // Load search.json (relative to wiki base)
-  const wikiBase = document.documentElement.dataset.wikiBase || '';
-  fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+  // Load search.json (relative to wiki base). Admin waits until unlock.
+  if (!isAdminLockedShell()) loadSearchIndex();
 
   function score(item, q) {
     const txt = (item.title + ' ' + item.tema + ' ' + (item.tags || []).join(' ') + ' ' + (item.snippet || '')).toLowerCase();
@@ -1398,7 +1265,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
       return;
     }
     searchResults.innerHTML = filtered.map((it, idx) => `
-      <a href="${wikiBase}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
+      <a href="${(document.documentElement.dataset.wikiBase || '')}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
         <div class="title">${it.title}</div>
         <div class="meta">${it.tema} · ${it.date}${(it.tags||[]).length ? ' · ' + it.tags.join(', ') : ''}</div>
       </a>
@@ -1409,7 +1276,7 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   searchInput?.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); renderResults(searchInput.value.trim()); }
     if (e.key === 'ArrowUp') { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); renderResults(searchInput.value.trim()); }
-    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = wikiBase + '/' + target.url; }
+    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = (document.documentElement.dataset.wikiBase || '') + '/' + target.url; }
   });
 })();
 </script>

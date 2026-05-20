@@ -1,0 +1,101 @@
+{
+  "catalog_version": 1,
+  "generated_at": "2026-05-20T00:58:14Z",
+  "records": [
+    {
+      "article_id": "9e3c1e655140e9702b2904092c7d0a6140e608ae91efd1119061260d5993256a",
+      "bu": "allin",
+      "canonical_key": "allin/case-cs/cs-na-case-alinhamento-eloise",
+      "gate_status": "public",
+      "idempotency_key": "d08ba7251f464207f68ecfd578f9d1c06d73451a6515bccea6dc79cc039fcf6e",
+      "output_url": "allin/case-cs/cs-na-case-alinhamento-eloise/",
+      "project": "case-cs",
+      "raw_hash": "44ab61a0f73dcc56bb7abbf2ddc7621ba16242d16ca53c6e21729e8d62e95829",
+      "release_status": "released",
+      "scope": "public",
+      "slug": "cs-na-case-alinhamento-eloise",
+      "tags": [
+        "case",
+        "customer-success",
+        "operacao",
+        "alinhamento"
+      ],
+      "title_public": "Customer Success na CASE · Como a Rotina do CS Funciona",
+      "title_visible": true
+    },
+    {
+      "article_id": "e8ed2216777aa4f27a3ff09e0c9e47d99b0aef09fc8a74ec0bfaf5446cc7a2b8",
+      "bu": "gobbi",
+      "canonical_key": "gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo",
+      "gate_status": "gated",
+      "idempotency_key": "e678d9586a34e7260c9b29e1f071999143f82daf64dde5fcc41d8e3d4aafc20d",
+      "output_url": "gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/",
+      "project": "geral",
+      "raw_hash": "6514ed66efa945cd44b3fc90c2972b91b39007aee3cea5e8436a47b2eab85323",
+      "release_status": "unreleased",
+      "scope": "article",
+      "slug": "design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo",
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
+    },
+    {
+      "article_id": "928c9dc003020885d5693e4d97c67ee58b3729257841c2e1622cb7a7aefc91fd",
+      "bu": "gobbi",
+      "canonical_key": "gobbi/unbloq/unbloq-field-manual-como-funciona-hoje",
+      "gate_status": "gated",
+      "idempotency_key": "0ffd918ebd323b7ca1de62a240d15556324e378eaad54e03eb8acfc95a0e791c",
+      "output_url": "gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/",
+      "project": "unbloq",
+      "raw_hash": "c8b0a7a6cd4e004f3ffbde151ef3d2c07f293cff82eb65b35ddc8ad71f034a65",
+      "release_status": "unreleased",
+      "scope": "article",
+      "slug": "unbloq-field-manual-como-funciona-hoje",
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
+    },
+    {
+      "article_id": "9444c93cbe693cd114634a9be5ddfea0d878f3d0810637c590c1dcf2c6bcabb3",
+      "bu": "staging",
+      "canonical_key": "staging/gestao-projetos/clickup-linear-playbook",
+      "gate_status": "public",
+      "idempotency_key": "022d79502308fd7a105787baf76c4f8e11458196084a705f1724745b7f0b49fc",
+      "output_url": "staging/gestao-projetos/clickup-linear-playbook/",
+      "project": "gestao-projetos",
+      "raw_hash": "fafe5c7bf02bbb3db5db405d860f5c8a430d523cdee085d4473458f4f1b3651e",
+      "release_status": "released",
+      "scope": "public",
+      "slug": "clickup-linear-playbook",
+      "tags": [
+        "clickup",
+        "linear",
+        "playbook",
+        "gestao",
+        "processo",
+        "ia-agent"
+      ],
+      "title_public": "Playbook Soviético: ClickUp com disciplina de Linear",
+      "title_visible": true
+    },
+    {
+      "article_id": "263eeda0df2ffc60feb4f4be248e82d3d30f075da843e303a7dc18bc2b2af76a",
+      "bu": "staging",
+      "canonical_key": "staging/test-project/pricing-strategy-playbook",
+      "gate_status": "public",
+      "idempotency_key": "cf327ed5592c5fd94146d692cb9035873467cfcc2b86bd4b20299bb6f8972e29",
+      "output_url": "staging/test-project/pricing-strategy-playbook/",
+      "project": "test-project",
+      "raw_hash": "19b03dc164e2611f2cfed716bb09fdab3691854a6c463883479f7952516a4d82",
+      "release_status": "released",
+      "scope": "public",
+      "slug": "pricing-strategy-playbook",
+      "tags": [
+        "pricing",
+        "strategy"
+      ],
+      "title_public": "Pricing Strategy Playbook",
+      "title_visible": true
+    }
+  ]
+}

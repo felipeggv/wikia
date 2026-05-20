@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>unbloq — Field Manual: Como Funciona Hoje · wikia</title>
-<meta name="description" content="::: callout info Resumo Operativo">
+<title>Protected article · wikia</title>
+<meta name="description" content="Encrypted wikia article. Unlock is required to read the content.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
@@ -286,142 +286,11 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   margin: 0;
   font-size: 11.5px;
 }
-.wk-tree-tema { margin: 0; position: relative; }
-
-/* Tema (folder) header */
-.wk-tree-tema > .tema-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 4px var(--s-4) 4px var(--s-3);
-  color: var(--text-main);
-  cursor: pointer;
-  user-select: none;
-  font-weight: 500;
-  font-size: 11.5px;
-  line-height: 1.4;
-  transition: background 0.1s;
-  border-radius: 3px;
-  margin: 0 4px;
-}
-.wk-tree-tema > .tema-label:hover { background: var(--accent-dim); }
-
-/* Chevron (rotates on open) */
-.wk-tree-tema > .tema-label .chev {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  color: var(--text-dim);
-  transition: transform 0.15s;
-  margin-top: 2px;
-}
-.wk-tree-tema[data-open="true"] > .tema-label .chev { transform: rotate(90deg); }
-
-/* Folder icon */
-.wk-tree-tema > .tema-label .folder-icon {
-  display: inline-flex;
-  width: 14px;
-  height: 14px;
-  color: var(--accent);
-  flex-shrink: 0;
-  margin-right: 2px;
-  margin-top: 1px;
-}
-.wk-tree-tema[data-open="true"] > .tema-label .folder-icon { color: var(--success); }
-
-.wk-tree-tema > .tema-label .label-text {
-  flex: 1;
-  min-width: 0;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
-.wk-tree-tema > .tema-label .count {
-  color: var(--text-dim);
-  font-size: 10px;
-  margin-left: 4px;
-  margin-top: 2px;
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  flex-shrink: 0;
-}
-
-/* File list (children) */
-.wk-tree-tema > ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease;
-  position: relative;
-}
-.wk-tree-tema[data-open="true"] > ul { max-height: 4000px; }
-
-/* Guide line (indent rail) */
-.wk-tree-tema > ul::before {
-  content: "";
-  position: absolute;
-  left: 21px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
-}
-
-/* File item */
-.wk-tree-tema > ul > li > a {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  padding: 4px var(--s-4) 4px 30px;
-  color: var(--text-dim);
-  text-decoration: none;
-  font-size: 11px;
-  line-height: 1.4;
-  transition: all 0.1s;
-  border-radius: 3px;
-  margin: 0 4px 0 0;
-  position: relative;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
-.wk-tree-tema > ul > li > a .file-icon {
-  display: inline-flex;
-  width: 12px;
-  height: 12px;
-  color: var(--text-dim);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.wk-tree-tema > ul > li > a:hover {
-  color: var(--text-main);
-  background: var(--accent-dim);
-}
-.wk-tree-tema > ul > li > a:hover .file-icon { color: var(--accent); }
-.wk-tree-tema > ul > li > a.current {
-  color: var(--text-main);
-  background: var(--accent-dim);
-  font-weight: 600;
-}
-.wk-tree-tema > ul > li > a.current .file-icon { color: var(--success); }
-.wk-tree-tema > ul > li > a.current::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-}
 
 /* ============================================================
    WAVE 2 SIDEBAR TREE (BU/Project/Article)
-   Sizes match .wk-tree-tema legacy: 11.5px font, 4px padding,
-   12px chev, 14px folder, 10px count. Auto-flatten projects skip
-   the project-folder layer (article renders directly under BU).
+   11.5px font, 4px padding, 12px chev, 14px folder, 10px count.
+   Auto-flatten projects skip the project-folder layer (article renders directly under BU).
    Click on chevron toggles; click on label-text navigates.
    ============================================================ */
 .wk-tree-bu { margin: 0; position: relative; list-style: none; }
@@ -1115,30 +984,18 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <!-- Tree -->
   <div class="wk-section">
     <h4>Knowledge</h4>
-    <ul class="wk-tree">
-      <nav class="wk-sidebar-nav"><ul class="wk-tree">
-<li class="wk-tree-bu" data-bu="staging" data-expanded="false"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/staging/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Staging</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="clickup-linear-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/gestao-projetos/clickup-linear-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Playbook Soviético: ClickUp com disciplina de Linear</span></a></li><li class="wk-tree-article" data-slug="pricing-strategy-playbook"><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Pricing Strategy Playbook</span></a></li></ul></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="vita"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/vita/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Vitascience</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="allin"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/allin/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">AllIn</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-tree-bu-empty" data-bu="aleyemma"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/aleyemma/"><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Aleyemma</span><span class="count">0</span></a></li>
-<li class="wk-tree-bu wk-current-bu" data-bu="gobbi" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">2</span></a><ul class="wk-tree-projects"><li class="wk-tree-article" data-slug="design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</span><span class="wk-gate-icon" title="locked">🔒</span></a></li><li class="wk-tree-article wk-current-article" data-slug="unbloq-field-manual-como-funciona-hoje"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>unbloq — Field Manual: Como Funciona Hoje</span><span class="wk-gate-icon" title="locked">🔒</span></a></li></ul></li>
-</ul></nav>
-    </ul>
+    <nav class="wk-sidebar-nav">
+      <ul class="wk-tree">
+        <li class="wk-tree-bu wk-current-bu" data-bu="gobbi" data-expanded="true"><a class="wk-tree-bu-link" href="https://felipeggv.github.io/wikia/gitpages/gobbi/"><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg><svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg><span class="label-text">Gobbi</span><span class="count">1</span></a><ul class="wk-tree-projects"><li class="wk-tree-article wk-current-article" data-slug="unbloq-field-manual-como-funciona-hoje"><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/"><svg class="file-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M3 1.5 h4 l2.5 2.5 v6.5 a0.5 0.5 0 0 1 -0.5 0.5 h-6 a0.5 0.5 0 0 1 -0.5 -0.5 v-8.5 a0.5 0.5 0 0 1 0.5 -0.5 z"/><polyline points="7 1.5 7 4 9.5 4" fill="currentColor" opacity="0.4"/></svg><span>unbloq field manual como funciona hoje</span><span class="wk-gate-icon" title="locked">🔒</span></a></li></ul></li>
+      </ul>
+    </nav>
   </div>
 
   <!-- Recents -->
   <div class="wk-section">
     <h4>Recentes</h4>
     <ul class="wk-recents">
-      <li class="wk-recents-day">
-<span class="wk-recents-date">19 MAY</span>
-<ul class="wk-recents-items">
-<li><a href="https://felipeggv.github.io/wikia/gitpages/staging/test-project/pricing-strategy-playbook/">Pricing Strategy Playbook</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/staging/gestao-projetos/clickup-linear-playbook/">Playbook Soviético: ClickUp com disciplina de Linear</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/geral/design-first-workflow-por-que-diagramar-antes-de-codar-economiza-60-80-do-tempo/">Design-First Workflow: por que diagramar antes de codar economiza 60-80% do tempo</a></li>
-<li><a href="https://felipeggv.github.io/wikia/gitpages/gobbi/unbloq/unbloq-field-manual-como-funciona-hoje/">unbloq — Field Manual: Como Funciona Hoje</a></li>
-</ul>
-</li>
+      
     </ul>
   </div>
 </aside>
@@ -1147,380 +1004,109 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
   <main class="wk-main">
     <div class="wk-content wk-article">
 
-      
+      <div class="ap-gate-wrap">
+  <div id="ap-gate">
+    <div class="ap-gate-card">
+      <div class="ap-gate-badge">protected · wikia</div>
+      <h1 class="ap-gate-title">Acesso ao wiki</h1>
+      <p class="ap-gate-lead">Conteúdo criptografado AES-256-GCM. Senha única do wiki destrava todos os artigos nesta sessão.</p>
+      <form id="ap-gate-form">
+        <label for="ap-gate-input">senha</label>
+        <input type="password" id="ap-gate-input" autocomplete="off" autofocus spellcheck="false">
+        <button type="submit">› DESTRAVAR WIKI</button>
+        <div class="ap-gate-err" id="ap-gate-err"></div>
+      </form>
+      <div class="ap-gate-footnote">
+        <div class="prompt">wikia · aes-256-gcm · pbkdf2 100k</div>
+        Sua senha fica persistente neste browser (localStorage). Limpe os dados do site pra deslogar.
+      </div>
+    </div>
+  </div>
 
-        <nav class="wk-breadcrumb" aria-label="Breadcrumb">
-          <a href="https://felipeggv.github.io/wikia/gitpages/">wikia</a><span class="sep">›</span>
-          <a href="https://felipeggv.github.io/wikia/gitpages/research/gobbi/unbloq/">Gobbi/Unbloq</a><span class="sep">›</span>
-          <span class="current">unbloq-field-manual-como-funciona-hoje</span>
-        </nav>
+  <div id="ap-content-mount" style="display:none"></div>
+</div>
 
-        <header class="wk-article-header">
-          <div class="wk-eyebrow">Gobbi/Unbloq</div>
-          <h1>unbloq — Field Manual: Como Funciona Hoje</h1>
-          <p class="wk-lead">::: callout info Resumo Operativo</p>
-          <div class="wk-meta-row">
-            <span>18 May 2026</span>
-            <span class="dot">·</span>
-            <span>14 min</span>
-            <span class="dot">·</span><a href="https://felipeggv.github.io/wikia/gitpages/tags/unbloq/" class="tag">unbloq</a><span class="dot">·</span><a href="https://felipeggv.github.io/wikia/gitpages/tags/field-manual/" class="tag">field-manual</a>
-          </div>
-        </header>
-
-        <hr>
-<p>bu: gobbi project: unbloq slug: unbloq-field-manual-como-funciona-hoje title: 'unbloq — Field Manual: Como Funciona Hoje' date: 2026-05-18 tags: [unbloq, field-manual] gate: &lt;vault&gt;</p>
-<hr>
-<h1 id="unbloq-field-manual-como-funciona-hoje">unbloq — Field Manual: Como Funciona Hoje</h1>
-<blockquote>Documento operacional. Foco no <strong>estado atual</strong>, não no roadmap. Última coleta de dados: 2026-05-12. Sessão Maestro: <code>cb52fb7a-9b3a-4e19-a8ef-27f88d6bceda</code>.</blockquote>
-<aside class="ap-callout" data-variant="info"><div class="ap-callout-title">Resumo Operativo</div><div class="ap-callout-body"><p><strong>O unbloq é uma cabine de comando local para Felipe Gobbi orquestrar a sua operação multi-BU.</strong> Hoje, <strong>funciona</strong> como pipeline de captura → categorização guiada via IA (Codex CLI) → handoff estruturado → render+apply ClickUp real → registro de execution_run → sincronização para review.</p>
-<p><strong>Não funciona ainda:</strong> ingestão WhatsApp/áudio/imagem, escrita de custom fields no ClickUp, review queue Epic 5, launch real do Maestro, UI.</p>
-<p><strong>Métrica de hoje:</strong> 14 tabelas SQLite, 17 eventos canônicos, 19 comandos CLI sob 6 scopes, ~12.000 LOC produção em TypeScript, 162 testes verdes, 63 commits desde 2026-05-03.</p></div></aside>
-<hr>
-<h2 id="1-arquitetura-real">1. Arquitetura Real</h2>
-<pre><code class="language-text">┌──────────────────────────────────────────────────────────────────┐
-│                          unbloq monorepo                          │
-│                                                                   │
-│  packages/                                                        │
-│    cli/         &lt;- 19 comandos sob 6 scopes (3144 LOC)            │
-│    core/        &lt;- engines deterministicas + IA wrappers (6287)   │
-│    db/          &lt;- SQLite com 14 tabelas + repositories (1985)    │
-│    connectors/                                                    │
-│      clickup/   &lt;- gateway cup CLI subprocess (779)               │
-│      gcal/      &lt;- scaffold (1 linha)                             │
-│      maestro/   &lt;- scaffold (1 linha)                             │
-│    ui/          &lt;- scaffold (1 linha) — aguarda design brief      │
-│                                                                   │
-└──────────────────────────────────────────────────────────────────┘
-
-CLI orquestra
-   |
-   v
-core (puro, deterministico) chama codex-runner pra IA
-   |                                 |
-   v                                 v
-db (SQLite persistente)         clickup connector (cup CLI subprocess)
-                                     |
-                                     v
-                                ClickUp real</code></pre>
-<aside class="ap-callout" data-variant="tip"><div class="ap-callout-title">Princípios estruturais</div><div class="ap-callout-body"><ol><li><strong>Core é puro:</strong> zero I/O. Funções deterministicas + tipos.</li><li><strong>DB usa SQLite via better-sqlite3:</strong> schema declarado em uma string SQL gigante. Single writer.</li><li><strong>CLI é o entry point único:</strong> o usuário só fala com CLI; CLI fala com core+db+connectors.</li><li><strong>Conectores externos são subprocess:</strong> ClickUp via <code>cup</code>, IA via <code>codex exec</code>. Nada de chave API direta no código.</li><li><strong>Idempotência por idempotency_key:</strong> cada entidade tem chave determinística; segunda chamada com mesmos inputs = duplicate, não nova row.</li></ol></div></aside>
-<hr>
-<h2 id="2-os-8-sub-sistemas-destrinchados">2. Os 8 Sub-Sistemas Destrinchados</h2>
-<h3 id="a-staging-capture">A. Staging Capture</h3>
-<p>📍 <strong>Onde mora:</strong> <code>packages/core/src/staging.ts</code> + <code>packages/cli/src/index.ts</code> (handler <code>handleStagingAdd</code>)</p>
-<p>🎯 <strong>O que faz:</strong> registra todo input bruto (texto, futuramente áudio/imagem) como um <code>staging_item</code> único, identificado por hash determinístico. Detecta duplicatas sem perder o original.</p>
-<p>📥 <strong>Input:</strong> <code>--source &lt;whatsapp|cli|quick_add|clickup_backlog&gt;</code> + <code>--text "..."</code></p>
-<p>🔧 <strong>Processing:</strong> <code>captureRawInput()</code> normaliza o texto, computa <code>content_hash</code> SHA-256, gera <code>staging_item.id</code> estável, checa duplicate via <code>listStagingItems</code>, retorna <code>CaptureRawInputResult</code>.</p>
-<p>📤 <strong>Output:</strong></p>
-<ul><li><code>staging_items</code> row (id, source, raw_text, normalized_text, status='draft', idempotency_key, content_hash, external_refs, created_at)</li><li>Evento: <code>staging_item_captured</code> (sempre) ou <code>duplicate_seen</code> (se duplicate)</li></ul>
-<p>🔌 <strong>CLI:</strong></p>
-<pre><code class="language-bash">unbloq staging add --source whatsapp --text "Lançar feature de relatório semanal" --db ./db.sqlite --json</code></pre>
-<p>✅ <strong>Exemplo real (smoke 2026-05-12):</strong></p>
-<pre><code class="language-json">{
-  "id": "stg_2f897d325eb78c8f",
-  "source": "cli",
-  "normalized_text": "Lançar feature de relatório executivo semanal no unbloq",
-  "status": "draft",
-  "content_hash": "a5f9...3c1b"
-}</code></pre>
-<p>⚠️ <strong>Limitações:</strong> só aceita <code>--text</code>. Não tem ingest WhatsApp nem áudio/imagem ainda (existe pipeline em <code>unblocq-pai</code> pra portar).</p>
-<hr>
-<h3 id="b-drccd-pipeline">B. DRCCD Pipeline</h3>
-<p>📍 <strong>Onde mora:</strong> <code>packages/core/src/drccd.ts</code> (455 LOC, sem IA)</p>
-<p>🎯 <strong>O que faz:</strong> roda os 5 estágios canônicos (Descarregar → Reunir → Categorizar → Contextualizar → Distribuir) deterministicamente sobre um <code>staging_item</code>, classificando-o em uma <code>DrccdDistributionTarget</code>.</p>
-<p>📥 <strong>Input:</strong> <code>StagingItem</code> + <code>DrccdPipelineContext</code> (opcional: now, defaultBu, existingItems)</p>
-<p>🔧 <strong>Processing:</strong> 5 estágios sequenciais, cada um retorna <code>DrccdStageResult</code> com <code>status</code> (passed|blocked) + <code>reason_codes</code>.</p>
-<table><thead><tr><th>Estágio</th><th>Detecta</th></tr></thead><tbody><tr><td>descarregar</td><td>raw_text presente, token_count, source</td></tr><tr><td>reunir</td><td>bu, profile, duplicate_of</td></tr><tr><td>categorizar</td><td>intent (implementation/draft/research/manual_decision/discard/unknown), action_verbs, risk_signals</td></tr><tr><td>contextualizar</td><td>summary, requires_human_decision, missing_inputs</td></tr><tr><td>distribuir</td><td>target (veredito/human_gate/needs_more_context), allowed_to_promote</td></tr></tbody></table>
-<p>📤 <strong>Output:</strong> <code>DrccdPipelineResult</code> com <code>blocked: boolean</code>, <code>confidence: high|medium|low</code>, evento <code>drccd_pipeline_ran</code>.</p>
-<p>🔌 <strong>CLI:</strong> roda automaticamente dentro de <code>unbloq staging decide &lt;id&gt;</code>.</p>
-<p>✅ <strong>Limitação importante:</strong> DRCCD por si só usa <strong>heurística regex</strong>, sem IA. É RÁPIDO mas dá resultados secos. O DRD Wizard (sub-sistema D abaixo) é a camada IA-assistida sobre essa engine.</p>
-<hr>
-<h3 id="c-veredito">C. VEREDITO</h3>
-<p>📍 <strong>Onde mora:</strong> <code>packages/core/src/veredito.ts</code></p>
-<p>🎯 <strong>O que faz:</strong> decide a rota final de um item via 4 entradas: <code>ai_task_decision</code>, <code>q_matrix</code>, <code>completeness signals</code> (vindos do DRCCD), e regras canônicas. Devolve <code>execution_mode</code> (autorun/spec_autorun/collab/manual) e <code>internal_route</code>.</p>
-<p>📥 <strong>Input:</strong> resultado DRCCD + flags do usuário (<code>--ai-task-decision</code>, <code>--q-matrix</code>, <code>--confidence</code>).</p>
-<p>🔧 <strong>Processing:</strong> tabela determinística:</p>
-<pre><code class="language-text">AI-GO + execute_now  → autorun
-AI-DRAFT + execute_now → spec_autorun
-YOURS → manual
-SKIP → none</code></pre>
-<p>Cruza com completeness (storyContractComplete, requiresBusinessDecision, etc) e re-classifica para <code>YOURS/manual</code> quando blocker aparecer.</p>
-<p>📤 <strong>Output:</strong> <code>VereditoResult</code> com <code>internal_route</code>, <code>execution_mode</code>, <code>disposition</code>, <code>confidence</code>, <code>reason_codes</code> + evento <code>veredito_applied</code>.</p>
-<p>🔌 <strong>CLI:</strong> dentro de <code>unbloq staging decide &lt;id&gt;</code>.</p>
-<p>✅ <strong>Exemplo real (do smoke 2026-05-12 item 3):</strong> Texto = "Corrigir bug crítico de vazamento de memória no DRCCD" + AI-GO forçado → <code>execution_mode: autorun</code>, <code>internal_route: autorun</code>, <code>confidence: high</code>.</p>
-<hr>
-<h3 id="d-humangate-autonomy-gate">D. HumanGate (autonomy gate)</h3>
-<p>📍 <strong>Onde mora:</strong> <code>packages/core/src/human-gate.ts</code> (224 LOC)</p>
-<p>🎯 <strong>O que faz:</strong> decide se a IA pode continuar sozinha ou se precisa parar e chamar humano. <strong>8 checks deterministicos</strong>, executados em ordem.</p>
-<p>🔧 <strong>Os 8 checks:</strong></p>
-<pre><code class="language-text">1. missing_specification        story_contract_complete = false           → blocked
-2. business_decision             requires_business_decision = true          → blocked
-3. functional_ambiguity          has_functional_ambiguity = true            → blocked
-4. human_only_action             requires_human_only_action = true          → blocked
-5. external_write_approval       has_unapproved_external_write = true       → blocked
-6. confidence_floor              confidence = 'low'                          → blocked
-7. confidence_for_autorun        medium + continue/dry_run (autorun path)   → blocked (NOVO 4-0C)
-8. research_context              research sem context                        → blocked</code></pre>
-<p>📤 <strong>Output:</strong> <code>HumanGateResult</code> com <code>human_gate_required: boolean</code>, <code>allowed_next_action: continue|research|draft|dry_run|ask_human|stop</code>, <code>reason_codes[]</code>, evento <code>human_gate_evaluated</code>.</p>
-<p>🔌 <strong>CLI:</strong> dentro de <code>unbloq staging decide &lt;id&gt;</code>.</p>
-<p>✅ <strong>Decisão chave (commit 7c6c1f5):</strong> Confidence <code>medium</code> <strong>bloqueia</strong> caminho de execução (continue/dry_run) — só permite caminho de informação (research/draft). Isso forma a base do "autorun não tolera incerteza média".</p>
-<hr>
-<h3 id="e-planning-timeline">E. Planning + Timeline</h3>
-<p>📍 <strong>Onde mora:</strong> <code>packages/core/src/operational-estimate.ts</code>, <code>planning-blocks.ts</code>, <code>timeline-read-model.ts</code> + handlers CLI.</p>
-<p>🎯 <strong>O que faz:</strong> estima custo operacional (tokens IA + capacidade humana), cria blocos de tempo, monta timeline por dia/semana.</p>
-<p>🔌 <strong>CLI:</strong></p>
-<pre><code class="language-bash">unbloq planning estimate &lt;staging_id&gt; --tool clickup --retry-risk medium
-unbloq planning observe-estimate &lt;estimate_id&gt; --actual-total-tokens 4200
-unbloq planning block create &lt;staging_id&gt; --starts-at "..." --ends-at "..." --bu vibework --session-type focus_work
-unbloq planning timeline --mode day --day 2026-05-12 --bu vibework</code></pre>
-<p>📤 <strong>Eventos:</strong> <code>operational_estimate_recorded</code>, <code>estimate_observation_recorded</code>, <code>time_block_planned</code>, <code>session_task_link_created</code>, <code>timeline_read_model_rebuilt</code>, <code>timeline_cli_queried</code>.</p>
-<p>⚠️ <strong>Limitação:</strong> funciona isolado. <strong>Não está integrado</strong> com o DRD wizard (você ainda precisa rodar <code>planning estimate</code> manualmente após <code>drd new</code>).</p>
-<hr>
-<h3 id="f-handoff-payload-v1">F. Handoff Payload v1</h3>
-<p>📍 <strong>Onde mora:</strong> <code>packages/core/src/handoff-payload.ts</code> (758 LOC)</p>
-<p>🎯 <strong>O que faz:</strong> transforma um <code>staging_item</code> decidido em um pacote de execução autocontido (<code>HandoffPayload</code>) que um agente IA pode consumir sem chat history. Versionado (<code>handoff_payload_v1</code>), idempotente.</p>
-<p>📤 <strong>HandoffPayload contém:</strong></p>
-<ul><li>objective, context, sources (com required/present flags), constraints, micro_steps, anti_scope, definition_of_done, review_instructions, reason_codes, trace_refs</li><li>execution_mode + ai_task_decision + human_gate_required (do VEREDITO/HumanGate)</li></ul>
-<p>🔌 <strong>CLI:</strong></p>
-<pre><code class="language-bash">unbloq handoff build --staging-item-id stg_X --db ./db.sqlite --json</code></pre>
-<p>📤 <strong>Evento:</strong> <code>handoff_payload_created</code> (entity_type=handoff_payload).</p>
-<p>✅ <strong>Garantias:</strong></p>
-<ul><li><code>external_write_performed: false</code> sempre (anti-scope respeitado)</li><li><code>maestro_launched: false</code> sempre</li><li>Idempotency key = SHA256(<code>unbloq:handoff_payload:&lt;staging_id&gt;:build:handoff_payload_v1:&lt;sources_hash&gt;</code>)</li><li>15 validation checks confirmando estrutura completa</li></ul>
-<hr>
-<h3 id="g-clickup-render-apply">G. ClickUp Render + Apply</h3>
-<div class="ap-comparator" data-comparator><div class="ap-comp-tabs"><button data-target="cmp-render-handoff-preview-sem-write-0" class="active">render-handoff (preview, sem write)</button><button data-target="cmp-apply-handoff-escreve-no-clickup-real-1" class="">apply-handoff (escreve no ClickUp real)</button></div><div class="ap-comp-panels"><div class="ap-comp-panel active" id="cmp-render-handoff-preview-sem-write-0"><ul><li>Renderiza HandoffPayload como Markdown ClickUp-safe (sem Mermaid, sem pipe tables).</li><li>Persiste <code>clickup_handoff_previews</code> row + emite <code>clickup_handoff_preview_created</code>.</li><li><code>apply_contract.apply = false</code> SEMPRE.</li><li>10 seções obrigatórias: Handoff Briefing, Objective, Sources, Constraints, Micro Steps, Anti Scope, Definition of Done, Review Instructions, Reason Codes, Trace Refs.</li><li>Sanitiza paths <code>/Users/...</code> para evitar references locais ilegíveis pro humano que lê no ClickUp.</li></ul></div><div class="ap-comp-panel " id="cmp-apply-handoff-escreve-no-clickup-real-1"><ul><li><strong>Triple gate</strong> antes de qualquer write:</li></ul>
-<ol><li>flag <code>--apply</code> presente</li><li>env <code>UNBLOQ_CLICKUP_ALLOW_WRITE=1</code></li><li><code>preview.validation.status === 'valid'</code> + <code>apply_contract.apply === false</code></li></ol>
-<ul><li>Chama <code>cup update &lt;task_id&gt; --description "&lt;markdown&gt;"</code> via subprocess.</li><li>Persiste <code>clickup_handoff_applications</code> row + emite <strong>2 eventos</strong> em transação: <code>clickup_handoff_applied</code> (entity=application) + <code>handoff_card_ready</code> (entity=clickup_task com entity_id=target_task_id).</li><li>Idempotency key derivada de <code>preview_id + target_task_id</code>: segunda chamada com mesmo destino = duplicate, não escreve de novo.</li></ul></div></div></div>
-<p>⚠️ <strong>Limitação importante:</strong> apply-handoff só escreve a <strong>description</strong> do card ClickUp. <strong>NÃO escreve custom fields</strong> (<code>ai_task_decision</code>, <code>execution_mode</code>, <code>bu</code>, <code>blocq_id</code>). Felipe sinalizou isso como bug em review.</p>
-<hr>
-<h3 id="h-execution-run-sync">H. Execution Run + Sync</h3>
-<p>📍 <strong>Onde mora:</strong> <code>packages/core/src/execution-run.ts</code> + <code>execution-run-sync.ts</code></p>
-<p>🎯 <strong>O que faz:</strong> registra a intenção de executar um handoff via Maestro (preview, sem disparar) e depois sincroniza o output do runner externo de volta para gerar um <code>review_item</code>.</p>
-<h4 id="preview-não-dispara-nada">Preview (não dispara nada):</h4>
-<pre><code class="language-bash">unbloq execution preview \
-  --application-id cua_X \
-  --arpb3-doc-path .maestro/playbooks/UNBLOQ-X.md \
-  --target-agent-id unbloq-cc \
-  --db ./db.sqlite --json</code></pre>
-<p>Emite <code>execution_run_preview_created</code> (status=<code>queued</code>, <code>maestro_launched: false</code> sempre).</p>
-<h4 id="sync-recebe-runner-output-redact-secrets-cria-review_item">Sync (recebe runner output, redact secrets, cria review_item):</h4>
-<pre><code class="language-bash">unbloq execution sync \
-  --execution-run-id exr_X \
-  --runner-status succeeded \
-  --output-summary "pipeline completed" \
-  --artifact-ref file:///tmp/build.log \
-  --db ./db.sqlite --json</code></pre>
-<p>Aplica <code>normalizeExecutionStatusUpdate</code> (mapeia 15 raw statuses → 5 canônicos), valida lifecycle (<code>queued → succeeded/failed/needs_review</code>), redacta secrets via regex (<code>sk-<em></code>, <code>pk_</em></code>, <code>Bearer <em></code>, <code></em>_TOKEN</code>, <code><em>_SECRET</code>, <code></em>_API_KEY</code>, <code><em>_PASSWORD</code>, <code>password=</em></code>), cria <code>review_item</code> com <code>required_decision</code> derivada (succeeded→approve, failed+retry→rerun, failed sem retry→escalate).</p>
-<p>Emite <strong>2 eventos</strong> em transação: <code>execution_run_status_changed</code> + <code>execution_run_synced_for_review</code>.</p>
-<p>⚠️ <strong>Limitação:</strong> o runner real é <strong>Maestro</strong>, mas a chamada não dispara o Maestro de fato. O <code>launch_plan</code> é só uma cota auditável de "comando que SERIA executado".</p>
-<hr>
-<h2 id="3-drd-wizard-a-camada-ia-assistida-commit-6478eb4">3. DRD Wizard — A Camada IA-Assistida (commit 6478eb4)</h2>
-<ol class="ap-accordion-seq" data-accordion-seq><li><button class="ap-acc-trigger">1. STEP 1/8 — Collecting</button><div class="ap-acc-body"><p>Lê <strong>brain dump multi-linha do stdin</strong> (até linha vazia ou Ctrl-D). Sem <code>--text</code> obrigatório. Felipe digita texto livre PT-BR como pensa.</p></div></li><li><button class="ap-acc-trigger">2. STEP 2/8 — Extracting (Codex CLI)</button><div class="ap-acc-body"><p>Invoca <code>codex exec --ephemeral --skip-git-repo-check --json --output-last-message &lt;file&gt;</code> com o prompt PT-BR <code>DRD_EXTRACT_PROMPT_PT</code>. Codex devolve <code>DrdExtractResponse</code> com array de items, cada um com <code>raw_text</code>, <code>short_name ≤70 chars</code>, <code>notes</code>.</p>
-<p>Tempo: ~10-15s. Custo: pago via ChatGPT account do Felipe.</p></div></li><li><button class="ap-acc-trigger">3. STEP 3/8 — Extraction Approval (humano)</button><div class="ap-acc-body"><p>CLI imprime os items numerados. Felipe aprova ou edita short_name por índice. Approval é interativa via readline, com flag <code>UNBLOQ_DRD_AUTO_APPROVE=1</code> para smoke não-interativo.</p></div></li><li><button class="ap-acc-trigger">4. STEP 4/8 — Priming (Codex CLI)</button><div class="ap-acc-body"><p>Codex enriquece cada item com <code>bu</code> (vibework/vitascience/aleyemma/automedia/all-in/personal/gobbi), <code>bloq_id_hint</code> (slug sugerido ou null), <code>context_summary ≤200 chars</code>, <code>has_decision_implication</code>.</p></div></li><li><button class="ap-acc-trigger">5. STEP 5/8 — Priming Approval (humano)</button><div class="ap-acc-body"><p>Felipe revisa contexto. Pode editar <code>bu</code>, <code>bloq_id_hint</code>, <code>context_summary</code> por índice.</p></div></li><li><button class="ap-acc-trigger">6. STEP 6/8 — Scoring (Codex CLI)</button><div class="ap-acc-body"><p>Codex propõe <strong>4 checks deterministicos</strong> por item:</p>
-<ul><li><code>acao_clara</code>: true/false</li><li><code>tem_tool_match</code>: sempre false (placeholder até inventory existir)</li><li><code>decisao_humana</code>: true/false</li><li><code>urgencia</code>: hoje | semana | mes | sem_data</li></ul></div></li><li><button class="ap-acc-trigger">7. STEP 7/8 — Final Approval + Computação</button><div class="ap-acc-body"><p><code>computeCategoryFromChecks()</code> deriva a categoria deterministicamente:</p>
-<pre><code class="language-text">acao_clara=false                    → SKIP
-decisao_humana=true                 → AI-DRAFT
-tem_tool_match=true                 → AI-GO
-acao_clara=true sem tool_match      → AI-GO (low_confidence)</code></pre>
-<p>Felipe pode editar qualquer check, recategorização é recomputada na hora.</p></div></li><li><button class="ap-acc-trigger">8. STEP 8/8 — Staging + Done</button><div class="ap-acc-body"><p>Items aprovados (não-SKIP) viram <code>staging_items</code> reais via <code>captureRawInput</code> + <code>saveStagingCapture</code>. Output JSON final com sumário e IDs.</p></div></li></ol>
-<aside class="ap-callout" data-variant="success"><div class="ap-callout-title">Smoke real validado 2026-05-12</div><div class="ap-callout-body"><p>Dump enviado:</p>
-<pre><code class="language-text">lancar feature de relatorio executivo semanal no unbloq
-ligar pro lab adriana sobre lote de fevereiro
-pesquisar concorrentes de pricing da vita para Q2
-corrigir bug critico no drccd que esta vazando memoria
-talvez pensar em conteudo de video futuramente</code></pre>
-<p>Saída em ~40 segundos (3 chamadas Codex):</p>
-<table><thead><tr><th>#</th><th>short_name</th><th>bu</th><th>bloq_id_hint</th><th>checks</th><th>categoria</th></tr></thead><tbody><tr><td>0</td><td>Lançar feature de relatório executivo semanal no unbloq</td><td>vibework</td><td>unbloq-relatorio-executivo-semanal</td><td>acao=T decisao=T urg=sem_data</td><td><strong>AI-DRAFT</strong></td></tr><tr><td>1</td><td>Ligar para o lab Adriana sobre lote de fevereiro</td><td>vitascience</td><td>null</td><td>acao=T decisao=T urg=sem_data</td><td><strong>AI-DRAFT</strong></td></tr><tr><td>2</td><td>Pesquisar concorrentes de pricing da Vita para Q2</td><td>vitascience</td><td>vita-pricing-q2</td><td>acao=T decisao=T urg=mes</td><td><strong>AI-DRAFT</strong></td></tr><tr><td>3</td><td>Corrigir bug crítico de vazamento de memória no DRCCD</td><td>vibework</td><td>drccd-memory-leak</td><td>acao=T decisao=F urg=sem_data</td><td><strong>AI-GO</strong></td></tr><tr><td>4</td><td>Pensar em conteúdo de vídeo futuramente</td><td>vibework</td><td>null</td><td>acao=F decisao=T urg=sem_data</td><td><strong>SKIP</strong></td></tr></tbody></table>
-<p>session_id: <code>drd_4ee672480e3d7014</code> · 4 staging_items criados, 1 descartado.</p>
-<p>Codex acertou:</p>
-<ul><li>Detectou que "ligar pro lab" é vitascience pelo nome "Adriana" (cliente conhecida).</li><li>Detectou "Q2" como urgência <code>mes</code>.</li><li>Marcou "talvez pensar em" como <code>acao_clara=false</code> → SKIP.</li></ul></div></aside>
-<hr>
-<h2 id="4-14-tabelas-sqlite">4. 14 Tabelas SQLite</h2>
-<table><thead><tr><th>Tabela</th><th>Papel</th><th>Quem escreve</th></tr></thead><tbody><tr><td><code>staging_items</code></td><td>inbox local de capturas brutas</td><td>staging add + drd new (passo 8)</td></tr><tr><td><code>domain_events</code></td><td>event log append-only (todos eventos canônicos)</td><td>TODOS os handlers</td></tr><tr><td><code>drd_sessions</code></td><td>state machine do DRD wizard (1 row por dump)</td><td>drd new + drd resume</td></tr><tr><td><code>handoff_payloads</code></td><td>payloads v1 versionados (com blob JSON full)</td><td>handoff build</td></tr><tr><td><code>clickup_handoff_previews</code></td><td>preview markdown ClickUp (sem write real)</td><td>clickup render-handoff</td></tr><tr><td><code>clickup_handoff_applications</code></td><td>registro de cup update REAL no ClickUp</td><td>clickup apply-handoff</td></tr><tr><td><code>execution_runs</code></td><td>preview de execução (com launch_plan Maestro)</td><td>execution preview + sync update</td></tr><tr><td><code>review_items</code></td><td>itens prontos para revisão humana</td><td>execution sync</td></tr><tr><td><code>operational_estimates</code></td><td>estimativas de tokens/capacidade</td><td>planning estimate</td></tr><tr><td><code>estimate_observations</code></td><td>variance entre estimado e real</td><td>planning observe-estimate</td></tr><tr><td><code>time_blocks</code></td><td>blocos de tempo planejados</td><td>planning block</td></tr><tr><td><code>routine_sessions</code></td><td>sessões de routine (focus/handoff/review)</td><td>planning block</td></tr><tr><td><code>session_task_links</code></td><td>links task↔session</td><td>planning block</td></tr><tr><td><code>timeline_read_model_snapshots</code></td><td>snapshots de timeline pra cache</td><td>planning timeline (rebuild)</td></tr></tbody></table>
-<aside class="ap-callout" data-variant="info"><div class="ap-callout-title">Single-writer SQLite</div><div class="ap-callout-body"><p>Driver: <code>better-sqlite3</code>. Sem WAL mode explícito. <strong>Race condition se 2 processos CLI rodarem em paralelo</strong> — limitação conhecida, aceita pra single-user MVP.</p></div></aside>
-<hr>
-<h2 id="5-17-eventos-canônicos-audit-trail">5. 17 Eventos Canônicos (Audit Trail)</h2>
-<pre><code class="language-text">ENTRADA
-   staging_item_captured       (+ duplicate_seen se duplicate)
-   drccd_pipeline_ran
-   veredito_applied
-   human_gate_evaluated
-
-PLANNING
-   operational_estimate_recorded (ou estimate_observation_recorded)
-   time_block_planned (ou time_block_plan_rejected)
-   session_task_link_created
-   timeline_read_model_rebuilt
-   timeline_cli_queried
-
-HANDOFF / CLICKUP
-   handoff_payload_created
-   clickup_handoff_preview_created
-   clickup_distribution_confirmed (ou clickup_handoff_applied)
-   handoff_card_ready                  (entity=clickup_task)
-
-EXECUTION
-   execution_run_preview_created
-   execution_run_status_changed
-   execution_run_synced_for_review     (entity=review_item)</code></pre>
-<aside class="ap-callout" data-variant="warn"><div class="ap-callout-title">Honest gap</div><div class="ap-callout-body"><p>O <strong>DRD wizard NÃO emite domain_events próprios</strong> ainda (drd_session_created, drd_session_completed). O smoke fresco mostrou só <code>staging_item_captured</code> × 4 no event log após <code>drd new</code> completo. A state machine vive em <code>drd_sessions</code> row, mas eventos do wizard não chegam ao log unificado. <strong>Será corrigido em próxima onda</strong>.</p></div></aside>
-<hr>
-<h2 id="6-pipeline-ponta-a-ponta-validado">6. Pipeline Ponta-A-Ponta (validado)</h2>
-<pre><code class="language-text">INPUT TEXTO (brain dump)
-   |
-   v
-[1] staging add OU drd new (com Codex CLI)
-   |
-   v
-staging_item_captured  +  drccd_pipeline_ran  +  veredito_applied
-                            +  human_gate_evaluated
-   |
-   v
-[2] handoff build
-   |
-   v
-handoff_payload_created
-   |
-   v
-[3] clickup render-handoff  (preview, apply=false)
-   |
-   v
-clickup_handoff_preview_created
-   |
-   v
-[4] clickup apply-handoff  (--apply + env + gate)
-   |
-   v
-clickup_handoff_applied  +  handoff_card_ready
-                            (ClickUp card description escrita de verdade)
-   |
-   v
-[5] execution preview --application-id &lt;cua_X&gt;
-   |
-   v
-execution_run_preview_created
-   |
-   v
-[6] execution sync --runner-status succeeded
-   |
-   v
-execution_run_status_changed  +  execution_run_synced_for_review
-                                  (review_item criado)</code></pre>
-<p>Total: até <strong>11 eventos persistidos</strong> no <code>domain_events</code> para um único item que percorre o pipeline inteiro.</p>
-<hr>
-<h2 id="7-o-que-não-funciona-hoje-lista-honesta">7. O Que NÃO Funciona Hoje (lista honesta)</h2>
-<aside class="ap-callout" data-variant="warn"><div class="ap-callout-title">Anti-scope explícito ou pendente</div><div class="ap-callout-body"><ul><li><strong>WhatsApp ingestion</strong> — <code>~/Documents/VibeworkV2/apps/unblocq-pai/src/adapters/waha.js</code> existe, NÃO foi portado.</li><li><strong>Áudio / imagem transcription</strong> — <code>unblocq-pai/src/media/transcriber.js</code> (Whisper) + <code>vision.js</code> existem, NÃO foram portados.</li><li><strong>Apply de custom fields ClickUp</strong> — <code>apply-handoff</code> só escreve description, NÃO escreve <code>ai_task_decision</code>, <code>execution_mode</code>, <code>bu</code>, <code>blocq_id</code>. Felipe flagou em review.</li><li><strong>Review queue (Epic 5)</strong> — 4 stories no backlog (UNBLOQ-5-01 a 5-04). Nenhum comando CLI ainda.</li><li><strong>Maestro launch real</strong> — <code>execution preview</code> registra o launch_plan, mas nunca dispara o Maestro de fato. Cota auditável só.</li><li><strong>UI</strong> — <code>packages/ui/</code> é scaffold de 1 linha. Bloqueada por design brief (CLAUDE.md rule).</li><li><strong>Daily report</strong> — DFR-001 deferido. Tabela <code>daily_reports</code> não existe.</li><li><strong>Profile JSON</strong> — <code>~/.unbloq/clickup-profile.json</code> precisa ser criado manualmente (sem comando <code>config init</code>).</li><li><strong>DRD events no log unificado</strong> — drd_session lifecycle não emite domain_events ainda.</li><li><strong>Integração planning ↔ DRD</strong> — <code>planning estimate</code> precisa ser chamado manualmente após <code>drd new</code>.</li><li><strong>WAL mode SQLite</strong> — 2 processos CLI paralelos podem lockar.</li><li><strong>Migrations</strong> — schema sem versionamento; mudança de coluna quebra DB existente.</li><li><strong>all-in workspace</strong> — cup tem profile <code>allin</code>, mas reorganização não foi feita (modelo de Lists-por-pessoa não bate com topology canônica).</li><li><strong>Output em português 100%</strong> — <code>handoff build</code> ainda gera markdown em inglês.</li></ul></div></aside>
-<hr>
-<h2 id="8-cli-completo-todos-os-19-comandos">8. CLI Completo (todos os 19 comandos)</h2>
-<table><thead><tr><th>Scope</th><th>Comando</th><th>Função</th></tr></thead><tbody><tr><td><code>staging</code></td><td><code>add</code></td><td>captura input bruto</td></tr><tr><td><code>staging</code></td><td><code>list</code></td><td>lista staging_items</td></tr><tr><td><code>staging</code></td><td><code>show &lt;id&gt;</code></td><td>inspeciona item</td></tr><tr><td><code>staging</code></td><td><code>decide &lt;id&gt;</code></td><td>roda DRCCD+VEREDITO+HumanGate</td></tr><tr><td><code>staging</code></td><td><code>import-clickup-backlog --list &lt;id&gt;</code></td><td>importa cards ClickUp como staging</td></tr><tr><td><code>drd</code></td><td><code>new</code></td><td>wizard interativo de brain dump</td></tr><tr><td><code>drd</code></td><td><code>resume</code></td><td>retoma sessão drd pausada (<code>--abort</code> cancela)</td></tr><tr><td><code>drd</code></td><td><code>list</code></td><td>lista sessões DRD</td></tr><tr><td><code>handoff</code></td><td><code>build --staging-item-id &lt;id&gt;</code></td><td>gera HandoffPayload v1</td></tr><tr><td><code>clickup</code></td><td><code>config</code></td><td>mostra profile ClickUp atual</td></tr><tr><td><code>clickup</code></td><td><code>render-handoff --payload-id &lt;id&gt;</code></td><td>gera markdown preview ClickUp</td></tr><tr><td><code>clickup</code></td><td><code>apply-handoff --preview-id &lt;id&gt; --apply</code></td><td>escreve description no ClickUp real (triple gate)</td></tr><tr><td><code>clickup</code></td><td><code>distribute &lt;staging_id&gt;</code></td><td>preview create-task (legacy)</td></tr><tr><td><code>clickup</code></td><td><code>preview-create-task --input &lt;file&gt;</code></td><td>preview a partir de JSON externo</td></tr><tr><td><code>planning</code></td><td><code>estimate &lt;staging_id&gt;</code></td><td>estima tokens + capacidade</td></tr><tr><td><code>planning</code></td><td><code>observe-estimate &lt;estimate_id&gt;</code></td><td>registra variance</td></tr><tr><td><code>planning</code></td><td><code>block create</code></td><td>cria time_block + routine_session</td></tr><tr><td><code>planning</code></td><td>`timeline --mode day</td><td>week`</td><td>consulta timeline</td></tr><tr><td><code>execution</code></td><td><code>preview --application-id &lt;id&gt;</code></td><td>registra execution_run + launch_plan</td></tr><tr><td><code>execution</code></td><td><code>sync --runner-status &lt;status&gt;</code></td><td>sincroniza output runner → review_item</td></tr></tbody></table>
-<aside class="ap-callout" data-variant="tip"><div class="ap-callout-title">Flags universais úteis</div><div class="ap-callout-body"><ul><li><code>--db &lt;path&gt;</code> — override do SQLite path (default <code>~/.unbloq/db.sqlite</code>)</li><li><code>--json</code> — saída JSON em vez de texto</li><li><code>--received-at &lt;iso&gt;</code> — fixa timestamp (importante pra idempotência em testes)</li><li><code>UNBLOQ_DRD_AUTO_APPROVE=1</code> env — pula approvals do DRD wizard</li><li><code>UNBLOQ_CLICKUP_ALLOW_WRITE=1</code> env — destrava apply-handoff real</li><li><code>UNBLOQ_CUP_BINARY=&lt;path&gt;</code> env — override do binário cup pra testes</li><li><code>UNBLOQ_CODEX_BINARY=&lt;path&gt;</code> env — override do binário codex pra testes</li></ul></div></aside>
-<hr>
-<h2 id="9-próximos-passos-1-parágrafo-só">9. Próximos Passos (1 parágrafo só)</h2>
-<p>A próxima onda planejada migra o ClickUp para o modelo <strong>workspace-topology</strong> (1 list = 1 branch = 1 agent = 1 cwd) com lists tipadas (<code>build/</code>, <code>fix/</code>, <code>improve/</code>, <code>run/</code>, <code>decide/</code>, <code>research/</code>), implementa o <strong>shell wrapper</strong> <code>~/bin/unbloq</code> para invocação direta sem <code>node --experimental-strip-types</code>, conecta o <strong>project field</strong> custom do ClickUp ao DRD priming step, e abre os 4 cards de <strong>Epic 5</strong> (review queue) como a próxima frente executável. Em paralelo, o pipeline de <strong>transcrição áudio/imagem</strong> será portado de <code>unblocq-pai</code> pra destravar ingestão via WhatsApp.</p>
-<hr>
-<h2 id="apêndice-identificação-técnica">Apêndice: Identificação técnica</h2>
-<ul><li><strong>Repo:</strong> <code>/Users/felipegobbi/Documents/VibeworkV2/apps/unbloq</code></li><li><strong>Branch atual:</strong> <code>feature/rotina-perfeita-cc</code></li><li><strong>Último commit:</strong> <code>6478eb4 feat(drd): brain-dump wizard guiado com Codex CLI (DRD)</code></li><li><strong>Stack:</strong> Node 25+, TypeScript via <code>--experimental-strip-types</code>, better-sqlite3, cup CLI, codex CLI</li><li><strong>Modelo IA usado pelo DRD:</strong> Codex CLI default (modelo da conta ChatGPT do Felipe)</li><li><strong>Tests verdes:</strong> 162 (8 wizard + 9 codex-runner + 145 core legacy/Wave1/Epic4 + 24 db + 40 cli + 11 clickup)</li><li><strong>Profiles cup ativos:</strong> gobbi, allin, vita</li></ul>
-<blockquote>Documento gerado pelo agente <code>unbloq-cc</code> em 2026-05-12 a partir de inspeção direta de código + smoke real fresco.</blockquote>
-<!-- Component: comparator
-     Quando usar: mostrar 2-3 opções/estados pra ensinar por contraste
-     Markup esperado:
-       <div class="ap-comparator" data-comparator>
-         <div class="ap-comp-tabs">
-           <button data-target="opt-a" class="active">Opção A</button>
-           <button data-target="opt-b">Opção B</button>
-         </div>
-         <div class="ap-comp-panels">
-           <div class="ap-comp-panel active" id="opt-a">conteúdo A</div>
-           <div class="ap-comp-panel" id="opt-b">conteúdo B</div>
-         </div>
-       </div>
--->
 <style>
-  .ap-comparator { margin: var(--space-5) 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg-sidebar); }
-  .ap-comp-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--bg-activity); }
-  .ap-comp-tabs button { flex: 1; padding: var(--space-3) var(--space-4); background: transparent; border: none; border-right: 1px solid var(--border); color: var(--text-dim); font: inherit; font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; cursor: pointer; letter-spacing: 0.03em; transition: all 0.15s; }
-  .ap-comp-tabs button:last-child { border-right: none; }
-  .ap-comp-tabs button:hover { color: var(--text-main); background: var(--accent-dim); }
-  .ap-comp-tabs button.active { color: var(--accent); background: var(--bg-sidebar); border-bottom: 2px solid var(--accent); margin-bottom: -1px; }
-  .ap-comp-panels { padding: var(--space-5); }
-  .ap-comp-panel { display: none; }
-  .ap-comp-panel.active { display: block; animation: apCompFade 0.2s ease-out; }
-  @keyframes apCompFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .ap-gate-wrap { display: block; width: 100%; }
+  #ap-gate { display:flex; align-items:center; justify-content:center; padding: var(--s-7) var(--s-5); background: radial-gradient(ellipse at center, rgba(91,103,91,0.06) 0%, transparent 60%); }
+  .ap-gate-card { background: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 8px; padding: var(--s-7) var(--s-6); max-width: 420px; width: 100%; box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+  .ap-gate-badge { display:inline-block; padding: 3px 10px; background: var(--accent-dim); color: var(--text-dim); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid var(--border); border-radius: 999px; margin-bottom: var(--s-4); font-family: var(--font); }
+  .ap-gate-title { font-family: var(--font); font-weight: 600; font-size: 1.5em; color: var(--text-main); margin: 0 0 var(--s-2); line-height: 1.3; }
+  .ap-gate-lead { color: var(--text-dim); font-size: 13px; margin: 0 0 var(--s-5); line-height: 1.6; }
+  .ap-gate-card label { display:block; color: var(--text-dim); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font); }
+  #ap-gate-input { width:100%; padding: 10px 12px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; color: var(--text-main); font: inherit; font-size: 14px; outline: none; transition: border-color 0.15s; }
+  #ap-gate-input:focus { border-color: var(--accent); }
+  .ap-gate-card button { width:100%; margin-top: var(--s-3); padding: 10px; background: var(--accent); color: var(--accent-text); border: 1px solid var(--accent); border-radius: 4px; font: inherit; font-weight: 600; cursor: pointer; letter-spacing: 0.06em; font-family: var(--font); transition: background 0.15s; font-size: 12px; }
+  .ap-gate-card button:hover { background: #6d796d; }
+  .ap-gate-err { color: var(--error); font-size: 12px; margin-top: var(--s-3); min-height: 1.2em; }
+  .ap-gate-footnote { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--border); color: var(--text-dim); font-size: 10px; line-height: 1.6; }
+  .ap-gate-footnote .prompt::before { content: "$ "; color: var(--accent); }
 </style>
-<script>
+
+<script id="ap-gate-script">
 (function() {
-  function init() {
-    // `:not([data-comp-initialized])` torna a re-execução idempotente —
-    // comparators já wired no run inicial são skipados em runs subsequentes.
-    document.querySelectorAll('[data-comparator]:not([data-comp-initialized])').forEach(comp => {
-      comp.setAttribute('data-comp-initialized', 'true');
-      const tabs = comp.querySelectorAll('.ap-comp-tabs button');
-      const panels = comp.querySelectorAll('.ap-comp-panel');
-      tabs.forEach(t => t.addEventListener('click', () => {
-        const target = t.dataset.target;
-        tabs.forEach(x => x.classList.toggle('active', x === t));
-        panels.forEach(p => p.classList.toggle('active', p.id === target));
-      }));
-    });
+  const ENCRYPTED_PAYLOAD = "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";
+  const SALT_B64 = "9sApVkodS7EDJA5HCxJRLw==";
+  const IV_B64 = "PrL0ezOLbIT1x8SV";
+  // KEY de localStorage é POR BU — senha de uma BU não destrava outra (isolamento multi-tenant).
+  // gobbi é injetado pelo render-artifact ao gerar o HTML. Default cai em "wiki" pra páginas
+  // que ainda não passam BU explícita (compat). Para gate de artefato, sempre tem BU.
+  const STORAGE_KEY = "wikia-master-key-gobbi";
+
+  const gate = document.getElementById('ap-gate');
+  const mount = document.getElementById('ap-content-mount');
+  const form = document.getElementById('ap-gate-form');
+  const input = document.getElementById('ap-gate-input');
+  const err = document.getElementById('ap-gate-err');
+
+  function b64(s) { const b = atob(s); const o = new Uint8Array(b.length); for (let i=0;i<b.length;i++) o[i] = b.charCodeAt(i); return o; }
+
+  async function deriveKey(pwd, salt) {
+    const baseKey = await crypto.subtle.importKey('raw', new TextEncoder().encode(pwd), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+      baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+    );
   }
-  init();
-  document.addEventListener('wikia:unlocked', init);
-})();
-</script>
 
-<!-- Component: accordion-seq
-     Quando usar: progressive disclosure de conteúdo sequencial/dependente
-     Markup esperado:
-       <ol class="ap-accordion-seq" data-accordion-seq>
-         <li>
-           <button class="ap-acc-trigger">1. Passo um</button>
-           <div class="ap-acc-body">conteúdo</div>
-         </li>
-         ...
-       </ol>
--->
-<style>
-  .ap-accordion-seq { list-style: none; padding: 0; margin: var(--space-5) 0; counter-reset: apseq; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-  .ap-accordion-seq > li { border-bottom: 1px solid var(--border); }
-  .ap-accordion-seq > li:last-child { border-bottom: none; }
-  .ap-acc-trigger { width: 100%; text-align: left; padding: var(--space-4) var(--space-5); background: var(--bg-sidebar); border: none; color: var(--text-main); font: inherit; font-family: var(--font-sans); font-size: var(--text-base); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: var(--space-3); transition: background 0.15s; }
-  .ap-acc-trigger:hover { background: var(--accent-dim); }
-  .ap-acc-trigger::before { content: "▸"; color: var(--accent); transition: transform 0.2s; }
-  .ap-acc-trigger.open::before { transform: rotate(90deg); }
-  .ap-acc-body { padding: 0 var(--space-5); max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; background: var(--bg-main); }
-  .ap-acc-body.open { padding: var(--space-4) var(--space-5) var(--space-5); max-height: 2000px; }
-</style>
-<script>
-(function() {
-  function init() {
-    // Marca o trigger (não o container) — granularidade necessária se um
-    // accordion-seq for parcialmente renderizado em runs separados.
-    document.querySelectorAll('[data-accordion-seq] .ap-acc-trigger:not([data-acc-initialized])').forEach(btn => {
-      btn.setAttribute('data-acc-initialized', 'true');
-      btn.addEventListener('click', () => {
-        const body = btn.nextElementSibling;
-        btn.classList.toggle('open');
-        body.classList.toggle('open');
+  async function tryUnlock(pwd) {
+    try {
+      const salt = b64(SALT_B64), iv = b64(IV_B64), cipher = b64(ENCRYPTED_PAYLOAD);
+      const key = await deriveKey(pwd, salt);
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, cipher);
+      const decrypted = new TextDecoder().decode(plain);
+      mount.innerHTML = decrypted;
+      mount.querySelectorAll('script').forEach(old => {
+        const s = document.createElement('script');
+        if (old.src) s.src = old.src; else s.textContent = old.textContent;
+        old.replaceWith(s);
       });
-    });
+      gate.style.display = 'none';
+      mount.style.display = 'block';
+      // localStorage — persiste cross-page e cross-session
+      localStorage.setItem(STORAGE_KEY, pwd);
+      // Notifica componentes (mermaid-zoom, comparator, accordion-seq) que conteúdo
+      // criptografado foi injetado no DOM e podem (re)inicializar.
+      document.dispatchEvent(new CustomEvent('wikia:unlocked', { detail: { html: decrypted } }));
+      return true;
+    } catch (e) { return false; }
   }
-  init();
-  document.addEventListener('wikia:unlocked', init);
+
+  // Auto-unlock: se já tem chave salva no localStorage, tenta
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    tryUnlock(saved).then(ok => { if (!ok) localStorage.removeItem(STORAGE_KEY); });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.textContent = '';
+    const ok = await tryUnlock(input.value);
+    if (!ok) { err.textContent = '✗ senha incorreta'; input.value = ''; input.focus(); }
+  });
 })();
 </script>
 
-
-        <footer class="wk-article-footer">
-          <div class="tags">
-            <a href="https://felipeggv.github.io/wikia/gitpages/tags/unbloq/" class="tag">unbloq</a><a href="https://felipeggv.github.io/wikia/gitpages/tags/field-manual/" class="tag">field-manual</a>
-          </div>
-          <div class="meta">
-            <span><span class="accent">2026-05-18</span></span>
-            <span>·</span>
-            <span>claude</span>
-          </div>
-        </footer>
-
-      
 
       
 
@@ -1579,29 +1165,9 @@ execution_run_status_changed  +  execution_run_synced_for_review
   });
 
   // ============ TREE EXPAND/COLLAPSE ============
-  const TK = 'wikia-tree-state';
-  let treeState = {};
-  try { treeState = JSON.parse(localStorage.getItem(TK) || '{}'); } catch {}
-
-  document.querySelectorAll('.wk-tree-tema').forEach(node => {
-    const tema = node.dataset.tema;
-    // Default: tema do artigo atual aberto
-    const hasCurrent = !!node.querySelector('a.current');
-    const explicit = treeState[tema];
-    const open = explicit !== undefined ? explicit : hasCurrent;
-    node.dataset.open = open ? 'true' : 'false';
-    const label = node.querySelector('.tema-label');
-    label?.addEventListener('click', () => {
-      const newOpen = node.dataset.open !== 'true';
-      node.dataset.open = newOpen ? 'true' : 'false';
-      treeState[tema] = newOpen;
-      localStorage.setItem(TK, JSON.stringify(treeState));
-    });
-  });
-
   // ============ WAVE 2 TREE TOGGLE (.wk-tree-bu / .wk-tree-project) ============
   // Click on chevron toggles; click on label-text/folder-icon navigates via the <a>.
-  // BU/project containers persist state in localStorage just like .wk-tree-tema.
+  // BU/project containers persist expanded state in localStorage.
   const TKW2 = 'wikia-tree-state-w2';
   let w2State = {};
   try { w2State = JSON.parse(localStorage.getItem(TKW2) || '{}'); } catch {}
@@ -1654,11 +1220,31 @@ execution_run_status_changed  +  execution_run_synced_for_review
   const searchInput = document.getElementById('wk-search-input');
   const searchResults = document.getElementById('wk-search-results');
   const searchBtn = document.getElementById('wk-search-btn');
+  const adminStateRoot = document.getElementById('admin-state');
   let searchIndex = [];
   let selectedIdx = 0;
   let filtered = [];
+  let searchIndexLoaded = false;
+
+  function isAdminLockedShell() {
+    return adminStateRoot?.dataset.state === 'locked';
+  }
+
+  function loadSearchIndex() {
+    if (searchIndexLoaded || isAdminLockedShell()) return;
+    searchIndexLoaded = true;
+    const wikiBase = document.documentElement.dataset.wikiBase || '';
+    fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+  }
+
+  if (isAdminLockedShell()) {
+    searchBtn?.setAttribute('aria-disabled', 'true');
+    searchBtn?.setAttribute('title', 'Busca disponivel apos unlock');
+  }
 
   function openSearch() {
+    if (isAdminLockedShell()) return;
+    loadSearchIndex();
     modal?.classList.add('open');
     searchInput.value = '';
     selectedIdx = 0;
@@ -1721,9 +1307,8 @@ execution_run_status_changed  +  execution_run_synced_for_review
   drawerClose?.addEventListener('click', closeDrawer);
   drawerBackdrop?.addEventListener('click', closeDrawer);
 
-  // Load search.json (relative to wiki base)
-  const wikiBase = document.documentElement.dataset.wikiBase || '';
-  fetch(wikiBase + '/search.json').then(r => r.json()).then(d => { searchIndex = d; }).catch(() => {});
+  // Load search.json (relative to wiki base). Admin waits until unlock.
+  if (!isAdminLockedShell()) loadSearchIndex();
 
   function score(item, q) {
     const txt = (item.title + ' ' + item.tema + ' ' + (item.tags || []).join(' ') + ' ' + (item.snippet || '')).toLowerCase();
@@ -1747,7 +1332,7 @@ execution_run_status_changed  +  execution_run_synced_for_review
       return;
     }
     searchResults.innerHTML = filtered.map((it, idx) => `
-      <a href="${wikiBase}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
+      <a href="${(document.documentElement.dataset.wikiBase || '')}/${it.url}" class="item ${idx === selectedIdx ? 'selected' : ''}" data-i="${idx}">
         <div class="title">${it.title}</div>
         <div class="meta">${it.tema} · ${it.date}${(it.tags||[]).length ? ' · ' + it.tags.join(', ') : ''}</div>
       </a>
@@ -1758,7 +1343,7 @@ execution_run_status_changed  +  execution_run_synced_for_review
   searchInput?.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); renderResults(searchInput.value.trim()); }
     if (e.key === 'ArrowUp') { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); renderResults(searchInput.value.trim()); }
-    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = wikiBase + '/' + target.url; }
+    if (e.key === 'Enter') { e.preventDefault(); const target = filtered[selectedIdx]; if (target) location.href = (document.documentElement.dataset.wikiBase || '') + '/' + target.url; }
   });
 })();
 </script>
