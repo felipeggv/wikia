@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-05-21T11:56:44Z",
+  "generated_at": "2026-05-21T12:14:32Z",
   "records": [
     {
       "article_id": "9e3c1e655140e9702b2904092c7d0a6140e608ae91efd1119061260d5993256a",
@@ -85,10 +85,10 @@
       "bu": "gobbi",
       "canonical_key": "gobbi/skills/design-first-dev-workflow",
       "gate_status": "gated",
-      "idempotency_key": "d16158beccef52c5c5d495e81a46a85ce0e8f4a2933be6e07757c43b6b783ce3",
+      "idempotency_key": "a2b03057488df3515f87a3de1917712cf1b37a4856293aca343f4f9a23c3864a",
       "output_url": "gobbi/skills/design-first-dev-o-workflow-visual-que-vira-c-odigo-sem-caos/",
       "project": "skills",
-      "raw_hash": "f0e5eeee1eab85de9bec4224c94ffaed2771fdde653cd2d70416736279187a14",
+      "raw_hash": "4e842cdd55a3108104d515dd935280746f2d3debb11db50eb7f27a8fb8febb82",
       "release_status": "unreleased",
       "scope": "article",
       "slug": "design-first-dev-workflow",
