@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-05-20T13:11:56Z",
+  "generated_at": "2026-05-21T09:21:29Z",
   "records": [
     {
       "article_id": "9e3c1e655140e9702b2904092c7d0a6140e608ae91efd1119061260d5993256a",
@@ -76,6 +76,22 @@
       "release_status": "unreleased",
       "scope": "article",
       "slug": "wikia-operating-manual",
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
+    },
+    {
+      "article_id": "744fc2a50f95fa1e8535aad78e0c0dcd21c81c92af3199d059ab999c9d80b29f",
+      "bu": "gobbi",
+      "canonical_key": "gobbi/skills/design-first-dev-workflow",
+      "gate_status": "gated",
+      "idempotency_key": "94e3fd15b0b8ec8cdb3f1d7c0fbb0009e859be8bbccf01a4729eec2c65c9d02f",
+      "output_url": "gobbi/skills/design-first-dev-o-workflow-visual-que-vira-c-odigo-sem-caos/",
+      "project": "skills",
+      "raw_hash": "e01674f598e408c627b824063cd86f67d7285c6e3c7520173fd2335366f95771",
+      "release_status": "unreleased",
+      "scope": "article",
+      "slug": "design-first-dev-workflow",
       "tags": [],
       "title_public": null,
       "title_visible": false
