@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-$(cd "$TEST_DIR/.." && pwd)}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 PUBLISH_SCRIPT="${SOURCE_ROOT}/scripts/publish.sh"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/publish-idempotency-tests"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/publish-idempotency-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -83,7 +84,7 @@ run_publish_validate() {
   local validate_json="$2"
   local validate_err="$3"
 
-  PUBLISH_TEST_ORIGIN="$ORIGIN_REPO" REAL_GIT="$REAL_GIT" PATH="${FAKE_BIN}:$PATH" \
+  PUBLISH_TEST_ORIGIN="$ORIGIN_REPO" REAL_GIT="$REAL_GIT" WIKIA_PUBLISH_TMP_PARENT="${RUN_DIR}/publish-workdirs" PATH="${FAKE_BIN}:$PATH" \
     bash "$PUBLISH_SCRIPT" \
       --title "Repeatable Canonical Record" \
       --content "$raw_md" \

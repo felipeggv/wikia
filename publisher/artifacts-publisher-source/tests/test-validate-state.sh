@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-$(cd "$TEST_DIR/.." && pwd)}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 VALIDATE_SCRIPT="${SOURCE_ROOT}/scripts/validate-state.sh"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/validate-state-tests"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/validate-state-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
