@@ -5,7 +5,7 @@ Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-
 Integration branch: `improve/release-integration`
 HEAD before this run's merge step: `56c0e40`
 Plan commit before merge step: `281f53e`
-HEAD before origin carrier merge step: `c1835d4`
+HEAD before publish-validation merge step: `c1835d4`
 
 ```text
 local lane refs + origin lane refs
@@ -39,11 +39,11 @@ Command run before this plan:
 git fetch --all --prune
 ```
 
-A second fetch during execution showed that `origin/build/render-navigation` and
-`origin/fix/publish-validation` were deleted after their pull requests landed in
-`origin/main`. Because this run must use origin-side lane output too,
-`origin/main` is treated only as the remote carrier for those deleted lane PRs,
-not as a deploy target.
+A second ref check during execution showed that `origin/build/render-navigation`
+and `origin/fix/publish-validation` were deleted after their pull requests
+landed in `origin/main`. To keep this integration scoped, this run merged the
+local render-navigation lane ref and the specific publish-validation lane commit
+`d4691bf` instead of merging all of `origin/main`.
 
 ## Branch Inputs After Fetch
 
@@ -52,15 +52,15 @@ not as a deploy target.
 | Lane | Local branch | Origin branch | Current state | Decision |
 | --- | --- | --- | --- | --- |
 | catalog-state | missing | missing | Active lane refs are pruned/missing; catalog-state content is already present through merge `50fdfa8`. | No direct lane ref remains to merge. |
-| render-navigation | `build/render-navigation` at `2d9b095` | pruned; PR carrier in `origin/main` | Local ref merged as `c1835d4`; `origin/main` also contains PR #1. | Merge local ref first, then merge/check `origin/main` carrier. |
+| render-navigation | `build/render-navigation` at `2d9b095` | pruned after PR landing | Local ref merged as `c1835d4`; key render-navigation lane commits are now ancestors of HEAD. | Merge local ref and keep catalog-navigation behavior. |
 | security-permissions | `build/security-permissions` at `0b33584` | `origin/build/security-permissions` at `0b33584` | Both refs are ancestors of HEAD after the render merge. | Merge/check both; expected no-op. |
-| publish-validation | local ref pruned during execution | pruned; PR carrier in `origin/main` | `origin/main` contains PR #5 from `fix/publish-validation`. | Merge/check `origin/main` carrier. |
+| publish-validation | local ref pruned during execution | pruned after PR landing | Specific lane merge commit `d4691bf` remains available locally. | Merge `d4691bf` directly to avoid pulling unrelated `origin/main` changes. |
 | admin-ux | `fix/admin-ux` at `5317be5` | `origin/fix/admin-ux` at `5317be5` | Both refs are ancestors of HEAD after the render merge. | Merge/check both; expected no-op. |
 
 ## Merge Order
 
 1. `build/render-navigation`
-2. `origin/main` as carrier for deleted origin lane PRs #1 and #5
+2. `d4691bf` publish-validation lane merge commit
 3. `origin/build/security-permissions`
 4. `build/security-permissions`
 5. `origin/fix/admin-ux`
@@ -92,7 +92,7 @@ conflicts against integrated test expectations
 resolve to keep both navigation model and integrated safety contracts
 ```
 
-After the render merge, `git merge-tree --write-tree HEAD origin/main` predicts conflicts in the shared publish-validation test layer:
+After the render merge, merging `d4691bf` opened conflicts in the shared publish-validation test layer:
 
 | File | Expected resolution principle |
 | --- | --- |
