@@ -2,12 +2,12 @@
 set -euo pipefail
 
 TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-$(cd "$TEST_DIR/.." && pwd)}"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-${SOURCE_ROOT:-$(cd "$TEST_DIR/.." && pwd)}}"
 APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 RENDER_ADMIN_SCRIPT="${SOURCE_ROOT}/scripts/render-admin.py"
 RENDER_WIKI_SCRIPT="${SOURCE_ROOT}/scripts/render-wiki.py"
 SIDEBAR_TEMPLATE="${SOURCE_ROOT}/templates/_sidebar.html.tpl"
-TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/render-admin-sidebar-wrapper-tests}"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-${TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/render-admin-sidebar-wrapper-tests}}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2

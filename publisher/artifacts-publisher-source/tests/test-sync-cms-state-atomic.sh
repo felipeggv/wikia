@@ -22,6 +22,8 @@ RUN_DIR="$(mktemp -d "${TMP_PARENT}/run.XXXXXX")"
 trap 'rm -rf "$RUN_DIR"' EXIT
 
 python3 - "$SOURCE_ROOT/scripts" "$RUN_DIR" <<'PY'
+from __future__ import annotations
+
 import importlib.util
 import json
 import sys
