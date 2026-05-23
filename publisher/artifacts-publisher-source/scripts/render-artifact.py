@@ -4,6 +4,7 @@ render-artifact.py — renderiza artefato no layout wikia (topbar + sidebar + co
 Uso: render-artifact.py <md> <theme-json> <title> <slug> <tema> <repo-name> <date> <tags-csv> <models-csv> <tree-json> <recents-json> <wiki-base>
 """
 import sys, json, re, importlib.util, os
+import html as html_lib
 from pathlib import Path
 from datetime import datetime
 
@@ -15,6 +16,7 @@ spec.loader.exec_module(md_mod)
 sys.path.insert(0, str(SCRIPT_DIR))
 from frontmatter_parser import parse_frontmatter_optional
 import public_catalog
+import catalog_navigation
 
 _wiki_spec = importlib.util.spec_from_file_location("render_wiki", SCRIPT_DIR / "render-wiki.py")
 _wiki_mod = importlib.util.module_from_spec(_wiki_spec)
@@ -38,6 +40,40 @@ def build_theme_vars(theme):
         ('warning', theme.get('warning', '#d0a795')),
         ('error', theme.get('error', '#ff5555')),
     ])
+
+
+def _esc(s):
+    return html_lib.escape(str(s), quote=False)
+
+
+def _attr(s):
+    return html_lib.escape(str(s), quote=True)
+
+
+def join_url(base, path):
+    return catalog_navigation.join_url(base, path)
+
+
+def build_article_context_html(wiki_base, current_bu, current_project, tema, tema_title):
+    if current_bu and current_project:
+        bu_title = catalog_navigation.title_for_bu(current_bu)
+        project_title = catalog_navigation.humanize_slug(current_project)
+        return (
+            f'<a href="{_attr(join_url(wiki_base, current_bu + "/"))}">{_esc(bu_title)}</a>'
+            '<span class="sep">›</span>'
+            f'<a href="{_attr(join_url(wiki_base, f"{current_bu}/{current_project}/"))}">'
+            f'{_esc(project_title)}</a><span class="sep">›</span>'
+        )
+    return (
+        f'<a href="{_attr(join_url(wiki_base, f"research/{tema}/"))}">{_esc(tema_title)}</a>'
+        '<span class="sep">›</span>'
+    )
+
+
+def build_article_eyebrow(current_bu, current_project, tema_title):
+    if current_bu and current_project:
+        return f'{catalog_navigation.title_for_bu(current_bu)} / {catalog_navigation.humanize_slug(current_project)}'
+    return tema_title
 
 
 CHEV_SVG = '<svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg>'
@@ -150,7 +186,14 @@ def main():
     current_slug = fm.get('slug') or slug
     catalog_records = public_catalog.load_records_from_public_root(gitpages_dir)
     current_record = public_catalog.find_record(catalog_records, current_bu, current_project, current_slug)
-    bu_tree = build_bu_tree(str(gitpages_dir), public_only=False, current_record=current_record)
+    # If the current article is missing from the catalog, fall back to public
+    # records only. Treat this like an audience list with no matching segment:
+    # showing less is safer than exposing a whole BU of gated metadata.
+    bu_tree = build_bu_tree(
+        str(gitpages_dir),
+        public_only=current_record is None,
+        current_record=current_record,
+    )
     tree_html = bu_tree_html(
         bu_tree,
         current_bu=current_bu,
@@ -159,7 +202,18 @@ def main():
         wiki_base=wiki_base,
         scope_bu=current_bu,  # isolate sidebar to current BU — prevents cross-BU metadata leakage
     )
-    recents_html = build_recents_html(recents, wiki_base)
+    if catalog_records:
+        if current_record is not None:
+            recent_records = public_catalog.scoped_records(catalog_records, current_record)
+        else:
+            recent_records = [
+                record for record in catalog_records
+                if public_catalog.is_public_record(record)
+            ]
+        recent_artifacts = catalog_navigation.artifacts_from_records(recent_records, gitpages_dir)
+        recents_html = _wiki_mod.recents_html(recent_artifacts, wiki_base)
+    else:
+        recents_html = build_recents_html(recents, wiki_base)
 
     # Render shared blocks
     topbar_html = topbar_tpl.replace('{{WIKI_BASE}}', wiki_base)
@@ -182,6 +236,14 @@ def main():
         date_human = date
 
     tema_title = tema.replace('-', ' ').title()
+    breadcrumb_context_html = build_article_context_html(
+        wiki_base,
+        current_bu,
+        current_project,
+        tema,
+        tema_title,
+    )
+    article_eyebrow = build_article_eyebrow(current_bu, current_project, tema_title)
 
     final = (art_tpl
         .replace('{{HEAD_HTML}}', head_html)
@@ -192,6 +254,8 @@ def main():
         .replace('{{SLUG}}', slug)
         .replace('{{TEMA}}', tema)
         .replace('{{TEMA_TITLE}}', tema_title)
+        .replace('{{BREADCRUMB_CONTEXT_HTML}}', breadcrumb_context_html)
+        .replace('{{ARTICLE_EYEBROW}}', _esc(article_eyebrow))
         .replace('{{REPO_NAME}}', repo_name)
         .replace('{{DATE}}', date)
         .replace('{{DATE_HUMAN}}', date_human)
