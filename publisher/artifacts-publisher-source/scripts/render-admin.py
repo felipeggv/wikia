@@ -17,6 +17,9 @@ import sys
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent
+sys.path.insert(0, str(SCRIPT_DIR))
+import catalog_navigation  # noqa: E402
+
 SKILL_DIR = SCRIPT_DIR.parent
 TEMPLATES_DIR = SKILL_DIR / 'templates'
 
@@ -34,13 +37,7 @@ CMS_STATE_CANDIDATES = (
     '_catalog.json',
     'catalog.json',
 )
-BU_DISPLAY = {
-    'staging': 'Staging',
-    'vita': 'Vitascience',
-    'allin': 'AllIn',
-    'aleyemma': 'Aleyemma',
-    'gobbi': 'Gobbi',
-}
+BU_DISPLAY = catalog_navigation.BU_DISPLAY
 
 CHEV_SVG = '<svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg>'
 FOLDER_SVG = '<svg class="folder-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M1 3 a1 1 0 0 1 1-1 h3 l1.5 1.5 h5.5 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-10 a1 1 0 0 1 -1 -1 z" opacity="0.85"/></svg>'
@@ -82,7 +79,7 @@ def visible_article_title(row):
 
 
 def title_for_bu(bu):
-    return BU_DISPLAY.get(bu, str(bu).replace('-', ' ').title())
+    return catalog_navigation.title_for_bu(bu)
 
 
 def resolve_cms_state_path(output_dir, explicit_path=None):

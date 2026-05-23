@@ -15,6 +15,7 @@ SKILL_DIR = SCRIPT_DIR.parent
 sys.path.insert(0, str(SCRIPT_DIR))
 from frontmatter_parser import parse_frontmatter_optional
 import public_catalog
+import catalog_navigation
 
 
 def build_theme_vars(theme):
@@ -34,7 +35,7 @@ def build_theme_vars(theme):
     ])
 
 
-BU_ENUM_FOR_COLLECT = ('staging', 'vita', 'allin', 'aleyemma', 'gobbi')
+BU_ENUM_FOR_COLLECT = tuple(catalog_navigation.BU_DISPLAY.keys())
 
 
 def _extract_artifact(html, md, slug, tema_label, url):
@@ -68,11 +69,11 @@ def collect_artifacts(workdir):
     workdir = Path(workdir)
     catalog_records = public_catalog.load_records_from_public_root(workdir)
     if catalog_records:
-        return [
-            _extract_catalog_artifact(record, workdir)
-            for record in catalog_records
+        public_records = [
+            record for record in catalog_records
             if public_catalog.is_public_record(record)
         ]
+        return catalog_navigation.artifacts_from_records(public_records, workdir)
 
     artifacts = []
 
@@ -161,38 +162,11 @@ def build_tree(artifacts):
     return tree
 
 
-BU_DISPLAY = {
-    "staging": "Staging", "vita": "Vitascience",
-    "allin": "AllIn", "aleyemma": "Aleyemma", "gobbi": "Gobbi",
-}
+BU_DISPLAY = catalog_navigation.BU_DISPLAY
 
 
-def build_bu_tree_from_records(records):
-    tree = {bu: {"title": disp, "projects": {}, "article_count": 0}
-            for bu, disp in BU_DISPLAY.items()}
-    for record in sorted(records, key=lambda r: (r.get('bu', ''), r.get('project', ''), r.get('slug', ''))):
-        bu = record.get('bu')
-        project = record.get('project')
-        slug = record.get('slug')
-        if not bu or not project or not slug:
-            continue
-        if bu not in tree:
-            tree[bu] = {"title": bu.replace('-', ' ').title(), "projects": {}, "article_count": 0}
-        project_node = tree[bu]["projects"].setdefault(project, {"auto_flatten": False, "articles": []})
-        project_node["articles"].append({
-            "slug": slug,
-            "title": public_catalog.public_title(record),
-            "date": "",
-            "gate": str(record.get("gate_status") or "unknown") != "public",
-            "url": public_catalog.normalize_output_url(record.get("output_url") or f"{bu}/{project}/{slug}/"),
-        })
-        tree[bu]["article_count"] += 1
-
-    for node in tree.values():
-        for project_node in node["projects"].values():
-            project_node["articles"].sort(key=lambda a: (a.get("date", ""), a["slug"]), reverse=True)
-            project_node["auto_flatten"] = len(project_node["articles"]) == 1
-    return tree
+def build_bu_tree_from_records(records, public_root=None):
+    return catalog_navigation.build_bu_tree(records, public_root=public_root)
 
 
 def build_bu_tree(gitpages_dir, public_only=True, current_record=None):
@@ -200,7 +174,7 @@ def build_bu_tree(gitpages_dir, public_only=True, current_record=None):
     Returns {bu: {title, projects: {project: {auto_flatten, articles: [...]}}, article_count}}.
     """
     import os
-    catalog_records = public_catalog.load_records_from_public_root(gitpages_dir)
+    catalog_records = catalog_navigation.load_catalog_records(gitpages_dir)
     if catalog_records:
         if current_record is not None:
             catalog_records = public_catalog.scoped_records(catalog_records, current_record)
@@ -209,7 +183,7 @@ def build_bu_tree(gitpages_dir, public_only=True, current_record=None):
                 record for record in catalog_records
                 if public_catalog.is_public_record(record)
             ]
-        return build_bu_tree_from_records(catalog_records)
+        return build_bu_tree_from_records(catalog_records, public_root=gitpages_dir)
 
     tree = {bu: {"title": disp, "projects": {}, "article_count": 0}
             for bu, disp in BU_DISPLAY.items()}
@@ -260,14 +234,15 @@ def tree_html(bu_tree, current_bu=None, current_project=None, current_slug=None,
     """
     import html as html_lib
     def esc(s): return html_lib.escape(str(s), quote=False)
+    def attr(s): return html_lib.escape(str(s), quote=True)
     GATE_ICON = '<span class="wk-gate-icon" title="locked">🔒</span>'
 
     def article_li(article, is_current):
         cur = ' wk-current-article' if is_current else ''
         gate = GATE_ICON if article['gate'] else ''
         return (
-            f'<li class="wk-tree-article{cur}" data-slug="{esc(article["slug"])}">'
-            f'<a href="{wiki_base}/{article["url"]}">{FILE_SVG}'
+            f'<li class="wk-tree-article{cur}" data-slug="{attr(article["slug"])}">'
+            f'<a href="{attr(catalog_navigation.join_url(wiki_base, article["url"]))}">{FILE_SVG}'
             f'<span>{esc(article["title"])}</span>{gate}</a></li>'
         )
 
@@ -279,8 +254,8 @@ def tree_html(bu_tree, current_bu=None, current_project=None, current_slug=None,
             # Empty BU: render header only (scaffolding stub for vita/allin/aleyemma)
             bu_cur = ' wk-current-bu' if bu == current_bu else ''
             out.append(
-                f'<li class="wk-tree-bu wk-tree-bu-empty{bu_cur}" data-bu="{bu}">'
-                f'<a class="wk-tree-bu-link" href="{wiki_base}/{bu}/">'
+                f'<li class="wk-tree-bu wk-tree-bu-empty{bu_cur}" data-bu="{attr(bu)}">'
+                f'<a class="wk-tree-bu-link" href="{attr(catalog_navigation.join_url(wiki_base, bu + "/"))}">'
                 f'{FOLDER_SVG}<span class="label-text">{esc(node["title"])}</span>'
                 f'<span class="count">0</span></a></li>'
             )
@@ -307,16 +282,16 @@ def tree_html(bu_tree, current_bu=None, current_project=None, current_slug=None,
                     for a in proj_node['articles']
                 )
                 children.append(
-                    f'<li class="wk-tree-project{proj_cur}" data-project="{esc(project)}" data-expanded="{proj_expanded}">'
-                    f'<a class="wk-tree-project-link" href="{wiki_base}/{bu}/{project}/">'
-                    f'{CHEV_SVG}{FOLDER_SVG}<span class="label-text">{esc(project)}</span>'
+                    f'<li class="wk-tree-project{proj_cur}" data-project="{attr(project)}" data-expanded="{proj_expanded}">'
+                    f'<a class="wk-tree-project-link" href="{attr(catalog_navigation.join_url(wiki_base, f"{bu}/{project}/"))}">'
+                    f'{CHEV_SVG}{FOLDER_SVG}<span class="label-text">{esc(catalog_navigation.humanize_slug(project))}</span>'
                     f'<span class="count">{len(proj_node["articles"])}</span></a>'
                     f'<ul class="wk-tree-articles">{article_items}</ul></li>'
                 )
 
         out.append(
-            f'<li class="wk-tree-bu{bu_cur}" data-bu="{bu}" data-expanded="{bu_expanded}">'
-            f'<a class="wk-tree-bu-link" href="{wiki_base}/{bu}/">'
+            f'<li class="wk-tree-bu{bu_cur}" data-bu="{attr(bu)}" data-expanded="{bu_expanded}">'
+            f'<a class="wk-tree-bu-link" href="{attr(catalog_navigation.join_url(wiki_base, bu + "/"))}">'
             f'{CHEV_SVG}{FOLDER_SVG}<span class="label-text">{esc(node["title"])}</span>'
             f'<span class="count">{node["article_count"]}</span></a>'
             f'<ul class="wk-tree-projects">{"".join(children)}</ul></li>'
@@ -352,7 +327,7 @@ def recents_html(artifacts, wiki_base, limit=4):
         out.append(f'<span class="wk-recents-date">{date}</span>')
         out.append('<ul class="wk-recents-items">')
         for r in items:
-            out.append(f'<li><a href="{wiki_base}/{r["url"]}">{r["title"]}</a></li>')
+            out.append(f'<li><a href="{catalog_navigation.join_url(wiki_base, r["url"])}">{r["title"]}</a></li>')
         out.append('</ul>')
         out.append('</li>')
     return '\n'.join(out)
