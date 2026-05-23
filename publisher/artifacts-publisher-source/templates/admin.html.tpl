@@ -19,18 +19,18 @@
     <!-- LOCKED STATE -->
     <section class="admin-lock">
       <div class="admin-lock-card">
-        <div class="admin-lock-badge">admin · masterpass</div>
+        <div class="admin-lock-badge">painel protegido</div>
         <h1 class="admin-lock-title">Acesso ao painel admin</h1>
-        <p class="admin-lock-lead">Insira a masterpass para destravar lista de artigos, senhas e ações administrativas. A masterpass nunca persiste no browser.</p>
+        <p class="admin-lock-lead">Insira a masterpass para abrir o catálogo administrativo. A senha fica só nesta sessão do navegador.</p>
         <form id="admin-lock-form">
           <label for="masterpass">masterpass</label>
           <input type="password" id="masterpass" autocomplete="off" autofocus spellcheck="false">
-          <button type="submit" id="unlock">› Destravar Admin</button>
+          <button type="submit" id="unlock">Destravar painel</button>
           <div class="admin-lock-err" id="admin-lock-err"></div>
         </form>
         <div class="admin-lock-footnote">
-          <div class="prompt">wikia · admin · aes-256-gcm · pbkdf2 100k</div>
-          A masterpass derruba o gate de TODOS os artigos via vault decifrado in-memory.
+          <div class="prompt">wikia · admin seguro</div>
+          O catálogo só aparece depois do desbloqueio e não é salvo no navegador.
         </div>
       </div>
     </section>
@@ -42,6 +42,17 @@
           <div class="admin-list-header">
             <span class="admin-list-title">Artigos</span>
             <span class="admin-list-count" id="admin-list-count">—</span>
+          </div>
+          <div class="admin-list-tools">
+            <div class="admin-filter-tabs" role="group" aria-label="Filtros de artigos">
+              <button type="button" class="admin-filter is-active" data-filter="all">Todos</button>
+              <button type="button" class="admin-filter" data-filter="released">Liberados</button>
+              <button type="button" class="admin-filter" data-filter="pending">Pendentes</button>
+              <button type="button" class="admin-filter" data-filter="missing-password">Sem senha</button>
+            </div>
+            <select id="admin-group-filter" class="admin-group-filter" aria-label="Filtrar por BU ou projeto">
+              <option value="">Todas as BUs/projetos</option>
+            </select>
           </div>
           <ul id="admin-articles"></ul>
         </aside>
@@ -77,6 +88,8 @@
   var selectedSlug = null;
   var revealed = {};          // { articleKey: true }
   var vaultWarning = '';
+  var activeFilter = 'all';
+  var activeGroup = '';
 
   // ---------- DOM ----------
   var stateRoot = document.getElementById('admin-state');
@@ -87,6 +100,8 @@
   var countEl = document.getElementById('admin-list-count');
   var actionsEl = document.getElementById('admin-actions');
   var toastEl = document.getElementById('admin-toast');
+  var groupFilterEl = document.getElementById('admin-group-filter');
+  var filterButtons = document.querySelectorAll ? document.querySelectorAll('[data-filter]') : [];
 
   // ---------- Helpers ----------
   function escapeHtml(s) {
@@ -345,18 +360,146 @@
         if (key === targetKey || key === targetSlug) labels.push(bucket);
       });
     });
-    return labels;
+    return compactUnique(labels);
+  }
+
+  function actionLabel(action) {
+    var labels = {
+      release: 'liberação',
+      rotate: 'rotação',
+      remove: 'remoção',
+      scope: 'escopo'
+    };
+    return labels[action] || action;
+  }
+
+  function groupValueForArticle(article, kind) {
+    var bu = String(article && article.bu || '').trim();
+    var project = String(article && (article.project || article.tema) || '').trim();
+    if (kind === 'bu') return bu ? 'bu:' + bu : '';
+    if (kind === 'project') return (bu && project) ? 'project:' + bu + '/' + project : '';
+    return '';
+  }
+
+  function groupLabelForValue(value) {
+    if (!value) return 'Todas as BUs/projetos';
+    if (value.indexOf('bu:') === 0) return 'BU · ' + value.slice(3);
+    if (value.indexOf('project:') === 0) return value.slice(8).split('/').join(' / ');
+    return value;
+  }
+
+  function renderGroupFilter() {
+    if (!groupFilterEl) return;
+    var articles = sortedAdminArticles();
+    var seen = {};
+    var values = [];
+    articles.forEach(function (article) {
+      [groupValueForArticle(article, 'bu'), groupValueForArticle(article, 'project')].forEach(function (value) {
+        if (value && !seen[value]) {
+          seen[value] = true;
+          values.push(value);
+        }
+      });
+    });
+
+    values.sort(function (a, b) { return groupLabelForValue(a).localeCompare(groupLabelForValue(b)); });
+    if (activeGroup && !seen[activeGroup]) activeGroup = '';
+    groupFilterEl.innerHTML = '<option value="">Todas as BUs/projetos</option>' + values.map(function (value) {
+      return '<option value="' + escapeHtml(value) + '">' + escapeHtml(groupLabelForValue(value)) + '</option>';
+    }).join('');
+    groupFilterEl.value = activeGroup;
+  }
+
+  function renderFilterControls() {
+    Array.prototype.forEach.call(filterButtons, function (btn) {
+      var isActive = btn.dataset && btn.dataset.filter === activeFilter;
+      btn.classList.toggle('is-active', !!isActive);
+    });
+  }
+
+  function setViewState(nextFilter, nextGroup) {
+    if (nextFilter) activeFilter = nextFilter;
+    if (typeof nextGroup === 'string') activeGroup = nextGroup;
+    renderGroupFilter();
+    renderFilterControls();
+    renderList();
+    if (selectedKey) {
+      var article = articleByKey(selectedKey);
+      if (article) renderSelectedArticle(article);
+    }
+    return filteredAdminArticles().map(articleKey);
+  }
+
+  function articleMatchesGroup(article) {
+    if (!activeGroup) return true;
+    if (activeGroup.indexOf('bu:') === 0) return groupValueForArticle(article, 'bu') === activeGroup;
+    if (activeGroup.indexOf('project:') === 0) return groupValueForArticle(article, 'project') === activeGroup;
+    return true;
+  }
+
+  function articleMatchesFilter(article) {
+    if (!articleMatchesGroup(article)) return false;
+    var pwdInfo = passwordInfoForArticle(article);
+    var queuedActions = queuedActionsForArticle(article);
+    if (activeFilter === 'released') return isArticleReleased(article);
+    if (activeFilter === 'pending') return queuedActions.length > 0;
+    if (activeFilter === 'missing-password') return !pwdInfo.exists;
+    return true;
+  }
+
+  function filteredAdminArticles() {
+    return sortedAdminArticles().filter(articleMatchesFilter);
+  }
+
+  function statusBadgesForArticle(article, pwdInfo, queuedActions) {
+    var badges = [];
+    if (String(article.release_status || '') === 'removed') {
+      badges.push('<span class="admin-badge admin-badge-removed">removido</span>');
+    } else if (isArticleReleased(article)) {
+      badges.push('<span class="admin-badge admin-badge-released">liberado</span>');
+    } else {
+      badges.push('<span class="admin-badge admin-badge-muted">restrito</span>');
+    }
+
+    if (queuedActions.length) {
+      badges.push('<span class="admin-badge admin-badge-pending">pendente: '
+        + escapeHtml(queuedActions.map(actionLabel).join(', ')) + '</span>');
+    }
+
+    if (pwdInfo.exists) {
+      badges.push('<span class="admin-badge admin-badge-password">senha vinculada</span>');
+    } else {
+      badges.push('<span class="admin-badge admin-badge-risk">sem senha</span>');
+    }
+
+    return badges.join('');
   }
 
   // ---------- Unlock flow ----------
   async function unlock(masterpass) {
     err.textContent = '';
-    if (!masterpass) { err.textContent = 'masterpass vazia'; return false; }
+    if (!masterpass) { err.textContent = 'Digite a masterpass.'; return false; }
     try {
-      var adminB64 = (await fetchText(WIKI_BASE + '/_admin.enc')).trim();
-      adminMetadata = await window.WikiaVault.decryptVault(adminB64, masterpass);
+      var adminB64 = '';
+      try {
+        adminB64 = (await fetchText(WIKI_BASE + '/_admin.enc')).trim();
+      } catch (fetchErr) {
+        err.textContent = 'Não foi possível carregar o catálogo admin.';
+        return false;
+      }
+
+      try {
+        adminMetadata = await window.WikiaVault.decryptVault(adminB64, masterpass);
+      } catch (decryptErr) {
+        err.textContent = 'Não foi possível abrir o catálogo admin. Confira a masterpass.';
+        return false;
+      }
+
       adminArticles = normalizeAdminArticles(adminMetadata);
-      if (!adminArticles.length) throw new Error('_admin.enc sem artigos');
+      if (!adminArticles.length) {
+        err.textContent = 'Catálogo admin aberto, mas sem artigos.';
+        return false;
+      }
 
       try {
         var vaultB64 = (await fetchText(WIKI_BASE + '/_passwords.enc')).trim();
@@ -365,16 +508,18 @@
         vaultWarning = '';
       } catch (vaultErr) {
         vault = {};
-        vaultWarning = vaultErr.message || 'vault indisponível';
+        vaultWarning = 'Catálogo aberto, mas senhas indisponíveis.';
+        toast(vaultWarning, 'warning');
       }
       released = await fetchJsonOrDefault(WIKI_BASE + '/_released.json', []);
       pending = await fetchJsonOrDefault(WIKI_BASE + '/_pending-changes.json', {});
       stateRoot.dataset.state = 'unlocked';
       enableGlobalSearchAfterUnlock();
+      renderGroupFilter();
       renderList();
       return true;
     } catch (e) {
-      err.textContent = '✗ masterpass incorreta ou metadata admin inválida';
+      err.textContent = 'Não foi possível abrir o painel admin.';
       vault = null; adminMetadata = null; adminArticles = [];
       return false;
     }
@@ -382,10 +527,20 @@
 
   // ---------- List ----------
   function renderList() {
-    var articles = sortedAdminArticles();
-    countEl.textContent = articles.length + (articles.length === 1 ? ' artigo' : ' artigos');
-    if (!articles.length) {
+    renderFilterControls();
+    var allArticles = sortedAdminArticles();
+    var articles = filteredAdminArticles();
+    var totalText = allArticles.length + (allArticles.length === 1 ? ' artigo' : ' artigos');
+    countEl.textContent = articles.length === allArticles.length
+      ? totalText
+      : articles.length + ' de ' + totalText;
+
+    if (!allArticles.length) {
       listEl.innerHTML = '<li class="admin-empty">metadata admin vazia</li>';
+      return;
+    }
+    if (!articles.length) {
+      listEl.innerHTML = '<li class="admin-empty">nenhum artigo neste filtro</li>';
       return;
     }
     var html = '';
@@ -395,60 +550,56 @@
       var slug = article.slug;
       var metaText = metaTextForArticle(article);
       var pwdInfo = passwordInfoForArticle(article);
-      var isReleased = isArticleReleased(article);
       var isCurrent = selectedKey === key;
-      var isRevealed = !!revealed[key];
       var queuedActions = queuedActionsForArticle(article);
-      var pwdMasked = !pwdInfo.exists ? 'sem senha no vault' : (isRevealed ? escapeHtml(pwdInfo.password) : '••••••••');
-      var releasedBadge = isReleased ? '<span class="admin-row-released">liberado</span>' : '';
-      var pendingBadge = queuedActions.length ? '<span class="admin-row-released">pendente: ' + escapeHtml(queuedActions.join(', ')) + '</span>' : '';
+      var badges = statusBadgesForArticle(article, pwdInfo, queuedActions);
       var title = article.title || slug;
-      var copyDisabled = pwdInfo.exists ? '' : ' disabled';
 
-      html += '<li class="admin-row ' + (isCurrent ? 'current' : '') + '" data-key="' + escapeHtml(key) + '" data-slug="' + escapeHtml(slug) + '">'
+      html += '<li class="admin-row ' + (isCurrent ? 'current' : '') + '" data-key="' + escapeHtml(key) + '" data-slug="' + escapeHtml(slug) + '" role="button" tabindex="0">'
         + '  <div class="admin-row-main">'
-        + '    <div class="admin-row-slug">' + escapeHtml(title) + releasedBadge + pendingBadge + '</div>'
+        + '    <div class="admin-row-slug">' + escapeHtml(title) + '</div>'
         + '    <div class="admin-row-tema">' + escapeHtml(metaText) + '</div>'
         + '  </div>'
-        + '  <div class="admin-row-pwd">'
-        + '    <code class="pwd" data-key="' + escapeHtml(key) + '">' + pwdMasked + '</code>'
-        + '    <button class="iconbtn" data-action="toggle" data-key="' + escapeHtml(key) + '" title="Mostrar/ocultar senha"' + copyDisabled + '>'
-        + '      ' + (isRevealed ? '🙈' : '👁')
-        + '    </button>'
-        + '    <button class="iconbtn" data-action="copy" data-key="' + escapeHtml(key) + '" title="Copiar senha"' + copyDisabled + '>⎘</button>'
-        + '  </div>'
-        + '  <div class="admin-row-actions">'
-        + '    <button class="btn" data-action="release" data-key="' + escapeHtml(key) + '" ' + (isReleased ? 'disabled' : '') + '>Liberar</button>'
-        + '    <button class="btn" data-action="rotate" data-key="' + escapeHtml(key) + '">Rotacionar senha</button>'
-        + '    <button class="btn btn-secondary" data-action="remove" data-key="' + escapeHtml(key) + '">Remover</button>'
+        + '  <div class="admin-row-status">'
+        +      badges
         + '  </div>'
         + '</li>';
     }
     if (vaultWarning) {
-      html += '<li class="admin-empty">senhas indisponíveis: ' + escapeHtml(vaultWarning) + '</li>';
+      html += '<li class="admin-empty">' + escapeHtml(vaultWarning) + '</li>';
     }
     listEl.innerHTML = html;
   }
 
-  function selectArticle(key) {
-    var article = articleByKey(key);
-    if (!article) { toast('artigo não encontrado no metadata admin', 'error'); return; }
-    selectedKey = key;
-    selectedSlug = article.slug;
-    renderList();
+  function renderSelectedArticle(article) {
     var pwdInfo = passwordInfoForArticle(article);
-    var pwd = pwdInfo.exists ? pwdInfo.password : 'sem senha vinculada';
+    var key = articleKey(article);
+    var isRevealed = !!revealed[key];
+    var pwd = !pwdInfo.exists ? 'sem senha vinculada' : (isRevealed ? pwdInfo.password : '••••••••••••');
     var metaText = metaTextForArticle(article);
     var title = article.title || article.slug;
+    var queuedActions = queuedActionsForArticle(article);
+    var copyDisabled = pwdInfo.exists ? '' : ' disabled';
+    var revealDisabled = pwdInfo.exists ? '' : ' disabled';
+    var releaseDisabled = isArticleReleased(article) ? 'disabled' : '';
+
     actionsEl.innerHTML = ''
       + '<div class="admin-actions-header">'
       + '  <div class="admin-actions-slug">' + escapeHtml(title) + '</div>'
       + '  <div class="admin-actions-tema">' + escapeHtml(metaText) + '</div>'
+      + '  <div class="admin-actions-badges">' + statusBadgesForArticle(article, pwdInfo, queuedActions) + '</div>'
       + '</div>'
-      + '<div class="admin-actions-pwd"><code>' + escapeHtml(pwd) + '</code></div>'
-      + '<p class="admin-actions-hint">A lista vem de _admin.enc; _passwords.enc só anexa senhas quando houver correspondência.</p>'
+      + '<div class="admin-sensitive">'
+      + '  <div class="admin-sensitive-label">Senha</div>'
+      + '  <div class="admin-actions-pwd"><code data-sensitive="' + (isRevealed ? 'visible' : 'masked') + '">' + escapeHtml(pwd) + '</code></div>'
+      + '  <div class="admin-actions-buttons admin-sensitive-controls">'
+      + '    <button class="btn btn-secondary" data-action="toggle" data-key="' + escapeHtml(key) + '"' + revealDisabled + '>' + (isRevealed ? 'Ocultar senha' : 'Mostrar senha') + '</button>'
+      + '    <button class="btn btn-secondary" data-action="copy" data-key="' + escapeHtml(key) + '"' + copyDisabled + '>Copiar senha</button>'
+      + '  </div>'
+      + '</div>'
+      + '<p class="admin-actions-hint">O catálogo abre a lista; o cofre só anexa senhas quando houver correspondência.</p>'
       + '<div class="admin-actions-buttons">'
-      + '  <button class="btn" data-action="release" data-key="' + escapeHtml(key) + '" ' + (isArticleReleased(article) ? 'disabled' : '') + '>Liberar</button>'
+      + '  <button class="btn" data-action="release" data-key="' + escapeHtml(key) + '" ' + releaseDisabled + '>Liberar</button>'
       + '  <button class="btn" data-action="rotate" data-key="' + escapeHtml(key) + '">Rotacionar senha</button>'
       + '  <button class="btn btn-secondary" data-action="remove" data-key="' + escapeHtml(key) + '">Remover</button>'
       + '</div>'
@@ -459,10 +610,23 @@
       + '</div>';
   }
 
+  function selectArticle(key) {
+    var article = articleByKey(key);
+    if (!article) { toast('artigo não encontrado no metadata admin', 'error'); return; }
+    selectedKey = key;
+    selectedSlug = article.slug;
+    renderList();
+    renderSelectedArticle(article);
+  }
+
   // ---------- Mutations ----------
   function togglePasswordVisibility(key) {
     revealed[key] = !revealed[key];
     renderList();
+    if (selectedKey === key) {
+      var article = articleByKey(key);
+      if (article) renderSelectedArticle(article);
+    }
   }
 
   async function copyPassword(key) {
@@ -529,7 +693,7 @@
     renderList();
   }
 
-  // ---------- Pending panel (copy-paste commit) ----------
+  // ---------- Pending panel ----------
   async function renderPendingPanel(kind, article) {
     ensurePendingQueue();
     var pendingJson = JSON.stringify(pending, null, 2);
@@ -542,25 +706,17 @@
     else if (String(kind || '').indexOf('scope-') === 0) msg = 'admin: ' + kind + ' ' + (slug || '');
     else msg = 'admin: pending changes';
 
-    var script = ''
-      + 'cd /tmp/wikia-clone && \\\n'
-      + "cat > docs/gitpages/_pending-changes.json <<'WIKIA_PENDING_JSON'\n"
-      + pendingJson + "\n"
-      + "WIKIA_PENDING_JSON\n"
-      + "git add docs/gitpages/_pending-changes.json && \\\n"
-      + "git commit -m '" + msg + "' && git push";
-
     actionsEl.innerHTML = ''
       + '<div class="admin-actions-header">'
       + '  <div class="admin-actions-slug">' + escapeHtml(slug || 'pending') + '</div>'
       + '  <div class="admin-actions-tema">' + escapeHtml(msg) + '</div>'
       + '</div>'
-      + '<details open><summary>_pending-changes.json</summary><textarea readonly>' + escapeHtml(pendingJson) + '</textarea></details>'
-      + '<details open><summary>commit script (copy + paste)</summary><textarea readonly id="admin-commit-script">' + escapeHtml(script) + '</textarea></details>'
+      + '<details open class="admin-pending-json"><summary>_pending-changes.json</summary><textarea readonly id="admin-pending-json">' + escapeHtml(pendingJson) + '</textarea></details>'
       + '<div class="admin-actions-buttons">'
-      + '  <button class="btn" data-action="copy-commit-script">Copy commit script</button>'
+      + '  <button class="btn" data-action="copy-pending-json">Copiar JSON pendente</button>'
+      + '  <button class="btn btn-secondary" data-action="back-to-article" data-key="' + escapeHtml(article ? articleKey(article) : selectedKey || '') + '">Voltar ao artigo</button>'
       + '</div>'
-      + '<p class="admin-actions-hint">Modo seguro: o browser só grava intenção pendente. O apply/rebuild decide a mutação real.</p>';
+      + '<p class="admin-actions-hint">Modo seguro: o browser só gera intenção pendente para docs/gitpages/_pending-changes.json. O apply/rebuild decide a mutação real.</p>';
   }
 
   // ---------- Event wiring ----------
@@ -569,6 +725,18 @@
     var ok = await unlock(input.value);
     if (!ok) { input.value = ''; input.focus(); }
   });
+
+  Array.prototype.forEach.call(filterButtons, function (btn) {
+    btn.addEventListener('click', function () {
+      setViewState(btn.dataset.filter || 'all');
+    });
+  });
+
+  if (groupFilterEl) {
+    groupFilterEl.addEventListener('change', function () {
+      setViewState(activeFilter, groupFilterEl.value || '');
+    });
+  }
 
   listEl.addEventListener('click', function (e) {
     var row = e.target.closest('.admin-row');
@@ -585,23 +753,34 @@
     if (row && row.dataset.key) selectArticle(row.dataset.key);
   });
 
+  listEl.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var row = e.target.closest('.admin-row');
+    if (!row || !row.dataset.key) return;
+    e.preventDefault();
+    selectArticle(row.dataset.key);
+  });
+
   actionsEl.addEventListener('click', async function (e) {
     var btn = e.target.closest('[data-action]');
     if (!btn) return;
     var action = btn.dataset.action;
     var key = btn.dataset.key || selectedKey;
+    if (action === 'toggle') return togglePasswordVisibility(key);
+    if (action === 'copy') return copyPassword(key);
     if (action === 'release') return releaseArticle(key);
     if (action === 'rotate') return rotatePassword(key);
     if (action === 'remove') return removeArticle(key);
     if (action === 'scope-article') return changeArticleScope(key, 'article');
     if (action === 'scope-project') return changeArticleScope(key, 'project');
     if (action === 'scope-bu') return changeArticleScope(key, 'bu');
-    if (action === 'copy-commit-script') {
-      var ta = document.getElementById('admin-commit-script');
+    if (action === 'back-to-article') return selectArticle(key);
+    if (action === 'copy-pending-json') {
+      var ta = document.getElementById('admin-pending-json');
       if (!ta) return;
       try {
         await navigator.clipboard.writeText(ta.value);
-        toast('commit script copiado', 'success');
+        toast('JSON pendente copiado', 'success');
       } catch (err) {
         ta.select();
         toast('selecionado — Cmd+C', 'info');
@@ -614,6 +793,9 @@
     unlock: unlock,
     normalizeAdminArticles: normalizeAdminArticles,
     renderList: renderList,
+    setViewState: setViewState,
+    filteredArticleKeys: function () { return filteredAdminArticles().map(articleKey); },
+    selectArticle: selectArticle,
     togglePasswordVisibility: togglePasswordVisibility,
     copyPassword: copyPassword,
     releaseArticle: releaseArticle,
@@ -628,6 +810,8 @@
         adminArticles: adminArticles,
         released: released,
         pending: pending,
+        activeFilter: activeFilter,
+        activeGroup: activeGroup,
         selectedKey: selectedKey,
         selectedSlug: selectedSlug
       };

@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-$(cd "$TEST_DIR/.." && pwd)}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 RENDER_ADMIN_SCRIPT="${SOURCE_ROOT}/scripts/render-admin.py"
-TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/admin-scoped-pending-intents-tests}"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/admin-scoped-pending-intents-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -48,6 +49,10 @@ for (const forbidden of [
   'pending.rotations',
   'docs/gitpages/_passwords.enc',
   'docs/gitpages/_released.json',
+  '/tmp/wikia-clone',
+  'git commit -m',
+  'git push',
+  'commit script',
 ]) {
   if (html.includes(forbidden)) {
     throw new Error(`admin browser still contains direct public-output mutation marker: ${forbidden}`);
@@ -249,6 +254,9 @@ function assertUnchanged(label, actual, expected) {
   }
   if (!actionsHtml.includes('docs/gitpages/_pending-changes.json')) {
     throw new Error('pending panel does not stage _pending-changes.json');
+  }
+  if (!actionsHtml.includes('copy-pending-json')) {
+    throw new Error('pending panel does not expose JSON-only copy action');
   }
 })().catch((error) => {
   console.error(error.stack || error.message);
