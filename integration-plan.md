@@ -3,7 +3,7 @@
 Date: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Integration branch: `improve/release-integration`
-Current HEAD before this run: `56fa9cf`
+HEAD before this run: `56fa9cf`
 
 ```text
 lane refs, local and origin
@@ -22,28 +22,28 @@ integrated publisher tests
 
 Run PHASE-04 without deploy:
 
-1. Review lane outputs from local branches and origin branches.
+1. Fetch and review all Wikia lane branches.
 2. Write this integration plan before merge commands.
-3. Merge lane refs into `improve/release-integration`.
-4. Run syntax checks and integrated publisher tests.
-5. Do not deploy.
+3. Merge lane outputs into `improve/release-integration`.
+4. Run syntax checks.
+5. Run the integrated publisher test suite under `publisher/artifacts-publisher-source/tests`.
 
 ## Branch Inputs
 
-The branch comparison below was taken after `git fetch --all --prune`.
+The branch comparison below was checked after `git fetch --all --prune`.
 `HEAD-only / ref-only` means commits only on the integration branch versus commits only on that ref.
 
 | Lane | Local ref | Origin ref | HEAD-only / ref-only | Decision |
 | --- | --- | --- | --- | --- |
-| catalog-state | no active local ref | no active origin lane ref | covered by merge `50fdfa8` | Do not merge `origin/main`; catalog lane content is already in this branch, while `origin/main` also carries non-lane orchestration commits. |
-| render-navigation | `build/render-navigation` | `origin/build/render-navigation` | `22 / 0` for both | Merge local and origin refs; expected no-op because both are already ancestors. |
-| security-permissions | `build/security-permissions` | `origin/build/security-permissions` | `22 / 0` for both | Merge local and origin refs; expected no-op because both are already ancestors. |
-| publish-validation | `fix/publish-validation` | `origin/fix/publish-validation` | local `24 / 0`, origin `25 / 0` | Merge origin first, then local; local contains one commit not pushed to origin and is already integrated. |
-| admin-ux | `fix/admin-ux` | `origin/fix/admin-ux` | `24 / 0` for both | Merge local and origin refs; expected no-op because both are already ancestors. |
+| catalog-state | no active local lane ref | no active origin lane ref | already covered by merge `50fdfa8` | Do not merge `origin/main`; catalog-state content is already integrated and `origin/main` also carries non-lane orchestration commits. |
+| render-navigation | `build/render-navigation` | `origin/build/render-navigation` | `22 / 0` for both | Merge origin and local refs; expected no-op. |
+| security-permissions | `build/security-permissions` | `origin/build/security-permissions` | `22 / 0` for both | Merge origin and local refs; expected no-op. |
+| publish-validation | `fix/publish-validation` | `origin/fix/publish-validation` | local `24 / 0`, origin `25 / 0` | Merge origin first, then local; local has one extra lane commit and both are already integrated. |
+| admin-ux | `fix/admin-ux` | `origin/fix/admin-ux` | `24 / 0` for both | Merge origin and local refs; expected no-op. |
 
 ## Merge Order
 
-1. Verify catalog-state is already present through `50fdfa8`.
+1. Verify catalog-state is already present through merge commit `50fdfa8`.
 2. `origin/build/render-navigation`
 3. `build/render-navigation`
 4. `origin/build/security-permissions`
@@ -53,21 +53,19 @@ The branch comparison below was taken after `git fetch --all --prune`.
 8. `origin/fix/admin-ux`
 9. `fix/admin-ux`
 
-## Conflict Forecast
+## Merge Result
 
-No new conflicts are expected for active lane refs because each listed lane ref is already an ancestor of `HEAD`.
+Each active lane merge reported `Already up to date.` No conflicts were opened and no deploy commands were run.
 
 ```text
-lane ref
+lane refs
    |
    v
-already inside HEAD
+already ancestors of HEAD
    |
    v
-merge command should report "Already up to date."
+merge commands changed no source files
 ```
-
-If a merge unexpectedly opens conflicts, resolve only generated publisher/test integration conflicts inside this worktree, run syntax checks again, and avoid deploy commands.
 
 ## Validation Plan
 
@@ -83,8 +81,9 @@ Integrated publisher tests:
 
 ```bash
 for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
+  echo "== $test_script =="
   bash "$test_script"
 done
 ```
 
-Deploy commands are intentionally excluded.
+Final validation result: 22 publisher tests passed.

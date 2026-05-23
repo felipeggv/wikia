@@ -5,34 +5,38 @@ Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-
 Branch: `improve/release-integration`
 
 ```text
-merged lanes
-     |
-     v
+lane refs already merged
+        |
+        v
 syntax checks
-     |
-     v
+        |
+        v
 publisher test suite
-     |
-     v
+        |
+        v
 22/22 PASS
 ```
 
 ## Merge Coverage
 
-Merged lane refs:
+Lane refs checked and merged in this run:
 
-- `build/catalog-state`
+- `origin/build/render-navigation`
 - `build/render-navigation`
+- `origin/build/security-permissions`
 - `build/security-permissions`
 - `origin/fix/publish-validation`
 - `fix/publish-validation`
+- `origin/fix/admin-ux`
 - `fix/admin-ux`
 
-No deploy commands were run.
+Catalog-state was already present through merge commit `50fdfa8`; no active local or origin catalog-state lane ref exists after fetch/prune.
+
+Result: every active lane merge returned `Already up to date.` No deploy commands were run.
 
 ## Syntax Checks
 
-Command run after merges and conflict resolutions:
+Commands:
 
 ```bash
 find publisher/artifacts-publisher-source/scripts publisher/artifacts-publisher-source/tests -name '*.sh' -print0 | xargs -0 -n1 bash -n
@@ -44,30 +48,16 @@ Result: PASS.
 
 ## Integrated Publisher Tests
 
-Final command:
+Command:
 
 ```bash
-set -u
-failed=0
-count=0
 for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
-  count=$((count + 1))
-  printf 'RUN %s\n' "$test_script"
-  output="$(bash "$test_script" 2>&1)"
-  exit_code=$?
-  if [[ $exit_code -eq 0 ]]; then
-    printf 'PASS %s\n' "$test_script"
-  else
-    printf 'FAIL %s exit=%s\n%s\n' "$test_script" "$exit_code" "$output"
-    failed=1
-    break
-  fi
+  echo "== $test_script =="
+  bash "$test_script"
 done
-printf 'TOTAL_RUN %s\n' "$count"
-exit "$failed"
 ```
 
-Final result: PASS, `TOTAL_RUN 22`.
+Final result: PASS, 22 test scripts passed.
 
 ## Test List
 
@@ -96,9 +86,8 @@ All passed:
 - `publisher/artifacts-publisher-source/tests/test-validate-state.sh`
 - `publisher/artifacts-publisher-source/tests/test-vault-mjs.sh`
 
-## Integration Fixes Made During Validation
+## Notes
 
-- Updated navigation fixtures to use valid SHA-256 `raw_hash` values required by the catalog contract.
-- Aligned admin scope expectations to the safer integrated behavior: admin scope falls back to the current article instead of expanding public navigation.
-- Updated the smoke test admin-copy marker to the current admin UX contract text.
-- Updated security validation fixtures so catalog records satisfy the stricter catalog schema while still proving `admin` scope is rejected in public output.
+- `origin/main` was not merged because it is not a lane ref for this integration step.
+- `fix/publish-validation` local is ahead of `origin/fix/publish-validation` by one lane commit, and that local commit is already integrated.
+- Deploy commands were intentionally not run.
