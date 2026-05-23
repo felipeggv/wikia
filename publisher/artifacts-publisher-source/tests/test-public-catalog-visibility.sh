@@ -98,6 +98,20 @@ else:
 
 if public_catalog.is_private_gate("false"):
     raise SystemExit("gate=false should behave like public/no gate")
+
+alias_record = dict(next(row for row in records if public_catalog.record_key(row) == "staging/growth/public-report"))
+alias_record["slug"] = "canonical-slug"
+alias_record["canonical_key"] = public_catalog.canonical_key_for("staging", "growth", "canonical-slug")
+alias_record["article_id"] = public_catalog.article_id_for("staging", "growth", "canonical-slug")
+alias_record["idempotency_key"] = public_catalog.idempotency_key_for(
+    "staging",
+    "growth",
+    "canonical-slug",
+    alias_record["raw_hash"],
+    alias_record["scope"],
+)
+alias_record["output_url"] = "staging/growth/legacy-route/"
+public_catalog.validate_record(alias_record)
 PY
 
 cat <<EOF
@@ -141,6 +155,7 @@ public_catalog.py
 | Admin scope excludes removed navigation records | PASS |
 | Malformed removed/public record rejected | PASS |
 | \`gate=false\` treated as no private gate | PASS |
+| Legacy route alias under same BU/project accepted | PASS |
 
 ## Images Analyzed
 

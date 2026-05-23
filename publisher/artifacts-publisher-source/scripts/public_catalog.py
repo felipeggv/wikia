@@ -133,15 +133,15 @@ def _require_bool(record: dict[str, Any], field: str) -> bool:
     return value
 
 
-def _validate_output_url(record: dict[str, Any], bu: str, project: str, slug: str) -> str:
+def _validate_output_url(record: dict[str, Any], bu: str, project: str) -> str:
     output_url = normalize_output_url(str(record.get("output_url") or ""))
     parts = output_url.strip("/").split("/")
     if len(parts) != 3:
         raise ValueError(f"catalog record output_url must be bu/project/slug/: {output_url!r}")
-    if parts[0] != bu or parts[1] != project or parts[2] != slug:
+    if parts[0] != bu or parts[1] != project:
         raise ValueError(
-            "catalog record output_url must match its bu/project/slug: "
-            f"{output_url!r} for {bu}/{project}/{slug}"
+            "catalog record output_url must stay under its bu/project: "
+            f"{output_url!r} for {bu}/{project}"
         )
     for part in parts:
         if not KEBAB_RE.fullmatch(part):
@@ -178,7 +178,7 @@ def validate_record(record: dict[str, Any]) -> dict[str, Any]:
     release_status = _require_enum(clean, "release_status", ALLOWED_RELEASE_STATUS)
     scope = _require_enum(clean, "scope", ALLOWED_SCOPE)
     title_visible = _require_bool(clean, "title_visible")
-    output_url = _validate_output_url(clean, bu, project, slug)
+    output_url = _validate_output_url(clean, bu, project)
 
     raw_hash = str(clean.get("raw_hash") or "").strip().lower()
     if not SHA256_RE.fullmatch(raw_hash):

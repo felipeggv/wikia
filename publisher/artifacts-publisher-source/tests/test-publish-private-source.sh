@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 PUBLISH_SCRIPT="${SOURCE_ROOT}/scripts/publish.sh"
 PUBLIC_CATALOG_SCRIPT="${SOURCE_ROOT}/scripts/public_catalog.py"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/publish-private-source-tests"
+TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/publish-private-source-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
