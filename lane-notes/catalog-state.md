@@ -147,6 +147,7 @@ flowchart TD
 |---|---|
 | `bash /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/publisher/artifacts-publisher-source/scripts/validate-state.sh --public-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/docs/gitpages --json` | PASS, `ok: true`, `issue_count: 0` |
 | `python3 /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/publisher/artifacts-publisher-source/scripts/admin-db.py schema --json` | PASS, schema version 1 |
+| Python AST parse for catalog-state scripts | PASS for `admin-db.py`, `sync-cms-state.py`, `public_catalog.py`, and `build-search-index.py` |
 
 ## Boundaries Honored
 
