@@ -174,12 +174,13 @@ def build_bu_tree(gitpages_dir, public_only=True, current_record=None):
     Returns {bu: {title, projects: {project: {auto_flatten, articles: [...]}}, article_count}}.
     """
     import os
-    catalog_records = catalog_navigation.records_for_surface(
-        gitpages_dir,
-        public_only=public_only,
-        current_record=current_record,
-    )
-    if catalog_records:
+    all_catalog_records = catalog_navigation.load_catalog_records(gitpages_dir)
+    if all_catalog_records:
+        catalog_records = catalog_navigation.records_for_surface(
+            gitpages_dir,
+            public_only=public_only,
+            current_record=current_record,
+        )
         return build_bu_tree_from_records(catalog_records, public_root=gitpages_dir)
 
     tree = {bu: {"title": disp, "projects": {}, "article_count": 0}

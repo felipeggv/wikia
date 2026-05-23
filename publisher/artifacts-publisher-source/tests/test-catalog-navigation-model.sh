@@ -266,6 +266,44 @@ require_contains(missing_html, "public-article", "missing-current fallback publi
 for marker in ("private-article", "project-scope-article", "bu-scope-article", "other-bu-private"):
     require_absent(missing_html, marker, "missing-current fallback private article")
 
+stale_root = run_dir / "stale-public-root"
+stale_raw = stale_root / "staging" / "test-project" / "stale-public" / "raw.md"
+stale_raw.parent.mkdir(parents=True, exist_ok=True)
+stale_raw.write_text(
+    """---
+bu: staging
+project: test-project
+slug: stale-public
+title: Stale Public
+date: 2026-05-23
+tags: [fixture]
+gate: null
+---
+
+# Stale Public
+""",
+    encoding="utf-8",
+)
+(stale_root / "_catalog.json").write_text(
+    json.dumps(
+        {
+            "catalog_version": 1,
+            "generated_at": "2026-05-23T00:00:00Z",
+            "records": [
+                record("staging", "private-only", "private-only-article", scope="article")
+            ],
+        },
+        indent=2,
+        sort_keys=True,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+stale_tree = render_wiki.build_bu_tree(str(stale_root))
+stale_html = render_wiki.tree_html(stale_tree, wiki_base=wiki_base)
+require_absent(stale_html, "stale-public", "legacy fallback when catalog filter is empty")
+require_absent(stale_html, "private-only-article", "private catalog record on public surface")
+
 require(catalog_navigation.title_for_bu("allin") == "AllIn", "BU display contract should come from catalog helper")
 PY
 
@@ -314,6 +352,7 @@ catalog_navigation.py
 | BU and project pages list public catalog records only | PASS |
 | Article breadcrumb points to BU/project paths, not legacy research paths | PASS |
 | Missing current catalog record falls back to public sidebar rows | PASS |
+| Empty public catalog filter does not fall back to stale raw files | PASS |
 | Tree renderer still returns child list items only | PASS |
 
 ## Images Analyzed
