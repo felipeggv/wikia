@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="$(cd "${TEST_DIR}/.." && pwd)"
 PUBLISH_SCRIPT="${SOURCE_ROOT}/scripts/publish.sh"
 VAULT_SCRIPT="${SOURCE_ROOT}/scripts/vault.mjs"
 SYNC_STATE_SCRIPT="${SOURCE_ROOT}/scripts/sync-cms-state.py"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/publish-apply-pending-tests"
+APPLY_PENDING_SCRIPT="${SOURCE_ROOT}/scripts/apply-pending.py"
+TMP_PARENT="${SOURCE_ROOT}/tests/.tmp/publish-apply-pending-tests"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -24,6 +25,7 @@ require_file() {
 workdir_from_json() {
   python3 - "$1" <<'PY'
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -35,10 +37,15 @@ PY
 require_file "$PUBLISH_SCRIPT"
 require_file "$VAULT_SCRIPT"
 require_file "$SYNC_STATE_SCRIPT"
+require_file "$APPLY_PENDING_SCRIPT"
 mkdir -p "$TMP_PARENT"
 
 RUN_DIR="$(mktemp -d "${TMP_PARENT}/run.XXXXXX")"
-trap 'rm -rf "$RUN_DIR"' EXIT
+cleanup() {
+  rm -rf "$RUN_DIR"
+  rmdir "$TMP_PARENT" "${SOURCE_ROOT}/tests/.tmp" 2>/dev/null || true
+}
+trap cleanup EXIT
 
 REAL_GIT="$(command -v git)"
 ORIGIN_REPO="${RUN_DIR}/origin"
@@ -97,6 +104,41 @@ python3 "$SYNC_STATE_SCRIPT" "$PUBLIC_ROOT" "$PRIVATE_SOURCE_ROOT" \
   --cms-db "${RUN_DIR}/initial-admin-state.sqlite3" \
   --admin-metadata-out "${RUN_DIR}/initial-admin-metadata.json" \
   --json > "${RUN_DIR}/initial-sync.json"
+
+cat > "${RUN_DIR}/invalid-pending.json" <<'EOF'
+{
+  "schema_version": 1,
+  "scope": [
+    {
+      "key": "vita/sales/scope-target",
+      "bu": "vita",
+      "project": "sales",
+      "slug": "scope-target",
+      "from_scope": "article",
+      "to_scope": "admin"
+    }
+  ]
+}
+EOF
+
+cp "${PUBLIC_ROOT}/_catalog.json" "${RUN_DIR}/catalog-before-invalid.json"
+if WIKIA_MASTERPASS="$MASTERPASS_VALUE" python3 "$APPLY_PENDING_SCRIPT" \
+  "${RUN_DIR}/invalid-pending.json" \
+  "${PUBLIC_ROOT}/_passwords.enc" \
+  "${PUBLIC_ROOT}/_released.json" \
+  --catalog-path "${PUBLIC_ROOT}/_catalog.json" \
+  > "${RUN_DIR}/invalid.out" 2> "${RUN_DIR}/invalid.err"; then
+  fail "apply-pending accepted an admin article scope target"
+fi
+if ! grep -Fq 'article scope changes only support article, project, or bu' "${RUN_DIR}/invalid.err"; then
+  fail "apply-pending did not explain the rejected admin scope target"
+fi
+if ! cmp -s "${RUN_DIR}/catalog-before-invalid.json" "${PUBLIC_ROOT}/_catalog.json"; then
+  fail "invalid admin scope target mutated the public catalog"
+fi
+if ! grep -Fq '"to_scope": "admin"' "${RUN_DIR}/invalid-pending.json"; then
+  fail "invalid pending queue was unexpectedly rewritten after rejection"
+fi
 
 cat > "${PUBLIC_ROOT}/_pending-changes.json" <<'EOF'
 {
@@ -195,6 +237,7 @@ RESULT_PUBLIC_ROOT="${WORKDIR}/docs/gitpages"
 
 python3 - "$VALIDATE_JSON" "$RESULT_PUBLIC_ROOT" <<'PY'
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -298,6 +341,20 @@ if "ap-gate-script" in released_html or "RELEASE_BODY_MARKER" not in released_ht
     raise SystemExit("released article was not rendered as public plaintext")
 if "ap-gate-script" not in rotate_html or "ap-gate-script" not in scope_html:
     raise SystemExit("gated articles were not rendered with encrypted gates")
+gate_match = re.search(
+    r'<script\b[^>]*\bid=["\']ap-gate-script["\'][^>]*>(.*?)</script\s*>',
+    rotate_html,
+    flags=re.IGNORECASE | re.DOTALL,
+)
+if not gate_match:
+    raise SystemExit("gated article is missing gate script")
+gate_script = gate_match.group(1)
+if (
+    "sessionStorage.setItem" not in gate_script
+    or "sessionStorage.getItem" not in gate_script
+    or "localStorage" in gate_script
+):
+    raise SystemExit("gated article did not switch unlock persistence to sessionStorage")
 if (public_root / "gobbi/secure/remove-target/index.html").exists():
     raise SystemExit("removed article page still exists")
 if "/_admin.enc" not in admin_html:
@@ -372,6 +429,7 @@ admin, search, home, BU, project, article pages
 | Check | Result |
 |---|---|
 | \`--apply-pending\` implied rebuild-all behavior | PASS |
+| Invalid \`to_scope=admin\` article intent was rejected before mutation | PASS |
 | Pending queue was cleared after apply | PASS |
 | Released ledger stored canonical BU/project/slug key | PASS |
 | Catalog release state was public/released | PASS |

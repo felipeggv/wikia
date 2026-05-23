@@ -21,9 +21,6 @@ from frontmatter_parser import parse_frontmatter  # noqa: E402
 import public_catalog  # noqa: E402
 
 
-VALID_SCOPES = {"public", "article", "project", "bu", "admin"}
-
-
 def load_json(path: Path, default: Any) -> Any:
     if not path.exists():
         return default
@@ -118,8 +115,11 @@ def resolve_record_state(
     else:
         gate_status = "gated"
         release_status = "unreleased"
-        scope = normalize_token(existing.get("scope")) or "article"
-        if scope not in VALID_SCOPES or scope == "public":
+        scope = public_catalog.normalize_navigation_scope(
+            normalize_token(existing.get("scope")),
+            default="article",
+        )
+        if scope == "public":
             scope = "article"
 
     public_record = public_catalog.record_from_raw(

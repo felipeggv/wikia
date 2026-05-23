@@ -19,6 +19,8 @@ from frontmatter_parser import parse_frontmatter
 
 
 CATALOG_VERSION = 1
+ARTICLE_NAVIGATION_SCOPES = {"article", "project", "bu", "public"}
+PENDING_ARTICLE_SCOPE_TARGETS = {"article", "project", "bu"}
 KNOWN_BU_DISPLAY = {
     "staging": "Staging",
     "vita": "Vitascience",
@@ -57,7 +59,9 @@ def sha256_file(path: Path) -> str:
 def is_private_gate(value: Any) -> bool:
     if value is None:
         return False
-    if isinstance(value, str) and value.strip().lower() in {"", "none", "null", "public"}:
+    if value is False:
+        return False
+    if isinstance(value, str) and value.strip().lower() in {"", "none", "null", "public", "false"}:
         return False
     return True
 
@@ -74,6 +78,13 @@ def public_title(record: dict[str, Any]) -> str:
     if record.get("title_visible") and record.get("title_public"):
         return str(record["title_public"])
     return safe_title_from_slug(str(record.get("slug") or "artigo-protegido"))
+
+
+def normalize_navigation_scope(value: Any, default: str = "article") -> str:
+    scope = str(value or "").strip().lower()
+    if scope in ARTICLE_NAVIGATION_SCOPES:
+        return scope
+    return default
 
 
 def record_key(record: dict[str, Any]) -> str:
@@ -102,10 +113,17 @@ def with_identity_fields(record: dict[str, Any]) -> dict[str, Any]:
 
 def is_public_record(record: dict[str, Any]) -> bool:
     return (
-        str(record.get("gate_status") or "") == "public"
-        or str(record.get("scope") or "") == "public"
-        or str(record.get("release_status") or "") == "released"
+        str(record.get("release_status") or "") != "removed"
+        and (
+            str(record.get("gate_status") or "") == "public"
+            or str(record.get("scope") or "") == "public"
+            or str(record.get("release_status") or "") == "released"
+        )
     )
+
+
+def is_scoped_navigation_record(record: dict[str, Any]) -> bool:
+    return str(record.get("release_status") or "") != "removed"
 
 
 def find_record(records: list[dict[str, Any]], bu: str | None, project: str | None, slug: str | None) -> dict[str, Any] | None:
@@ -127,20 +145,24 @@ def scoped_records(records: list[dict[str, Any]], current: dict[str, Any] | None
     if current is None:
         return [record for record in records if is_public_record(record)]
 
-    scope = str(current.get("scope") or "article")
+    scope = normalize_navigation_scope(current.get("scope"), default="article")
     bu = str(current.get("bu") or "")
     project = str(current.get("project") or "")
     slug = str(current.get("slug") or "")
 
-    if scope == "admin":
-        return list(records)
     if scope == "bu":
-        return [record for record in records if record.get("bu") == bu]
+        return [
+            record
+            for record in records
+            if is_scoped_navigation_record(record) and record.get("bu") == bu
+        ]
     if scope == "project":
         return [
             record
             for record in records
-            if record.get("bu") == bu and record.get("project") == project
+            if is_scoped_navigation_record(record)
+            and record.get("bu") == bu
+            and record.get("project") == project
         ]
     if scope == "public":
         return [
@@ -151,7 +173,8 @@ def scoped_records(records: list[dict[str, Any]], current: dict[str, Any] | None
     return [
         record
         for record in records
-        if record.get("bu") == bu
+        if is_scoped_navigation_record(record)
+        and record.get("bu") == bu
         and record.get("project") == project
         and record.get("slug") == slug
     ]
@@ -176,7 +199,10 @@ def record_from_raw(
     actual_gate_status = gate_status or ("gated" if gated else "public")
     title_visible = actual_gate_status == "public"
     actual_release_status = release_status or ("released" if title_visible else "unreleased")
-    actual_scope = scope or ("public" if title_visible else "article")
+    actual_scope = normalize_navigation_scope(
+        scope,
+        default=("public" if title_visible else "article"),
+    )
     raw_hash = sha256_file(raw_path)
 
     return {

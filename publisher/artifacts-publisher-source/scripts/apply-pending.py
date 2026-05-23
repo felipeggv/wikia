@@ -149,6 +149,18 @@ def released_tokens_for(intent: Any) -> list[str]:
     return out
 
 
+def validate_scope_intents(queue: dict[str, Any]) -> None:
+    for intent in as_list(queue.get("scope")):
+        target_scope = normalize_token(
+            intent.get("to_scope") if isinstance(intent, dict) else ""
+        ).lower()
+        if target_scope in public_catalog.PENDING_ARTICLE_SCOPE_TARGETS:
+            continue
+        raise SystemExit(
+            "ERR: article scope changes only support article, project, or bu"
+        )
+
+
 def update_catalog_for_pending(catalog_path: Path, queue: dict[str, Any]) -> dict[str, int]:
     if not catalog_path or not catalog_path.exists():
         return {"catalog_records_updated": 0}
@@ -181,8 +193,10 @@ def update_catalog_for_pending(catalog_path: Path, queue: dict[str, Any]) -> dic
             updated += 1
 
     for intent in as_list(queue.get("scope")):
-        target_scope = normalize_token(intent.get("to_scope") if isinstance(intent, dict) else "")
-        if target_scope not in {"article", "project", "bu", "admin"}:
+        target_scope = normalize_token(
+            intent.get("to_scope") if isinstance(intent, dict) else ""
+        ).lower()
+        if target_scope not in public_catalog.PENDING_ARTICLE_SCOPE_TARGETS:
             continue
         for record in records:
             if not matches(record, intent):
@@ -236,6 +250,7 @@ def apply(
     queue = json.loads(raw)
     if not isinstance(queue, dict):
         raise SystemExit(f"ERR: {pending_path} must contain a JSON object")
+    validate_scope_intents(queue)
 
     releases = as_list(queue.get("release"))
     rotations = as_list(queue.get("rotate"))
