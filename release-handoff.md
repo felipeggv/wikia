@@ -1,242 +1,153 @@
+---
+type: report
+title: Wikia Release Handoff
+created: 2026-05-23
+tags:
+  - wikia-cms
+  - release-handoff
+  - release-integration
+related:
+  - '[[Wikia 05F Consolidate Parallel Handoff]]'
+  - '[[Wikia Final Invariants]]'
+  - '[[ClickUp Update Draft]]'
+---
+
 # Wikia Release Handoff
 
 Data: 2026-05-23
+Atualizado: 2026-05-23 11:40:48 -0300
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-HEAD verificado: `8fd3537`
+HEAD verificado: `4aff241e4681a1b5ab832e63aaf4d1f71f7914dd`
 Deploy: nao executado.
+ClickUp: nao postado.
 
 ```text
-branch integrada
-       |
-       v
-verificacao final
-       |
-       +--> sintaxe PASS
-       +--> publisher tests 22/22 PASS
-       +--> validate-state PASS
-       +--> JSON sanity PASS
-       |
-       v
-handoff sem deploy
+lane checks
+    |
+    +-- 05A catalog-state        PASS
+    +-- 05B render-navigation    PASS
+    +-- 05C admin-ux             PASS
+    +-- 05D security-permissions PASS
+    +-- 05E publish-validation   PASS
+    |
+    v
+release handoff = PASS sem deploy
 ```
 
 ## Resumo Executivo
 
-A branch `improve/release-integration` esta pronta para revisao de release do ponto de vista de verificacao local. O `HEAD` atual `8fd3537` passou nos checks finais, e a evidencia em `integration-tests.md` foi usada como base historica da integracao.
+**Handoff 05F aprovado localmente.** A consolidacao final foi rerodada depois
+da 05A ser revalidada como PASS. A branch `improve/release-integration` nao tem
+conflitos abertos, a suite integrada do publisher passou `22/22`, e o validador
+do output publico retornou `issue_count: 0`.
 
-Nao houve deploy. Nao editei HTML gerado como fonte da verdade. Nao toquei em `private-source`.
+Analogia de negocio: antes parecia haver uma ficha na vitrine sem produto no
+estoque. Agora o estoque, a vitrine, a busca e o admin batem. Ainda assim, o
+botao de deploy nao foi apertado nesta etapa.
 
-## O Que Foi Verificado
+## Resultado Consolidado
 
-| Area | Resultado | Explicacao ELI5 |
+| Area | Resultado | Leitura executiva |
 | --- | --- | --- |
-| Sintaxe shell | PASS | Os roteiros de automacao abrem sem erro de escrita. |
-| Sintaxe Python | PASS | O motor do publisher compila antes de rodar. |
-| Sintaxe Node `.mjs` | PASS | Os scripts JS de suporte passam no check do Node. |
-| Publisher tests | PASS, `22/22` | O fluxo CMS foi testado como uma linha de producao. |
-| Validador de estado publico | PASS, `issue_count: 0` | O site gerado nao mostra problemas de catalogo/sidebar/search/privacidade. |
-| JSON publico | PASS | Catalogo, busca e releases abrem como dados validos. |
-| Fonte privada | PASS | Nada de `private-source` aparece rastreado pelo Git. |
-| Conflitos de merge | PASS | Nenhum arquivo ficou em estado de conflito. |
-| Deploy | PASS | Deploy intencionalmente nao executado. |
+| 05A catalog-state | PASS | `private-source`, `_catalog.json`, admin metadata esperado, search e paginas geradas batem. |
+| 05B render-navigation | PASS | Navegacao usa modelo derivado de catalogo e nao duplica wrappers. |
+| 05C admin-ux | PASS | Admin lista artigos via metadata CMS apos unlock e enfileira intencoes escopadas. |
+| 05D security-permissions | PASS | Criptografia, escopos publicos e ausencia de plaintext publico passaram. |
+| 05E publish-validation | PASS | Publish valida estado antes de sucesso/commit/push e dry-run continua preservado. |
+| Integracao local | PASS | Suite integrada `22/22` e `validate-state` PASS. |
+| Release/deploy | NAO EXECUTADO | Escopo da 05F e handoff, nao deploy. |
 
-## Evidencias
+## Evidencias Relidas
 
-Arquivo de evidencia integrado usado:
-
-`/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md`
-
-Revalidacao final feita neste handoff:
-
-```text
-git HEAD             -> 8fd3537
-shell syntax         -> PASS
-python compile       -> PASS
-node --check         -> PASS
-publisher test suite -> 22/22 PASS
-validate-state       -> ok true, issue_count 0
-catalog JSON         -> 8 records
-search JSON          -> 4 records
-released JSON        -> 0 records
-HTML pages           -> 21 files
-```
-
-## Lane Final Checks
-
-```text
-lane worktrees
-     |
-     v
-lane-final-checks/*.md
-     |
-     v
-handoff integrado
-```
-
-| Lane | Evidencia encontrada | Estado |
+| Lane | Evidencia | Status |
 | --- | --- | --- |
-| Publish validation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md` | PASS. O arquivo declara `14/14` testes focados passando e nenhum deploy. |
-| Catalog state | Nenhum `lane-final-checks/*.md` encontrado | Bloqueado como evidencia final de lane, mas `verify/catalog-state-final` esta integrado por ancestralidade. |
-| Render navigation | Nenhum `lane-final-checks/*.md` encontrado | Bloqueado como evidencia final de lane, mas `build/render-navigation` esta integrado por ancestralidade. |
-| Security permissions | Nenhum `lane-final-checks/*.md` encontrado | Bloqueado como evidencia final de lane, mas `build/security-permissions` esta integrado por ancestralidade. |
-| Admin UX | Nenhum `lane-final-checks/*.md` encontrado | Bloqueado como evidencia final de lane, mas `fix/admin-ux` esta integrado por ancestralidade. |
+| Catalog state | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/verify-catalog-state/lane-final-checks/catalog-state.md` | PASS |
+| Render navigation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/lane-final-checks/render-navigation.md` | PASS |
+| Admin UX | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-admin-ux/lane-final-checks/admin-ux.md` | PASS |
+| Security permissions | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-security-permissions/lane-final-checks/security-permissions.md` | PASS |
+| Publish validation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md` | PASS |
 
-## Screenshots
+Nenhum `lane-final-check` solicitado ficou ausente.
 
-0 screenshots capturados nesta etapa. A verificacao foi feita por checks deterministas de shell, Python, Node, HTML e JSON.
+## Checks Da Branch Integrada
 
-## Estado de Branch
-
-```text
-lane refs
-   |
-   v
-merge commits de integracao
-   |
-   v
-evidence commits
-   |
-   v
-HEAD 8fd3537
-```
-
-Historico relevante:
-
-| Commit | Papel |
+| Check | Resultado |
 | --- | --- |
-| `c1835d4` | Merge de render navigation. |
-| `a0d2368` | Merge do carrier de publish validation. |
-| `26c7767` | Merge do carrier `origin/main`. |
-| `575f18e` | Refresh do plano de integracao PHASE-04. |
-| `76edaf7` | Registro do rerun de integracao PHASE-04. |
-| `63f7211` | Registro da validacao final PHASE-04. |
-| `24627bf` | Registro de evidencia de release integration. |
-| `8fd3537` | Refresh da evidencia de release integration. |
+| Branch | `improve/release-integration` |
+| HEAD | `4aff241e4681a1b5ab832e63aaf4d1f71f7914dd` |
+| Conflitos de merge | PASS, nenhum arquivo em `diff-filter=U` |
+| Marcadores `<<<<<<<`, `=======`, `>>>>>>>` | PASS, nenhum encontrado em fontes relevantes |
+| `validate-state.sh --public-root docs/gitpages --json` | PASS, `ok: true`, `issue_count: 0` |
+| Suite integrada do publisher | PASS, `22/22` |
+| `_catalog.json` | PASS, `8` registros |
+| `search.json` | PASS, `4` registros e mesmos URLs publicos do catalogo |
+| `_released.json` | PASS, `0` registros |
+| HTML gerado | PASS, `21` paginas |
+| `private-source` rastreado no Git | PASS, nenhum arquivo |
+| `docs/gitpages/**/raw.md` | PASS, nenhum arquivo |
+| Deploy | Nao executado |
+| ClickUp | Nao postado |
 
-Refs ativos checados:
+Log da suite integrada:
 
-| Ref | Resultado |
+`/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/.maestro/state/integration-test-logs/20260523-114015/summary.txt`
+
+## Testes Integrados Executados
+
+| Suite | Resultado |
 | --- | --- |
-| `build/render-navigation` | Integrado por ancestralidade. |
-| `origin/build/render-navigation` | Ausente. |
-| `build/security-permissions` | Integrado por ancestralidade. |
-| `origin/build/security-permissions` | Integrado por ancestralidade. |
-| `origin/fix/publish-validation` | Ausente. |
-| `fix/publish-validation` | Ausente. |
-| `verify/publish-validation-final` | Sidecar de verificacao em `cf5b7a8`; contem final check e nao foi mesclado. |
-| `origin/verify/publish-validation-final` | Sidecar de verificacao em `cf5b7a8`; contem final check e nao foi mesclado. |
-| `verify/catalog-state-final` | Integrado por ancestralidade. |
-| `origin/fix/admin-ux` | Integrado por ancestralidade. |
-| `fix/admin-ux` | Integrado por ancestralidade. |
+| `publisher/artifacts-publisher-source/tests/test-admin-db.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-admin-list-from-admin-metadata.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-admin-no-unlock-safe-shell.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-admin-scoped-pending-intents.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-build-search-index-catalog.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-catalog-navigation-model.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-gate-hardening.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-migrate-to-cms-state.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-phase-07-smoke.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-public-catalog-visibility.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-publish-apply-pending.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-publish-idempotency.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-publish-private-source.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-publish-runs-state-validation.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-publish-validation.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-render-admin-cms-state.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-render-admin-sidebar-wrapper.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-security-permissions.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-sync-cms-state-atomic.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-validate-state-default-root.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-validate-state.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-vault-mjs.sh` | PASS |
 
-## Riscos Conhecidos
-
-| Risco | Impacto | Mitigacao |
-| --- | --- | --- |
-| Alguns `lane-final-checks/*.md` nao existem | Handoff tem menos evidencia direta dessas lanes, embora os refs de implementacao estejam integrados. | Manter esta ressalva no release e pedir checks finais por lane se a aprovacao exigir evidencia por time. |
-| `verify/publish-validation-final` e sidecar, nao ancestral do `HEAD` | Merging cego poderia apagar/embaralhar os arquivos de handoff porque a branch e de verificacao, nao carrier de implementacao. | Usar o arquivo como evidencia lida; nao mesclar sem plano especifico. |
-| Sem screenshots nesta etapa | QA visual/admin real ainda nao foi comprovado por imagem. | Rodar QA visual separado antes de publicar. |
-| Admin real nao foi desbloqueado com masterpass real | O fluxo esta coberto por testes, mas segredo real nao circulou neste handoff. | Validar com dono do segredo em etapa separada. |
-| `main` local diverge de `origin/main` | Promocao manual pode misturar historico local antigo. | Promover a partir de `origin/main` atualizado e revisar diff antes do push. |
-
-## Rollback
-
-```text
-deploy ruim
-   |
-   v
-git revert
-   |
-   v
-push em main
-```
-
-Rollback de um commit simples:
-
-```bash
-cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
-git checkout main
-git pull --ff-only origin main
-git revert --no-edit <deploy_commit_sha>
-git push origin main
-```
-
-Rollback de uma promocao por merge:
-
-```bash
-cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
-git checkout main
-git pull --ff-only origin main
-git revert -m 1 --no-edit <merge_commit_sha>
-git push origin main
-```
-
-## Comandos Futuros De Promocao / Deploy
-
-Nao executados nesta etapa.
-
-Promover branch integrada para `main`:
-
-```bash
-cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
-git fetch origin --prune
-git checkout main
-git pull --ff-only origin main
-git merge --no-ff improve/release-integration
-git push origin main
-```
-
-Validar publisher sem push:
-
-```bash
-cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration
-WIKIA_MASTERPASS='<ler-do-cofre-sem-commitar>' \
-WIKIA_PRIVATE_SOURCE_ROOT=/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source \
-bash publisher/artifacts-publisher-source/scripts/publish.sh \
-  --repo felipeggv/wikia \
-  --rebuild-all \
-  --private-source-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source \
-  --validate
-```
-
-Deploy real futuro do rebuild completo:
-
-```bash
-cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration
-WIKIA_MASTERPASS='<ler-do-cofre-sem-commitar>' \
-WIKIA_PRIVATE_SOURCE_ROOT=/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source \
-bash publisher/artifacts-publisher-source/scripts/publish.sh \
-  --repo felipeggv/wikia \
-  --rebuild-all \
-  --private-source-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source
-```
-
-## Nao Fazer
+## Nao Executado
 
 | Acao | Motivo |
 | --- | --- |
-| Nao rodar deploy a partir deste handoff | O escopo pedido foi verificacao final sem deploy. |
-| Nao recriar refs antigos cegamente | Alguns refs estao ausentes por prune/limpeza; recriar pode reabrir diferencas antigas. |
-| Nao editar `docs/gitpages/**/*.html` como fonte | Wikia deve continuar CMS-like, gerada pelo publisher. |
-| Nao adicionar `private-source` ao Git | Regra critica de privacidade. |
+| Deploy | Fora do escopo pedido. |
+| Post no ClickUp | Pedido foi gerar rascunho local, nao postar. |
+| Edicao manual de HTML gerado | Wikia deve continuar CMS-like. |
+| Commit para `main` | A tarefa pediu consolidar a branch de integracao, nao promover release. |
 
-## Proximos Passos Recomendados
+## Proximo Passo Recomendado
 
-1. Revisar estes tres arquivos de evidencia.
-2. Commitar explicitamente apenas os caminhos desejados, se a equipe quiser preservar o handoff.
-3. Fazer deploy somente em etapa separada, com dono e comando explicitos.
+| Ordem | Acao |
+| --- | --- |
+| 1 | Revisar estes tres arquivos de handoff. |
+| 2 | Usar o rascunho em `clickup-update-draft.md` se quiser atualizar o ticket manualmente. |
+| 3 | Fazer deploy apenas em etapa separada, com dono e comando explicitos. |
 
 ## Conclusao
 
 ```text
-QA local PASS
-     |
-     v
-handoff pronto
-     |
-     v
-deploy fica fora desta etapa
+QA tecnico local verde
+      |
+      v
+fonte da verdade reconciliada
+      |
+      v
+handoff pronto sem deploy
 ```
 
-Do ponto de vista de verificacao local, a branch esta pronta para handoff. A ressalva e apenas operacional: alguns refs antigos nao existem mais, mas isso nao apareceu como falha de teste nem como conflito de branch.
+A branch integrada esta sem conflitos e validada localmente. O handoff final e
+**PASS**; o deploy continua parado por decisao de escopo, nao por falha tecnica.

@@ -1,77 +1,88 @@
+---
+type: note
+title: ClickUp Update Draft
+created: 2026-05-23
+tags:
+  - wikia-cms
+  - clickup
+  - release-handoff
+related:
+  - '[[Wikia Release Handoff]]'
+  - '[[Wikia Final Invariants]]'
+---
+
 # ClickUp Update Draft
 
 Target: `https://app.clickup.com/t/86ahk42ad`
 Status: rascunho apenas. Nao postado no ClickUp.
+Data: 2026-05-23
+Atualizado: 2026-05-23 11:40:48 -0300
 
 ## Titulo
 
-Wikia release integration: verificacao final concluida sem deploy
+Wikia release integration: consolidacao 05F PASS sem deploy
 
-## Atualizacao
+## Atualizacao Sugerida
 
 ```text
-integrated branch
+5 lane checks relidos
       |
-      v
-QA local final
-      |
-      v
-22/22 tests PASS
+      +-- 5 PASS
       |
       v
 handoff pronto, sem deploy
 ```
 
-Verificacao final concluida em `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration` na branch `improve/release-integration`, HEAD `8fd3537`.
+Consolidacao final 05F executada em
+`/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
+na branch `improve/release-integration`, HEAD
+`4aff241e4681a1b5ab832e63aaf4d1f71f7914dd`.
 
-Resultado principal: PASS. Nao houve deploy.
+Resultado final: **PASS**.
+
+A 05A `catalog-state` foi revalidada como PASS antes desta consolidacao. Todos
+os cinco `lane-final-checks` foram relidos como PASS, a suite integrada do
+publisher passou `22/22`, e `validate-state.sh` retornou `issue_count: 0`.
+
+Nao houve deploy. Nao houve postagem automatica no ClickUp.
 
 ## Evidencias
 
 | Check | Resultado |
 | --- | --- |
+| 05A catalog-state | PASS |
+| 05B render-navigation | PASS |
+| 05C admin-ux | PASS |
+| 05D security-permissions | PASS |
+| 05E publish-validation | PASS |
 | Conflitos de merge | Nenhum |
-| Shell syntax | PASS |
-| Python compile | PASS |
-| Node `.mjs` syntax | PASS |
-| Publisher tests | PASS, `22/22` |
-| `validate-state.sh --json` | PASS, `issue_count: 0` |
-| `_catalog.json` parse | PASS, `8` records |
-| `search.json` parse | PASS, `4` records |
-| `_released.json` parse | PASS, `0` records |
-| HTML gerado presente | `21` paginas |
+| Suite integrada do publisher | PASS, `22/22` |
+| `validate-state.sh --public-root docs/gitpages --json` | PASS, `issue_count: 0` |
+| `_catalog.json` local | `8` registros totais, `4` publicos |
+| `search.json` local | `4` registros, mesmos URLs publicos do catalogo |
+| `_released.json` local | `0` registros |
+| HTML gerado | `21` paginas |
 | `private-source` rastreado no Git | Nenhum arquivo |
+| `docs/gitpages/**/raw.md` publico | Nenhum arquivo |
 | Deploy | Nao executado |
 
-## Evidencia Base
+Log de testes:
 
-Usei `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` como evidencia historica da integracao e revalidei o estado atual da branch no `HEAD` `8fd3537`.
+`/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/.maestro/state/integration-test-logs/20260523-114015/summary.txt`
 
-## Lane Checks
+## Lane Checks Relidos
 
-```text
-lane checks
-   |
-   +-- publish-validation -> PASS encontrado
-   +-- outras lanes       -> sem arquivo lane-final-checks
-```
+| Lane | Arquivo |
+| --- | --- |
+| 05A catalog-state | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/verify-catalog-state/lane-final-checks/catalog-state.md` |
+| 05B render-navigation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/lane-final-checks/render-navigation.md` |
+| 05C admin-ux | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-admin-ux/lane-final-checks/admin-ux.md` |
+| 05D security-permissions | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-security-permissions/lane-final-checks/security-permissions.md` |
+| 05E publish-validation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md` |
 
-Encontrei e li `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md`: PASS, `14/14` testes focados passando, sem deploy.
+Nenhum lane-final-check solicitado ficou ausente.
 
-Nao encontrei `lane-final-checks/*.md` nas lanes de catalog state, render navigation, security permissions e admin UX. Os refs de implementacao dessas lanes continuam integrados por ancestralidade, mas a evidencia final por lane ficou ausente.
-
-## Ressalva
-
-```text
-refs ativos conhecidos
-        |
-        +-- existentes -> integrados por ancestralidade
-        +-- ausentes   -> pruned/missing, sem falha de teste
-```
-
-`build/render-navigation`, `build/security-permissions`, `origin/build/security-permissions`, `origin/fix/admin-ux` e `fix/admin-ux` aparecem integrados por ancestralidade. `origin/build/render-navigation`, `origin/fix/publish-validation` e `fix/publish-validation` aparecem ausentes no estado final. Nao houve falha de teste, conflito de merge ou deploy.
-
-## Arquivos de Handoff
+## Arquivos De Handoff Atualizados
 
 - `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/final-invariants.md`
 - `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/release-handoff.md`
@@ -79,6 +90,6 @@ refs ativos conhecidos
 
 ## Proximo Status Sugerido
 
-1. Marcar verificacao final como concluida.
-2. Manter deploy fora deste ticket/etapa.
-3. Abrir follow-up apenas se a equipe quiser documentar/reconciliar os refs ausentes.
+1. Marcar a consolidacao 05F como PASS.
+2. Manter deploy fora desta etapa.
+3. Usar este texto como update manual no ClickUp se quiser registrar o handoff.

@@ -1,174 +1,147 @@
+---
+type: report
+title: Wikia Final Invariants
+created: 2026-05-23
+tags:
+  - wikia-cms
+  - release-integration
+  - final-invariants
+related:
+  - '[[Wikia 05F Consolidate Parallel Handoff]]'
+  - '[[Wikia Catalog State Final Verification]]'
+  - '[[Render Navigation Final Check]]'
+  - '[[Verificacao Final da Lane Admin UX]]'
+  - '[[Security Permissions Lane Final Check]]'
+  - '[[Verificacao Final da Lane Publish Validation]]'
+---
+
 # Wikia Final Invariants
 
 Data: 2026-05-23
+Atualizado: 2026-05-23 11:40:48 -0300
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-HEAD verificado: `8fd3537`
+HEAD verificado: `4aff241e4681a1b5ab832e63aaf4d1f71f7914dd`
 Deploy: nao executado.
+ClickUp: nao postado.
 
 ```text
 private-source
       |
       v
-publisher/artifacts-publisher-source
+catalogo CMS
+      |
+      +-- admin
+      +-- search
+      +-- sidebar
+      +-- paginas geradas
       |
       v
-docs/gitpages
-      |
-      v
-verificacao final sem deploy
+handoff 05F PASS sem deploy
 ```
 
 ## Resumo Executivo
 
-A branch integrada foi verificada no `HEAD` atual `8fd3537`. Resultado: PASS.
+Status final verdadeiro: **PASS**.
 
-Em linguagem de negocio: o pacote de release passou pelo QA local. O botao de publicacao nao foi apertado.
+Traducao ELI5: a loja, o estoque, a busca e o painel administrativo agora
+apontam para o mesmo cadastro. As cinco lanes finais foram relidas como PASS, a
+branch integrada nao tem conflito aberto, a suite do publisher passou `22/22`,
+e o validador do site gerado retornou `issue_count: 0`.
 
-## Evidencia Base Usada
+## Decisao De Release
 
-| Fonte | Uso |
+| Item | Resultado |
 | --- | --- |
-| `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` | Evidencia integrada da fase: merge coverage, sintaxe e `22/22` testes no fluxo do publisher. |
-| Estado atual da branch `improve/release-integration` | Revalidacao final no `HEAD` `8fd3537`. |
+| Handoff 05F | **PASS** |
+| Cinco lane checks finais | PASS |
+| Testes integrados locais | PASS, `22/22` |
+| `validate-state.sh` local | PASS, `issue_count: 0` |
+| Release pronto para proxima aprovacao humana | SIM |
+| Deploy | Nao executado |
+| Post no ClickUp | Nao executado |
 
 ```text
-integration-tests.md
-        |
-        v
-HEAD atual 8fd3537
-        |
-        v
-checks finais repetidos
+5 lanes PASS
+      |
+      v
+22/22 testes PASS
+      |
+      v
+handoff pronto, sem deploy
 ```
 
 ## Invariantes Finais
 
 | Invariante | Status | Evidencia |
 | --- | --- | --- |
-| Wikia continua CMS-like, nao HTML manual | PASS | Testes de catalogo, navegacao, admin, publish e search passaram. |
-| Deploy nao foi executado | PASS | Nenhum comando de deploy/promocao foi rodado nesta etapa. |
-| Nao ha conflito de merge aberto | PASS | `git diff --name-only --diff-filter=U` retornou vazio. |
-| Fonte privada plaintext nao foi rastreada | PASS | `git ls-files private-source` retornou vazio. |
-| Shell scripts continuam sintaticamente validos | PASS | `bash -n` em scripts/tests saiu com codigo `0`. |
-| Python scripts continuam compilando | PASS | `python3 -m py_compile` saiu com codigo `0`. |
-| Node `.mjs` continua valido | PASS | `node --check` saiu com codigo `0`. |
-| Suite integrada do publisher esta verde | PASS | `22/22` scripts em `publisher/artifacts-publisher-source/tests/test-*.sh` passaram. |
-| Estado publico gerado esta consistente | PASS | `validate-state.sh --json` retornou `ok: true` e `issue_count: 0`. |
-| JSONs publicos principais abrem corretamente | PASS | `_catalog.json`, `search.json` e `_released.json` parsearam. |
-| Lanes de implementacao conhecidas estao integradas | PASS com ressalva | Refs de implementacao existentes sao ancestrais; a verificacao final de publish-validation existe em branch sidecar e foi lida como evidencia, nao mesclada. |
+| Wikia deve ser CMS-like, nao HTML manual | PASS | Testes integrados do publisher passaram `22/22`. |
+| Catalogo publico deve bater com inventario privado atual | PASS | 05A reporta `8` `raw.md` privados e `8` registros em `docs/gitpages/_catalog.json`. |
+| Registro anteriormente orfao deve ter fonte privada correspondente | PASS | 05A confirma `gobbi/skills/design-first-dev-workflow` em `private-source`, `_catalog.json`, admin metadata esperado e pagina HTML. |
+| Catalogo publico e busca devem concordar entre si | PASS | `_catalog.json` tem `4` publicos e `search.json` tem os mesmos `4` URLs. |
+| Estado publico gerado deve ser valido | PASS | `validate-state.sh --public-root docs/gitpages --json` retornou `ok: true`, `issue_count: 0`. |
+| Suite integrada do publisher deve passar | PASS | `22/22` scripts `publisher/artifacts-publisher-source/tests/test-*.sh` passaram. |
+| Branch integrada nao deve ter conflito de merge aberto | PASS | `git diff --name-only --diff-filter=U` retornou vazio. |
+| Marcadores de conflito nao devem existir em arquivos fonte relevantes | PASS | `rg -n '^(<<<<<<<|=======|>>>>>>>)'` nao encontrou marcadores. |
+| `private-source` nao deve estar rastreado no Git | PASS | `git ls-files private-source` retornou vazio. |
+| `raw.md` privado nao deve aparecer em `docs/gitpages` | PASS | `find docs/gitpages -path '*/raw.md' -type f -print` retornou vazio. |
+| Deploy nao deve ocorrer nesta fase | PASS | Nenhum deploy executado. |
+| ClickUp nao deve receber post nesta fase | PASS | Apenas rascunho local atualizado. |
 
-## Resultado dos Checks
+## Lane Final Checks Relidos
 
-| Check | Resultado |
-| --- | --- |
-| `git rev-parse --short HEAD` | `8fd3537` |
-| Conflitos abertos | Nenhum |
-| `private-source` rastreado | Nenhum arquivo |
-| Shell syntax | PASS |
-| Python compile | PASS |
-| Node `.mjs` syntax | PASS |
-| Publisher tests | PASS, `22/22` |
-| `validate-state.sh --json` | PASS, `issue_count: 0` |
-| `_catalog.json` | PASS, `8` registros |
-| `search.json` | PASS, `4` registros |
-| `_released.json` | PASS, `0` registros |
-| `docs/gitpages/**/*.html` | `21` paginas |
+Todos os `lane-final-checks` solicitados foram encontrados e relidos. A 05A
+foi revalidada como PASS antes desta consolidacao.
 
-## Contagens CMS
+| Lane | Arquivo relido | Status da lane |
+| --- | --- | --- |
+| 05A catalog-state | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/verify-catalog-state/lane-final-checks/catalog-state.md` | PASS |
+| 05B render-navigation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/lane-final-checks/render-navigation.md` | PASS |
+| 05C admin-ux | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-admin-ux/lane-final-checks/admin-ux.md` | PASS |
+| 05D security-permissions | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-security-permissions/lane-final-checks/security-permissions.md` | PASS |
+| 05E publish-validation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md` | PASS |
 
-```text
-_catalog.json
-   |
-   +-- 8 registros totais
-   +-- 4 registros publicos
-           |
-           v
-        search.json = 4 registros
-```
+## Contagens CMS Consolidadas
 
 | Superficie | Resultado |
 | --- | --- |
-| Catalogo total | `8` registros |
-| Catalogo publico | `4` registros |
-| Busca publica | `4` registros |
-| URLs publicas do catalogo vs busca | PASS, iguais |
+| Inventario privado reportado pela 05A | `8` registros |
+| `docs/gitpages/_catalog.json` | `8` registros |
+| Registro anteriormente orfao | `gobbi/skills/design-first-dev-workflow`, reconciliado |
+| Publicos em `_catalog.json` | `4` registros |
+| `docs/gitpages/search.json` | `4` registros |
+| URLs publicas catalogo vs busca | PASS, iguais |
+| `docs/gitpages/_released.json` | `0` registros |
 | HTML gerado | `21` paginas |
-| `docs/gitpages/admin/index.html` carrega `_admin.enc` | PASS |
-| Wrapper admin `<nav class="wk-sidebar-nav">` | PASS, `1` ocorrencia |
-| Root admin `<ul class="wk-tree">` | PASS, `1` ocorrencia |
-| `docs/gitpages/**/raw.md` publico | PASS, `0` arquivos |
-| `raw.md` publico rastreado | PASS, `0` arquivos |
 
-## Lane Final Checks
+## Checks Executados Na Integracao
 
-```text
-worktrees de lanes
-        |
-        v
-lane-final-checks/*.md disponiveis
-        |
-        v
-consolidacao PHASE-05
-```
-
-| Lane | Worktree / ref | Lane final check | Resultado |
-| --- | --- | --- | --- |
-| Publish validation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation`, `verify/publish-validation-final` em `cf5b7a8` | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md` | PASS lido; branch sidecar nao foi mesclada. |
-| Catalog state | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/verify-catalog-state`, `verify/catalog-state-final` em `aa678f1` | Nao encontrado | Bloqueado como evidencia de lane-final-check, mas ref esta ancestral de `HEAD`. |
-| Render navigation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-render-navigation`, `build/render-navigation` em `2d9b095` | Nao encontrado | Bloqueado como evidencia de lane-final-check, mas ref esta ancestral de `HEAD`. |
-| Security permissions | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-security-permissions`, `build/security-permissions` em `0b33584` | Nao encontrado | Bloqueado como evidencia de lane-final-check, mas ref esta ancestral de `HEAD`. |
-| Admin UX | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-admin-ux`, `fix/admin-ux` em `5317be5` | Nao encontrado | Bloqueado como evidencia de lane-final-check, mas ref esta ancestral de `HEAD`. |
-
-## Estado Integrado da Branch
-
-```text
-c1835d4 merge render navigation
-   |
-   v
-a0d2368 merge publish validation carrier
-   |
-   v
-26c7767 merge origin/main carrier
-   |
-   v
-575f18e refresh integration plan
-   |
-   v
-76edaf7 record PHASE-04 integration rerun
-   |
-   v
-63f7211 record PHASE-04 final validation
-   |
-   v
-24627bf record release integration evidence
-   |
-   v
-8fd3537 refresh release integration evidence
-```
-
-| Ref | Resultado |
+| Check | Resultado |
 | --- | --- |
-| `build/render-navigation` | `ANCESTOR` em `2d9b095` |
-| `origin/build/render-navigation` | `MISSING` |
-| `build/security-permissions` | `ANCESTOR` em `0b33584` |
-| `origin/build/security-permissions` | `ANCESTOR` em `0b33584` |
-| `origin/fix/publish-validation` | `MISSING` |
-| `fix/publish-validation` | `MISSING` |
-| `verify/publish-validation-final` | `SIDECAR` em `cf5b7a8`; contem final check, nao ancestral de `HEAD` |
-| `origin/verify/publish-validation-final` | `SIDECAR` em `cf5b7a8`; contem final check, nao ancestral de `HEAD` |
-| `verify/catalog-state-final` | `ANCESTOR` em `aa678f1` |
-| `origin/fix/admin-ux` | `ANCESTOR` em `5317be5` |
-| `fix/admin-ux` | `ANCESTOR` em `5317be5` |
+| `git rev-parse HEAD` | `4aff241e4681a1b5ab832e63aaf4d1f71f7914dd` |
+| `git branch --show-current` | `improve/release-integration` |
+| `git diff --name-only --diff-filter=U` | Vazio |
+| `rg -n '^(<<<<<<<\|=======\|>>>>>>>)' AGENTS.md publisher docs final-invariants.md release-handoff.md clickup-update-draft.md lane-final-checks` | Vazio |
+| `git ls-files private-source` | Vazio |
+| `find docs/gitpages -path '*/raw.md' -type f -print` | Vazio |
+| `bash publisher/artifacts-publisher-source/scripts/validate-state.sh --public-root docs/gitpages --json` | PASS, `issue_count: 0` |
+| Suite `publisher/artifacts-publisher-source/tests/test-*.sh` | PASS, `22/22` |
+
+Log da suite integrada:
+
+`/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/.maestro/state/integration-test-logs/20260523-114015/summary.txt`
 
 ## Conclusao
 
 ```text
-release candidate local
-        |
-        +-- QA PASS
-        +-- deploy nao executado
-        +-- handoff pronto
+catalogo reconciliado
+      |
+      v
+testes e validacao PASS
+      |
+      v
+handoff final PASS
 ```
 
-A candidata de release esta validada localmente no `HEAD` `8fd3537`. A unica ressalva operacional e que alguns refs de lanes antigas estao ausentes por prune/limpeza, mas os refs existentes conhecidos estao integrados por ancestralidade e a suite final passou.
+A branch esta pronta para handoff de release do ponto de vista da consolidacao
+05F. O deploy continua fora desta etapa.
