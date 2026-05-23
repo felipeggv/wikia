@@ -5,7 +5,7 @@ Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-
 Branch: `improve/release-integration`
 
 ```text
-lane refs already merged
+lane merge resolution
         |
         v
 syntax checks
@@ -19,20 +19,19 @@ publisher test suite
 
 ## Merge Coverage
 
-Lane refs checked and merged in this run:
+Lane refs and lane commits checked in this run:
 
-- `origin/build/render-navigation`
-- `build/render-navigation`
-- `origin/build/security-permissions`
-- `build/security-permissions`
-- `origin/fix/publish-validation`
-- `fix/publish-validation`
-- `origin/fix/admin-ux`
-- `fix/admin-ux`
+| Lane | Evidence | Result |
+| --- | --- | --- |
+| catalog-state | merge `50fdfa8` already in history | Preserved; no active lane ref remained after pruning. |
+| render-navigation | `build/render-navigation` at `2d9b095` merged as `c1835d4` | Preserved catalog navigation behavior and resolved shared test conflicts. |
+| security-permissions | `build/security-permissions` / `origin/build/security-permissions` at `0b33584` | Already ancestor of HEAD; permission/security behavior preserved. |
+| admin-ux | `fix/admin-ux` / `origin/fix/admin-ux` at `5317be5` | Already ancestor of HEAD; admin locked-shell behavior preserved. |
+| publish-validation | specific lane commit `d4691bf` merged as `a0d2368` | Preserved validation-mode, private-source, idempotency, and pending-apply behavior. |
 
-Catalog-state was already present through merge commit `50fdfa8`; no active local or origin catalog-state lane ref exists after fetch/prune.
+`origin/main` was not merged. It was only inspected as the remote carrier for deleted lane PR refs; the actual publish-validation merge used commit `d4691bf` directly to avoid unrelated mainline changes.
 
-Result: every active lane merge returned `Already up to date.` No deploy commands were run.
+No deploy commands were run.
 
 ## Syntax Checks
 
@@ -57,7 +56,7 @@ for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
 done
 ```
 
-Final result: PASS, 22 test scripts passed.
+Final result after the final merges: PASS, 22 test scripts passed.
 
 ## Test List
 
@@ -88,6 +87,7 @@ All passed:
 
 ## Notes
 
-- `origin/main` was not merged because it is not a lane ref for this integration step.
-- `fix/publish-validation` local is ahead of `origin/fix/publish-validation` by one lane commit, and that local commit is already integrated.
+- Merge conflicts were resolved in the shared test layer only; generated HTML was not edited as source of truth.
+- The resolved conflicted tests support both `WIKIA_TEST_*` overrides and legacy `SOURCE_ROOT` / `TMP_PARENT` overrides.
+- `origin/main` was not merged because it carries more than this integration lane.
 - Deploy commands were intentionally not run.

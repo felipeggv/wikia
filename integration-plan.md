@@ -105,6 +105,31 @@ After the render merge, merging `d4691bf` opened conflicts in the shared publish
 
 No conflicts are forecast for the security or admin-ux refs because they are already ancestors of the current integration branch.
 
+## Merge Result
+
+```text
+render-navigation merge
+        |
+        v
+publish-validation merge
+        |
+        v
+security/admin already ancestors
+```
+
+Completed merge results:
+
+| Input | Result |
+| --- | --- |
+| `build/render-navigation` at `2d9b095` | Merged as `c1835d4`; conflicts resolved in shared test headers and temp-root setup. |
+| publish-validation lane commit `d4691bf` | Merged as `a0d2368`; conflicts resolved in publish/validation tests. |
+| `build/security-permissions` / `origin/build/security-permissions` at `0b33584` | Already ancestor of HEAD after the merges. |
+| `fix/admin-ux` / `origin/fix/admin-ux` at `5317be5` | Already ancestor of HEAD after the merges. |
+| catalog-state | Already present through `50fdfa8`; no active lane ref remained. |
+
+`origin/main` was not merged. The publish-validation lane commit was merged
+directly to avoid pulling unrelated mainline changes.
+
 ## Validation Plan
 
 Syntax checks:
