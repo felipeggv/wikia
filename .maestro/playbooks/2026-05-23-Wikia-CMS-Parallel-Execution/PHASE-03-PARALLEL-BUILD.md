@@ -21,13 +21,5 @@ focused tests
 explicit commit
 ```
 
-- [ ] Catalog-state lane build. In the current worktree, implement only catalog/state changes identified in `lane-notes/catalog-state.md`. Focus on `publisher/artifacts-publisher-source/scripts/admin-db.py`, `sync-cms-state.py`, `public_catalog.py`, `build-search-index.py`, and related tests. Run focused tests. Commit with explicit paths only. EXIT.
-
-- [ ] Render-navigation lane build. In the current worktree, implement only renderer/navigation changes identified in `lane-notes/render-navigation.md`. Focus on render scripts and `_sidebar.html.tpl`/`_appshell.html.tpl`. Run focused tests. Commit with explicit paths only. EXIT.
-
-- [ ] Admin-ux lane build. In the current worktree, implement only admin UI fixes identified in `lane-notes/admin-ux.md`. Focus on `admin.html.tpl`, `admin-decrypt.js`, and `_admin-styles.css.tpl`. Run focused tests and capture screenshot evidence if possible. Commit with explicit paths only. EXIT.
-
-- [ ] Security-permissions lane build. In the current worktree, implement only permission/security changes identified in `lane-notes/security-permissions.md`. Focus on vault/encryption/gate behavior and tests. Never print secrets. Commit with explicit paths only. EXIT.
-
-- [ ] Publish-validation lane build. In the current worktree, implement only validation/publish changes identified in `lane-notes/publish-validation.md`. Focus on `publish.sh`, `validate-state.sh`, and publish tests. Commit with explicit paths only. EXIT.
-
+- [x] Superseded generic build launcher. Use the lane-specific build playbooks instead: `PHASE-03A-CATALOG-STATE-BUILD.md`, `PHASE-03B-RENDER-NAVIGATION-BUILD.md`, `PHASE-03C-ADMIN-UX-BUILD.md`, `PHASE-03D-SECURITY-PERMISSIONS-BUILD.md`, and `PHASE-03E-PUBLISH-VALIDATION-BUILD.md`.
+  - Result: Replaced broad shared checkbox set with per-lane playbooks so each agent only receives its own implementation scope.
