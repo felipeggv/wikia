@@ -30,6 +30,7 @@ mkdir -p "$PUBLIC_ROOT"
 
 python3 - "$SOURCE_ROOT" "$PUBLIC_ROOT" "$RUN_DIR" "$WIKI_BASE" <<'PY'
 import importlib.util
+import hashlib
 import json
 import os
 import subprocess
@@ -73,7 +74,7 @@ def record(bu, project, slug, *, title=None, gate_status="gated", release_status
         "release_status": release_status,
         "scope": scope,
         "tags": ["fixture"] if title_visible else [],
-        "raw_hash": f"hash-{bu}-{project}-{slug}",
+        "raw_hash": hashlib.sha256(f"{bu}/{project}/{slug}".encode("utf-8")).hexdigest(),
     })
 
 
@@ -174,8 +175,9 @@ admin_tree = render_wiki.build_bu_tree(
     current_record=by_key["gobbi/admin-project/admin-scope-article"],
 )
 admin_html = render_wiki.tree_html(admin_tree, wiki_base=wiki_base)
-for marker in ("public-article", "other-bu-private", "admin-scope-article"):
-    require_contains(admin_html, marker, "admin-scope model article")
+require_contains(admin_html, "admin-scope-article", "admin-scope current article")
+for marker in ("public-article", "other-bu-private"):
+    require_absent(admin_html, marker, "admin-scope expanded navigation article")
 
 raw_md = run_dir / "private-source" / "staging" / "test-project" / "public-article" / "raw.md"
 raw_md.parent.mkdir(parents=True, exist_ok=True)
@@ -326,7 +328,8 @@ related:
 ## Executive Summary
 
 The renderer navigation layer now uses one catalog-backed view model for public,
-article, project, BU, and admin-scope navigation surfaces.
+article, project, and BU navigation surfaces. Admin scope does not expand public
+navigation; it falls back to the current article only.
 
 \`\`\`text
 _catalog.json
@@ -348,7 +351,7 @@ catalog_navigation.py
 | Article-scope sidebar shows only the current gated article | PASS |
 | Project-scope sidebar shows only the gated project slice | PASS |
 | BU-scope sidebar excludes cross-BU records | PASS |
-| Admin-scope model can see all records | PASS |
+| Admin-scope model falls back to current article only | PASS |
 | BU and project pages list public catalog records only | PASS |
 | Article breadcrumb points to BU/project paths, not legacy research paths | PASS |
 | Missing current catalog record falls back to public sidebar rows | PASS |

@@ -143,7 +143,6 @@ cat > "$CATALOG_PATH" <<'JSON'
   "generated_at": "2026-05-23T00:00:00Z",
   "records": [
     {
-      "article_id": "fixture-scope",
       "canonical_key": "staging/security/scope-target",
       "bu": "staging",
       "project": "security",
@@ -155,7 +154,7 @@ cat > "$CATALOG_PATH" <<'JSON'
       "release_status": "unreleased",
       "scope": "article",
       "tags": [],
-      "raw_hash": "fixture-hash"
+      "raw_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     }
   ]
 }
@@ -244,10 +243,14 @@ cat > "${BAD_PUBLIC}/_catalog.json" <<'JSON'
       "bu": "staging",
       "project": "security",
       "slug": "admin-scope",
+      "title_visible": false,
+      "title_public": null,
       "output_url": "staging/security/admin-scope/",
       "gate_status": "gated",
       "release_status": "unreleased",
-      "scope": "admin"
+      "scope": "admin",
+      "tags": [],
+      "raw_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
     }
   ]
 }

@@ -78,10 +78,8 @@ if bu_keys != ["gobbi/private/project-scope", "gobbi/private/sibling-scope", "go
 
 admin_current = next(row for row in records if public_catalog.record_key(row) == "allin/ops/admin-scope")
 admin_keys = keys(public_catalog.scoped_records(records, admin_current))
-if "gobbi/private/removed-report" in admin_keys:
-    raise SystemExit(f"removed record leaked into admin-scope navigation: {admin_keys}")
-if len(admin_keys) != 5:
-    raise SystemExit(f"admin scope should include all non-removed records, got: {admin_keys}")
+if admin_keys != ["allin/ops/admin-scope"]:
+    raise SystemExit(f"admin scope should fall back to the current record only, got: {admin_keys}")
 
 removed_record = next(row for row in records if public_catalog.record_key(row) == "gobbi/private/removed-report")
 if public_catalog.is_public_record(removed_record):
@@ -132,7 +130,8 @@ related:
 ## Executive Summary
 
 The public catalog visibility rules passed. Public, scoped, admin, and removed
-records now use one shared rulebook.
+records now use one shared rulebook. Admin scope does not expand public
+navigation.
 
 \`\`\`text
 _catalog.json
@@ -152,7 +151,7 @@ public_catalog.py
 | Public view includes only released public records | PASS |
 | Project scope includes only same project records | PASS |
 | BU scope includes only same BU records | PASS |
-| Admin scope excludes removed navigation records | PASS |
+| Admin scope falls back to the current record only | PASS |
 | Malformed removed/public record rejected | PASS |
 | \`gate=false\` treated as no private gate | PASS |
 | Legacy route alias under same BU/project accepted | PASS |

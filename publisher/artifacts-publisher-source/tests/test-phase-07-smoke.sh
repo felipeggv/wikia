@@ -200,7 +200,7 @@ required = [
     "window.__admin",
     "adminMetadata",
     "password vault only; never defines article universe",
-    "A lista vem de _admin.enc",
+    "O catálogo abre a lista; o cofre só anexa senhas quando houver correspondência.",
 ]
 for marker in required:
     if marker not in html:
