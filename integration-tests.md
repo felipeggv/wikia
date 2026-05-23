@@ -9,6 +9,7 @@ tags:
   - validation
 related:
   - '[[PHASE-04-INTEGRATION]]'
+  - '[[PHASE-04B-RESOLVE-INTEGRATION-CONFLICTS]]'
   - '[[PHASE-04C-FINISH-INTEGRATION-TESTS]]'
 ---
 
@@ -21,6 +22,74 @@ Validated code HEAD before this evidence-only update: `a6357efbb033cdd9ac0fb065f
 Test log: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/.maestro/state/integration-test-logs/20260523-154535/summary.txt`
 
 No deploy commands were run.
+
+## Phase 04B Conflict Resolution Rerun
+
+Date: 2026-05-23T15:51:46-0300
+Validated code HEAD: `f72595711423b736c7cf57f5e1f406ce501c3522`
+Images analyzed: 0
+
+```text
+security permissions lane
+        |
+        v
+release integration
+        |
+        v
+admin UX lane
+        |
+        v
+focused integration tests
+        |
+        v
+PASS
+```
+
+| Item | Result |
+| --- | --- |
+| `origin/build/security-permissions` | PASS, merged with `git merge --no-ff origin/build/security-permissions -m "MAESTRO: Wikia CMS Parallel Phase 04B Task 1 - merge security permissions"` |
+| `origin/fix/admin-ux` | PASS, merged with `git merge --no-ff origin/fix/admin-ux -m "MAESTRO: Wikia CMS Parallel Phase 04B Task 1 - merge admin ux"` |
+| `origin/fix/publish-validation` | PASS, no live remote ref after `git fetch origin --prune`; publish-validation content is represented through `origin/main`, already ancestor of this branch |
+| Conflicted paths | PASS, no unresolved conflict markers or unmerged Git paths remained after the merges |
+| Focused integration tests | PASS, all commands below exited `0` |
+
+Exact focused test command:
+
+```bash
+set -euo pipefail
+bash publisher/artifacts-publisher-source/tests/test-public-catalog-visibility.sh
+bash publisher/artifacts-publisher-source/tests/test-catalog-navigation-model.sh
+bash publisher/artifacts-publisher-source/tests/test-build-search-index-catalog.sh
+bash publisher/artifacts-publisher-source/tests/test-security-permissions.sh
+bash publisher/artifacts-publisher-source/tests/test-render-admin-cms-state.sh
+bash publisher/artifacts-publisher-source/tests/test-render-admin-sidebar-wrapper.sh
+bash publisher/artifacts-publisher-source/tests/test-admin-scoped-pending-intents.sh
+bash publisher/artifacts-publisher-source/tests/test-publish-apply-pending.sh
+bash publisher/artifacts-publisher-source/tests/test-publish-validation.sh
+bash publisher/artifacts-publisher-source/tests/test-publish-runs-state-validation.sh
+bash publisher/artifacts-publisher-source/tests/test-validate-state.sh
+bash publisher/artifacts-publisher-source/tests/test-validate-state-default-root.sh
+```
+
+Focused test results:
+
+| Test | Result |
+| --- | --- |
+| `publisher/artifacts-publisher-source/tests/test-public-catalog-visibility.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-catalog-navigation-model.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-build-search-index-catalog.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-security-permissions.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-render-admin-cms-state.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-render-admin-sidebar-wrapper.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-admin-scoped-pending-intents.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-publish-apply-pending.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-publish-validation.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-publish-runs-state-validation.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-validate-state.sh` | PASS |
+| `publisher/artifacts-publisher-source/tests/test-validate-state-default-root.sh` | PASS |
+
+Write-boundary note: this Maestro agent is not permitted to write `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/.maestro/evidence/integration-tests.md` because that path is outside `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration` and outside `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/.maestro/playbooks/2026-05-23-Wikia-CMS-Parallel-Execution`. The equivalent evidence is tracked at `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` and mirrored inside the allowed Auto Run folder at `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/.maestro/playbooks/2026-05-23-Wikia-CMS-Parallel-Execution/Working/integration-tests.md`.
+
 On 2026-05-23T15:46:16-0300, the syntax checks and full publisher suite were rerun on HEAD `a6357efbb033cdd9ac0fb065f63a8e36bd7830a0`.
 
 ```text
