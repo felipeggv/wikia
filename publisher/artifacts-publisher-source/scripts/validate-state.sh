@@ -17,6 +17,8 @@ Validates generated wikia public output for CMS invariants:
   - no plaintext password-like assignments in public output
   - no duplicated sidebar wrappers
   - no wk-tree-tema legacy marker
+  - no leftover plaintext gate temp files
+  - no article records with admin scope in public catalog
   - no stale sidebar article counts
   - no search/catalog mismatch
 USAGE
@@ -59,7 +61,8 @@ from urllib.parse import urlparse
 
 public_root = Path(sys.argv[1]).expanduser().resolve()
 json_output = sys.argv[2] == "true"
-sys.path.insert(0, sys.argv[3])
+script_dir = Path(sys.argv[3]).resolve()
+sys.path.insert(0, str(script_dir))
 
 import public_catalog  # noqa: E402
 
@@ -122,6 +125,22 @@ def frontmatter(text: str) -> dict[str, str]:
         key, value = line.split(":", 1)
         fields[key.strip()] = value.strip().strip('"\'')
     return fields
+
+
+def is_private_gate(value: object) -> bool:
+    return public_catalog.is_private_gate(value)
+
+
+def is_public_record(record: dict) -> bool:
+    return public_catalog.is_public_record(record)
+
+
+def record_key(record: dict) -> str:
+    return public_catalog.record_key(record)
+
+
+def scoped_records(records: list[dict], current: dict | None) -> list[dict]:
+    return public_catalog.scoped_records(records, current)
 
 
 SECRET_ASSIGNMENT_RE = re.compile(
@@ -321,7 +340,14 @@ def load_catalog() -> list[dict]:
         add_issue("search_catalog_mismatch", catalog_path, "catalog records must be an array")
         return []
     clean_records = [public_catalog.with_identity_fields(record) for record in records if isinstance(record, dict)]
-    keys = Counter(public_catalog.record_key(record) for record in clean_records if public_catalog.record_key(record))
+    for record in clean_records:
+        if str(record.get("scope") or "").strip().lower() == "admin":
+            add_issue(
+                "admin_scope_public_artifact",
+                catalog_path,
+                f"public catalog record uses admin scope: {record_key(record)}",
+            )
+    keys = Counter(record_key(record) for record in clean_records if record_key(record))
     duplicates = sorted(key for key, count in keys.items() if count > 1)
     if duplicates:
         add_issue("search_catalog_mismatch", catalog_path, f"duplicate catalog records: {duplicates[:5]}")
@@ -406,6 +432,13 @@ else:
     text_suffixes = {".css", ".html", ".js", ".json", ".md", ".txt", ".xml"}
     for item in sorted(public_root.rglob("*")):
         if not item.is_file():
+            continue
+        if item.name.endswith(".plaintext.tmp") or item.name.startswith("wikia-gate-plaintext."):
+            add_issue(
+                "plaintext_gate_temp_file",
+                item,
+                "plaintext gate temporary file is present under public output",
+            )
             continue
         if item.suffix.lower() not in text_suffixes:
             continue

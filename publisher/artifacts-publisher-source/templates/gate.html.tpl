@@ -12,7 +12,7 @@
       </form>
       <div class="ap-gate-footnote">
         <div class="prompt">wikia · aes-256-gcm · pbkdf2 100k</div>
-        Sua senha fica persistente neste browser (localStorage). Limpe os dados do site pra deslogar.
+        Sua senha fica disponível apenas nesta aba/sessão. Feche a aba para deslogar.
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
   const ENCRYPTED_PAYLOAD = "{{ENCRYPTED_PAYLOAD}}";
   const SALT_B64 = "{{SALT}}";
   const IV_B64 = "{{IV}}";
-  // KEY de localStorage é POR BU — senha de uma BU não destrava outra (isolamento multi-tenant).
+  // KEY de sessionStorage é POR BU — senha de uma BU não destrava outra (isolamento multi-tenant).
   // {{BU_SLUG}} é injetado pelo render-artifact ao gerar o HTML. Default cai em "wiki" pra páginas
   // que ainda não passam BU explícita (compat). Para gate de artefato, sempre tem BU.
   const STORAGE_KEY = "wikia-master-key-{{BU_SLUG}}";
@@ -77,8 +77,8 @@
       });
       gate.style.display = 'none';
       mount.style.display = 'block';
-      // localStorage — persiste cross-page e cross-session
-      localStorage.setItem(STORAGE_KEY, pwd);
+      // sessionStorage — persiste entre páginas desta aba, mas não após fechar o browser.
+      sessionStorage.setItem(STORAGE_KEY, pwd);
       // Notifica componentes (mermaid-zoom, comparator, accordion-seq) que conteúdo
       // criptografado foi injetado no DOM e podem (re)inicializar.
       document.dispatchEvent(new CustomEvent('wikia:unlocked', { detail: { html: decrypted } }));
@@ -86,10 +86,10 @@
     } catch (e) { return false; }
   }
 
-  // Auto-unlock: se já tem chave salva no localStorage, tenta
-  const saved = localStorage.getItem(STORAGE_KEY);
+  // Auto-unlock: se já tem chave salva nesta sessão, tenta
+  const saved = sessionStorage.getItem(STORAGE_KEY);
   if (saved) {
-    tryUnlock(saved).then(ok => { if (!ok) localStorage.removeItem(STORAGE_KEY); });
+    tryUnlock(saved).then(ok => { if (!ok) sessionStorage.removeItem(STORAGE_KEY); });
   }
 
   form.addEventListener('submit', async (e) => {

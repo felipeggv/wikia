@@ -105,7 +105,11 @@ require_file "$VALIDATE_SCRIPT"
 mkdir -p "$TMP_PARENT"
 
 RUN_DIR="$(mktemp -d "${TMP_PARENT}/run.XXXXXX")"
-trap 'rm -rf "$RUN_DIR"' EXIT
+cleanup() {
+  rm -rf "$RUN_DIR"
+  rmdir "$TMP_PARENT" "${SOURCE_ROOT}/.test-tmp" 2>/dev/null || true
+}
+trap cleanup EXIT
 
 GOOD_ROOT="${RUN_DIR}/good"
 mkdir -p "$GOOD_ROOT"
@@ -129,6 +133,16 @@ PY
 BAD_ROOT="${RUN_DIR}/bad"
 mkdir -p "${BAD_ROOT}/staging/test-project/public-article" "${BAD_ROOT}/gobbi/private-project/private-article"
 write_catalog "$BAD_ROOT"
+python3 - "${BAD_ROOT}/_catalog.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["records"][1]["scope"] = "admin"
+path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+PY
 cat > "${BAD_ROOT}/search.json" <<'JSON'
 [
   {
@@ -182,6 +196,7 @@ gate: <vault>
 
 # Private body that must not be public
 MD
+printf '%s\n' 'private gate plaintext temp' > "${BAD_ROOT}/gobbi/private-project/private-article/index.html.plaintext.tmp"
 
 BAD_JSON="${RUN_DIR}/bad.json"
 if bash "$VALIDATE_SCRIPT" --public-root "$BAD_ROOT" --json > "$BAD_JSON"; then
@@ -195,7 +210,9 @@ import sys
 payload = json.load(open(sys.argv[1], encoding="utf-8"))
 rules = {issue.get("rule") for issue in payload.get("issues", [])}
 expected = {
+    "admin_scope_public_artifact",
     "plaintext_private_raw_md",
+    "plaintext_gate_temp_file",
     "plaintext_passwords",
     "duplicated_sidebar_wrappers",
     "legacy_wk_tree_tema",
@@ -244,6 +261,8 @@ validate-state.sh
 |---|---|
 | Clean fixture passed with zero issues | PASS |
 | Private gated \`raw.md\` under public output failed | PASS |
+| Plaintext gate temp file under public output failed | PASS |
+| Admin-only scope record in public catalog failed | PASS |
 | Plaintext password-like assignment failed | PASS |
 | Duplicated sidebar wrappers failed | PASS |
 | Legacy \`wk-tree-tema\` marker failed | PASS |

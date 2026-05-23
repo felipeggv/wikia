@@ -216,7 +216,7 @@ Aparece como botão "abrir playground" no body. Click → abre drawer 480px à d
 
 ## Auth — wave 1 (atual)
 
-Senha única do wiki via `localStorage` key `wikia-master-key`. Cross-page. Passa 1x, navega tudo.
+Senha única do wiki via `sessionStorage` key `wikia-master-key`. Cross-page na mesma aba/sessão. Fechou a aba, desloga.
 
 ## Auth — wave 2 (multi-tenant BU)
 
@@ -293,7 +293,7 @@ Critério: se o artigo tem ≥1 conceito visual (framework, fluxo, comparação)
 | Topbar 48px + ⌘K + width toggle | ✅ |
 | Sidebar Obsidian file-tree (icons/indent) | ✅ |
 | Content centered + drawer right | ✅ |
-| AES-GCM gate cross-page (localStorage) | ✅ |
+| AES-GCM gate cross-page por sessão (sessionStorage) | ✅ |
 | HTML inline passthrough | ✅ |
 | Componentes: comparator, accordion-seq, mermaid-zoom, callout, playground | ✅ |
 | Mermaid auto-injeta curve: linear | ✅ |

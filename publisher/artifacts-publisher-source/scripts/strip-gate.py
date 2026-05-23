@@ -11,9 +11,9 @@ Two operating modes, auto-detected:
    content.
 
 2) Already-gated HTML (defensive case): {{GATE_BLOCK}} is gone,
-   template is gone, gate <script id="ap-gate-script"> + gate UI live
-   in the body. We strip the gate <script> and the surrounding
-   #ap-gate wrapper if present.
+   template is gone, gate <script id="ap-gate-script"> + gate UI/CSS live
+   in the body. We strip the gate <script>, gate CSS, and the surrounding
+   .ap-gate-wrap/#ap-gate wrapper if present.
 
 Usage:
     python3 strip-gate.py <html-file>
@@ -31,6 +31,20 @@ GATE_SCRIPT_RE = re.compile(
     r'<script\b[^>]*\bid=["\']ap-gate-script["\'][^>]*>.*?</script\s*>',
     re.IGNORECASE | re.DOTALL,
 )
+STYLE_BLOCK_RE = re.compile(r"<style\b[^>]*>.*?</style\s*>", re.IGNORECASE | re.DOTALL)
+GATE_WRAP_OPEN_RE = re.compile(
+    r'<div\b(?=[^>]*\bclass\s*=\s*["\'][^"\']*\bap-gate-wrap\b)',
+    re.IGNORECASE,
+)
+GATE_DIV_OPEN_RE = re.compile(
+    r'<div\b(?=[^>]*\bid\s*=\s*["\']ap-gate["\'])',
+    re.IGNORECASE,
+)
+GATE_MOUNT_OPEN_RE = re.compile(
+    r'<div\b(?=[^>]*\bid\s*=\s*["\']ap-content-mount["\'])',
+    re.IGNORECASE,
+)
+DIV_TAG_RE = re.compile(r"</?div\b[^>]*>", re.IGNORECASE)
 
 
 def extract_template_content(html: str) -> tuple[str, str]:
@@ -65,6 +79,37 @@ def extract_template_content(html: str) -> tuple[str, str]:
     return stripped, inner
 
 
+def remove_balanced_div_block(html: str, start: int) -> str:
+    depth = 0
+    for match in DIV_TAG_RE.finditer(html, start):
+        tag = match.group(0)
+        if tag.startswith("</"):
+            depth -= 1
+            if depth == 0:
+                return html[:start] + html[match.end():]
+        else:
+            depth += 1
+    raise SystemExit("ERR: unbalanced gate <div> in HTML")
+
+
+def strip_already_gated_scaffold(html: str) -> str:
+    for open_re in (GATE_WRAP_OPEN_RE, GATE_DIV_OPEN_RE, GATE_MOUNT_OPEN_RE):
+        while True:
+            match = open_re.search(html)
+            if not match:
+                break
+            html = remove_balanced_div_block(html, match.start())
+
+    def strip_gate_style(match: re.Match[str]) -> str:
+        block = match.group(0)
+        markers = ("ap-gate-wrap", "ap-gate-card", "#ap-gate", ".ap-gate-err")
+        return "" if any(marker in block for marker in markers) else block
+
+    html = STYLE_BLOCK_RE.sub(strip_gate_style, html)
+    html = GATE_SCRIPT_RE.sub("", html)
+    return html
+
+
 def strip_gate(html_path: Path) -> None:
     html = html_path.read_text(encoding="utf-8")
 
@@ -74,9 +119,9 @@ def strip_gate(html_path: Path) -> None:
         # Mode 1: placeholder still present — replace with unwrapped content.
         stripped = stripped.replace("{{GATE_BLOCK}}", inner)
 
-    # Mode 2 (also defensive): if a gate <script id="ap-gate-script"> survived
-    # (e.g. file was already gated), remove it.
-    stripped = GATE_SCRIPT_RE.sub("", stripped)
+    # Mode 2 (also defensive): if a gate shell survived (e.g. file was already
+    # gated), remove the UI wrapper, gate CSS, and decrypt script.
+    stripped = strip_already_gated_scaffold(stripped)
 
     html_path.write_text(stripped, encoding="utf-8")
 
