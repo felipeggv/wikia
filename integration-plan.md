@@ -3,67 +3,75 @@
 Date: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Integration branch: `improve/release-integration`
+Current HEAD before this run: `56fa9cf`
 
 ```text
-lane branches
-     |
-     v
+lane refs, local and origin
+        |
+        v
 improve/release-integration
-     |
-     v
-publisher syntax checks
-     |
-     v
-integrated test suite
+        |
+        v
+syntax checks
+        |
+        v
+integrated publisher tests
 ```
 
 ## Scope
 
 Run PHASE-04 without deploy:
 
-1. Fetch and review all Wikia lane branches.
-2. Merge lane outputs into `improve/release-integration`.
-3. Run syntax checks after each merge.
-4. Run the integrated publisher test suite under `publisher/artifacts-publisher-source/tests`.
+1. Review lane outputs from local branches and origin branches.
+2. Write this integration plan before merge commands.
+3. Merge lane refs into `improve/release-integration`.
+4. Run syntax checks and integrated publisher tests.
+5. Do not deploy.
 
 ## Branch Inputs
 
-| Lane | Local branch | Origin branch | Local vs origin |
-| --- | --- | --- | --- |
-| catalog-state | `build/catalog-state` | `origin/build/catalog-state` | same commit |
-| render-navigation | `build/render-navigation` | `origin/build/render-navigation` | same commit |
-| security-permissions | `build/security-permissions` | `origin/build/security-permissions` | same commit |
-| publish-validation | `fix/publish-validation` | `origin/fix/publish-validation` | local was 1 commit ahead |
-| admin-ux | `fix/admin-ux` | `origin/fix/admin-ux` | same commit |
+The branch comparison below was taken after `git fetch --all --prune`.
+`HEAD-only / ref-only` means commits only on the integration branch versus commits only on that ref.
+
+| Lane | Local ref | Origin ref | HEAD-only / ref-only | Decision |
+| --- | --- | --- | --- | --- |
+| catalog-state | no active local ref | no active origin lane ref | covered by merge `50fdfa8` | Do not merge `origin/main`; catalog lane content is already in this branch, while `origin/main` also carries non-lane orchestration commits. |
+| render-navigation | `build/render-navigation` | `origin/build/render-navigation` | `22 / 0` for both | Merge local and origin refs; expected no-op because both are already ancestors. |
+| security-permissions | `build/security-permissions` | `origin/build/security-permissions` | `22 / 0` for both | Merge local and origin refs; expected no-op because both are already ancestors. |
+| publish-validation | `fix/publish-validation` | `origin/fix/publish-validation` | local `24 / 0`, origin `25 / 0` | Merge origin first, then local; local contains one commit not pushed to origin and is already integrated. |
+| admin-ux | `fix/admin-ux` | `origin/fix/admin-ux` | `24 / 0` for both | Merge local and origin refs; expected no-op because both are already ancestors. |
 
 ## Merge Order
 
-1. `build/catalog-state`
-2. `build/render-navigation`
-3. `build/security-permissions`
-4. `origin/fix/publish-validation`
-5. `fix/publish-validation`
-6. `fix/admin-ux`
+1. Verify catalog-state is already present through `50fdfa8`.
+2. `origin/build/render-navigation`
+3. `build/render-navigation`
+4. `origin/build/security-permissions`
+5. `build/security-permissions`
+6. `origin/fix/publish-validation`
+7. `fix/publish-validation`
+8. `origin/fix/admin-ux`
+9. `fix/admin-ux`
 
-This order put catalog contracts first, navigation second, security and publish validation next, and admin UX last.
+## Conflict Forecast
 
-## Conflict Forecast And Actual Resolution
+No new conflicts are expected for active lane refs because each listed lane ref is already an ancestor of `HEAD`.
 
-Initial `git merge-tree --write-tree HEAD <branch>` checks returned clean trees for each lane in isolation. Sequential integration still produced header and expectation conflicts because multiple lanes touched the same tests.
+```text
+lane ref
+   |
+   v
+already inside HEAD
+   |
+   v
+merge command should report "Already up to date."
+```
 
-Resolved conflict areas:
+If a merge unexpectedly opens conflicts, resolve only generated publisher/test integration conflicts inside this worktree, run syntax checks again, and avoid deploy commands.
 
-| Area | Resolution |
-| --- | --- |
-| Test temp roots | Kept configurable test roots and isolated temp directories. |
-| Catalog hashes | Updated fixtures to use valid SHA-256 `raw_hash` values. |
-| Admin scope navigation | Chose safer behavior: admin scope falls back to the current article instead of expanding public navigation. |
-| Admin UX smoke marker | Updated smoke assertion to the current admin copy while preserving the encrypted `_admin.enc` contract. |
-| Security fixtures | Added required catalog fields so stricter schema validation and security assertions both pass. |
+## Validation Plan
 
-## Post-Merge Checks
-
-Syntax checks used:
+Syntax checks:
 
 ```bash
 find publisher/artifacts-publisher-source/scripts publisher/artifacts-publisher-source/tests -name '*.sh' -print0 | xargs -0 -n1 bash -n
@@ -71,7 +79,7 @@ find publisher/artifacts-publisher-source/scripts -name '*.py' -print0 | xargs -
 find publisher/artifacts-publisher-source/scripts publisher/artifacts-publisher-source/templates -name '*.mjs' -print0 | xargs -0 -n1 node --check
 ```
 
-Integrated tests used:
+Integrated publisher tests:
 
 ```bash
 for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
@@ -79,4 +87,4 @@ for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
 done
 ```
 
-Final result: 22 publisher tests passed. No deploy commands were run.
+Deploy commands are intentionally excluded.
