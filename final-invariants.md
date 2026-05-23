@@ -18,7 +18,7 @@ related:
 # Wikia Final Invariants
 
 Data: 2026-05-23
-Atualizado: 2026-05-23 11:40:48 -0300
+Atualizado: 2026-05-23 11:43:54 -0300
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
 HEAD verificado: `4aff241e4681a1b5ab832e63aaf4d1f71f7914dd`
@@ -42,7 +42,7 @@ handoff 05F PASS sem deploy
 
 ## Resumo Executivo
 
-Status final verdadeiro: **PASS**.
+Status final verdadeiro: **PASS**. 05A-05E: **PASS**.
 
 Traducao ELI5: a loja, o estoque, a busca e o painel administrativo agora
 apontam para o mesmo cadastro. As cinco lanes finais foram relidas como PASS, a

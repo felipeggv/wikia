@@ -16,7 +16,7 @@ related:
 Target: `https://app.clickup.com/t/86ahk42ad`
 Status: rascunho apenas. Nao postado no ClickUp.
 Data: 2026-05-23
-Atualizado: 2026-05-23 11:40:48 -0300
+Atualizado: 2026-05-23 11:43:54 -0300
 
 ## Titulo
 
@@ -38,7 +38,7 @@ Consolidacao final 05F executada em
 na branch `improve/release-integration`, HEAD
 `4aff241e4681a1b5ab832e63aaf4d1f71f7914dd`.
 
-Resultado final: **PASS**.
+Resultado final: **PASS**, com 05A-05E **PASS**.
 
 A 05A `catalog-state` foi revalidada como PASS antes desta consolidacao. Todos
 os cinco `lane-final-checks` foram relidos como PASS, a suite integrada do

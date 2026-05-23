@@ -15,7 +15,7 @@ related:
 # Wikia Release Handoff
 
 Data: 2026-05-23
-Atualizado: 2026-05-23 11:40:48 -0300
+Atualizado: 2026-05-23 11:43:54 -0300
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
 HEAD verificado: `4aff241e4681a1b5ab832e63aaf4d1f71f7914dd`
@@ -37,7 +37,7 @@ release handoff = PASS sem deploy
 
 ## Resumo Executivo
 
-**Handoff 05F aprovado localmente.** A consolidacao final foi rerodada depois
+**Handoff 05F aprovado localmente. Resultado final: PASS com 05A-05E PASS.** A consolidacao final foi rerodada depois
 da 05A ser revalidada como PASS. A branch `improve/release-integration` nao tem
 conflitos abertos, a suite integrada do publisher passou `22/22`, e o validador
 do output publico retornou `issue_count: 0`.
