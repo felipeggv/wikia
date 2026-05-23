@@ -3,10 +3,11 @@
 Date: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-Validated code HEAD: `26c7767`
+Validated code HEAD: `575f18e25379`
 Test log: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/.maestro/state/integration-test-logs/20260523-094846/summary.txt`
 
 No deploy commands were run.
+After the plan/evidence refresh commit, the syntax checks and full publisher suite were rerun on HEAD `575f18e25379`.
 
 ```text
 lane refs + origin carrier
@@ -34,6 +35,23 @@ PASS
 | `publish-validation` | Lane branch is pruned; content is contained through carrier `d4691bf`, integration merge `a0d2368`, and `origin/main`. |
 | `admin-ux` | Local `fix/admin-ux` and `origin/fix/admin-ux` are contained by `improve/release-integration`. |
 | `origin/main` | Merged as carrier commit `26c7767`; no file-level diff from pre-merge `aa678f1`. |
+
+## Current HEAD Revalidation
+
+| Check | Result |
+| --- | --- |
+| Current HEAD | `575f18e25379` |
+| Conflicted paths | PASS, none found |
+| Shell syntax | PASS |
+| Python compile | PASS |
+| Node `.mjs` syntax | PASS |
+| Publisher tests | PASS, `22/22` |
+| `validate-state.sh --json` | PASS, `ok: true`, `issue_count: 0` |
+| `_catalog.json` | PASS, `8` records |
+| `search.json` | PASS, `4` records |
+| `_released.json` | PASS, `0` records |
+| `docs/gitpages/**/*.html` | `21` pages |
+| `private-source` tracked by Git | PASS, no files |
 
 ## Conflict Check
 
