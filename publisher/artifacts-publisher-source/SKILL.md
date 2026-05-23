@@ -1,6 +1,6 @@
 ---
 name: artifacts-publisher
-description: "Publica artefatos em wikia — blog/wiki interno do Felipe Gobbi. Maestro dark green theme, 100% JetBrains Mono, Obsidian file-tree sidebar, layout centered com toggle compact/wide, AES-GCM gate cross-page, componentes pedagógicos (comparator/accordion-seq/mermaid-zoom/callout/playground), drawer lateral pra playgrounds interativos. Multi-tenant por BU em wave 2."
+description: "Publica artigos na Wikia como CMS, usando private-source como fonte privada, catalogo unico como estado canonico, docs/gitpages como saida gerada para GitHub Pages, admin criptografado, navegacao por BU/projeto/artigo, validacao de estado e gate AES-GCM por sessao."
 allowed-tools:
   - Read
   - Write
@@ -18,9 +18,10 @@ allowed-tools:
 **URL base:** `https://felipeggv.github.io/wikia/gitpages/`
 
 **Usage:**
-- `/global:skills:artifacts-publisher "<título>" --content <md> [flags]`
-- `--full` invoca **visual-explainer** automaticamente
-- `--enrich` adiciona Codex + Gemini routing
+- Fonte de verdade: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source/{bu}/{project}/{slug}/raw.md`
+- Publisher: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/publisher/artifacts-publisher-source/scripts/publish.sh`
+- Saida publica gerada: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/docs/gitpages`
+- URL base: `https://felipeggv.github.io/wikia/gitpages/`
 
 ---
 
@@ -28,29 +29,108 @@ allowed-tools:
 
 ## Filosofia
 
-Blog interno em **GitHub Pages**, com gate AES, layout estilo Obsidian + Mintlify + Linear docs. Audiência: não-dev (estratégia, marketing, design). Tipografia Maestro real (100% JetBrains Mono, EM-based).
+Wikia e um CMS estatico: o usuario escreve fontes privadas, o publisher gera catalogo/admin/search/paginas, e o GitHub Pages serve apenas o resultado. Nao trate `docs/gitpages` como editor manual. Analogia: `private-source` e o estoque, o catalogo e o ERP, `docs/gitpages` e a vitrine.
+
+## Regras duras
+
+1. Nunca commitar `private-source/**`.
+2. Nunca editar HTML gerado como fonte de verdade.
+3. Nunca hardcodar arvore de navegacao em pagina gerada.
+4. Admin, busca, sidebar, BU pages, project pages e article pages devem sair do mesmo catalogo.
+5. Sempre validar antes de push/deploy.
+6. Nunca passar masterpass em texto claro no argumento; use stdin, arquivo local seguro ou `WIKIA_MASTERPASS`.
 
 ## Arquitetura
 
 ```
-felipeggv/wikia (atual — wave 1)
-  /docs/.nojekyll
-  /docs/gitpages/
-    index.html              ← chronological feed
-    search.json             ← full-text index
-    research/
-      <tema>/
-        artifacts/
-          <slug>/
-            index.html      ← gated AES-GCM
-            raw.md          ← source
+private-source/{bu}/{project}/{slug}/raw.md
+   |
+   v
+publish.sh + sync-cms-state.py + public_catalog.py
+   |
+   +-- docs/gitpages/_catalog.json
+   +-- docs/gitpages/_admin.enc
+   +-- docs/gitpages/_passwords.enc
+   +-- docs/gitpages/search.json
+   +-- docs/gitpages/{bu}/index.html
+   +-- docs/gitpages/{bu}/{project}/index.html
+   +-- docs/gitpages/{bu}/{project}/{slug}/index.html
+   |
+   v
+https://felipeggv.github.io/wikia/gitpages/
+```
 
-WAVE 2 (em desenvolvimento):
-felipeggv/wikia-vitascience  ← BU: health
-felipeggv/wikia-aleyemma     ← BU: marketing LATAM
-felipeggv/wikia-case         ← BU: healthcare profs
-felipeggv/wikia-personal     ← BU: pessoal
-felipeggv/wikia              ← central admin (agrega todas)
+Modelo de agrupamento:
+
+| Nivel | Origem | Saida |
+|---|---|---|
+| BU | `bu` no frontmatter/path | `/gitpages/{bu}/` |
+| Projeto | `project` no frontmatter/path | `/gitpages/{bu}/{project}/` |
+| Artigo | `slug` no frontmatter/path | `/gitpages/{bu}/{project}/{slug}/` |
+| Recencia | `updated`/mtime/catalogo | home, search e recents |
+| Permissao | `gate_status`, `release_status`, `scope` | gate, admin e navegacao |
+
+Frontmatter minimo:
+
+```markdown
+---
+title: "Titulo do artigo"
+bu: gobbi
+project: skills
+slug: design-first-dev-workflow
+tags:
+  - workflow
+  - design
+gate: article
+---
+```
+
+Comando de validacao para novo artigo:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
+bash publisher/artifacts-publisher-source/scripts/publish.sh \
+  --title "Titulo do artigo" \
+  --content /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source/gobbi/skills/design-first-dev-workflow/raw.md \
+  --bu gobbi \
+  --project skills \
+  --slug design-first-dev-workflow \
+  --private-source-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source \
+  --validate
+```
+
+Comando de publicacao controlada:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
+bash publisher/artifacts-publisher-source/scripts/publish.sh \
+  --title "Titulo do artigo" \
+  --content /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source/gobbi/skills/design-first-dev-workflow/raw.md \
+  --bu gobbi \
+  --project skills \
+  --slug design-first-dev-workflow \
+  --private-source-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source
+```
+
+Comando para aplicar mudancas pendentes do admin:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
+printf '%s' "$WIKIA_MASTERPASS" | bash publisher/artifacts-publisher-source/scripts/publish.sh \
+  --title "(apply-pending)" \
+  --rebuild-all \
+  --apply-pending \
+  --private-source-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source \
+  --masterpass -
+```
+
+Validacao final do estado publico:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
+bash publisher/artifacts-publisher-source/scripts/validate-state.sh \
+  --public-root docs/gitpages \
+  --json
 ```
 
 ## Layout 3-zonas
@@ -214,27 +294,17 @@ Aparece como botão "abrir playground" no body. Click → abre drawer 480px à d
 :::
 ```
 
-## Auth — wave 1 (atual)
-
-Senha única do wiki via `sessionStorage` key `wikia-master-key`. Cross-page na mesma aba/sessão. Fechou a aba, desloga.
-
-## Auth — wave 2 (multi-tenant BU)
+## Auth e escopo
 
 ```
-Cada repo tem sua senha:
-  WIKIA_PASS_VITASCIENCE=xxx
-  WIKIA_PASS_ALEYEMMA=yyy
-  WIKIA_PASS_CASE=zzz
-  WIKIA_PASS_PERSONAL=aaa
-
-Você (admin) tem:
-  WIKIA_MASTER=master-pwd → destrava qualquer repo
+article scope  -> so o artigo atual aparece no unlock publico
+project scope  -> artigos do mesmo projeto aparecem no contexto autorizado
+BU scope       -> artigos da mesma BU aparecem no contexto autorizado
+public release -> artigo sem gate, indexado em busca publica
+admin          -> painel criptografado em _admin.enc, nunca navegacao publica
 ```
 
-Inferência da BU usa modelo do **project-registry.yaml** do Q-Processor:
-1. Path do `--content` dentro de `BU-X/` → infere BU
-2. `--bu vitascience` override explícito
-3. Prompt se ambíguo
+O unlock publico usa `sessionStorage`, nao `localStorage`. O admin so monta lista de artigos depois de decryptar `_admin.enc`; antes disso a tela mostra apenas shell bloqueado.
 
 ## Multi-model routing
 
@@ -255,12 +325,10 @@ Critério: se o artigo tem ≥1 conceito visual (framework, fluxo, comparação)
 ## Files
 
 ```
-~/.claude/skills/artifacts-publisher/
+publisher/artifacts-publisher-source/
 ├── SKILL.md                    ← este arquivo
 ├── components/
-│   ├── comparator.html
-│   ├── accordion-seq.html
-│   └── mermaid-zoom.html
+│   └── componentes pedagogicos
 ├── references/
 │   └── theme-fallback.json
 ├── templates/
@@ -274,12 +342,18 @@ Critério: se o artigo tem ≥1 conceito visual (framework, fluxo, comparação)
 │   └── gate.html.tpl
 └── scripts/
     ├── publish.sh              ← orquestrador
+    ├── sync-cms-state.py       ← catalogo + admin metadata
+    ├── public_catalog.py       ← regra unica de visibilidade
+    ├── validate-state.sh       ← invariantes de saida publica
     ├── render-artifact.py
     ├── render-wiki.py
+    ├── render-bu.py
+    ├── render-project.py
+    ├── render-admin.py
     ├── build-search-index.py
     ├── md-to-html.py           ← parser (suporta ::: blocks + HTML passthrough)
-    ├── model-router.sh         ← claude/codex/gemini
-    ├── gate.sh + encrypt.mjs   ← AES-256-GCM
+    ├── gate.sh + encrypt.mjs   ← AES-GCM
+    ├── vault.mjs               ← vault criptografado
     ├── theme-fetch.sh
     └── slugify.sh
 ```
@@ -299,5 +373,9 @@ Critério: se o artigo tem ≥1 conceito visual (framework, fluxo, comparação)
 | Mermaid auto-injeta curve: linear | ✅ |
 | Multi-model routing (Claude/Codex/Gemini) | ✅ |
 | Visual-explainer trigger no --full | ✅ |
-| Multi-tenant por BU + master key | 🚧 wave 2 |
+| Multi-tenant por BU/projeto/artigo | ✅ |
+| Catalogo unico para home/search/sidebar/admin | ✅ |
+| Admin bloqueado antes do unlock | ✅ |
+| Publish validation antes de push | ✅ |
+| Pending changes via admin + rebuild-all | ✅ |
 | Comentários anchor-based (Recogito + Cloudflare D1) | 🚧 wave 3 |
