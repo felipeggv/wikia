@@ -1,0 +1,15 @@
+{
+  "bgMain": "#0c0e0c",
+  "bgSidebar": "#0f100f",
+  "bgActivity": "#141415",
+  "border": "#111311",
+  "textMain": "#f2f2c0",
+  "textDim": "#cec8ba",
+  "accent": "#5b675b",
+  "accentDim": "#262121",
+  "accentText": "#ffffff",
+  "accentForeground": "#262121",
+  "success": "#bed78e",
+  "warning": "#d0a795",
+  "error": "#ff5555"
+}

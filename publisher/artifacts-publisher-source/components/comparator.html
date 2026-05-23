@@ -1,0 +1,46 @@
+<!-- Component: comparator
+     Quando usar: mostrar 2-3 opções/estados pra ensinar por contraste
+     Markup esperado:
+       <div class="ap-comparator" data-comparator>
+         <div class="ap-comp-tabs">
+           <button data-target="opt-a" class="active">Opção A</button>
+           <button data-target="opt-b">Opção B</button>
+         </div>
+         <div class="ap-comp-panels">
+           <div class="ap-comp-panel active" id="opt-a">conteúdo A</div>
+           <div class="ap-comp-panel" id="opt-b">conteúdo B</div>
+         </div>
+       </div>
+-->
+<style>
+  .ap-comparator { margin: var(--space-5) 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg-sidebar); }
+  .ap-comp-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--bg-activity); }
+  .ap-comp-tabs button { flex: 1; padding: var(--space-3) var(--space-4); background: transparent; border: none; border-right: 1px solid var(--border); color: var(--text-dim); font: inherit; font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; cursor: pointer; letter-spacing: 0.03em; transition: all 0.15s; }
+  .ap-comp-tabs button:last-child { border-right: none; }
+  .ap-comp-tabs button:hover { color: var(--text-main); background: var(--accent-dim); }
+  .ap-comp-tabs button.active { color: var(--accent); background: var(--bg-sidebar); border-bottom: 2px solid var(--accent); margin-bottom: -1px; }
+  .ap-comp-panels { padding: var(--space-5); }
+  .ap-comp-panel { display: none; }
+  .ap-comp-panel.active { display: block; animation: apCompFade 0.2s ease-out; }
+  @keyframes apCompFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+<script>
+(function() {
+  function init() {
+    // `:not([data-comp-initialized])` torna a re-execução idempotente —
+    // comparators já wired no run inicial são skipados em runs subsequentes.
+    document.querySelectorAll('[data-comparator]:not([data-comp-initialized])').forEach(comp => {
+      comp.setAttribute('data-comp-initialized', 'true');
+      const tabs = comp.querySelectorAll('.ap-comp-tabs button');
+      const panels = comp.querySelectorAll('.ap-comp-panel');
+      tabs.forEach(t => t.addEventListener('click', () => {
+        const target = t.dataset.target;
+        tabs.forEach(x => x.classList.toggle('active', x === t));
+        panels.forEach(p => p.classList.toggle('active', p.id === target));
+      }));
+    });
+  }
+  init();
+  document.addEventListener('wikia:unlocked', init);
+})();
+</script>

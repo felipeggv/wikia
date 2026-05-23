@@ -1,0 +1,40 @@
+<!-- Component: accordion-seq
+     Quando usar: progressive disclosure de conteúdo sequencial/dependente
+     Markup esperado:
+       <ol class="ap-accordion-seq" data-accordion-seq>
+         <li>
+           <button class="ap-acc-trigger">1. Passo um</button>
+           <div class="ap-acc-body">conteúdo</div>
+         </li>
+         ...
+       </ol>
+-->
+<style>
+  .ap-accordion-seq { list-style: none; padding: 0; margin: var(--space-5) 0; counter-reset: apseq; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .ap-accordion-seq > li { border-bottom: 1px solid var(--border); }
+  .ap-accordion-seq > li:last-child { border-bottom: none; }
+  .ap-acc-trigger { width: 100%; text-align: left; padding: var(--space-4) var(--space-5); background: var(--bg-sidebar); border: none; color: var(--text-main); font: inherit; font-family: var(--font-sans); font-size: var(--text-base); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: var(--space-3); transition: background 0.15s; }
+  .ap-acc-trigger:hover { background: var(--accent-dim); }
+  .ap-acc-trigger::before { content: "▸"; color: var(--accent); transition: transform 0.2s; }
+  .ap-acc-trigger.open::before { transform: rotate(90deg); }
+  .ap-acc-body { padding: 0 var(--space-5); max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; background: var(--bg-main); }
+  .ap-acc-body.open { padding: var(--space-4) var(--space-5) var(--space-5); max-height: 2000px; }
+</style>
+<script>
+(function() {
+  function init() {
+    // Marca o trigger (não o container) — granularidade necessária se um
+    // accordion-seq for parcialmente renderizado em runs separados.
+    document.querySelectorAll('[data-accordion-seq] .ap-acc-trigger:not([data-acc-initialized])').forEach(btn => {
+      btn.setAttribute('data-acc-initialized', 'true');
+      btn.addEventListener('click', () => {
+        const body = btn.nextElementSibling;
+        btn.classList.toggle('open');
+        body.classList.toggle('open');
+      });
+    });
+  }
+  init();
+  document.addEventListener('wikia:unlocked', init);
+})();
+</script>

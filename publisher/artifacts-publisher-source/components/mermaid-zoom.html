@@ -1,0 +1,211 @@
+<!-- Component: mermaid-zoom (viewport grande, pan/zoom funcionais) -->
+<style>
+  .ap-mermaid-zoom {
+    position: relative;
+    background: var(--bg-sidebar);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin: var(--space-5) 0;
+    overflow: hidden;
+    min-height: 520px;
+    height: 520px;
+    width: 100%;
+  }
+  .ap-mermaid-zoom .ap-mz-toolbar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+    background: var(--bg-main);
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .ap-mermaid-zoom:hover .ap-mz-toolbar { opacity: 1; }
+  .ap-mz-toolbar button {
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-dim);
+    cursor: pointer;
+    font: inherit;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ap-mz-toolbar button:hover {
+    color: var(--text-main);
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .ap-mermaid-zoom .mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-4);
+  }
+  .ap-mermaid-zoom pre.mermaid {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    overflow: visible;
+  }
+  .ap-mermaid-zoom svg {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+  }
+  .ap-mermaid-zoom svg:active { cursor: grabbing; }
+  .ap-mz-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 14px;
+    font-family: var(--font);
+    font-size: 10px;
+    color: var(--text-dim);
+    opacity: 0.7;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+</style>
+<script>
+(function() {
+  function loadScript(src) {
+    return new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s);
+    });
+  }
+
+  let mermaidConfigured = false;
+
+  async function init() {
+    // Query DOM on each invocation — wraps podem aparecer após decifragem do gate.
+    const wraps = document.querySelectorAll('[data-mermaid-zoom]:not([data-mz-initialized])');
+    if (!wraps.length) return;
+
+    await loadScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js');
+
+    if (!mermaidConfigured) {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          background: '{{TM_BG_SIDEBAR}}',
+          primaryColor: '{{TM_ACCENT_DIM}}',
+          primaryTextColor: '{{TM_TEXT_MAIN}}',
+          primaryBorderColor: '{{TM_ACCENT}}',
+          lineColor: '{{TM_ACCENT}}',
+          secondaryColor: '{{TM_BG_ACTIVITY}}',
+          tertiaryColor: '{{TM_BG_MAIN}}',
+          fontFamily: '"JetBrains Mono", monospace',
+          fontSize: '13px'
+        }
+      });
+      mermaidConfigured = true;
+    }
+
+    // Batch render: pass ALL mermaid elements to a single mermaid.run() call.
+    // Mermaid 10 isolates failures per-node — one bad block doesn't abort siblings.
+    const elements = [];
+    for (const wrap of wraps) {
+      const el = wrap.querySelector('.mermaid');
+      if (el) elements.push(el);
+    }
+    try {
+      await mermaid.run({ nodes: elements });
+    } catch(e) {
+      console.warn('mermaid batch had partial failures', e);
+    }
+
+    for (const wrap of wraps) {
+      const mermaidEl = wrap.querySelector('.mermaid');
+      if (!mermaidEl) continue;
+      const svg = mermaidEl.querySelector('svg');
+      if (!svg) {
+        // Render failed. Increment retry counter; do NOT mark initialized.
+        const attempts = parseInt(wrap.dataset.mzAttempts || '0', 10);
+        if (attempts >= 3) {
+          console.error('mermaid-zoom giving up after 3 attempts on', wrap);
+          wrap.setAttribute('data-mz-initialized', 'failed');
+        } else {
+          wrap.dataset.mzAttempts = String(attempts + 1);
+        }
+        continue;
+      }
+      // Render succeeded — NOW mark as initialized.
+      wrap.setAttribute('data-mz-initialized', 'true');
+
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '100%');
+      svg.removeAttribute('style');
+      svg.style.maxWidth = '100%';
+      svg.style.maxHeight = '100%';
+
+      const pz = svgPanZoom(svg, {
+        zoomEnabled: true,
+        controlIconsEnabled: false,
+        fit: true,
+        center: true,
+        contain: true,
+        minZoom: 0.3,
+        maxZoom: 8,
+        zoomScaleSensitivity: 0.3,
+        dblClickZoomEnabled: true
+      });
+
+      const tb = document.createElement('div');
+      tb.className = 'ap-mz-toolbar';
+      tb.innerHTML = '<button data-act="in" title="Zoom in">+</button><button data-act="out" title="Zoom out">−</button><button data-act="reset" title="Reset view">⊙</button><button data-act="full" title="Fullscreen">⛶</button>';
+      wrap.appendChild(tb);
+      tb.querySelector('[data-act=in]').addEventListener('click', (e) => { e.stopPropagation(); pz.zoomIn(); });
+      tb.querySelector('[data-act=out]').addEventListener('click', (e) => { e.stopPropagation(); pz.zoomOut(); });
+      tb.querySelector('[data-act=reset]').addEventListener('click', (e) => { e.stopPropagation(); pz.reset(); pz.fit(); pz.center(); });
+      tb.querySelector('[data-act=full]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement) { wrap.requestFullscreen?.(); }
+        else { document.exitFullscreen?.(); }
+        setTimeout(() => { pz.resize(); pz.fit(); pz.center(); }, 100);
+      });
+
+      const hint = document.createElement('div');
+      hint.className = 'ap-mz-hint';
+      hint.textContent = 'scroll = zoom · drag = pan · ⛶ fullscreen';
+      wrap.appendChild(hint);
+
+      window.addEventListener('resize', () => { pz.resize(); pz.fit(); pz.center(); });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => { setTimeout(() => { pz.resize(); pz.fit(); pz.center(); }, 50); });
+      }
+    }
+  }
+
+  // Run inicial (chassi/conteúdo já no DOM).
+  init().catch(e => console.error('mermaid-zoom init failed', e));
+
+  // Re-init quando gate decifra novo conteúdo. Idempotência via
+  // `:not([data-mz-initialized])` no selector + setAttribute antes de processar.
+  document.addEventListener('wikia:unlocked', () => {
+    init().catch(e => console.error('mermaid-zoom re-init failed', e));
+  });
+})();
+</script>

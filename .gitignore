@@ -1,0 +1,8 @@
+private-source/
+.maestro/archive/
+.maestro/evidence/
+.maestro/state/
+.DS_Store
+*.pyc
+__pycache__/
+

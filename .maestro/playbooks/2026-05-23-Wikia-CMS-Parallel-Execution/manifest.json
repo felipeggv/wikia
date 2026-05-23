@@ -1,0 +1,42 @@
+{
+  "name": "Wikia CMS Parallel Execution",
+  "created": "2026-05-23",
+  "status": "scaffolded",
+  "app_root": "/Users/felipegobbi/Documents/VibeworkV2/apps/wikia",
+  "worktree_root": "/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees",
+  "group_id": "group-cb18689b-21be-4369-9397-090ab09c3786",
+  "clickup_parent": "86ahk42ad",
+  "lanes": [
+    {
+      "name": "catalog-state",
+      "branch": "build/catalog-state",
+      "worktree": "/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state"
+    },
+    {
+      "name": "render-navigation",
+      "branch": "build/render-navigation",
+      "worktree": "/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-render-navigation"
+    },
+    {
+      "name": "admin-ux",
+      "branch": "fix/admin-ux",
+      "worktree": "/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-admin-ux"
+    },
+    {
+      "name": "security-permissions",
+      "branch": "build/security-permissions",
+      "worktree": "/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-security-permissions"
+    },
+    {
+      "name": "publish-validation",
+      "branch": "fix/publish-validation",
+      "worktree": "/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation"
+    },
+    {
+      "name": "release-integration",
+      "branch": "improve/release-integration",
+      "worktree": "/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration"
+    }
+  ]
+}
+
