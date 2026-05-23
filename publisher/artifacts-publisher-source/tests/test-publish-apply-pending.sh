@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-$(cd "$TEST_DIR/.." && pwd)}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 PUBLISH_SCRIPT="${SOURCE_ROOT}/scripts/publish.sh"
 VAULT_SCRIPT="${SOURCE_ROOT}/scripts/vault.mjs"
 SYNC_STATE_SCRIPT="${SOURCE_ROOT}/scripts/sync-cms-state.py"
 APPLY_PENDING_SCRIPT="${SOURCE_ROOT}/scripts/apply-pending.py"
-TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/publish-apply-pending-tests}"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/publish-apply-pending-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -43,7 +44,7 @@ mkdir -p "$TMP_PARENT"
 RUN_DIR="$(mktemp -d "${TMP_PARENT}/run.XXXXXX")"
 cleanup() {
   rm -rf "$RUN_DIR"
-  rmdir "$TMP_PARENT" "${SOURCE_ROOT}/.test-tmp" 2>/dev/null || true
+  rmdir "$TMP_PARENT" "$APP_ROOT/.tmp/wikia-tests" "$APP_ROOT/.tmp" 2>/dev/null || true
 }
 trap cleanup EXIT
 
@@ -219,7 +220,7 @@ SH
 chmod +x "${FAKE_BIN}/gh"
 
 VALIDATE_JSON="${RUN_DIR}/validate.json"
-if ! PUBLISH_TEST_ORIGIN="$ORIGIN_REPO" REAL_GIT="$REAL_GIT" PATH="${FAKE_BIN}:$PATH" \
+if ! PUBLISH_TEST_ORIGIN="$ORIGIN_REPO" REAL_GIT="$REAL_GIT" WIKIA_PUBLISH_TMP_PARENT="${RUN_DIR}/publish-workdirs" PATH="${FAKE_BIN}:$PATH" \
   bash "$PUBLISH_SCRIPT" \
       --apply-pending \
       --repo fixture/wiki \

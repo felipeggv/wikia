@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-$(cd "$TEST_DIR/.." && pwd)}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 VALIDATE_SCRIPT="${SOURCE_ROOT}/scripts/validate-state.sh"
-TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/validate-state-tests}"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/validate-state-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -107,7 +108,7 @@ mkdir -p "$TMP_PARENT"
 RUN_DIR="$(mktemp -d "${TMP_PARENT}/run.XXXXXX")"
 cleanup() {
   rm -rf "$RUN_DIR"
-  rmdir "$TMP_PARENT" "${SOURCE_ROOT}/.test-tmp" 2>/dev/null || true
+  rmdir "$TMP_PARENT" "$APP_ROOT/.tmp/wikia-tests" "$APP_ROOT/.tmp" 2>/dev/null || true
 }
 trap cleanup EXIT
 
