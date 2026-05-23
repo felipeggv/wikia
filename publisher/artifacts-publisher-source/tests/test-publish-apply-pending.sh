@@ -442,6 +442,7 @@ admin, search, home, BU, project, article pages
 | Search, home, BU, and project pages reflected released state | PASS |
 | Released article rendered without gate | PASS |
 | Gated article pages rendered with encrypted gates | PASS |
+| Gated article unlock persistence is session-only | PASS |
 | Removed article page was deleted | PASS |
 | No public output leaked private fixture markers | PASS |
 | Fake git push guard was not triggered | PASS |
