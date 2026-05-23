@@ -62,6 +62,30 @@ released JSON        -> 0 records
 HTML pages           -> 21 files
 ```
 
+## Lane Final Checks
+
+```text
+lane worktrees
+     |
+     v
+lane-final-checks/*.md
+     |
+     v
+handoff integrado
+```
+
+| Lane | Evidencia encontrada | Estado |
+| --- | --- | --- |
+| Publish validation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md` | PASS. O arquivo declara `14/14` testes focados passando e nenhum deploy. |
+| Catalog state | Nenhum `lane-final-checks/*.md` encontrado | Bloqueado como evidencia final de lane, mas `verify/catalog-state-final` esta integrado por ancestralidade. |
+| Render navigation | Nenhum `lane-final-checks/*.md` encontrado | Bloqueado como evidencia final de lane, mas `build/render-navigation` esta integrado por ancestralidade. |
+| Security permissions | Nenhum `lane-final-checks/*.md` encontrado | Bloqueado como evidencia final de lane, mas `build/security-permissions` esta integrado por ancestralidade. |
+| Admin UX | Nenhum `lane-final-checks/*.md` encontrado | Bloqueado como evidencia final de lane, mas `fix/admin-ux` esta integrado por ancestralidade. |
+
+## Screenshots
+
+0 screenshots capturados nesta etapa. A verificacao foi feita por checks deterministas de shell, Python, Node, HTML e JSON.
+
 ## Estado de Branch
 
 ```text
@@ -100,8 +124,93 @@ Refs ativos checados:
 | `origin/build/security-permissions` | Integrado por ancestralidade. |
 | `origin/fix/publish-validation` | Ausente. |
 | `fix/publish-validation` | Ausente. |
+| `verify/publish-validation-final` | Sidecar de verificacao em `cf5b7a8`; contem final check e nao foi mesclado. |
+| `origin/verify/publish-validation-final` | Sidecar de verificacao em `cf5b7a8`; contem final check e nao foi mesclado. |
+| `verify/catalog-state-final` | Integrado por ancestralidade. |
 | `origin/fix/admin-ux` | Integrado por ancestralidade. |
 | `fix/admin-ux` | Integrado por ancestralidade. |
+
+## Riscos Conhecidos
+
+| Risco | Impacto | Mitigacao |
+| --- | --- | --- |
+| Alguns `lane-final-checks/*.md` nao existem | Handoff tem menos evidencia direta dessas lanes, embora os refs de implementacao estejam integrados. | Manter esta ressalva no release e pedir checks finais por lane se a aprovacao exigir evidencia por time. |
+| `verify/publish-validation-final` e sidecar, nao ancestral do `HEAD` | Merging cego poderia apagar/embaralhar os arquivos de handoff porque a branch e de verificacao, nao carrier de implementacao. | Usar o arquivo como evidencia lida; nao mesclar sem plano especifico. |
+| Sem screenshots nesta etapa | QA visual/admin real ainda nao foi comprovado por imagem. | Rodar QA visual separado antes de publicar. |
+| Admin real nao foi desbloqueado com masterpass real | O fluxo esta coberto por testes, mas segredo real nao circulou neste handoff. | Validar com dono do segredo em etapa separada. |
+| `main` local diverge de `origin/main` | Promocao manual pode misturar historico local antigo. | Promover a partir de `origin/main` atualizado e revisar diff antes do push. |
+
+## Rollback
+
+```text
+deploy ruim
+   |
+   v
+git revert
+   |
+   v
+push em main
+```
+
+Rollback de um commit simples:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
+git checkout main
+git pull --ff-only origin main
+git revert --no-edit <deploy_commit_sha>
+git push origin main
+```
+
+Rollback de uma promocao por merge:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
+git checkout main
+git pull --ff-only origin main
+git revert -m 1 --no-edit <merge_commit_sha>
+git push origin main
+```
+
+## Comandos Futuros De Promocao / Deploy
+
+Nao executados nesta etapa.
+
+Promover branch integrada para `main`:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
+git fetch origin --prune
+git checkout main
+git pull --ff-only origin main
+git merge --no-ff improve/release-integration
+git push origin main
+```
+
+Validar publisher sem push:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration
+WIKIA_MASTERPASS='<ler-do-cofre-sem-commitar>' \
+WIKIA_PRIVATE_SOURCE_ROOT=/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source \
+bash publisher/artifacts-publisher-source/scripts/publish.sh \
+  --repo felipeggv/wikia \
+  --rebuild-all \
+  --private-source-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source \
+  --validate
+```
+
+Deploy real futuro do rebuild completo:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration
+WIKIA_MASTERPASS='<ler-do-cofre-sem-commitar>' \
+WIKIA_PRIVATE_SOURCE_ROOT=/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source \
+bash publisher/artifacts-publisher-source/scripts/publish.sh \
+  --repo felipeggv/wikia \
+  --rebuild-all \
+  --private-source-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia/private-source
+```
 
 ## Nao Fazer
 

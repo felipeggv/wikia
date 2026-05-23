@@ -1,5 +1,8 @@
 # ClickUp Update Draft
 
+Target: `https://app.clickup.com/t/86ahk42ad`
+Status: rascunho apenas. Nao postado no ClickUp.
+
 ## Titulo
 
 Wikia release integration: verificacao final concluida sem deploy
@@ -43,6 +46,19 @@ Resultado principal: PASS. Nao houve deploy.
 ## Evidencia Base
 
 Usei `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` como evidencia historica da integracao e revalidei o estado atual da branch no `HEAD` `8fd3537`.
+
+## Lane Checks
+
+```text
+lane checks
+   |
+   +-- publish-validation -> PASS encontrado
+   +-- outras lanes       -> sem arquivo lane-final-checks
+```
+
+Encontrei e li `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md`: PASS, `14/14` testes focados passando, sem deploy.
+
+Nao encontrei `lane-final-checks/*.md` nas lanes de catalog state, render navigation, security permissions e admin UX. Os refs de implementacao dessas lanes continuam integrados por ancestralidade, mas a evidencia final por lane ficou ausente.
 
 ## Ressalva
 

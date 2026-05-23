@@ -56,7 +56,7 @@ checks finais repetidos
 | Suite integrada do publisher esta verde | PASS | `22/22` scripts em `publisher/artifacts-publisher-source/tests/test-*.sh` passaram. |
 | Estado publico gerado esta consistente | PASS | `validate-state.sh --json` retornou `ok: true` e `issue_count: 0`. |
 | JSONs publicos principais abrem corretamente | PASS | `_catalog.json`, `search.json` e `_released.json` parsearam. |
-| Refs ativos conhecidos estao integrados | PASS com ressalva | Refs existentes sao ancestrais; alguns refs antigos aparecem como ausentes/pruned. |
+| Lanes de implementacao conhecidas estao integradas | PASS com ressalva | Refs de implementacao existentes sao ancestrais; a verificacao final de publish-validation existe em branch sidecar e foi lida como evidencia, nao mesclada. |
 
 ## Resultado dos Checks
 
@@ -74,6 +74,51 @@ checks finais repetidos
 | `search.json` | PASS, `4` registros |
 | `_released.json` | PASS, `0` registros |
 | `docs/gitpages/**/*.html` | `21` paginas |
+
+## Contagens CMS
+
+```text
+_catalog.json
+   |
+   +-- 8 registros totais
+   +-- 4 registros publicos
+           |
+           v
+        search.json = 4 registros
+```
+
+| Superficie | Resultado |
+| --- | --- |
+| Catalogo total | `8` registros |
+| Catalogo publico | `4` registros |
+| Busca publica | `4` registros |
+| URLs publicas do catalogo vs busca | PASS, iguais |
+| HTML gerado | `21` paginas |
+| `docs/gitpages/admin/index.html` carrega `_admin.enc` | PASS |
+| Wrapper admin `<nav class="wk-sidebar-nav">` | PASS, `1` ocorrencia |
+| Root admin `<ul class="wk-tree">` | PASS, `1` ocorrencia |
+| `docs/gitpages/**/raw.md` publico | PASS, `0` arquivos |
+| `raw.md` publico rastreado | PASS, `0` arquivos |
+
+## Lane Final Checks
+
+```text
+worktrees de lanes
+        |
+        v
+lane-final-checks/*.md disponiveis
+        |
+        v
+consolidacao PHASE-05
+```
+
+| Lane | Worktree / ref | Lane final check | Resultado |
+| --- | --- | --- | --- |
+| Publish validation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation`, `verify/publish-validation-final` em `cf5b7a8` | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-publish-validation/lane-final-checks/publish-validation.md` | PASS lido; branch sidecar nao foi mesclada. |
+| Catalog state | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/verify-catalog-state`, `verify/catalog-state-final` em `aa678f1` | Nao encontrado | Bloqueado como evidencia de lane-final-check, mas ref esta ancestral de `HEAD`. |
+| Render navigation | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-render-navigation`, `build/render-navigation` em `2d9b095` | Nao encontrado | Bloqueado como evidencia de lane-final-check, mas ref esta ancestral de `HEAD`. |
+| Security permissions | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-security-permissions`, `build/security-permissions` em `0b33584` | Nao encontrado | Bloqueado como evidencia de lane-final-check, mas ref esta ancestral de `HEAD`. |
+| Admin UX | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-admin-ux`, `fix/admin-ux` em `5317be5` | Nao encontrado | Bloqueado como evidencia de lane-final-check, mas ref esta ancestral de `HEAD`. |
 
 ## Estado Integrado da Branch
 
@@ -110,6 +155,9 @@ a0d2368 merge publish validation carrier
 | `origin/build/security-permissions` | `ANCESTOR` em `0b33584` |
 | `origin/fix/publish-validation` | `MISSING` |
 | `fix/publish-validation` | `MISSING` |
+| `verify/publish-validation-final` | `SIDECAR` em `cf5b7a8`; contem final check, nao ancestral de `HEAD` |
+| `origin/verify/publish-validation-final` | `SIDECAR` em `cf5b7a8`; contem final check, nao ancestral de `HEAD` |
+| `verify/catalog-state-final` | `ANCESTOR` em `aa678f1` |
 | `origin/fix/admin-ux` | `ANCESTOR` em `5317be5` |
 | `fix/admin-ux` | `ANCESTOR` em `5317be5` |
 
