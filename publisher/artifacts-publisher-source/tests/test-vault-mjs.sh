@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 VAULT_SCRIPT="${SOURCE_ROOT}/scripts/vault.mjs"
-FIXTURE_DIR="${PLAYBOOK_ROOT}/state/fixtures/vault"
-EXPECTED_JSON="${FIXTURE_DIR}/expected.json"
-FIXTURE_VAULT="${FIXTURE_DIR}/_passwords.enc"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/vault-tests"
+FIXTURE_DIR="${FIXTURE_DIR:-}"
+EXPECTED_JSON="${EXPECTED_JSON:-}"
+FIXTURE_VAULT="${FIXTURE_VAULT:-}"
+TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/vault-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -145,12 +145,43 @@ NODE
 }
 
 require_file "$VAULT_SCRIPT"
-require_file "$EXPECTED_JSON"
-require_file "$FIXTURE_VAULT"
 mkdir -p "$TMP_PARENT"
 
 RUN_DIR="$(mktemp -d "${TMP_PARENT}/run.XXXXXX")"
 trap 'rm -rf "$RUN_DIR"' EXIT
+
+if [[ -z "$FIXTURE_DIR" ]]; then
+  FIXTURE_DIR="${RUN_DIR}/fixture-vault"
+  EXPECTED_JSON="${FIXTURE_DIR}/expected.json"
+  FIXTURE_VAULT="${FIXTURE_DIR}/_passwords.enc"
+  mkdir -p "$FIXTURE_DIR"
+  cat > "$EXPECTED_JSON" <<'JSON'
+{
+  "masterpass": "fixture-masterpass-vault",
+  "entries": [
+    {
+      "slug": "fixture-alpha",
+      "password": "fixture-alpha-pass",
+      "tema": "fixtures"
+    },
+    {
+      "slug": "fixture-beta",
+      "password": "fixture-beta-pass",
+      "tema": "fixtures"
+    }
+  ]
+}
+JSON
+  WIKIA_MASTERPASS="fixture-masterpass-vault" node "$VAULT_SCRIPT" init "$FIXTURE_VAULT" --force >/dev/null
+  WIKIA_MASTERPASS="fixture-masterpass-vault" node "$VAULT_SCRIPT" set "$FIXTURE_VAULT" fixture-alpha fixture-alpha-pass --tema fixtures >/dev/null
+  WIKIA_MASTERPASS="fixture-masterpass-vault" node "$VAULT_SCRIPT" set "$FIXTURE_VAULT" fixture-beta fixture-beta-pass --tema fixtures >/dev/null
+else
+  EXPECTED_JSON="${EXPECTED_JSON:-${FIXTURE_DIR}/expected.json}"
+  FIXTURE_VAULT="${FIXTURE_VAULT:-${FIXTURE_DIR}/_passwords.enc}"
+fi
+
+require_file "$EXPECTED_JSON"
+require_file "$FIXTURE_VAULT"
 
 WORK_VAULT="${RUN_DIR}/_passwords.enc"
 EMPTY_VAULT="${RUN_DIR}/empty.enc"
