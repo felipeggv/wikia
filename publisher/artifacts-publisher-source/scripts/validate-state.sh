@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-DEFAULT_PUBLIC_ROOT="$(cd "$SOURCE_ROOT/.." && pwd)/wikia/docs/gitpages"
+DEFAULT_PUBLIC_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)/docs/gitpages"
 
 PUBLIC_ROOT="${WIKIA_PUBLIC_ROOT:-$DEFAULT_PUBLIC_ROOT}"
 JSON_OUTPUT="false"
@@ -45,7 +45,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-python3 - "$PUBLIC_ROOT" "$JSON_OUTPUT" <<'PY'
+python3 - "$PUBLIC_ROOT" "$JSON_OUTPUT" "$SCRIPT_DIR" <<'PY'
 from __future__ import annotations
 
 import json
@@ -59,6 +59,10 @@ from urllib.parse import urlparse
 
 public_root = Path(sys.argv[1]).expanduser().resolve()
 json_output = sys.argv[2] == "true"
+sys.path.insert(0, sys.argv[3])
+
+import public_catalog  # noqa: E402
+
 issues: list[dict[str, str]] = []
 
 
@@ -118,57 +122,6 @@ def frontmatter(text: str) -> dict[str, str]:
         key, value = line.split(":", 1)
         fields[key.strip()] = value.strip().strip('"\'')
     return fields
-
-
-def is_private_gate(value: object) -> bool:
-    clean = str(value or "").strip().strip('"\'').lower()
-    return clean not in {"", "none", "null", "public", "false"}
-
-
-def is_public_record(record: dict) -> bool:
-    return (
-        str(record.get("gate_status") or "") == "public"
-        or str(record.get("scope") or "") == "public"
-        or str(record.get("release_status") or "") == "released"
-    ) and str(record.get("release_status") or "") != "removed"
-
-
-def record_key(record: dict) -> str:
-    return "/".join(str(record.get(k) or "").strip().strip("/") for k in ("bu", "project", "slug"))
-
-
-def scoped_records(records: list[dict], current: dict | None) -> list[dict]:
-    if current is None:
-        return [record for record in records if is_public_record(record)]
-
-    scope = str(current.get("scope") or "article")
-    bu = str(current.get("bu") or "")
-    project = str(current.get("project") or "")
-    slug = str(current.get("slug") or "")
-
-    if scope == "admin":
-        return list(records)
-    if scope == "bu":
-        return [record for record in records if record.get("bu") == bu]
-    if scope == "project":
-        return [
-            record
-            for record in records
-            if record.get("bu") == bu and record.get("project") == project
-        ]
-    if scope == "public":
-        return [
-            record
-            for record in records
-            if record.get("bu") == bu and is_public_record(record)
-        ]
-    return [
-        record
-        for record in records
-        if record.get("bu") == bu
-        and record.get("project") == project
-        and record.get("slug") == slug
-    ]
 
 
 SECRET_ASSIGNMENT_RE = re.compile(
@@ -339,7 +292,7 @@ def validate_sidebar(path: Path, text: str, records: list[dict]) -> None:
     current = next((record for record in records if normalize_url(record.get("output_url")) == current_url), None)
     expected_urls = {
         normalize_url(record.get("output_url"))
-        for record in scoped_records(records, current)
+        for record in public_catalog.scoped_records(records, current)
         if normalize_url(record.get("output_url"))
     }
     actual_urls = {
@@ -359,16 +312,16 @@ def load_catalog() -> list[dict]:
     if not catalog_path.exists():
         return []
     try:
-        payload = json.loads(read_text(catalog_path))
-    except json.JSONDecodeError as exc:
+        payload = public_catalog.load_catalog(catalog_path)
+    except (json.JSONDecodeError, ValueError) as exc:
         add_issue("search_catalog_mismatch", catalog_path, f"invalid catalog JSON: {exc}")
         return []
     records = payload.get("records")
     if not isinstance(records, list):
         add_issue("search_catalog_mismatch", catalog_path, "catalog records must be an array")
         return []
-    clean_records = [record for record in records if isinstance(record, dict)]
-    keys = Counter(record_key(record) for record in clean_records if record_key(record))
+    clean_records = [public_catalog.with_identity_fields(record) for record in records if isinstance(record, dict)]
+    keys = Counter(public_catalog.record_key(record) for record in clean_records if public_catalog.record_key(record))
     duplicates = sorted(key for key, count in keys.items() if count > 1)
     if duplicates:
         add_issue("search_catalog_mismatch", catalog_path, f"duplicate catalog records: {duplicates[:5]}")
@@ -395,7 +348,7 @@ def validate_search_catalog(records: list[dict]) -> None:
     expected_urls = sorted(
         normalize_url(record.get("output_url"))
         for record in records
-        if is_public_record(record) and normalize_url(record.get("output_url"))
+        if public_catalog.is_public_record(record) and normalize_url(record.get("output_url"))
     )
     search_urls = sorted(
         normalize_url(item.get("url"))
@@ -429,7 +382,7 @@ def tag_class_count(text: str, tag: str, class_name: str) -> int:
 
 def validate_text_file(path: Path) -> None:
     text = read_text(path)
-    if path.name == "raw.md" and is_private_gate(frontmatter(text).get("gate")):
+    if path.name == "raw.md" and public_catalog.is_private_gate(frontmatter(text).get("gate")):
         add_issue("plaintext_private_raw_md", path, "private-gated raw.md is present under public output")
 
     if "wk-tree-tema" in text:

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 VALIDATE_SCRIPT="${SOURCE_ROOT}/scripts/validate-state.sh"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/validate-state-tests"
+TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/validate-state-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -23,7 +23,7 @@ write_catalog() {
   "generated_at": "2026-05-19T00:00:00Z",
   "records": [
     {
-      "article_id": "fixture-public",
+      "article_id": "3cb31397508eef9ab031bd062993d7806b3ef49b296729c401eb74bf54684bf4",
       "canonical_key": "staging/test-project/public-article",
       "bu": "staging",
       "project": "test-project",
@@ -35,10 +35,10 @@ write_catalog() {
       "release_status": "released",
       "scope": "public",
       "tags": ["fixture"],
-      "raw_hash": "fixture-public-hash"
+      "raw_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     },
     {
-      "article_id": "fixture-private",
+      "article_id": "685f3a2ebb11f352d65d2a4814d41c19ebf36977c60e4ca8d4ae216e8e3bfe4a",
       "canonical_key": "gobbi/private-project/private-article",
       "bu": "gobbi",
       "project": "private-project",
@@ -50,7 +50,7 @@ write_catalog() {
       "release_status": "unreleased",
       "scope": "article",
       "tags": [],
-      "raw_hash": "fixture-private-hash"
+      "raw_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
     }
   ]
 }
