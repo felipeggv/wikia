@@ -1,8 +1,8 @@
 private-source/
 .maestro/archive/
 .maestro/evidence/
+.maestro/playbooks/**/Working/
 .maestro/state/
 .DS_Store
 *.pyc
 __pycache__/
-
