@@ -188,6 +188,32 @@
     return normalized;
   }
 
+  function mergeAdminAndCatalogArticles(adminList, catalogPayload) {
+    var merged = {};
+    var out = [];
+
+    function add(article, preferExisting) {
+      var key = articleKey(article);
+      if (!key) return;
+      if (merged[key] && preferExisting) return;
+      if (!merged[key]) out.push(article);
+      merged[key] = article;
+    }
+
+    for (var i = 0; i < adminList.length; i++) {
+      add(adminList[i], false);
+    }
+
+    var catalogList = normalizeAdminArticles(catalogPayload);
+    for (var j = 0; j < catalogList.length; j++) {
+      add(catalogList[j], true);
+    }
+
+    return out.map(function (article) {
+      return merged[articleKey(article)] || article;
+    });
+  }
+
   function articleKey(article) {
     return String(article && (article.key || keyFromParts(article)) || '');
   }
@@ -495,7 +521,8 @@
         return false;
       }
 
-      adminArticles = normalizeAdminArticles(adminMetadata);
+      var catalogMetadata = await fetchJsonOrDefault(WIKI_BASE + '/_catalog.json', null);
+      adminArticles = mergeAdminAndCatalogArticles(normalizeAdminArticles(adminMetadata), catalogMetadata);
       if (!adminArticles.length) {
         err.textContent = 'Catálogo admin aberto, mas sem artigos.';
         return false;
@@ -792,6 +819,7 @@
   window.__admin = {
     unlock: unlock,
     normalizeAdminArticles: normalizeAdminArticles,
+    mergeAdminAndCatalogArticles: mergeAdminAndCatalogArticles,
     renderList: renderList,
     setViewState: setViewState,
     filteredArticleKeys: function () { return filteredAdminArticles().map(articleKey); },

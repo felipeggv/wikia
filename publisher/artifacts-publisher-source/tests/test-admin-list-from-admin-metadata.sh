@@ -106,6 +106,30 @@ global.atob = (value) => Buffer.from(value, 'base64').toString('binary');
 const responses = {
   'https://fixture.test/wikia/_admin.enc': 'ADMIN_BLOB',
   'https://fixture.test/wikia/_passwords.enc': 'VAULT_BLOB',
+  'https://fixture.test/wikia/_catalog.json': JSON.stringify({
+    records: [
+      {
+        bu: 'staging',
+        project: 'growth-engine',
+        slug: 'admin-listed-article',
+        title_visible: true,
+        title_public: 'Admin Listed Article From Catalog',
+        output_url: 'staging/growth-engine/admin-listed-article/',
+        release_status: 'unreleased',
+        scope: 'article',
+      },
+      {
+        bu: 'aleyemma',
+        project: 'finance-automation',
+        slug: 'catalog-only-article',
+        title_visible: true,
+        title_public: 'Catalog Only Article',
+        output_url: 'aleyemma/finance-automation/catalog-only-article/',
+        release_status: 'unreleased',
+        scope: 'bu',
+      },
+    ],
+  }),
   'https://fixture.test/wikia/_released.json': '[]',
   'https://fixture.test/wikia/_pending-changes.json': '{}',
 };
@@ -163,14 +187,20 @@ vm.runInThisContext(mainMatch[1], { filename: 'admin-inline.js' });
   const countText = elements['admin-list-count'].textContent;
   const state = window.__admin.state();
 
-  if (state.adminArticles.length !== 2) {
-    throw new Error(`expected 2 admin metadata records, got ${state.adminArticles.length}`);
+  if (state.adminArticles.length !== 3) {
+    throw new Error(`expected 3 merged admin/catalog records, got ${state.adminArticles.length}`);
   }
   if (!listHtml.includes('Admin Listed Article')) {
     throw new Error('metadata-backed article with vault password is missing');
   }
+  if (listHtml.includes('Admin Listed Article From Catalog')) {
+    throw new Error('catalog fallback replaced fresher encrypted admin metadata');
+  }
   if (!listHtml.includes('Metadata Only Article')) {
     throw new Error('metadata-backed article without vault password is missing');
+  }
+  if (!listHtml.includes('Catalog Only Article')) {
+    throw new Error('catalog-only fallback article is missing');
   }
   if (listHtml.includes('vault-only-article') || listHtml.includes('must-not-render')) {
     throw new Error('vault-only record leaked into article list');
@@ -184,18 +214,21 @@ vm.runInThisContext(mainMatch[1], { filename: 'admin-inline.js' });
   if (!listHtml.includes('sem senha')) {
     throw new Error('metadata-only article did not render missing-vault state');
   }
-  if (countText !== '2 artigos') {
-    throw new Error(`expected count text "2 artigos", got ${JSON.stringify(countText)}`);
+  if (countText !== '3 artigos') {
+    throw new Error(`expected count text "3 artigos", got ${JSON.stringify(countText)}`);
   }
   if (elements['admin-state'].dataset.state !== 'unlocked') {
     throw new Error('admin did not enter unlocked state');
   }
 
   const missingPasswordKeys = window.__admin.setViewState('missing-password');
-  if (JSON.stringify(missingPasswordKeys) !== JSON.stringify(['gobbi/strategy/metadata-only-article'])) {
+  if (JSON.stringify(missingPasswordKeys) !== JSON.stringify([
+    'aleyemma/finance-automation/catalog-only-article',
+    'gobbi/strategy/metadata-only-article',
+  ])) {
     throw new Error(`missing-password filter mismatch: ${JSON.stringify(missingPasswordKeys)}`);
   }
-  if (elements['admin-list-count'].textContent !== '1 de 2 artigos') {
+  if (elements['admin-list-count'].textContent !== '2 de 3 artigos') {
     throw new Error(`expected filtered count text, got ${JSON.stringify(elements['admin-list-count'].textContent)}`);
   }
 
@@ -267,8 +300,9 @@ password merge only
 | Template no longer contains \`Object.keys(vault)\` list logic | PASS |
 | Metadata-backed article with vault password renders | PASS |
 | Metadata-backed article without vault password renders | PASS |
+| Catalog-only fallback article renders | PASS |
 | Vault-only record is not listed as an article | PASS |
-| Count comes from metadata records | PASS |
+| Count comes from encrypted metadata merged with public catalog | PASS |
 | Unlocked admin visual selectors are bundled into generated HTML | PASS |
 
 ## Images Analyzed
