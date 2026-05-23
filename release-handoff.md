@@ -3,7 +3,7 @@
 Data: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-HEAD verificado: `76edaf7`
+HEAD verificado: `8fd3537`
 Deploy: nao executado.
 
 ```text
@@ -23,7 +23,7 @@ handoff sem deploy
 
 ## Resumo Executivo
 
-A branch `improve/release-integration` esta pronta para revisao de release do ponto de vista de verificacao local. O `HEAD` atual `76edaf7` passou nos checks finais, e a evidencia em `integration-tests.md` foi usada como base historica da integracao.
+A branch `improve/release-integration` esta pronta para revisao de release do ponto de vista de verificacao local. O `HEAD` atual `8fd3537` passou nos checks finais, e a evidencia em `integration-tests.md` foi usada como base historica da integracao.
 
 Nao houve deploy. Nao editei HTML gerado como fonte da verdade. Nao toquei em `private-source`.
 
@@ -50,7 +50,7 @@ Arquivo de evidencia integrado usado:
 Revalidacao final feita neste handoff:
 
 ```text
-git HEAD             -> 76edaf7
+git HEAD             -> 8fd3537
 shell syntax         -> PASS
 python compile       -> PASS
 node --check         -> PASS
@@ -74,7 +74,7 @@ merge commits de integracao
 evidence commits
    |
    v
-HEAD 76edaf7
+HEAD 8fd3537
 ```
 
 Historico relevante:
@@ -86,6 +86,9 @@ Historico relevante:
 | `26c7767` | Merge do carrier `origin/main`. |
 | `575f18e` | Refresh do plano de integracao PHASE-04. |
 | `76edaf7` | Registro do rerun de integracao PHASE-04. |
+| `63f7211` | Registro da validacao final PHASE-04. |
+| `24627bf` | Registro de evidencia de release integration. |
+| `8fd3537` | Refresh da evidencia de release integration. |
 
 Refs ativos checados:
 

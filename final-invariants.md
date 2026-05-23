@@ -3,7 +3,7 @@
 Data: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-HEAD verificado: `76edaf7`
+HEAD verificado: `8fd3537`
 Deploy: nao executado.
 
 ```text
@@ -21,7 +21,7 @@ verificacao final sem deploy
 
 ## Resumo Executivo
 
-A branch integrada foi verificada no `HEAD` atual `76edaf7`. Resultado: PASS.
+A branch integrada foi verificada no `HEAD` atual `8fd3537`. Resultado: PASS.
 
 Em linguagem de negocio: o pacote de release passou pelo QA local. O botao de publicacao nao foi apertado.
 
@@ -30,13 +30,13 @@ Em linguagem de negocio: o pacote de release passou pelo QA local. O botao de pu
 | Fonte | Uso |
 | --- | --- |
 | `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` | Evidencia integrada da fase: merge coverage, sintaxe e `22/22` testes no fluxo do publisher. |
-| Estado atual da branch `improve/release-integration` | Revalidacao final no `HEAD` `76edaf7`. |
+| Estado atual da branch `improve/release-integration` | Revalidacao final no `HEAD` `8fd3537`. |
 
 ```text
 integration-tests.md
         |
         v
-HEAD atual 76edaf7
+HEAD atual 8fd3537
         |
         v
 checks finais repetidos
@@ -62,7 +62,7 @@ checks finais repetidos
 
 | Check | Resultado |
 | --- | --- |
-| `git rev-parse --short HEAD` | `76edaf7` |
+| `git rev-parse --short HEAD` | `8fd3537` |
 | Conflitos abertos | Nenhum |
 | `private-source` rastreado | Nenhum arquivo |
 | Shell syntax | PASS |
@@ -91,6 +91,15 @@ a0d2368 merge publish validation carrier
    |
    v
 76edaf7 record PHASE-04 integration rerun
+   |
+   v
+63f7211 record PHASE-04 final validation
+   |
+   v
+24627bf record release integration evidence
+   |
+   v
+8fd3537 refresh release integration evidence
 ```
 
 | Ref | Resultado |
@@ -114,4 +123,4 @@ release candidate local
         +-- handoff pronto
 ```
 
-A candidata de release esta validada localmente no `HEAD` `76edaf7`. A unica ressalva operacional e que alguns refs de lanes antigas estao ausentes por prune/limpeza, mas os refs existentes conhecidos estao integrados por ancestralidade e a suite final passou.
+A candidata de release esta validada localmente no `HEAD` `8fd3537`. A unica ressalva operacional e que alguns refs de lanes antigas estao ausentes por prune/limpeza, mas os refs existentes conhecidos estao integrados por ancestralidade e a suite final passou.
