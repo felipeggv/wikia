@@ -3,132 +3,105 @@
 Date: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Integration branch: `improve/release-integration`
-HEAD before this run's merge step: `56c0e40`
-Plan commit before merge step: `281f53e`
-HEAD before publish-validation merge step: `c1835d4`
+Current HEAD while writing this plan: `26c77670a696`
 
 ```text
-local lane refs + origin lane refs
+local lane refs + origin refs
         |
         v
-integration plan first
+write integration plan first
         |
         v
-merge into improve/release-integration
+merge/check each approved input
         |
         v
-syntax checks + integrated publisher tests
+syntax checks + full publisher tests
+        |
+        v
+no deploy
 ```
 
 ## Scope
 
 Run PHASE-04 without deploy:
 
-1. Fetch and review local Wikia lane branches plus origin lane branches.
-2. Write this `integration-plan.md` before merge commands.
-3. Merge lane outputs into `improve/release-integration`.
-4. Run syntax checks after merge resolution.
-5. Run the integrated publisher test suite under `publisher/artifacts-publisher-source/tests`.
+1. Review local Wikia lane branches and origin branches.
+2. Write this `integration-plan.md` before merge commands executed in this run.
+3. Merge or confirm already-merged lane outputs into `improve/release-integration`.
+4. Run syntax checks after the merge/check step.
+5. Run the full publisher test suite under `publisher/artifacts-publisher-source/tests`.
 6. Do not deploy.
 
 ## Fetch Evidence
 
-Command run before this plan:
+Command run before writing this plan:
 
 ```bash
 git fetch --all --prune
 ```
 
-A second ref check during execution showed that `origin/build/render-navigation`
-and `origin/fix/publish-validation` were deleted after their pull requests
-landed in `origin/main`. To keep this integration scoped, this run merged the
-local render-navigation lane ref and the specific publish-validation lane commit
-`d4691bf` instead of merging all of `origin/main`.
+The fetch completed successfully and showed these active lane-related refs:
 
-## Branch Inputs After Fetch
+| Lane | Local ref | Origin ref | State against `HEAD` |
+| --- | --- | --- | --- |
+| catalog-state | missing | missing | Already integrated earlier through merge `50fdfa8`; origin PR content is also in `origin/main`. |
+| render-navigation | `build/render-navigation` at `2d9b095` | missing | Local ref is already an ancestor of `HEAD`. |
+| security-permissions | `build/security-permissions` at `0b33584` | `origin/build/security-permissions` at `0b33584` | Both refs are already ancestors of `HEAD`. |
+| publish-validation | missing | missing | Lane branch is pruned; content is already represented through lane carrier `d4691bf`, integration merge `a0d2368`, and `origin/main`. |
+| admin-ux | `fix/admin-ux` at `5317be5` | `origin/fix/admin-ux` at `5317be5` | Both refs are already ancestors of `HEAD`. |
+| origin mainline carrier | n/a | `origin/main` at `9ba2959` | Already merged into current `HEAD` by merge commit `26c7767`. |
 
-`HEAD-only / ref-only` comes from `git rev-list --left-right --count HEAD...<ref>`.
+## Important State Note
 
-| Lane | Local branch | Origin branch | Current state | Decision |
-| --- | --- | --- | --- | --- |
-| catalog-state | missing | missing | Active lane refs are pruned/missing; catalog-state content is already present through merge `50fdfa8`. | No direct lane ref remains to merge. |
-| render-navigation | `build/render-navigation` at `2d9b095` | pruned after PR landing | Local ref merged as `c1835d4`; key render-navigation lane commits are now ancestors of HEAD. | Merge local ref and keep catalog-navigation behavior. |
-| security-permissions | `build/security-permissions` at `0b33584` | `origin/build/security-permissions` at `0b33584` | Both refs are ancestors of HEAD after the render merge. | Merge/check both; expected no-op. |
-| publish-validation | local ref pruned during execution | pruned after PR landing | Specific lane merge commit `d4691bf` remains available locally. | Merge `d4691bf` directly to avoid pulling unrelated `origin/main` changes. |
-| admin-ux | `fix/admin-ux` at `5317be5` | `origin/fix/admin-ux` at `5317be5` | Both refs are ancestors of HEAD after the render merge. | Merge/check both; expected no-op. |
+While preparing this run, `git reflog` showed that `HEAD` was already at
+`26c7767`, a merge commit with message:
+
+```text
+Merge remote-tracking branch 'origin/main' into improve/release-integration
+```
+
+That merge commit has the same tree as the previous integration evidence commit
+`aa678f1`, so it did not change working-tree content. This plan records that
+state instead of rewinding it.
 
 ## Merge Order
 
-1. `build/render-navigation`
-2. `d4691bf` publish-validation lane merge commit
-3. `origin/build/security-permissions`
-4. `build/security-permissions`
-5. `origin/fix/admin-ux`
-6. `fix/admin-ux`
+The merge/check step will use both local lane refs and origin refs where they
+exist. Missing pruned lane refs will be documented, not recreated.
+
+1. `origin/main`
+2. `build/render-navigation`
+3. `build/security-permissions`
+4. `origin/build/security-permissions`
+5. `fix/admin-ux`
+6. `origin/fix/admin-ux`
+
+Expected result: all merge commands should report already up to date because the
+listed refs are ancestors of `HEAD`.
 
 ## Conflict Forecast
 
-`git merge-tree --write-tree HEAD build/render-navigation` predicted conflicts in the shared test layer:
+No new conflicts are expected in this run.
 
-| File | Expected resolution principle |
-| --- | --- |
-| `publisher/artifacts-publisher-source/tests/test-admin-no-unlock-safe-shell.sh` | Preserve integrated admin safety assertions and repo-relative temp roots. |
-| `publisher/artifacts-publisher-source/tests/test-phase-07-smoke.sh` | Preserve current integrated smoke contract while accepting render-navigation-compatible fixtures where needed. |
-| `publisher/artifacts-publisher-source/tests/test-publish-validation.sh` | Preserve stricter publish validation from the integrated branch and keep tests portable. |
-| `publisher/artifacts-publisher-source/tests/test-render-admin-cms-state.sh` | Preserve admin CMS-state expectations from the integrated branch. |
-| `publisher/artifacts-publisher-source/tests/test-render-admin-sidebar-wrapper.sh` | Preserve one-wrapper sidebar assertions and integrate the catalog navigation helper expectations. |
-| `publisher/artifacts-publisher-source/tests/test-validate-state.sh` | Preserve validation coverage for catalog/search/sidebar drift and privacy checks. |
+Reason:
 
 ```text
-render-navigation ref
+each active lane ref
         |
         v
-shared navigation helper + tests
+is ancestor of current HEAD
         |
         v
-conflicts against integrated test expectations
-        |
-        v
-resolve to keep both navigation model and integrated safety contracts
+merge/check should be no-op
 ```
 
-After the render merge, merging `d4691bf` opened conflicts in the shared publish-validation test layer:
+The prior PHASE-04 conflict history remains relevant context:
 
-| File | Expected resolution principle |
+| Previous conflict area | Resolution principle already present in integration branch |
 | --- | --- |
-| `publisher/artifacts-publisher-source/tests/test-phase-07-smoke.sh` | Preserve current integrated smoke flow and accept publish-validation expectations. |
-| `publisher/artifacts-publisher-source/tests/test-publish-apply-pending.sh` | Preserve secure pending-apply behavior and repo-relative temp roots. |
-| `publisher/artifacts-publisher-source/tests/test-publish-idempotency.sh` | Preserve idempotency coverage while accepting publish-validation fixtures. |
-| `publisher/artifacts-publisher-source/tests/test-publish-private-source.sh` | Preserve private-source safety checks. |
-| `publisher/artifacts-publisher-source/tests/test-publish-validation.sh` | Preserve validation-mode no-push guarantees and secret-handling checks. |
-| `publisher/artifacts-publisher-source/tests/test-validate-state.sh` | Preserve validation coverage for privacy, catalog/search drift, and stale sidebar counts. |
-
-No conflicts are forecast for the security or admin-ux refs because they are already ancestors of the current integration branch.
-
-## Merge Result
-
-```text
-render-navigation merge
-        |
-        v
-publish-validation merge
-        |
-        v
-security/admin already ancestors
-```
-
-Completed merge results:
-
-| Input | Result |
-| --- | --- |
-| `build/render-navigation` at `2d9b095` | Merged as `c1835d4`; conflicts resolved in shared test headers and temp-root setup. |
-| publish-validation lane commit `d4691bf` | Merged as `a0d2368`; conflicts resolved in publish/validation tests. |
-| `build/security-permissions` / `origin/build/security-permissions` at `0b33584` | Already ancestor of HEAD after the merges. |
-| `fix/admin-ux` / `origin/fix/admin-ux` at `5317be5` | Already ancestor of HEAD after the merges. |
-| catalog-state | Already present through `50fdfa8`; no active lane ref remained. |
-
-`origin/main` was not merged. The publish-validation lane commit was merged
-directly to avoid pulling unrelated mainline changes.
+| Shared admin and publish shell tests | Preserve repo-relative temp roots, admin safety checks, and publish validation guarantees. |
+| Navigation and sidebar tests | Preserve catalog-driven navigation while preventing duplicate sidebar wrappers. |
+| Security tests | Preserve gate hardening, scope validation, no plaintext temp residue, and no admin-scope public catalog leaks. |
 
 ## Validation Plan
 
@@ -143,9 +116,24 @@ find publisher/artifacts-publisher-source/scripts publisher/artifacts-publisher-
 Integrated publisher tests:
 
 ```bash
+set -u
+failed=0
+count=0
 for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
-  bash "$test_script"
+  count=$((count + 1))
+  printf 'RUN %s\n' "$test_script"
+  output="$(bash "$test_script" 2>&1)"
+  exit_code=$?
+  if [[ $exit_code -eq 0 ]]; then
+    printf 'PASS %s\n' "$test_script"
+  else
+    printf 'FAIL %s exit=%s\n%s\n' "$test_script" "$exit_code" "$output"
+    failed=1
+    break
+  fi
 done
+printf 'TOTAL_RUN %s\n' "$count"
+exit "$failed"
 ```
 
 Deploy commands are intentionally excluded.
