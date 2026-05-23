@@ -178,6 +178,8 @@ def update_catalog_for_pending(catalog_path: Path, queue: dict[str, Any]) -> dic
             record["gate_status"] = "public"
             record["release_status"] = "released"
             record["scope"] = "public"
+            record["title_visible"] = True
+            record["title_public"] = public_catalog.public_title(record)
             updated += 1
 
     for intent in as_list(queue.get("scope")):

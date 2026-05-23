@@ -34,6 +34,7 @@ EXPECTED_ARTICLE_COLUMNS = {
     "project",
     "slug",
     "title_visible",
+    "title_public",
     "raw_source_path",
     "output_url",
     "gate_status",

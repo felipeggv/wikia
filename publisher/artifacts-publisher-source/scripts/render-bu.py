@@ -26,15 +26,10 @@ TEMPLATES_DIR = SKILL_DIR / 'templates'
 sys.path.insert(0, str(SCRIPT_DIR))
 from frontmatter_parser import parse_frontmatter_optional  # noqa: E402
 import public_catalog  # noqa: E402
+import catalog_navigation  # noqa: E402
 
 
-BU_DISPLAY = {
-    'staging': 'Staging',
-    'vita': 'Vitascience',
-    'allin': 'AllIn',
-    'aleyemma': 'Aleyemma',
-    'gobbi': 'Gobbi',
-}
+BU_DISPLAY = catalog_navigation.BU_DISPLAY
 
 BU_DESCRIPTION = {
     'staging': 'Sandbox da BU — conteúdo experimental e testes.',
@@ -71,21 +66,17 @@ def _esc(s):
 
 def collect_bu_articles(output_dir, bu_slug):
     """Walk <output_dir>/<bu_slug>/<project>/<slug>/raw.md and collect metadata."""
-    catalog_records = public_catalog.load_records_from_public_root(output_dir)
+    catalog_records = catalog_navigation.load_catalog_records(output_dir)
     if catalog_records:
-        return [
-            {
-                'bu': bu_slug,
-                'project': record.get('project') or '',
-                'slug': record.get('slug') or '',
-                'title': public_catalog.public_title(record),
-                'date': '',
-                'gate': str(record.get('gate_status') or 'unknown') != 'public',
-                'url': public_catalog.normalize_output_url(record.get('output_url') or ''),
-            }
-            for record in catalog_records
-            if record.get('bu') == bu_slug and public_catalog.is_public_record(record)
+        public_records = [
+            record for record in catalog_records
+            if public_catalog.is_public_record(record)
         ]
+        return catalog_navigation.articles_from_records(
+            public_records,
+            bu_slug=bu_slug,
+            public_root=output_dir,
+        )
 
     base = Path(output_dir) / bu_slug
     articles = []
@@ -128,7 +119,7 @@ def build_projects_list_html(articles, wiki_base, bu_slug):
     for project in sorted(by_project.keys()):
         arts = by_project[project]
         count = len(arts)
-        title = project.replace('-', ' ').title()
+        title = catalog_navigation.humanize_slug(project)
         items.append(
             f'<li><a href="{wiki_base}/{bu_slug}/{project}/">'
             f'<span class="wk-bu-project-title">{_esc(title)}</span>'
@@ -144,7 +135,7 @@ def build_recent_articles_html(articles, wiki_base, limit=RECENT_LIMIT):
     recents = sorted(articles, key=lambda x: x.get('date', ''), reverse=True)[:limit]
     items = []
     for a in recents:
-        project_title = a['project'].replace('-', ' ').title()
+        project_title = catalog_navigation.humanize_slug(a['project'])
         gate_icon = ' 🔒' if a.get('gate') else ''
         items.append(
             f'<li><a href="{wiki_base}/{a["url"]}">'

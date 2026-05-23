@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 PUBLISH_SCRIPT="${SOURCE_ROOT}/scripts/publish.sh"
 APPLY_PENDING_SCRIPT="${SOURCE_ROOT}/scripts/apply-pending.py"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/publish-validation-tests"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-${TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/publish-validation-tests}}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -97,7 +98,7 @@ This fixture verifies validation mode without pushing.
 EOF
 
 VALIDATE_JSON="${RUN_DIR}/validate.json"
-PUBLISH_TEST_ORIGIN="$ORIGIN_REPO" REAL_GIT="$REAL_GIT" PATH="${FAKE_BIN}:$PATH" \
+PUBLISH_TEST_ORIGIN="$ORIGIN_REPO" REAL_GIT="$REAL_GIT" WIKIA_PUBLISH_TMP_PARENT="${RUN_DIR}/publish-workdirs" PATH="${FAKE_BIN}:$PATH" \
   bash "$PUBLISH_SCRIPT" \
     --title "Publish Validation Fixture" \
     --content "$RAW_MD" \
@@ -126,6 +127,9 @@ const required = [
 if (payload.validate_only !== true) throw new Error('validate_only flag missing');
 if (payload.would_push !== false) throw new Error('validation mode should not push');
 if (payload.changed !== true) throw new Error('validation mode should detect staged changes');
+if (!payload.state_validation || payload.state_validation.ok !== true) {
+  throw new Error(`state validation should pass: ${JSON.stringify(payload.state_validation)}`);
+}
 for (const path of required) {
   if (!paths.has(path)) throw new Error(`missing staged path: ${path}`);
 }

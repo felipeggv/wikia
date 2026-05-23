@@ -13,6 +13,41 @@ MASTERPASS_STDIN="false"; MASTERPASS_FILE=""
 BU=""; PROJECT=""; PRIVATE_SOURCE_ROOT="${WIKIA_PRIVATE_SOURCE_ROOT:-}"
 
 declare -a STAGE_PATHS=()
+STATE_VALIDATION_JSON=""
+STATE_VALIDATION_ERR=""
+
+make_publish_workdir() {
+  if [ -n "${WIKIA_PUBLISH_TMP_PARENT:-}" ]; then
+    mkdir -p "$WIKIA_PUBLISH_TMP_PARENT"
+    mktemp -d "$WIKIA_PUBLISH_TMP_PARENT/wikia.XXXXXX"
+  else
+    mktemp -d -t wikia-XXXXXX
+  fi
+}
+
+run_state_validation() {
+  local out err status
+  out="$WORKDIR/.wikia-state-validation.json"
+  err="$WORKDIR/.wikia-state-validation.err"
+  status=0
+
+  if bash "$SCRIPT_DIR/validate-state.sh" --public-root "$GITPAGES" --json >"$out" 2>"$err"; then
+    status=0
+  else
+    status=$?
+  fi
+
+  STATE_VALIDATION_JSON="$(cat "$out" 2>/dev/null || true)"
+  STATE_VALIDATION_ERR="$(cat "$err" 2>/dev/null || true)"
+  rm -f "$out" "$err"
+
+  if [ -z "$STATE_VALIDATION_JSON" ]; then
+    STATE_VALIDATION_JSON='{"ok":false,"issue_count":1,"issues":[{"rule":"state_validation_error","path":"","detail":"validate-state.sh produced no JSON"}]}'
+    [ "$status" -eq 0 ] && status=1
+  fi
+
+  return "$status"
+}
 
 has_xtrace() {
   case "$-" in
@@ -282,7 +317,7 @@ URL="$WIKI_BASE/research/$TEMA/artifacts/$SLUG/"
 echo "→ Fetching Maestro theme..." >&2
 THEME_JSON=$(bash "$SCRIPT_DIR/theme-fetch.sh")
 
-WORKDIR=$(mktemp -d -t wikia-XXXXXX)
+WORKDIR=$(make_publish_workdir)
 trap "rm -rf '$WORKDIR'" EXIT
 
 if [ "$DRY_RUN" = "true" ]; then
@@ -714,6 +749,8 @@ fi
 
 cd "$WORKDIR"
 stage_publish_paths
+STATE_VALIDATION_STATUS=0
+run_state_validation || STATE_VALIDATION_STATUS=$?
 
 if [ "$VALIDATE_ONLY" = "true" ]; then
   if git diff --cached --quiet; then
@@ -725,11 +762,14 @@ if [ "$VALIDATE_ONLY" = "true" ]; then
   if [ "${#STAGE_PATHS[@]}" -gt 0 ]; then
     VALIDATE_ARGS+=("${STAGE_PATHS[@]}")
   fi
+  STATE_VALIDATION_JSON_PAYLOAD="$STATE_VALIDATION_JSON" \
   python3 - "${VALIDATE_ARGS[@]}" <<'PYEOF'
 import json
+import os
 import sys
 
 workdir, url, slug, tema, mode, has_changes, *stage_paths = sys.argv[1:]
+state_validation = json.loads(os.environ.get("STATE_VALIDATION_JSON_PAYLOAD") or "{}")
 print(json.dumps({
     "validate_only": True,
     "would_push": False,
@@ -740,11 +780,22 @@ print(json.dumps({
     "tema": tema,
     "mode": mode,
     "staged_paths": stage_paths,
+    "state_validation": state_validation,
 }, ensure_ascii=False))
 PYEOF
+  if [ "$STATE_VALIDATION_STATUS" -ne 0 ] && [ -n "$STATE_VALIDATION_ERR" ]; then
+    printf '%s\n' "$STATE_VALIDATION_ERR" >&2
+  fi
   trap - EXIT
   echo "→ Validation workdir preserved: $WORKDIR" >&2
-  exit 0
+  exit "$STATE_VALIDATION_STATUS"
+fi
+
+if [ "$STATE_VALIDATION_STATUS" -ne 0 ]; then
+  echo "ERR: public output validation failed; aborting before commit/push" >&2
+  [ -n "$STATE_VALIDATION_ERR" ] && printf '%s\n' "$STATE_VALIDATION_ERR" >&2
+  printf '%s\n' "$STATE_VALIDATION_JSON" >&2
+  exit "$STATE_VALIDATION_STATUS"
 fi
 
 COMMIT_MSG="feat($SLUG): publish via wikia"

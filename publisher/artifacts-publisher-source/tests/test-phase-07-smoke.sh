@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/phase-07-smoke-tests"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-${TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/phase-07-smoke-tests}}"
 
 VAULT_SCRIPT="${SOURCE_ROOT}/scripts/vault.mjs"
 MIGRATE_SCRIPT="${SOURCE_ROOT}/scripts/migrate-to-cms-state.py"
