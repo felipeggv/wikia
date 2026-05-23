@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="$(cd "${TEST_DIR}/.." && pwd)"
-TMP_PARENT="${SOURCE_ROOT}/tmp/phase-07-smoke-tests"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/phase-07-smoke-tests}"
 
 VAULT_SCRIPT="${SOURCE_ROOT}/scripts/vault.mjs"
 MIGRATE_SCRIPT="${SOURCE_ROOT}/scripts/migrate-to-cms-state.py"

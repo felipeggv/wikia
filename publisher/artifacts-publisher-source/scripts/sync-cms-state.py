@@ -10,7 +10,9 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -173,6 +175,60 @@ def write_admin_db(db_path: Path, records: list[tuple[dict[str, Any], dict[str, 
         )
 
 
+def temp_sibling(path: Path) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+    os.close(fd)
+    return Path(name)
+
+
+def ensure_replaceable(path: Path) -> None:
+    if path.exists() and path.is_dir():
+        raise ValueError(f"{path}: output path is a directory")
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+
+def cleanup_temp(path: Path) -> None:
+    for candidate in (path, Path(f"{path}-journal"), Path(f"{path}-wal"), Path(f"{path}-shm")):
+        try:
+            candidate.unlink()
+        except FileNotFoundError:
+            pass
+
+
+def write_state_atomically(
+    catalog_path: Path,
+    catalog: dict[str, Any],
+    cms_db_path: Path,
+    admin_metadata_path: Path,
+    records: list[tuple[dict[str, Any], dict[str, Any]]],
+    metadata: dict[str, Any],
+) -> None:
+    for output_path in (catalog_path, cms_db_path, admin_metadata_path):
+        ensure_replaceable(output_path)
+
+    temp_catalog = temp_sibling(catalog_path)
+    temp_db = temp_sibling(cms_db_path)
+    temp_metadata = temp_sibling(admin_metadata_path)
+    temp_paths = [temp_catalog, temp_db, temp_metadata]
+
+    try:
+        public_catalog.write_catalog(temp_catalog, catalog)
+        write_admin_db(temp_db, records)
+        temp_metadata.write_text(
+            json.dumps(metadata, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+        temp_db.replace(cms_db_path)
+        temp_metadata.replace(admin_metadata_path)
+        temp_catalog.replace(catalog_path)
+    except Exception:
+        for path in temp_paths:
+            cleanup_temp(path)
+        raise
+
+
 def admin_metadata(records: list[tuple[dict[str, Any], dict[str, Any]]]) -> dict[str, Any]:
     return {
         "schema_version": 1,
@@ -218,19 +274,13 @@ def sync_state(
         try:
             record, source = resolve_record_state(raw_path, existing_records, released_tokens)
         except (OSError, ValueError, KeyError) as exc:
-            skipped.append({"path": str(raw_path), "error": str(exc)})
-            continue
+            raise ValueError(f"{raw_path}: {exc}") from exc
         catalog, _ = public_catalog.upsert_record(catalog, record)
         records.append((record, source))
 
-    public_catalog.write_catalog(catalog_path, catalog)
-    write_admin_db(cms_db_path, records)
+    catalog = public_catalog.validate_catalog(catalog)
     metadata = admin_metadata(records)
-    admin_metadata_path.parent.mkdir(parents=True, exist_ok=True)
-    admin_metadata_path.write_text(
-        json.dumps(metadata, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    write_state_atomically(catalog_path, catalog, cms_db_path, admin_metadata_path, records, metadata)
 
     return {
         "ok": True,

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="$(cd "${TEST_DIR}/.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 PUBLISH_SCRIPT="${SOURCE_ROOT}/scripts/publish.sh"
 APPLY_PENDING_SCRIPT="${SOURCE_ROOT}/scripts/apply-pending.py"
-TMP_PARENT="${SOURCE_ROOT}/tmp/publish-validation-tests"
+TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/publish-validation-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2

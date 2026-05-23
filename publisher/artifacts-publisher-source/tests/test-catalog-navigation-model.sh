@@ -30,6 +30,7 @@ mkdir -p "$PUBLIC_ROOT"
 
 python3 - "$SOURCE_ROOT" "$PUBLIC_ROOT" "$RUN_DIR" "$WIKI_BASE" <<'PY'
 import importlib.util
+import hashlib
 import json
 import os
 import subprocess
@@ -73,7 +74,7 @@ def record(bu, project, slug, *, title=None, gate_status="gated", release_status
         "release_status": release_status,
         "scope": scope,
         "tags": ["fixture"] if title_visible else [],
-        "raw_hash": f"hash-{bu}-{project}-{slug}",
+        "raw_hash": hashlib.sha256(f"{bu}/{project}/{slug}".encode("utf-8")).hexdigest(),
     })
 
 
