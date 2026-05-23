@@ -3,7 +3,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-DEFAULT_PUBLIC_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)/docs/gitpages"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
+DEFAULT_PUBLIC_ROOT="$APP_ROOT/docs/gitpages"
 
 PUBLIC_ROOT="${WIKIA_PUBLIC_ROOT:-$DEFAULT_PUBLIC_ROOT}"
 JSON_OUTPUT="false"

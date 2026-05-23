@@ -2,9 +2,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 VALIDATE_SCRIPT="${SOURCE_ROOT}/scripts/validate-state.sh"
-TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/validate-state-tests}"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-${TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/validate-state-tests}}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2

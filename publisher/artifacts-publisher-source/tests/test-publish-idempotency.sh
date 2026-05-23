@@ -2,9 +2,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 PUBLISH_SCRIPT="${SOURCE_ROOT}/scripts/publish.sh"
-TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/publish-idempotency-tests}"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-${TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/publish-idempotency-tests}}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -83,7 +84,7 @@ run_publish_validate() {
   local validate_json="$2"
   local validate_err="$3"
 
-  PUBLISH_TEST_ORIGIN="$ORIGIN_REPO" REAL_GIT="$REAL_GIT" PATH="${FAKE_BIN}:$PATH" \
+  PUBLISH_TEST_ORIGIN="$ORIGIN_REPO" REAL_GIT="$REAL_GIT" WIKIA_PUBLISH_TMP_PARENT="${RUN_DIR}/publish-workdirs" PATH="${FAKE_BIN}:$PATH" \
     bash "$PUBLISH_SCRIPT" \
       --title "Repeatable Canonical Record" \
       --content "$raw_md" \
