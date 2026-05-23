@@ -5,4 +5,4 @@ private-source/
 .DS_Store
 *.pyc
 __pycache__/
-
+publisher/artifacts-publisher-source/.test-tmp/
