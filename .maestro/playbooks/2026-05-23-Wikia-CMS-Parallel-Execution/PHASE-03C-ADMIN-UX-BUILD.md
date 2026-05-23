@@ -18,4 +18,5 @@ admin UI patch
 focused tests + screenshots + commit
 ```
 
-- [ ] Admin-ux lane build. In `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-admin-ux`, implement only admin UI fixes identified in `lane-notes/admin-ux.md`. Focus on `admin.html.tpl`, `admin-decrypt.js`, and `_admin-styles.css.tpl`. Run focused tests and capture screenshot evidence if possible. Commit with explicit paths only. Stop after this task.
+- [x] Admin-ux lane build. In `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/fix-admin-ux`, implement only admin UI fixes identified in `lane-notes/admin-ux.md`. Focus on `admin.html.tpl`, `admin-decrypt.js`, and `_admin-styles.css.tpl`. Run focused tests and capture screenshot evidence if possible. Commit with explicit paths only. Stop after this task.
+  Result: admin UX now separates article inventory from actions, masks passwords by default, replaces direct commit-script copy with JSON-only pending intent copy, and passed focused admin tests.
