@@ -4,6 +4,8 @@ Date: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Integration branch: `improve/release-integration`
 HEAD before this run's merge step: `56c0e40`
+Plan commit before merge step: `281f53e`
+HEAD before origin carrier merge step: `c1835d4`
 
 ```text
 local lane refs + origin lane refs
@@ -37,32 +39,36 @@ Command run before this plan:
 git fetch --all --prune
 ```
 
+A second fetch during execution showed that `origin/build/render-navigation` and
+`origin/fix/publish-validation` were deleted after their pull requests landed in
+`origin/main`. Because this run must use origin-side lane output too,
+`origin/main` is treated only as the remote carrier for those deleted lane PRs,
+not as a deploy target.
+
 ## Branch Inputs After Fetch
 
 `HEAD-only / ref-only` comes from `git rev-list --left-right --count HEAD...<ref>`.
 
 | Lane | Local branch | Origin branch | Current state | Decision |
 | --- | --- | --- | --- | --- |
-| catalog-state | missing | missing | Active lane refs are pruned/missing; catalog-state content is already present through merge `50fdfa8`. | Do not merge `main`/`origin/main`; they are not lane refs for this phase. |
-| render-navigation | `build/render-navigation` at `2d9b095` | `origin/build/render-navigation` at `2d9b095` | `20 / 20`; both refs match each other but diverge from current integration HEAD. | Merge `origin/build/render-navigation` first, then confirm local branch is no-op. |
-| security-permissions | `build/security-permissions` at `0b33584` | `origin/build/security-permissions` at `0b33584` | `25 / 0`; both refs already ancestors of HEAD. | Merge/check both; expected no-op. |
-| publish-validation | `fix/publish-validation` at `d331d89` | `origin/fix/publish-validation` at `4431b20` | local `27 / 0`, origin `28 / 0`; both already ancestors of HEAD. | Merge/check origin then local; expected no-op. |
-| admin-ux | `fix/admin-ux` at `5317be5` | `origin/fix/admin-ux` at `5317be5` | `27 / 0`; both refs already ancestors of HEAD. | Merge/check both; expected no-op. |
+| catalog-state | missing | missing | Active lane refs are pruned/missing; catalog-state content is already present through merge `50fdfa8`. | No direct lane ref remains to merge. |
+| render-navigation | `build/render-navigation` at `2d9b095` | pruned; PR carrier in `origin/main` | Local ref merged as `c1835d4`; `origin/main` also contains PR #1. | Merge local ref first, then merge/check `origin/main` carrier. |
+| security-permissions | `build/security-permissions` at `0b33584` | `origin/build/security-permissions` at `0b33584` | Both refs are ancestors of HEAD after the render merge. | Merge/check both; expected no-op. |
+| publish-validation | local ref pruned during execution | pruned; PR carrier in `origin/main` | `origin/main` contains PR #5 from `fix/publish-validation`. | Merge/check `origin/main` carrier. |
+| admin-ux | `fix/admin-ux` at `5317be5` | `origin/fix/admin-ux` at `5317be5` | Both refs are ancestors of HEAD after the render merge. | Merge/check both; expected no-op. |
 
 ## Merge Order
 
-1. `origin/build/render-navigation`
-2. `build/render-navigation`
+1. `build/render-navigation`
+2. `origin/main` as carrier for deleted origin lane PRs #1 and #5
 3. `origin/build/security-permissions`
 4. `build/security-permissions`
-5. `origin/fix/publish-validation`
-6. `fix/publish-validation`
-7. `origin/fix/admin-ux`
-8. `fix/admin-ux`
+5. `origin/fix/admin-ux`
+6. `fix/admin-ux`
 
 ## Conflict Forecast
 
-`git merge-tree --write-tree HEAD origin/build/render-navigation` predicts conflicts in the shared test layer:
+`git merge-tree --write-tree HEAD build/render-navigation` predicted conflicts in the shared test layer:
 
 | File | Expected resolution principle |
 | --- | --- |
@@ -86,7 +92,18 @@ conflicts against integrated test expectations
 resolve to keep both navigation model and integrated safety contracts
 ```
 
-No conflicts are forecast for the security, publish-validation, or admin-ux refs because they are already ancestors of the current integration branch.
+After the render merge, `git merge-tree --write-tree HEAD origin/main` predicts conflicts in the shared publish-validation test layer:
+
+| File | Expected resolution principle |
+| --- | --- |
+| `publisher/artifacts-publisher-source/tests/test-phase-07-smoke.sh` | Preserve current integrated smoke flow and accept publish-validation expectations. |
+| `publisher/artifacts-publisher-source/tests/test-publish-apply-pending.sh` | Preserve secure pending-apply behavior and repo-relative temp roots. |
+| `publisher/artifacts-publisher-source/tests/test-publish-idempotency.sh` | Preserve idempotency coverage while accepting publish-validation fixtures. |
+| `publisher/artifacts-publisher-source/tests/test-publish-private-source.sh` | Preserve private-source safety checks. |
+| `publisher/artifacts-publisher-source/tests/test-publish-validation.sh` | Preserve validation-mode no-push guarantees and secret-handling checks. |
+| `publisher/artifacts-publisher-source/tests/test-validate-state.sh` | Preserve validation coverage for privacy, catalog/search drift, and stale sidebar counts. |
+
+No conflicts are forecast for the security or admin-ux refs because they are already ancestors of the current integration branch.
 
 ## Validation Plan
 
