@@ -3,11 +3,11 @@
 Date: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-Validated code HEAD: `575f18e25379`
-Test log: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/.maestro/state/integration-test-logs/20260523-094846/summary.txt`
+Validated code HEAD before this evidence-only update: `76edaf788dfc`
+Test log: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/.maestro/state/integration-test-logs/20260523-095138/summary.txt`
 
 No deploy commands were run.
-After the plan/evidence refresh commit, the syntax checks and full publisher suite were rerun on HEAD `575f18e25379`.
+After the PHASE-04 rerun commit, the syntax checks and full publisher suite were rerun on HEAD `76edaf788dfc`.
 
 ```text
 lane refs + origin carrier
@@ -40,7 +40,7 @@ PASS
 
 | Check | Result |
 | --- | --- |
-| Current HEAD | `575f18e25379` |
+| Validated code HEAD | `76edaf788dfc` |
 | Conflicted paths | PASS, none found |
 | Shell syntax | PASS |
 | Python compile | PASS |
@@ -81,26 +81,29 @@ Command:
 
 ```bash
 set -u
-run_id="$(date +%Y%m%d-%H%M%S)"
-log_dir=".maestro/state/integration-test-logs/${run_id}"
-mkdir -p "$log_dir"
-summary="$log_dir/summary.txt"
+LOG_ROOT=".maestro/state/integration-test-logs"
+RUN_ID="$(date +%Y%m%d-%H%M%S)"
+LOG_DIR="$LOG_ROOT/$RUN_ID"
+mkdir -p "$LOG_DIR"
+SUMMARY="$LOG_DIR/summary.txt"
+: > "$SUMMARY"
+
 failed=0
 count=0
 for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
   count=$((count + 1))
-  name="$(basename "$test_script")"
-  printf 'RUN %s\n' "$test_script" | tee -a "$summary"
-  if bash "$test_script" > "$log_dir/${name}.out" 2> "$log_dir/${name}.err"; then
-    printf 'PASS %s\n' "$test_script" | tee -a "$summary"
+  test_name="$(basename "$test_script")"
+  test_log="$LOG_DIR/$test_name.log"
+  printf 'RUN %s\n' "$test_script" | tee -a "$SUMMARY"
+  if bash "$test_script" > "$test_log" 2>&1; then
+    printf 'PASS %s\n' "$test_script" | tee -a "$SUMMARY"
   else
-    exit_code=$?
-    printf 'FAIL %s exit=%s\n' "$test_script" "$exit_code" | tee -a "$summary"
+    printf 'FAIL %s\n' "$test_script" | tee -a "$SUMMARY"
     failed=1
     break
   fi
 done
-printf 'TOTAL_RUN %s\n' "$count" | tee -a "$summary"
+printf 'TOTAL_RUN %s\n' "$count" | tee -a "$SUMMARY"
 exit "$failed"
 ```
 
