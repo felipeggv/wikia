@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="$(cd "${TEST_DIR}/.." && pwd)"
 RENDER_ADMIN_SCRIPT="${SOURCE_ROOT}/scripts/render-admin.py"
 RENDER_WIKI_SCRIPT="${SOURCE_ROOT}/scripts/render-wiki.py"
 SIDEBAR_TEMPLATE="${SOURCE_ROOT}/templates/_sidebar.html.tpl"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/render-admin-sidebar-wrapper-tests"
+TMP_PARENT="${SOURCE_ROOT}/tmp/render-admin-sidebar-wrapper-tests"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2

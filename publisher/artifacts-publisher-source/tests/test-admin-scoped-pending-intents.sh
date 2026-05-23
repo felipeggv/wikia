@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PLAYBOOK_ROOT="/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor"
-SOURCE_ROOT="${PLAYBOOK_ROOT}/Working/artifacts-publisher-source"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="$(cd "${TEST_DIR}/.." && pwd)"
 RENDER_ADMIN_SCRIPT="${SOURCE_ROOT}/scripts/render-admin.py"
-TMP_PARENT="${PLAYBOOK_ROOT}/Working/tmp/admin-scoped-pending-intents-tests"
+TMP_PARENT="${SOURCE_ROOT}/tmp/admin-scoped-pending-intents-tests"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -48,6 +48,10 @@ for (const forbidden of [
   'pending.rotations',
   'docs/gitpages/_passwords.enc',
   'docs/gitpages/_released.json',
+  '/tmp/wikia-clone',
+  'git commit -m',
+  'git push',
+  'commit script',
 ]) {
   if (html.includes(forbidden)) {
     throw new Error(`admin browser still contains direct public-output mutation marker: ${forbidden}`);
@@ -249,6 +253,9 @@ function assertUnchanged(label, actual, expected) {
   }
   if (!actionsHtml.includes('docs/gitpages/_pending-changes.json')) {
     throw new Error('pending panel does not stage _pending-changes.json');
+  }
+  if (!actionsHtml.includes('copy-pending-json')) {
+    throw new Error('pending panel does not expose JSON-only copy action');
   }
 })().catch((error) => {
   console.error(error.stack || error.message);
