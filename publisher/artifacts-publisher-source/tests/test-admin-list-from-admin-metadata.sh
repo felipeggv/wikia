@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_ROOT="${SOURCE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_ROOT="${WIKIA_TEST_SOURCE_ROOT:-$(cd "$TEST_DIR/.." && pwd)}"
+APP_ROOT="$(cd "$SOURCE_ROOT/../.." && pwd)"
 RENDER_ADMIN_SCRIPT="${SOURCE_ROOT}/scripts/render-admin.py"
-TMP_PARENT="${TMP_PARENT:-${SOURCE_ROOT}/.test-tmp/admin-list-from-admin-metadata-tests}"
+TMP_PARENT="${WIKIA_TEST_TMP_PARENT:-$APP_ROOT/.tmp/wikia-tests/admin-list-from-admin-metadata-tests}"
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -51,12 +52,13 @@ if (html.includes('Object.keys(vault')) {
 for (const selector of [
   '.admin-grid',
   '.admin-row',
-  '.admin-row-pwd',
-  '.admin-row-actions',
+  '.admin-row-status',
+  '.admin-filter-tabs',
+  '.admin-group-filter',
   '.admin-actions',
+  '.admin-sensitive',
+  '.admin-badge',
   '.btn',
-  '.iconbtn',
-  '.admin-row-released',
   '@media (max-width: 760px)',
 ]) {
   if (!html.includes(selector)) {
@@ -173,7 +175,13 @@ vm.runInThisContext(mainMatch[1], { filename: 'admin-inline.js' });
   if (listHtml.includes('vault-only-article') || listHtml.includes('must-not-render')) {
     throw new Error('vault-only record leaked into article list');
   }
-  if (!listHtml.includes('sem senha no vault')) {
+  if (listHtml.includes('from-vault')) {
+    throw new Error('article list leaked a plaintext vault password');
+  }
+  if (!listHtml.includes('senha vinculada')) {
+    throw new Error('metadata-backed article with vault password did not render linked-password badge');
+  }
+  if (!listHtml.includes('sem senha')) {
     throw new Error('metadata-only article did not render missing-vault state');
   }
   if (countText !== '2 artigos') {
@@ -181,6 +189,35 @@ vm.runInThisContext(mainMatch[1], { filename: 'admin-inline.js' });
   }
   if (elements['admin-state'].dataset.state !== 'unlocked') {
     throw new Error('admin did not enter unlocked state');
+  }
+
+  const missingPasswordKeys = window.__admin.setViewState('missing-password');
+  if (JSON.stringify(missingPasswordKeys) !== JSON.stringify(['gobbi/strategy/metadata-only-article'])) {
+    throw new Error(`missing-password filter mismatch: ${JSON.stringify(missingPasswordKeys)}`);
+  }
+  if (elements['admin-list-count'].textContent !== '1 de 2 artigos') {
+    throw new Error(`expected filtered count text, got ${JSON.stringify(elements['admin-list-count'].textContent)}`);
+  }
+
+  const stagingKeys = window.__admin.setViewState('all', 'bu:staging');
+  if (JSON.stringify(stagingKeys) !== JSON.stringify(['staging/growth-engine/admin-listed-article'])) {
+    throw new Error(`BU filter mismatch: ${JSON.stringify(stagingKeys)}`);
+  }
+
+  window.__admin.setViewState('all', '');
+  window.__admin.selectArticle('staging/growth-engine/admin-listed-article');
+  const maskedActionsHtml = elements['admin-actions'].innerHTML;
+  if (maskedActionsHtml.includes('from-vault')) {
+    throw new Error('selected article exposed plaintext password before reveal');
+  }
+  if (!maskedActionsHtml.includes('Mostrar senha')) {
+    throw new Error('selected article does not render reveal control');
+  }
+
+  window.__admin.togglePasswordVisibility('staging/growth-engine/admin-listed-article');
+  const revealedActionsHtml = elements['admin-actions'].innerHTML;
+  if (!revealedActionsHtml.includes('from-vault')) {
+    throw new Error('selected article did not reveal password after explicit toggle');
   }
 })().catch((error) => {
   console.error(error.stack || error.message);

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # gate.sh — aplica AES-GCM gate no HTML (substitui {{GATE_BLOCK}})
 # Uso: gate.sh <html-file> <password> [bu-slug]
-# bu-slug é opcional. Quando setado, isola o localStorage de unlock por BU
+# bu-slug é opcional. Quando setado, isola o sessionStorage de unlock por BU
 # (impede que senha de um artigo destrave artigos de outras BUs).
 set -euo pipefail
 HTML_FILE="${1:-}"; PASSWORD="${2:-}"; BU_SLUG="${3:-wiki}"
@@ -17,10 +17,21 @@ GATE_TPL="$SKILL_DIR/templates/gate.html.tpl"
 # que para no PRIMEIRO </template>, truncando conteúdo quando há <template> aninhado
 # (ex: playground inert). extract-template.mjs faz balance-scan e devolve o
 # conteúdo correto; encrypt-blob.mjs criptografa o plaintext já extraído.
-PLAINTEXT_FILE="${HTML_FILE}.plaintext.tmp"
+PLAINTEXT_FILE=""
+cleanup_plaintext() {
+  if [ -n "${PLAINTEXT_FILE:-}" ]; then
+    rm -f "$PLAINTEXT_FILE"
+    PLAINTEXT_FILE=""
+  fi
+}
+trap cleanup_plaintext EXIT HUP INT TERM
+
+TMP_PARENT="${TMPDIR:-/tmp}"
+TMP_PARENT="${TMP_PARENT%/}"
+PLAINTEXT_FILE="$(mktemp "${TMP_PARENT}/wikia-gate-plaintext.XXXXXX")"
 node "$SCRIPT_DIR/extract-template.mjs" "$HTML_FILE" "$PLAINTEXT_FILE"
 ENCRYPTED_JSON=$(node "$SCRIPT_DIR/encrypt-blob.mjs" "$PLAINTEXT_FILE" "$HTML_FILE" "$PASSWORD")
-rm -f "$PLAINTEXT_FILE"
+cleanup_plaintext
 
 python3 - "$HTML_FILE" "$GATE_TPL" "$ENCRYPTED_JSON" "$BU_SLUG" <<'PYEOF'
 import sys, json

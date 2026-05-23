@@ -27,6 +27,8 @@ ALLOWED_RELEASE_STATUS = {"unreleased", "released", "archived", "removed"}
 ALLOWED_SCOPE = {"public", "article", "project", "bu", "admin"}
 KEBAB_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
+ARTICLE_NAVIGATION_SCOPES = {"article", "project", "bu", "public"}
+PENDING_ARTICLE_SCOPE_TARGETS = {"article", "project", "bu"}
 KNOWN_BU_DISPLAY = {
     "staging": "Staging",
     "vita": "Vitascience",
@@ -65,6 +67,8 @@ def sha256_file(path: Path) -> str:
 def is_private_gate(value: Any) -> bool:
     if value is None:
         return False
+    if value is False:
+        return False
     if isinstance(value, str) and value.strip().lower() in {"", "none", "null", "public", "false"}:
         return False
     return True
@@ -82,6 +86,13 @@ def public_title(record: dict[str, Any]) -> str:
     if record.get("title_visible") and record.get("title_public"):
         return str(record["title_public"])
     return safe_title_from_slug(str(record.get("slug") or "artigo-protegido"))
+
+
+def normalize_navigation_scope(value: Any, default: str = "article") -> str:
+    scope = str(value or "").strip().lower()
+    if scope in ARTICLE_NAVIGATION_SCOPES:
+        return scope
+    return default
 
 
 def record_key(record: dict[str, Any]) -> str:
@@ -278,10 +289,17 @@ def is_public_record(record: dict[str, Any]) -> bool:
     if str(record.get("release_status") or "") == "removed":
         return False
     return (
-        str(record.get("gate_status") or "") == "public"
-        or str(record.get("scope") or "") == "public"
-        or str(record.get("release_status") or "") == "released"
+        str(record.get("release_status") or "") != "removed"
+        and (
+            str(record.get("gate_status") or "") == "public"
+            or str(record.get("scope") or "") == "public"
+            or str(record.get("release_status") or "") == "released"
+        )
     )
+
+
+def is_scoped_navigation_record(record: dict[str, Any]) -> bool:
+    return str(record.get("release_status") or "") != "removed"
 
 
 def find_record(records: list[dict[str, Any]], bu: str | None, project: str | None, slug: str | None) -> dict[str, Any] | None:
@@ -310,13 +328,11 @@ def scoped_records(records: list[dict[str, Any]], current: dict[str, Any] | None
     if str(current.get("release_status") or "") == "removed":
         return []
 
-    scope = str(current.get("scope") or "article")
+    scope = normalize_navigation_scope(current.get("scope"), default="article")
     bu = str(current.get("bu") or "")
     project = str(current.get("project") or "")
     slug = str(current.get("slug") or "")
 
-    if scope == "admin":
-        return list(available_records)
     if scope == "bu":
         return [record for record in available_records if record.get("bu") == bu]
     if scope == "project":
@@ -359,7 +375,10 @@ def record_from_raw(
     actual_gate_status = gate_status or ("gated" if gated else "public")
     title_visible = actual_gate_status == "public"
     actual_release_status = release_status or ("released" if title_visible else "unreleased")
-    actual_scope = scope or ("public" if title_visible else "article")
+    actual_scope = normalize_navigation_scope(
+        scope,
+        default=("public" if title_visible else "article"),
+    )
     raw_hash = sha256_file(raw_path)
 
     return validate_record({
