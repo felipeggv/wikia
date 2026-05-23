@@ -45,6 +45,7 @@ def record(bu, project, slug, gate, release, scope, visible=False, title=None, t
 
 records = [
     record("staging", "growth", "public-report", "public", "released", "public", True, "Public Report", ["growth"], "a"),
+    record("aleyemma", "finance-automation", "financial-manager-manual", "gated", "unreleased", "bu", True, "Financial Manager", ["financial-manager"], "1"),
     record("gobbi", "private", "project-scope", "gated", "unreleased", "project", hash_char="b"),
     record("gobbi", "private", "sibling-scope", "gated", "unreleased", "article", hash_char="c"),
     record("gobbi", "strategy", "bu-scope", "gated", "unreleased", "bu", hash_char="d"),
@@ -63,7 +64,7 @@ def keys(rows):
 
 
 public_keys = keys(public_catalog.scoped_records(records))
-if public_keys != ["staging/growth/public-report"]:
+if public_keys != ["aleyemma/finance-automation/financial-manager-manual", "staging/growth/public-report"]:
     raise SystemExit(f"public scope mismatch: {public_keys}")
 
 project_current = next(row for row in records if public_catalog.record_key(row) == "gobbi/private/project-scope")
@@ -148,7 +149,7 @@ public_catalog.py
 
 | Check | Result |
 |---|---|
-| Public view includes only released public records | PASS |
+| Public view includes released public records and explicit discoverable gated records | PASS |
 | Project scope includes only same project records | PASS |
 | BU scope includes only same BU records | PASS |
 | Admin scope falls back to the current record only | PASS |

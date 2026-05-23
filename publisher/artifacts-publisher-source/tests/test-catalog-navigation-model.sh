@@ -61,8 +61,8 @@ render_bu = load_script("render-bu")
 render_project = load_script("render-project")
 
 
-def record(bu, project, slug, *, title=None, gate_status="gated", release_status="unreleased", scope="article"):
-    title_visible = gate_status == "public"
+def record(bu, project, slug, *, title=None, gate_status="gated", release_status="unreleased", scope="article", visible=None):
+    title_visible = gate_status == "public" if visible is None else visible
     return public_catalog.with_identity_fields({
         "bu": bu,
         "project": project,
@@ -80,6 +80,7 @@ def record(bu, project, slug, *, title=None, gate_status="gated", release_status
 
 records = [
     record("staging", "test-project", "public-article", title="Public Article", gate_status="public", release_status="released", scope="public"),
+    record("aleyemma", "finance-automation", "financial-manager-manual", title="Financial Manager", gate_status="gated", release_status="unreleased", scope="bu", visible=True),
     record("staging", "test-project", "private-article", scope="article"),
     record("staging", "secret-project", "project-scope-article", scope="project"),
     record("staging", "secret-project", "project-colleague", scope="article"),
@@ -122,6 +123,7 @@ def require_absent(text, marker, label):
 public_tree = render_wiki.build_bu_tree(str(public_root))
 public_html = render_wiki.tree_html(public_tree, wiki_base=wiki_base)
 require_contains(public_html, "public-article", "public article in public sidebar")
+require_contains(public_html, "financial-manager-manual", "discoverable gated article in public sidebar")
 for marker in (
     "private-article",
     "project-scope-article",
@@ -136,6 +138,8 @@ require_absent(public_html, '<ul class="wk-tree">', "tree root leaked from tree_
 
 bu_articles = render_bu.collect_bu_articles(str(public_root), "staging")
 require([item["slug"] for item in bu_articles] == ["public-article"], "BU page should list public catalog records only")
+aleyemma_articles = render_bu.collect_bu_articles(str(public_root), "aleyemma")
+require([item["slug"] for item in aleyemma_articles] == ["financial-manager-manual"], "BU page should list discoverable gated records")
 project_articles = render_project.collect_project_articles(str(public_root), "staging", "test-project")
 require([item["slug"] for item in project_articles] == ["public-article"], "project page should list public catalog records only")
 
@@ -347,12 +351,12 @@ catalog_navigation.py
 
 | Check | Result |
 |---|---|
-| Public sidebar shows public records only | PASS |
+| Public sidebar shows released public records and explicit discoverable gated records | PASS |
 | Article-scope sidebar shows only the current gated article | PASS |
 | Project-scope sidebar shows only the gated project slice | PASS |
 | BU-scope sidebar excludes cross-BU records | PASS |
 | Admin-scope model falls back to current article only | PASS |
-| BU and project pages list public catalog records only | PASS |
+| BU and project pages list released public records and explicit discoverable gated records | PASS |
 | Article breadcrumb points to BU/project paths, not legacy research paths | PASS |
 | Missing current catalog record falls back to public sidebar rows | PASS |
 | Empty public catalog filter does not fall back to stale raw files | PASS |

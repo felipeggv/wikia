@@ -82,8 +82,13 @@ tags:
   - workflow
   - design
 gate: article
+# Optional: show the article in BU/project indexes while content stays gated.
+discoverable: true
+scope: bu
 ---
 ```
+
+Use `discoverable: true` only when the title/tags can appear publicly as a locked item. Keep it absent for fully hidden private articles.
 
 Comando de validacao para novo artigo:
 

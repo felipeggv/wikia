@@ -288,6 +288,8 @@ def validate_catalog(catalog: dict[str, Any], *, path: Path | None = None) -> di
 def is_public_record(record: dict[str, Any]) -> bool:
     if str(record.get("release_status") or "") == "removed":
         return False
+    if record.get("title_visible") and str(record.get("scope") or "") != "admin":
+        return True
     return (
         str(record.get("release_status") or "") != "removed"
         and (
@@ -373,11 +375,12 @@ def record_from_raw(
 
     gated = is_private_gate(fm.get("gate"))
     actual_gate_status = gate_status or ("gated" if gated else "public")
-    title_visible = actual_gate_status == "public"
-    actual_release_status = release_status or ("released" if title_visible else "unreleased")
+    discoverable = bool(fm.get("discoverable") or fm.get("title_visible"))
+    title_visible = actual_gate_status == "public" or discoverable
+    actual_release_status = release_status or ("released" if actual_gate_status == "public" else "unreleased")
     actual_scope = normalize_navigation_scope(
-        scope,
-        default=("public" if title_visible else "article"),
+        scope or fm.get("scope"),
+        default=("public" if actual_gate_status == "public" else "article"),
     )
     raw_hash = sha256_file(raw_path)
 

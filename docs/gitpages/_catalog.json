@@ -1,7 +1,29 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-05-23T19:51:11Z",
+  "generated_at": "2026-05-23T20:08:17Z",
   "records": [
+    {
+      "article_id": "7f02a3a9a26aa87255cc956b1cf3091c9647fd4e5955d59836c8eb1c5af576b7",
+      "bu": "aleyemma",
+      "canonical_key": "aleyemma/finance-automation/financial-manager-manual",
+      "gate_status": "gated",
+      "idempotency_key": "496be68d1a37e163aa400b05dcaae59df5400f3885ae42fa84ef98c1cc25694d",
+      "output_url": "aleyemma/finance-automation/financial-manager-manual/",
+      "project": "finance-automation",
+      "raw_hash": "f18f5d5566c2ae3321ba04413a356c6fa75e80b84977847cb5c664f812852835",
+      "release_status": "unreleased",
+      "scope": "bu",
+      "slug": "financial-manager-manual",
+      "tags": [
+        "financial-manager",
+        "finance",
+        "aleyemma",
+        "manual",
+        "eli5"
+      ],
+      "title_public": "Financial Manager — Manual de Uso (ELI5)",
+      "title_visible": true
+    },
     {
       "article_id": "9e3c1e655140e9702b2904092c7d0a6140e608ae91efd1119061260d5993256a",
       "bu": "allin",
@@ -92,22 +114,6 @@
       "release_status": "unreleased",
       "scope": "article",
       "slug": "design-first-dev-workflow",
-      "tags": [],
-      "title_public": null,
-      "title_visible": false
-    },
-    {
-      "article_id": "b08a272dc6894bd7849cb9297d0ceebc73843893d412b7c986f93643c1ed87cf",
-      "bu": "gobbi",
-      "canonical_key": "gobbi/skills/financial-manager-manual",
-      "gate_status": "gated",
-      "idempotency_key": "283e055095a7da705996d764295e6e4e11d5490864696e02034da9f1b7b1ce2e",
-      "output_url": "gobbi/skills/financial-manager-manual/",
-      "project": "skills",
-      "raw_hash": "4f0857f3d702ac5cf9fab5e1bfe1ca2b2ba035d8535b2e01e069b56e1f87c9b4",
-      "release_status": "unreleased",
-      "scope": "article",
-      "slug": "financial-manager-manual",
       "tags": [],
       "title_public": null,
       "title_visible": false
