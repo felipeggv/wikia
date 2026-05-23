@@ -26,15 +26,10 @@ TEMPLATES_DIR = SKILL_DIR / 'templates'
 sys.path.insert(0, str(SCRIPT_DIR))
 from frontmatter_parser import parse_frontmatter_optional  # noqa: E402
 import public_catalog  # noqa: E402
+import catalog_navigation  # noqa: E402
 
 
-BU_DISPLAY = {
-    'staging': 'Staging',
-    'vita': 'Vitascience',
-    'allin': 'AllIn',
-    'aleyemma': 'Aleyemma',
-    'gobbi': 'Gobbi',
-}
+BU_DISPLAY = catalog_navigation.BU_DISPLAY
 
 
 # copy of render-wiki.py:build_theme_vars
@@ -61,23 +56,18 @@ def _esc(s):
 
 def collect_project_articles(output_dir, bu_slug, project_slug):
     """Walk <output_dir>/<bu_slug>/<project_slug>/<slug>/raw.md and collect metadata."""
-    catalog_records = public_catalog.load_records_from_public_root(output_dir)
+    catalog_records = catalog_navigation.load_catalog_records(output_dir)
     if catalog_records:
-        return [
-            {
-                'bu': bu_slug,
-                'project': project_slug,
-                'slug': record.get('slug') or '',
-                'title': public_catalog.public_title(record),
-                'date': '',
-                'gate': str(record.get('gate_status') or 'unknown') != 'public',
-                'url': public_catalog.normalize_output_url(record.get('output_url') or ''),
-            }
-            for record in catalog_records
-            if record.get('bu') == bu_slug
-            and record.get('project') == project_slug
-            and public_catalog.is_public_record(record)
+        public_records = [
+            record for record in catalog_records
+            if public_catalog.is_public_record(record)
         ]
+        return catalog_navigation.articles_from_records(
+            public_records,
+            bu_slug=bu_slug,
+            project_slug=project_slug,
+            public_root=output_dir,
+        )
 
     base = Path(output_dir) / bu_slug / project_slug
     articles = []
@@ -137,7 +127,7 @@ def render_project(output_dir, theme, bu_slug, project_slug, wiki_base):
     appshell_tpl = (TEMPLATES_DIR / '_appshell.html.tpl').read_text()
 
     bu_title = BU_DISPLAY[bu_slug]
-    project_title = project_slug.replace('-', ' ').title()
+    project_title = catalog_navigation.humanize_slug(project_slug)
     project_description = f'Artigos do projeto {project_title} na BU {bu_title}.'
 
     styles = styles_tpl.replace('{{THEME_VARS}}', build_theme_vars(theme))

@@ -19,12 +19,12 @@
 
         <nav class="wk-breadcrumb" aria-label="Breadcrumb">
           <a href="{{WIKI_BASE}}/">wikia</a><span class="sep">›</span>
-          <a href="{{WIKI_BASE}}/research/{{TEMA}}/">{{TEMA_TITLE}}</a><span class="sep">›</span>
+          {{BREADCRUMB_CONTEXT_HTML}}
           <span class="current">{{SLUG}}</span>
         </nav>
 
         <header class="wk-article-header">
-          <div class="wk-eyebrow">{{TEMA_TITLE}}</div>
+          <div class="wk-eyebrow">{{ARTICLE_EYEBROW}}</div>
           <h1>{{TITLE}}</h1>
           {{LEAD_PARAGRAPH}}
           <div class="wk-meta-row">
