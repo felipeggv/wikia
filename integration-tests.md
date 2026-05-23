@@ -3,35 +3,37 @@
 Date: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-Validated code HEAD before this evidence-only update: `a799f3c`
+Validated code HEAD: `26c7767`
+Test log: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/.maestro/state/integration-test-logs/20260523-094846/summary.txt`
 
 No deploy commands were run.
 
 ```text
-lane output
-   |
-   v
-integration commits
-   |
-   v
+lane refs + origin carrier
+        |
+        v
+merge/check complete
+        |
+        v
 syntax checks
-   |
-   v
+        |
+        v
 22 publisher tests
-   |
-   v
+        |
+        v
 PASS
 ```
 
 ## Merge Coverage
 
-| Lane | Final integration evidence |
+| Lane/input | Final integration evidence |
 | --- | --- |
-| catalog-state | Already present through merge commit `50fdfa8`; active lane refs were pruned/missing. |
-| render-navigation | Merged through integration commit `c1835d4`; `build/render-navigation` is contained by `improve/release-integration`. |
-| security-permissions | `build/security-permissions` is contained by `improve/release-integration`. |
-| publish-validation | Merged through publish-validation lane carrier commit `d4691bf` and final integration commit `a0d2368`. |
-| admin-ux | `fix/admin-ux` is contained by `improve/release-integration`. |
+| `catalog-state` | Already present through merge commit `50fdfa8`; active lane refs are pruned/missing. |
+| `render-navigation` | Local ref `build/render-navigation` is contained through merge commit `c1835d4`; origin PR merge is represented through `origin/main`. |
+| `security-permissions` | Local `build/security-permissions` and `origin/build/security-permissions` are contained by `improve/release-integration`. |
+| `publish-validation` | Lane branch is pruned; content is contained through carrier `d4691bf`, integration merge `a0d2368`, and `origin/main`. |
+| `admin-ux` | Local `fix/admin-ux` and `origin/fix/admin-ux` are contained by `improve/release-integration`. |
+| `origin/main` | Merged as carrier commit `26c7767`; no file-level diff from pre-merge `aa678f1`. |
 
 ## Conflict Check
 
@@ -61,22 +63,26 @@ Command:
 
 ```bash
 set -u
+run_id="$(date +%Y%m%d-%H%M%S)"
+log_dir=".maestro/state/integration-test-logs/${run_id}"
+mkdir -p "$log_dir"
+summary="$log_dir/summary.txt"
 failed=0
 count=0
 for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
   count=$((count + 1))
-  printf 'RUN %s\n' "$test_script"
-  output="$(bash "$test_script" 2>&1)"
-  exit_code=$?
-  if [[ $exit_code -eq 0 ]]; then
-    printf 'PASS %s\n' "$test_script"
+  name="$(basename "$test_script")"
+  printf 'RUN %s\n' "$test_script" | tee -a "$summary"
+  if bash "$test_script" > "$log_dir/${name}.out" 2> "$log_dir/${name}.err"; then
+    printf 'PASS %s\n' "$test_script" | tee -a "$summary"
   else
-    printf 'FAIL %s exit=%s\n%s\n' "$test_script" "$exit_code" "$output"
+    exit_code=$?
+    printf 'FAIL %s exit=%s\n' "$test_script" "$exit_code" | tee -a "$summary"
     failed=1
     break
   fi
 done
-printf 'TOTAL_RUN %s\n' "$count"
+printf 'TOTAL_RUN %s\n' "$count" | tee -a "$summary"
 exit "$failed"
 ```
 
@@ -113,4 +119,4 @@ Final result: PASS, `22/22` test scripts passed.
 
 - Deploy and promotion commands were intentionally not run.
 - No plaintext private source was added by this validation step.
-- Integration validation touched evidence only; feature behavior was not changed by this evidence update.
+- Existing untracked handoff drafts were left untouched.

@@ -3,105 +3,123 @@
 Date: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Integration branch: `improve/release-integration`
-Current HEAD while writing this plan: `26c77670a696`
+HEAD before this run's merge step: `aa678f1`
+Current HEAD after merge step: `26c7767`
+
+No deploy commands are part of this plan.
 
 ```text
 local lane refs + origin refs
         |
         v
-write integration plan first
+write integration-plan.md first
         |
         v
-merge/check each approved input
+merge/check refs into improve/release-integration
         |
         v
-syntax checks + full publisher tests
-        |
-        v
-no deploy
+syntax checks + integrated publisher tests
 ```
 
 ## Scope
 
-Run PHASE-04 without deploy:
+Run PHASE-04 in the configured worktree:
 
-1. Review local Wikia lane branches and origin branches.
-2. Write this `integration-plan.md` before merge commands executed in this run.
-3. Merge or confirm already-merged lane outputs into `improve/release-integration`.
-4. Run syntax checks after the merge/check step.
-5. Run the full publisher test suite under `publisher/artifacts-publisher-source/tests`.
-6. Do not deploy.
+1. Fetch and review local Wikia lane branches and origin branches.
+2. Write this `integration-plan.md` before merge commands.
+3. Merge/check lane outputs into `improve/release-integration`.
+4. Run syntax checks and the full publisher test suite under `publisher/artifacts-publisher-source/tests`.
+5. Do not deploy.
 
 ## Fetch Evidence
 
-Command run before writing this plan:
+Command run before this plan:
 
 ```bash
-git fetch --all --prune
+git fetch origin --prune
 ```
 
-The fetch completed successfully and showed these active lane-related refs:
+Active refs after fetch:
 
-| Lane | Local ref | Origin ref | State against `HEAD` |
+| Ref | Commit | Role |
+| --- | --- | --- |
+| `build/render-navigation` | `2d9b095` | Local render-navigation lane ref; origin branch is pruned/gone. |
+| `build/security-permissions` | `0b33584` | Local security-permissions lane ref. |
+| `origin/build/security-permissions` | `0b33584` | Origin security-permissions lane ref matching local. |
+| `fix/admin-ux` | `5317be5` | Local admin-ux lane ref. |
+| `origin/fix/admin-ux` | `5317be5` | Origin admin-ux lane ref matching local. |
+| `origin/main` | `9ba2959` | Origin carrier containing landed render-navigation and publish-validation PR merge commits. |
+
+Missing or pruned refs:
+
+| Lane | Local branch | Origin branch | Current integration evidence |
 | --- | --- | --- | --- |
-| catalog-state | missing | missing | Already integrated earlier through merge `50fdfa8`; origin PR content is also in `origin/main`. |
-| render-navigation | `build/render-navigation` at `2d9b095` | missing | Local ref is already an ancestor of `HEAD`. |
-| security-permissions | `build/security-permissions` at `0b33584` | `origin/build/security-permissions` at `0b33584` | Both refs are already ancestors of `HEAD`. |
-| publish-validation | missing | missing | Lane branch is pruned; content is already represented through lane carrier `d4691bf`, integration merge `a0d2368`, and `origin/main`. |
-| admin-ux | `fix/admin-ux` at `5317be5` | `origin/fix/admin-ux` at `5317be5` | Both refs are already ancestors of `HEAD`. |
-| origin mainline carrier | n/a | `origin/main` at `9ba2959` | Already merged into current `HEAD` by merge commit `26c7767`. |
+| `catalog-state` | missing | missing | Already integrated through merge commit `50fdfa8`. |
+| `publish-validation` | missing | missing | Already integrated through carrier commit `d4691bf`, integration merge `a0d2368`, and origin carrier `origin/main`. |
+| `render-navigation` | present | missing | Local ref already integrated through merge commit `c1835d4`. |
 
-## Important State Note
+## Ancestry Check
 
-While preparing this run, `git reflog` showed that `HEAD` was already at
-`26c7767`, a merge commit with message:
+Before the merge commands, the active direct lane refs had `0` commits not already reachable from `HEAD`.
 
-```text
-Merge remote-tracking branch 'origin/main' into improve/release-integration
-```
+| Ref | HEAD-only / ref-only before merge | State |
+| --- | --- | --- |
+| `build/render-navigation` | `31 / 0` | Ref was already ancestor of `HEAD`. |
+| `build/security-permissions` | `56 / 0` | Ref was already ancestor of `HEAD`. |
+| `origin/build/security-permissions` | `56 / 0` | Ref was already ancestor of `HEAD`. |
+| `fix/admin-ux` | `58 / 0` | Ref was already ancestor of `HEAD`. |
+| `origin/fix/admin-ux` | `58 / 0` | Ref was already ancestor of `HEAD`. |
+| `origin/main` | `25 / 2` from `aa678f1` | Origin carrier had PR merge commits not in `HEAD`; merge recorded the carrier without changing files. |
 
-That merge commit has the same tree as the previous integration evidence commit
-`aa678f1`, so it did not change working-tree content. This plan records that
-state instead of rewinding it.
+Local `main` is intentionally excluded from the merge set because it is not a lane branch and is diverged by Auto Run playbook commits, not lane implementation output.
 
 ## Merge Order
 
-The merge/check step will use both local lane refs and origin refs where they
-exist. Missing pruned lane refs will be documented, not recreated.
+The merge/check commands ran in this order:
 
-1. `origin/main`
-2. `build/render-navigation`
-3. `build/security-permissions`
-4. `origin/build/security-permissions`
-5. `fix/admin-ux`
-6. `origin/fix/admin-ux`
-
-Expected result: all merge commands should report already up to date because the
-listed refs are ancestors of `HEAD`.
+1. `git merge --no-edit build/render-navigation`
+2. `git merge --no-edit build/security-permissions`
+3. `git merge --no-edit origin/build/security-permissions`
+4. `git merge --no-edit fix/admin-ux`
+5. `git merge --no-edit origin/fix/admin-ux`
+6. `git merge --no-edit origin/main`
 
 ## Conflict Forecast
 
-No new conflicts are expected in this run.
+No new conflicts were forecast for this rerun.
 
-Reason:
+Resolution rule if a conflict appeared:
 
 ```text
-each active lane ref
+do not choose one lane over another
         |
         v
-is ancestor of current HEAD
+preserve catalog + navigation + admin + permission + publish validation behavior
         |
         v
-merge/check should be no-op
+stage only explicit resolved paths
 ```
 
-The prior PHASE-04 conflict history remains relevant context:
+## Merge Result
 
-| Previous conflict area | Resolution principle already present in integration branch |
+| Command | Result |
 | --- | --- |
-| Shared admin and publish shell tests | Preserve repo-relative temp roots, admin safety checks, and publish validation guarantees. |
-| Navigation and sidebar tests | Preserve catalog-driven navigation while preventing duplicate sidebar wrappers. |
-| Security tests | Preserve gate hardening, scope validation, no plaintext temp residue, and no admin-scope public catalog leaks. |
+| `git merge --no-edit build/render-navigation` | Already up to date. |
+| `git merge --no-edit build/security-permissions` | Already up to date. |
+| `git merge --no-edit origin/build/security-permissions` | Already up to date. |
+| `git merge --no-edit fix/admin-ux` | Already up to date. |
+| `git merge --no-edit origin/fix/admin-ux` | Already up to date. |
+| `git merge --no-edit origin/main` | Created merge commit `26c7767`; `git diff --name-status aa678f1..26c7767` is empty. |
+
+```text
+lane refs already present
+        |
+        v
+origin/main carrier merge
+        |
+        v
+tree unchanged, integration history recorded
+```
 
 ## Validation Plan
 
@@ -116,24 +134,9 @@ find publisher/artifacts-publisher-source/scripts publisher/artifacts-publisher-
 Integrated publisher tests:
 
 ```bash
-set -u
-failed=0
-count=0
 for test_script in publisher/artifacts-publisher-source/tests/test-*.sh; do
-  count=$((count + 1))
-  printf 'RUN %s\n' "$test_script"
-  output="$(bash "$test_script" 2>&1)"
-  exit_code=$?
-  if [[ $exit_code -eq 0 ]]; then
-    printf 'PASS %s\n' "$test_script"
-  else
-    printf 'FAIL %s exit=%s\n%s\n' "$test_script" "$exit_code" "$output"
-    failed=1
-    break
-  fi
+  bash "$test_script"
 done
-printf 'TOTAL_RUN %s\n' "$count"
-exit "$failed"
 ```
 
 Deploy commands are intentionally excluded.
