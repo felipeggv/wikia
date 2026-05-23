@@ -89,6 +89,7 @@ flowchart TD
 | Public/released records | 4 |
 | Gated/unreleased records | 4 |
 | Search items in `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/docs/gitpages/search.json` | 4 |
+| Local sanitized SQLite in `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/.wikia-cms-state/admin-state.sqlite3` | Not present in this worktree snapshot |
 | Catalog/search URL drift | 0 missing, 0 extra |
 | Images analyzed for this task | 0 |
 
@@ -103,6 +104,7 @@ flowchart TD
 | Admin initial paint is intentionally locked. | `render-admin.py` validates state but renders `admin_locked_tree_html()` and avoids article metadata in static admin HTML. |
 | Admin DB schema is privacy-oriented. | `admin-db.py` blocks obvious forbidden schema terms like password, secret, body, content, markdown, and private title fields. |
 | Apply-pending uses scoped identities, not bare labels only. | `apply-pending.py` matches intents by canonical key, slug, output URL, or article ID. |
+| Single-article publish is catalog-first, then page/search rebuild. | `publish.sh` upserts `_catalog.json` first, renders the article, then rebuilds wiki/search/BU/project pages on the non-`--rebuild-all` path. |
 | Current generated output passes validator. | `validate-state.sh --public-root ... --json` returned `ok: true` and `issue_count: 0`. |
 
 ### Risks
@@ -111,7 +113,7 @@ flowchart TD
 |---|---|---|
 | `sync-cms-state.py` writes `_catalog.json` before admin DB/admin metadata are fully written. | If a later admin DB upsert fails, the public catalog may already be changed. That is like updating the website CRM but failing halfway through the finance export. | High |
 | State rules are duplicated in `public_catalog.py` and `validate-state.sh`. | `is_public_record()` and `scoped_records()` exist in both places. Any drift can make validation approve a page that runtime would not render, or vice versa. | High |
-| Single-article publish updates catalog/search/pages but does not rebuild encrypted admin metadata. | New or changed article records can appear on public surfaces while admin `_admin.enc` waits for rebuild-all/apply-pending. | Medium |
+| Single-article publish updates catalog/search/pages but does not rebuild sanitized admin state or encrypted admin metadata. | New or changed article records can appear on public surfaces while admin `admin-state.sqlite3` and `_admin.enc` wait for rebuild-all/apply-pending. | Medium |
 | Existing shell tests hard-code old Auto Run paths under `/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor`. | Tests are hard to run from this worktree as-is. This slows future lanes and can hide regressions. | Medium |
 | `_released.json` can be empty while `_catalog.json` has released records. | The current generated state has 4 released catalog records and an empty released ledger. Release status is partly inferred from raw gate state, not just the ledger. | Medium |
 | Public search snippets are empty when catalog exists. | This is privacy-safe, but weak for UX. Adding snippets later must happen through sanitized public fields, not raw markdown scraping. | Low |
@@ -147,6 +149,8 @@ flowchart TD
 |---|---|
 | `bash /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/publisher/artifacts-publisher-source/scripts/validate-state.sh --public-root /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/docs/gitpages --json` | PASS, `ok: true`, `issue_count: 0` |
 | `python3 /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/publisher/artifacts-publisher-source/scripts/admin-db.py schema --json` | PASS, schema version 1 |
+| `test -f /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/.wikia-cms-state/admin-state.sqlite3` | Observed absent in this snapshot, which is consistent with admin state being generated during rebuild-all |
+| `rg -n '/Users/felipegobbi/Documents/VibeworkV2/Auto Run Docs/2026-05-19-Wikia-CMS-Refactor' /Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/build-catalog-state/publisher/artifacts-publisher-source/tests` | Confirms multiple shell tests are pinned to the old Auto Run path |
 | Python AST parse for catalog-state scripts | PASS for `admin-db.py`, `sync-cms-state.py`, `public_catalog.py`, and `build-search-index.py` |
 
 ## Boundaries Honored
