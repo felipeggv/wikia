@@ -19,7 +19,7 @@ QA local final
 handoff pronto, sem deploy
 ```
 
-Verificacao final concluida em `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration` na branch `improve/release-integration`, HEAD `575f18e`.
+Verificacao final concluida em `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration` na branch `improve/release-integration`, HEAD `76edaf7`.
 
 Resultado principal: PASS. Nao houve deploy.
 
@@ -42,7 +42,7 @@ Resultado principal: PASS. Nao houve deploy.
 
 ## Evidencia Base
 
-Usei `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` como evidencia historica da integracao e revalidei o estado atual da branch apos o merge carrier `26c7767` e o refresh `575f18e`.
+Usei `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` como evidencia historica da integracao e revalidei o estado atual da branch.
 
 ## Ressalva
 

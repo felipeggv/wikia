@@ -3,7 +3,7 @@
 Data: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-HEAD verificado: `575f18e`
+HEAD verificado: `76edaf7`
 Deploy: nao executado.
 
 ```text
@@ -21,7 +21,7 @@ verificacao final sem deploy
 
 ## Resumo Executivo
 
-A branch integrada foi revalidada no `HEAD` atual `575f18e`. O resultado final e PASS: sem conflitos abertos, sintaxe shell/Python/Node valida, suite do publisher com `22/22` testes passando, validador de estado publico com `issue_count: 0`, JSONs publicos parseaveis e nenhum arquivo plaintext em `private-source` rastreado pelo Git.
+A branch integrada foi verificada no `HEAD` atual `76edaf7`. Resultado: PASS.
 
 Em linguagem de negocio: o pacote de release passou pelo QA local. O botao de publicacao nao foi apertado.
 
@@ -29,14 +29,14 @@ Em linguagem de negocio: o pacote de release passou pelo QA local. O botao de pu
 
 | Fonte | Uso |
 | --- | --- |
-| `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` | Evidencia integrada anterior: merge coverage, sintaxe e `22/22` testes no codigo antes da atualizacao evidence-only. |
-| Estado atual da branch `improve/release-integration` | Revalidacao final sobre o `HEAD` `575f18e`. |
+| `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration/integration-tests.md` | Evidencia integrada da fase: merge coverage, sintaxe e `22/22` testes no fluxo do publisher. |
+| Estado atual da branch `improve/release-integration` | Revalidacao final no `HEAD` `76edaf7`. |
 
 ```text
 integration-tests.md
         |
         v
-HEAD atual 575f18e
+HEAD atual 76edaf7
         |
         v
 checks finais repetidos
@@ -56,13 +56,13 @@ checks finais repetidos
 | Suite integrada do publisher esta verde | PASS | `22/22` scripts em `publisher/artifacts-publisher-source/tests/test-*.sh` passaram. |
 | Estado publico gerado esta consistente | PASS | `validate-state.sh --json` retornou `ok: true` e `issue_count: 0`. |
 | JSONs publicos principais abrem corretamente | PASS | `_catalog.json`, `search.json` e `_released.json` parsearam. |
-| Refs ativos conhecidos estao integrados | PASS com ressalva | Refs existentes sao ancestrais; alguns refs foram removidos/pruned e aparecem como ausentes. |
+| Refs ativos conhecidos estao integrados | PASS com ressalva | Refs existentes sao ancestrais; alguns refs antigos aparecem como ausentes/pruned. |
 
 ## Resultado dos Checks
 
 | Check | Resultado |
 | --- | --- |
-| `git rev-parse --short HEAD` | `575f18e` |
+| `git rev-parse --short HEAD` | `76edaf7` |
 | Conflitos abertos | Nenhum |
 | `private-source` rastreado | Nenhum arquivo |
 | Shell syntax | PASS |
@@ -70,36 +70,27 @@ checks finais repetidos
 | Node `.mjs` syntax | PASS |
 | Publisher tests | PASS, `22/22` |
 | `validate-state.sh --json` | PASS, `issue_count: 0` |
-| `_catalog.json` | PASS, `records: 8` |
-| `search.json` | PASS, `records: 4` |
-| `_released.json` | PASS, lista com `0` registros |
+| `_catalog.json` | PASS, `8` registros |
+| `search.json` | PASS, `4` registros |
+| `_released.json` | PASS, `0` registros |
 | `docs/gitpages/**/*.html` | `21` paginas |
 
 ## Estado Integrado da Branch
 
 ```text
-281f53e integration plan
-   |
-   v
 c1835d4 merge render navigation
    |
    v
 a0d2368 merge publish validation carrier
    |
    v
-a799f3c carrier decision recorded
+26c7767 merge origin/main carrier
    |
    v
-6024203 final PHASE-04 integration evidence
+575f18e refresh integration plan
    |
    v
-aa678f1 refreshed integration test evidence
-   |
-   v
-26c7767 merged origin/main carrier
-   |
-   v
-575f18e refreshed PHASE-04 integration plan and evidence
+76edaf7 record PHASE-04 integration rerun
 ```
 
 | Ref | Resultado |
@@ -123,4 +114,4 @@ release candidate local
         +-- handoff pronto
 ```
 
-A candidata de release esta validada localmente no `HEAD` `575f18e`. A unica ressalva operacional e que alguns refs de lanes antigas estao ausentes por prune/limpeza, mas os refs existentes conhecidos estao integrados por ancestralidade e a suite final passou.
+A candidata de release esta validada localmente no `HEAD` `76edaf7`. A unica ressalva operacional e que alguns refs de lanes antigas estao ausentes por prune/limpeza, mas os refs existentes conhecidos estao integrados por ancestralidade e a suite final passou.

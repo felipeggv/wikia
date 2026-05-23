@@ -3,7 +3,7 @@
 Data: 2026-05-23
 Worktree: `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia-worktrees/improve-release-integration`
 Branch: `improve/release-integration`
-HEAD verificado: `575f18e`
+HEAD verificado: `76edaf7`
 Deploy: nao executado.
 
 ```text
@@ -23,7 +23,7 @@ handoff sem deploy
 
 ## Resumo Executivo
 
-A branch `improve/release-integration` esta pronta para revisao de release do ponto de vista de verificacao local. O `HEAD` atual `575f18e` passou nos checks finais, e a evidencia em `integration-tests.md` foi atualizada com a revalidacao apos o merge carrier de `origin/main`.
+A branch `improve/release-integration` esta pronta para revisao de release do ponto de vista de verificacao local. O `HEAD` atual `76edaf7` passou nos checks finais, e a evidencia em `integration-tests.md` foi usada como base historica da integracao.
 
 Nao houve deploy. Nao editei HTML gerado como fonte da verdade. Nao toquei em `private-source`.
 
@@ -50,14 +50,14 @@ Arquivo de evidencia integrado usado:
 Revalidacao final feita neste handoff:
 
 ```text
-git HEAD             -> 575f18e
+git HEAD             -> 76edaf7
 shell syntax         -> PASS
 python compile       -> PASS
 node --check         -> PASS
 publisher test suite -> 22/22 PASS
 validate-state       -> ok true, issue_count 0
-catalog JSON         -> 8 catalog records
-search JSON          -> 4 search records
+catalog JSON         -> 8 records
+search JSON          -> 4 records
 released JSON        -> 0 records
 HTML pages           -> 21 files
 ```
@@ -74,7 +74,7 @@ merge commits de integracao
 evidence commits
    |
    v
-HEAD 575f18e
+HEAD 76edaf7
 ```
 
 Historico relevante:
@@ -83,11 +83,9 @@ Historico relevante:
 | --- | --- |
 | `c1835d4` | Merge de render navigation. |
 | `a0d2368` | Merge do carrier de publish validation. |
-| `a799f3c` | Registro da decisao de carrier de origin escopado. |
-| `6024203` | Evidencia final PHASE-04. |
-| `aa678f1` | Refresh de evidencia de testes integrados. |
-| `26c7767` | Merge carrier de `origin/main` contendo os PR merges formais. |
-| `575f18e` | Refresh do plano/evidencia PHASE-04 apos o carrier merge. |
+| `26c7767` | Merge do carrier `origin/main`. |
+| `575f18e` | Refresh do plano de integracao PHASE-04. |
+| `76edaf7` | Registro do rerun de integracao PHASE-04. |
 
 Refs ativos checados:
 
