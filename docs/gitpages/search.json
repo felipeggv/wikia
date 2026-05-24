@@ -1,19 +1,5 @@
 [
   {
-    "title": "Financial Manager — Manual de Uso (ELI5)",
-    "tema": "aleyemma/finance-automation",
-    "tags": [
-      "financial-manager",
-      "finance",
-      "aleyemma",
-      "manual",
-      "eli5"
-    ],
-    "date": "2026-05-23",
-    "snippet": "",
-    "url": "aleyemma/finance-automation/financial-manager-manual/"
-  },
-  {
     "title": "Customer Success na CASE · Como a Rotina do CS Funciona",
     "tema": "allin/case-cs",
     "tags": [
@@ -22,7 +8,7 @@
       "operacao",
       "alinhamento"
     ],
-    "date": "2026-05-23",
+    "date": "2026-05-24",
     "snippet": "",
     "url": "allin/case-cs/cs-na-case-alinhamento-eloise/"
   },
@@ -39,7 +25,7 @@
       "fit-gap",
       "bu-case"
     ],
-    "date": "2026-05-23",
+    "date": "2026-05-24",
     "snippet": "",
     "url": "gobbi/geral/twenty-spalla-operon-crm-fit/"
   },
@@ -54,7 +40,7 @@
       "processo",
       "ia-agent"
     ],
-    "date": "2026-05-23",
+    "date": "2026-05-24",
     "snippet": "",
     "url": "staging/gestao-projetos/clickup-linear-playbook/"
   },
@@ -65,7 +51,7 @@
       "pricing",
       "strategy"
     ],
-    "date": "2026-05-23",
+    "date": "2026-05-24",
     "snippet": "",
     "url": "staging/test-project/pricing-strategy-playbook/"
   }

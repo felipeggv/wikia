@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-05-23T20:08:17Z",
+  "generated_at": "2026-05-24T08:34:57Z",
   "records": [
     {
       "article_id": "7f02a3a9a26aa87255cc956b1cf3091c9647fd4e5955d59836c8eb1c5af576b7",
@@ -114,6 +114,22 @@
       "release_status": "unreleased",
       "scope": "article",
       "slug": "design-first-dev-workflow",
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
+    },
+    {
+      "article_id": "22740aebeb2ccd5fbac90f05dde2bf769235871c180b4c8355715032e9c83596",
+      "bu": "gobbi",
+      "canonical_key": "gobbi/unblock/pai-hermes-codex-orchestration",
+      "gate_status": "gated",
+      "idempotency_key": "984987246387482a227f285785803448fd4da5f6090b453b41cc787311c6bf8b",
+      "output_url": "gobbi/unblock/pai-hermes-codex-orchestration/",
+      "project": "unblock",
+      "raw_hash": "7d3097d8c378d3fe36f038440d4f947ad97d2948f1c5672d28d80daa47431260",
+      "release_status": "unreleased",
+      "scope": "article",
+      "slug": "pai-hermes-codex-orchestration",
       "tags": [],
       "title_public": null,
       "title_visible": false
