@@ -338,6 +338,12 @@
   min-width: 0;
 }
 
+.admin-row-open {
+  min-height: 24px;
+  padding: 0 var(--s-2);
+  font-size: 10px;
+}
+
 .admin-actions-badges {
   justify-content: flex-start;
   margin-top: var(--s-3);
@@ -457,6 +463,24 @@
   font-weight: 600;
   line-height: 1.45;
   overflow-wrap: anywhere;
+}
+
+.admin-actions-link {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+
+.admin-actions-link span {
+  min-width: 0;
+  color: var(--text-dim);
+  font-size: 10px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.admin-open-primary {
+  justify-self: flex-start;
 }
 
 .admin-sensitive {

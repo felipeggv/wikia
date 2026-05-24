@@ -138,6 +138,41 @@ bash publisher/artifacts-publisher-source/scripts/validate-state.sh \
   --json
 ```
 
+## Auditoria obrigatoria de artigo publicado
+
+Publicacao so esta pronta quando a rota, o catalogo, o Admin e a navegacao
+contam a mesma historia. Nao aceite "o HTML foi gerado" como conclusao.
+
+```
+private-source raw.md
+   |
+   v
+_catalog.json + _admin.enc + _passwords.enc
+   |
+   v
+admin, sidebar, busca, BU/project pages, article page
+```
+
+Checklist minimo depois de criar ou reconstruir artigo:
+
+1. Confirmar que `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/docs/gitpages/_catalog.json` contem `bu/project/slug`.
+2. Confirmar que `/Users/felipegobbi/Documents/VibeworkV2/apps/wikia/docs/gitpages/{bu}/{project}/{slug}/index.html` existe.
+3. Confirmar que o Admin lista o artigo mesmo quando `_admin.enc` estiver atrasado; o Admin deve mesclar `_admin.enc` com `_catalog.json`.
+4. Confirmar que o botao do Admin abre a URL do artigo e, quando houver senha no vault, injeta a senha correta em `sessionStorage` antes de navegar.
+5. Rodar:
+
+```bash
+cd /Users/felipegobbi/Documents/VibeworkV2/apps/wikia
+bash publisher/artifacts-publisher-source/tests/test-admin-list-from-admin-metadata.sh
+bash publisher/artifacts-publisher-source/scripts/validate-state.sh --public-root docs/gitpages --json
+```
+
+Causa raiz do incidente Aleyemma: o artigo podia existir na rota e no catalogo,
+mas a UI Admin antiga dependia demais do metadata criptografado. Quando
+`_admin.enc` ficava atrasado apos publish pontual, o artigo recem-catalogado
+nao aparecia no Admin. A regra correta e: `_admin.enc` e fonte privada rica,
+`_catalog.json` e fallback publico seguro para existencia/rota.
+
 ## Layout 3-zonas
 
 ```

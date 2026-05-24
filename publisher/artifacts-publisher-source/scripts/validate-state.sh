@@ -398,6 +398,42 @@ def validate_search_catalog(records: list[dict]) -> None:
         )
 
 
+def validate_catalog_pages(records: list[dict]) -> None:
+    catalog_path = public_root / "_catalog.json"
+    expected_urls = {
+        normalize_url(record.get("output_url"))
+        for record in records
+        if str(record.get("release_status") or "") != "removed" and normalize_url(record.get("output_url"))
+    }
+
+    for record in records:
+        if str(record.get("release_status") or "") == "removed":
+            continue
+        url = normalize_url(record.get("output_url"))
+        if not url:
+            continue
+        page_path = public_root / url / "index.html"
+        if not page_path.exists():
+            add_issue(
+                "catalog_page_missing",
+                catalog_path,
+                f"catalog record points to missing article page: {record_key(record)} -> {url}index.html",
+            )
+
+    known_bus = set(public_catalog.KNOWN_BU_DISPLAY.keys())
+    for page in sorted(public_root.rglob("index.html")):
+        url = page_output_url(page)
+        parts = [part for part in url.strip("/").split("/") if part]
+        if len(parts) != 3 or parts[0] not in known_bus:
+            continue
+        if url not in expected_urls:
+            add_issue(
+                "article_page_missing_catalog_record",
+                page,
+                f"article page has no matching catalog output_url: {url}",
+            )
+
+
 def tag_class_count(text: str, tag: str, class_name: str) -> int:
     total = 0
     for match in re.finditer(rf"<{tag}\b[^>]*>", text, flags=re.I):
@@ -430,6 +466,7 @@ if not public_root.is_dir():
 else:
     catalog_records = load_catalog()
     validate_search_catalog(catalog_records)
+    validate_catalog_pages(catalog_records)
     text_suffixes = {".css", ".html", ".js", ".json", ".md", ".txt", ".xml"}
     for item in sorted(public_root.rglob("*")):
         if not item.is_file():

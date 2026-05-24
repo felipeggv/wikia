@@ -57,6 +57,8 @@ for (const selector of [
   '.admin-group-filter',
   '.admin-actions',
   '.admin-sensitive',
+  '.admin-row-open',
+  '.admin-actions-link',
   '.admin-badge',
   '.btn',
   '@media (max-width: 760px)',
@@ -95,9 +97,22 @@ global.document = {
   documentElement: { dataset: { wikiBase: 'https://fixture.test/wikia' } },
   getElementById,
 };
-global.window = {};
+const sessionData = {};
+const sessionStorageMock = {
+  getItem(key) { return Object.prototype.hasOwnProperty.call(sessionData, key) ? sessionData[key] : null; },
+  setItem(key, value) { sessionData[key] = String(value); },
+  removeItem(key) { delete sessionData[key]; },
+};
+global.window = {
+  location: {
+    href: '',
+    assign(url) { this.href = url; },
+  },
+};
 global.crypto = webcrypto;
 global.navigator = { clipboard: { writeText: async () => {} } };
+global.sessionStorage = sessionStorageMock;
+window.sessionStorage = sessionStorageMock;
 global.confirm = () => true;
 global.setTimeout = () => 0;
 global.btoa = (value) => Buffer.from(value, 'binary').toString('base64');
@@ -246,11 +261,25 @@ vm.runInThisContext(mainMatch[1], { filename: 'admin-inline.js' });
   if (!maskedActionsHtml.includes('Mostrar senha')) {
     throw new Error('selected article does not render reveal control');
   }
+  if (!maskedActionsHtml.includes('Abrir artigo')) {
+    throw new Error('selected article does not render article navigation control');
+  }
 
   window.__admin.togglePasswordVisibility('staging/growth-engine/admin-listed-article');
   const revealedActionsHtml = elements['admin-actions'].innerHTML;
   if (!revealedActionsHtml.includes('from-vault')) {
     throw new Error('selected article did not reveal password after explicit toggle');
+  }
+
+  const openResult = window.__admin.openArticle('staging/growth-engine/admin-listed-article');
+  if (!openResult || openResult.url !== 'https://fixture.test/wikia/staging/growth-engine/admin-listed-article/') {
+    throw new Error(`openArticle returned wrong URL: ${JSON.stringify(openResult)}`);
+  }
+  if (sessionStorage.getItem('wikia-master-key-staging') !== 'from-vault') {
+    throw new Error('openArticle did not seed the gated article session password');
+  }
+  if (window.location.href !== 'https://fixture.test/wikia/staging/growth-engine/admin-listed-article/') {
+    throw new Error(`openArticle did not navigate to the article URL: ${window.location.href}`);
   }
 })().catch((error) => {
   console.error(error.stack || error.message);
@@ -303,6 +332,7 @@ password merge only
 | Catalog-only fallback article renders | PASS |
 | Vault-only record is not listed as an article | PASS |
 | Count comes from encrypted metadata merged with public catalog | PASS |
+| Article navigation button seeds session password before opening | PASS |
 | Unlocked admin visual selectors are bundled into generated HTML | PASS |
 
 ## Images Analyzed

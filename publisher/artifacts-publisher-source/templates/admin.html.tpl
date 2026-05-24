@@ -90,6 +90,60 @@
   var vaultWarning = '';
   var activeFilter = 'all';
   var activeGroup = '';
+  var BU_DISPLAY = {
+    staging: 'Staging',
+    vita: 'Vitascience',
+    allin: 'AllIn',
+    aleyemma: 'Aleyemma',
+    gobbi: 'Gobbi'
+  };
+  var SCOPE_DISPLAY = {
+    article: 'Artigo',
+    project: 'Projeto',
+    bu: 'BU',
+    public: 'Publico',
+    admin: 'Admin'
+  };
+  var ACRONYM_DISPLAY = {
+    ai: 'AI',
+    api: 'API',
+    bu: 'BU',
+    case: 'CASE',
+    cms: 'CMS',
+    crm: 'CRM',
+    cs: 'CS',
+    eli5: 'ELI5',
+    html: 'HTML',
+    id: 'ID',
+    json: 'JSON',
+    jwt: 'JWT',
+    seo: 'SEO',
+    ui: 'UI',
+    url: 'URL',
+    ux: 'UX'
+  };
+  var TITLE_STOPWORDS = {
+    a: true,
+    as: true,
+    com: true,
+    da: true,
+    das: true,
+    de: true,
+    do: true,
+    dos: true,
+    e: true,
+    em: true,
+    na: true,
+    nas: true,
+    no: true,
+    nos: true,
+    o: true,
+    os: true,
+    para: true,
+    por: true,
+    que: true,
+    sem: true
+  };
 
   // ---------- DOM ----------
   var stateRoot = document.getElementById('admin-state');
@@ -152,6 +206,49 @@
       out.push(value);
     }
     return out;
+  }
+
+  function titleWord(word, index) {
+    var raw = String(word == null ? '' : word);
+    if (!raw) return '';
+    if (raw.indexOf('/') >= 0) {
+      return raw.split('/').map(function (part) { return titleWord(part, index); }).join('/');
+    }
+    var match = raw.match(/^([^\p{L}\p{N}]*)([\p{L}\p{N}]+(?:'[\p{L}\p{N}]+)?)([^\p{L}\p{N}]*)$/u);
+    if (!match) return raw;
+    var prefix = match[1];
+    var core = match[2];
+    var suffix = match[3];
+    var lower = core.toLowerCase();
+    var rendered = ACRONYM_DISPLAY[lower]
+      || (index > 0 && TITLE_STOPWORDS[lower]
+        ? lower
+        : lower.charAt(0).toUpperCase() + lower.slice(1));
+    return prefix + rendered + suffix;
+  }
+
+  function titleizeText(value) {
+    var raw = String(value == null ? '' : value).trim();
+    if (!raw) return '';
+    var text = raw.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ');
+    var words = text.split(' ');
+    return words.map(titleWord).join(' ');
+  }
+
+  function displayToken(value, kind) {
+    var token = String(value == null ? '' : value).trim();
+    if (!token) return '';
+    var lower = token.toLowerCase();
+    if (kind === 'bu') return BU_DISPLAY[lower] || titleizeText(token);
+    if (kind === 'scope') return SCOPE_DISPLAY[lower] || titleizeText(token);
+    return titleizeText(token);
+  }
+
+  function displayTitleForArticle(article) {
+    var raw = String(article && (article.title || article.title_public || '') || '').trim();
+    if (!raw) raw = String(article && article.slug || '').replace(/-/g, ' ');
+    if (!raw) return 'Artigo';
+    return raw === raw.toLowerCase() ? titleizeText(raw) : raw;
   }
 
   function keyFromParts(article) {
@@ -270,8 +367,46 @@
   }
 
   function metaTextForArticle(article) {
-    var parts = compactUnique([article.bu, article.project || article.tema, article.scope]);
+    var parts = compactUnique([
+      displayToken(article.bu, 'bu'),
+      displayToken(article.project || article.tema, 'project'),
+      displayToken(article.scope, 'scope')
+    ]);
     return parts.length ? parts.join(' / ') : '—';
+  }
+
+  function joinUrl(base, path) {
+    return String(base || '').replace(/\/+$/, '') + '/' + String(path || '').replace(/^\/+/, '');
+  }
+
+  function articlePath(article) {
+    var outputUrl = String(article && (article.output_url || article.url) || '').trim();
+    if (!outputUrl && article && article.bu && (article.project || article.tema) && article.slug) {
+      outputUrl = [article.bu, article.project || article.tema, article.slug].join('/') + '/';
+    }
+    return outputUrl.replace(/^\/+/, '');
+  }
+
+  function articleUrl(article) {
+    var path = articlePath(article);
+    if (/^https?:\/\//i.test(path)) return path;
+    return joinUrl(WIKI_BASE, path);
+  }
+
+  function articleSessionStorageKey(article) {
+    var bu = String(article && article.bu || 'wiki').trim() || 'wiki';
+    return 'wikia-master-key-' + bu;
+  }
+
+  function storeArticlePasswordForNavigation(article) {
+    var pwdInfo = passwordInfoForArticle(article);
+    if (!pwdInfo.exists) return false;
+    try {
+      sessionStorage.setItem(articleSessionStorageKey(article), String(pwdInfo.password));
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   function releasedTokenFromItem(item) {
@@ -409,8 +544,11 @@
 
   function groupLabelForValue(value) {
     if (!value) return 'Todas as BUs/projetos';
-    if (value.indexOf('bu:') === 0) return 'BU · ' + value.slice(3);
-    if (value.indexOf('project:') === 0) return value.slice(8).split('/').join(' / ');
+    if (value.indexOf('bu:') === 0) return 'BU · ' + displayToken(value.slice(3), 'bu');
+    if (value.indexOf('project:') === 0) {
+      var parts = value.slice(8).split('/');
+      return [displayToken(parts[0], 'bu'), displayToken(parts[1], 'project')].filter(Boolean).join(' / ');
+    }
     return value;
   }
 
@@ -580,7 +718,7 @@
       var isCurrent = selectedKey === key;
       var queuedActions = queuedActionsForArticle(article);
       var badges = statusBadgesForArticle(article, pwdInfo, queuedActions);
-      var title = article.title || slug;
+      var title = displayTitleForArticle(article);
 
       html += '<li class="admin-row ' + (isCurrent ? 'current' : '') + '" data-key="' + escapeHtml(key) + '" data-slug="' + escapeHtml(slug) + '" role="button" tabindex="0">'
         + '  <div class="admin-row-main">'
@@ -589,6 +727,7 @@
         + '  </div>'
         + '  <div class="admin-row-status">'
         +      badges
+        + '    <button class="btn btn-secondary admin-row-open" type="button" data-action="open-article" data-key="' + escapeHtml(key) + '">Abrir</button>'
         + '  </div>'
         + '</li>';
     }
@@ -604,7 +743,8 @@
     var isRevealed = !!revealed[key];
     var pwd = !pwdInfo.exists ? 'sem senha vinculada' : (isRevealed ? pwdInfo.password : '••••••••••••');
     var metaText = metaTextForArticle(article);
-    var title = article.title || article.slug;
+    var title = displayTitleForArticle(article);
+    var url = articleUrl(article);
     var queuedActions = queuedActionsForArticle(article);
     var copyDisabled = pwdInfo.exists ? '' : ' disabled';
     var revealDisabled = pwdInfo.exists ? '' : ' disabled';
@@ -615,6 +755,10 @@
       + '  <div class="admin-actions-slug">' + escapeHtml(title) + '</div>'
       + '  <div class="admin-actions-tema">' + escapeHtml(metaText) + '</div>'
       + '  <div class="admin-actions-badges">' + statusBadgesForArticle(article, pwdInfo, queuedActions) + '</div>'
+      + '  <div class="admin-actions-link">'
+      + '    <button class="btn admin-open-primary" type="button" data-action="open-article" data-key="' + escapeHtml(key) + '">Abrir artigo</button>'
+      + '    <span>' + escapeHtml(url) + '</span>'
+      + '  </div>'
       + '</div>'
       + '<div class="admin-sensitive">'
       + '  <div class="admin-sensitive-label">Senha</div>'
@@ -635,6 +779,22 @@
       + '  <button class="btn btn-secondary" data-action="scope-project" data-key="' + escapeHtml(key) + '">Escopo projeto</button>'
       + '  <button class="btn btn-secondary" data-action="scope-bu" data-key="' + escapeHtml(key) + '">Escopo BU</button>'
       + '</div>';
+  }
+
+  function openArticle(key) {
+    var article = articleByKey(key);
+    if (!article) { toast('artigo não encontrado no metadata admin', 'error'); return null; }
+    var url = articleUrl(article);
+    var pwdInfo = passwordInfoForArticle(article);
+    var stored = storeArticlePasswordForNavigation(article);
+    if (pwdInfo.exists && !stored) {
+      toast('não consegui salvar a senha nesta sessão; o artigo pode pedir senha', 'warning');
+    } else if (!pwdInfo.exists && String(article.gate_status || '') !== 'public') {
+      toast('sem senha vinculada; abrindo, mas o artigo pode pedir senha', 'warning');
+    }
+    if (window.location && typeof window.location.assign === 'function') window.location.assign(url);
+    else window.location.href = url;
+    return { url: url, passwordStored: stored };
   }
 
   function selectArticle(key) {
@@ -776,6 +936,7 @@
       if (action === 'release') return releaseArticle(key);
       if (action === 'rotate') return rotatePassword(key);
       if (action === 'remove') return removeArticle(key);
+      if (action === 'open-article') return openArticle(key);
     }
     if (row && row.dataset.key) selectArticle(row.dataset.key);
   });
@@ -798,6 +959,7 @@
     if (action === 'release') return releaseArticle(key);
     if (action === 'rotate') return rotatePassword(key);
     if (action === 'remove') return removeArticle(key);
+    if (action === 'open-article') return openArticle(key);
     if (action === 'scope-article') return changeArticleScope(key, 'article');
     if (action === 'scope-project') return changeArticleScope(key, 'project');
     if (action === 'scope-bu') return changeArticleScope(key, 'bu');
@@ -820,6 +982,11 @@
     unlock: unlock,
     normalizeAdminArticles: normalizeAdminArticles,
     mergeAdminAndCatalogArticles: mergeAdminAndCatalogArticles,
+    displayTitleForArticle: displayTitleForArticle,
+    articleUrl: articleUrl,
+    articleSessionStorageKey: articleSessionStorageKey,
+    storeArticlePasswordForNavigation: storeArticlePasswordForNavigation,
+    openArticle: openArticle,
     renderList: renderList,
     setViewState: setViewState,
     filteredArticleKeys: function () { return filteredAdminArticles().map(articleKey); },

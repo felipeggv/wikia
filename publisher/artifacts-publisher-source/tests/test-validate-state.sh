@@ -77,6 +77,7 @@ JSON
 write_good_html() {
   local root="$1"
   mkdir -p "${root}/staging/test-project/public-article"
+  mkdir -p "${root}/gobbi/private-project/private-article"
   cat > "${root}/index.html" <<'HTML'
 <!doctype html>
 <html>
@@ -100,6 +101,30 @@ write_good_html() {
 </html>
 HTML
   cp "${root}/index.html" "${root}/staging/test-project/public-article/index.html"
+  cat > "${root}/gobbi/private-project/private-article/index.html" <<'HTML'
+<!doctype html>
+<html>
+  <body>
+    <nav class="wk-sidebar-nav">
+      <ul class="wk-tree">
+        <li class="wk-tree-bu" data-bu="gobbi">
+          <a class="wk-tree-bu-link"><span class="label-text">Gobbi</span><span class="count">1</span></a>
+          <ul class="wk-tree-projects">
+            <li class="wk-tree-project" data-project="private-project">
+              <a class="wk-tree-project-link"><span class="label-text">Private Project</span><span class="count">1</span></a>
+              <ul class="wk-tree-articles">
+                <li class="wk-tree-article" data-slug="private-article">
+                  <a href="https://example.test/wikia/gitpages/gobbi/private-project/private-article/"><span>Private Article</span></a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </body>
+</html>
+HTML
 }
 
 require_file "$VALIDATE_SCRIPT"
