@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-05-24T08:34:57Z",
+  "generated_at": "2026-06-14T21:37:30Z",
   "records": [
     {
       "article_id": "7f02a3a9a26aa87255cc956b1cf3091c9647fd4e5955d59836c8eb1c5af576b7",
@@ -23,6 +23,22 @@
       ],
       "title_public": "Financial Manager — Manual de Uso (ELI5)",
       "title_visible": true
+    },
+    {
+      "article_id": "1d7725af0d54619eb45af0f6ee44ca634164e9c8a1829b67bcdaf4763b1f4f95",
+      "bu": "allin",
+      "canonical_key": "allin/betina-franciosi/analise-conteudo-mai-jun-2026",
+      "gate_status": "gated",
+      "idempotency_key": "2d543edd764b1e58afd5aaa49c0cf9697c2921742b4d6c55f16d40d52320fc20",
+      "output_url": "allin/betina-franciosi/analise-conteudo-mai-jun-2026/",
+      "project": "betina-franciosi",
+      "raw_hash": "f8759de8fa321a6f4eed37bc298f6f2434fa93f0958eabddcf8cbb2a95873693",
+      "release_status": "unreleased",
+      "scope": "article",
+      "slug": "analise-conteudo-mai-jun-2026",
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
     },
     {
       "article_id": "9e3c1e655140e9702b2904092c7d0a6140e608ae91efd1119061260d5993256a",
