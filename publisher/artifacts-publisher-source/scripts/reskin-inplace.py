@@ -25,10 +25,17 @@ NEWSREADER = (
 
 
 def reskin(html, overlay_css):
-    if MARKER in html:
-        return html, "skip:already-everytool"
     if "<style>" not in html or "</style>" not in html:
         return html, "skip:no-style-block"
+    updated = False
+    # Update: remove o overlay antigo (do MARKER até o </style> que o segue) e reinjeta.
+    if MARKER in html:
+        m = html.find(MARKER)
+        end = html.find("</style>", m)
+        if end == -1:
+            return html, "skip:marker-without-style"
+        html = html[:m] + html[end:]
+        updated = True
     # 1) fonte serifada — antes do primeiro <style> (garante head)
     if "Newsreader" not in html:
         i = html.find("<style>")
@@ -37,7 +44,7 @@ def reskin(html, overlay_css):
     i = html.find("</style>")
     inject = "\n" + MARKER + "\n" + overlay_css.rstrip() + "\n"
     html = html[:i] + inject + html[i:]
-    return html, "reskinned"
+    return html, ("updated" if updated else "reskinned")
 
 
 def main():
@@ -57,7 +64,7 @@ def main():
             continue
         html = p.read_text()
         new, status = reskin(html, overlay_css)
-        if status == "reskinned":
+        if status in ("reskinned", "updated"):
             if not dry:
                 p.write_text(new)
             done += 1
@@ -66,7 +73,7 @@ def main():
         print(f"  {status:24} {rel}")
 
     tag = " (DRY RUN — nada escrito)" if dry else ""
-    print(f"\n{done} reskinned · {skipped} skipped{tag}")
+    print(f"\n{done} written · {skipped} skipped{tag}")
 
 
 if __name__ == "__main__":

@@ -228,7 +228,7 @@ def main():
         tags_meta += f'<span class="dot">·</span><a href="{wiki_base}/tags/{t}/" class="tag">{t}</a>'
         tags_footer += f'<a href="{wiki_base}/tags/{t}/" class="tag">{t}</a>'
 
-    lead_html = f'<p class="wk-lead">{lead}</p>' if lead else ''
+    lead_html = f'<p class="wk-lead">{md_mod.render_inline(lead)}</p>' if lead else ''
 
     try:
         dt = datetime.strptime(date, '%Y-%m-%d')

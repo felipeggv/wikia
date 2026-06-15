@@ -55,8 +55,8 @@
 .wk-article-header h1 {
   font-family: var(--et-serif);
   font-weight: 500;
-  font-size: clamp(34px, 5vw, 54px);
-  line-height: 1.05; letter-spacing: -0.02em;
+  font-size: clamp(27px, 3.2vw, 37px);
+  line-height: 1.1; letter-spacing: -0.02em;
   color: var(--et-text);
   text-wrap: balance;
   margin: var(--s-3) 0 var(--s-4);
@@ -64,8 +64,8 @@
 .wk-article .wk-lead {
   font-family: var(--et-serif);
   font-weight: 400;
-  font-size: clamp(19px, 2.3vw, 23px);
-  line-height: 1.45; color: var(--et-meta);
+  font-size: clamp(16px, 1.5vw, 18px);
+  line-height: 1.5; color: var(--et-meta);
   text-wrap: pretty;
   margin: 0 0 var(--s-5);
 }
@@ -100,8 +100,8 @@
 .wk-article h1 {
   font-family: var(--et-serif);
   font-weight: 500;
-  font-size: clamp(30px, 4vw, 44px);
-  line-height: 1.08; letter-spacing: -0.02em;
+  font-size: clamp(24px, 2.6vw, 31px);
+  line-height: 1.12; letter-spacing: -0.02em;
   color: var(--et-text); text-wrap: balance;
   margin: var(--s-7) 0 var(--s-4);
 }
@@ -116,8 +116,8 @@
 }
 .wk-article h3 {
   font-family: var(--et-serif);
-  font-weight: 600; font-size: 25px;
-  line-height: 1.25; letter-spacing: -0.01em;
+  font-weight: 600; font-size: 20px;
+  line-height: 1.3; letter-spacing: -0.01em;
   color: var(--et-text); text-wrap: balance;
   margin: var(--s-6) 0 var(--s-3);
 }
@@ -156,14 +156,14 @@
 }
 .wk-article pre code { border: none; background: transparent; }
 
-/* citação → pull-quote serifada com barra verde */
+/* citação → nota serifada COMEDIDA (pull-quote dramático é só ::: callout quote) */
 .wk-article blockquote {
   font-family: var(--et-serif); font-style: italic;
-  font-size: clamp(21px, 2.6vw, 27px); line-height: 1.32;
-  color: var(--et-text); text-wrap: balance;
+  font-size: 16px; line-height: 1.55;
+  color: var(--et-meta); text-wrap: pretty;
   border-left: 2px solid var(--et-green);
-  padding: 2px 0 2px var(--s-5);
-  margin: var(--s-7) 0; background: transparent;
+  padding: 2px 0 2px var(--s-4);
+  margin: var(--s-5) 0; background: transparent;
 }
 
 /* tabela editorial tracejada, números tabulares */
@@ -275,7 +275,7 @@
   letter-spacing: 0.16em; text-transform: uppercase; color: var(--et-dim);
 }
 .wk-article .ap-key-stat-value {
-  font-family: var(--et-mono); font-size: 40px; font-weight: 600;
+  font-family: var(--et-mono); font-size: 30px; font-weight: 600;
   line-height: 0.95; letter-spacing: -0.03em; color: var(--et-text);
   font-variant-numeric: tabular-nums;
 }
