@@ -39,6 +39,11 @@
 /* seleção em verde */
 .wk-article ::selection { background: var(--et-green); color: #0c1206; }
 
+/* COLUNA EDITORIAL ESTREITA — a referência EverTool usa ~680px.
+   O artigo respira numa medida de leitura confortável (não espalha em 960px).
+   Escopo: só o artigo (.wk-content.wk-article); homes/feed mantêm sua largura. */
+.wk-content.wk-article { max-width: 720px; }
+
 /* =========================================================================
    CABEÇALHO DO ARTIGO  (eyebrow → kicker · h1 → serif · lead → serif)
    ========================================================================= */
