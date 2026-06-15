@@ -136,12 +136,27 @@ def main():
     lead = meta.get('lead', '')
     reading_time = meta.get('reading_time', 1)
     public_head_title = os.environ.get('WIKIA_PUBLIC_TITLE') or title_final
+    lead_plain = re.sub(r'[*_`]', '', lead) if lead else ''
     public_head_description = (
         os.environ.get('WIKIA_PUBLIC_DESCRIPTION')
-        or (lead[:160] if lead else public_head_title)
+        or (lead_plain[:160] if lead_plain else public_head_title)
     )
 
     content_html = md_mod.convert(md)
+
+    # De-dup do lead: extract_metadata deriva o lead do 1º parágrafo do corpo,
+    # então ele apareceria 2x (no header como wk-lead E como 1º <p> do corpo).
+    # Remove a 1ª ocorrência no corpo quando o texto normalizado bate com o lead.
+    if lead:
+        def _norm(s):
+            s = re.sub(r'<[^>]+>', '', s)        # tira HTML
+            s = re.sub(r'[*_`#\s]+', '', s)      # tira markers de markdown + espaços
+            return s.lower()
+        lead_key = _norm(lead)[:60]
+        if lead_key:
+            m = re.search(r'<p>.*?</p>\s*', content_html, re.S)
+            if m and _norm(m.group(0))[:60] == lead_key:
+                content_html = content_html[:m.start()] + content_html[m.end():]
 
     # Auto-inline components
     needs_comparator = 'data-comparator' in content_html
