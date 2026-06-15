@@ -130,7 +130,8 @@ def render_project(output_dir, theme, bu_slug, project_slug, wiki_base):
     project_title = catalog_navigation.humanize_slug(project_slug)
     project_description = f'Artigos do projeto {project_title} na BU {bu_title}.'
 
-    styles = styles_tpl.replace('{{THEME_VARS}}', build_theme_vars(theme))
+    import theme_resolver
+    styles = theme_resolver.resolve_styles(TEMPLATES_DIR, build_theme_vars(theme))
     head = (
         head_tpl
         .replace('{{TITLE}}', f'wikia · {bu_title} · {project_title}')

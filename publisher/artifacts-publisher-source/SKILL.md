@@ -270,6 +270,48 @@ Headings (todos color textMain, weight 600):
 UI/meta/pills: 10-11px uppercase tracking 0.1em
 ```
 
+## Tema EverTool (PADRÃO desde 2026-06)
+
+Estilo editorial (inspirado em Every.to / Context Window), na identidade Maestro.
+É o tema **padrão** de artigos e homes. Ativado automaticamente; sem flag.
+
+```
+Serif (Newsreader) → display: título, dek, subhead serifado, citação, kb
+Mono (JetBrains)   → funcional: corpo, meta, labels, números, código
+Verde (--success)  → ÚNICO destaque (categorias, links, números). Zero azul/ciano.
+Filetes tracejados, números tabulares grandes, footer mínimo.
+```
+
+**Arquitetura (overlay, não-destrutiva):**
+- `templates/_everytool-styles.css.tpl` — overlay aplicado POR CIMA do `_styles.css.tpl`.
+  Re-veste as classes que o parser já emite (`.wk-article`, `.wk-lead`, `.ap-callout`,
+  `.ap-key-stats`…) para o visual `.et-*`. Mesmo chassi → conteúdo editorial.
+- `scripts/theme_resolver.py` — decide o stylesheet. Os 5 renderers chamam
+  `resolve_styles(templates_dir, theme_vars)`.
+- Todos os tokens `--et-*` DERIVAM da injeção de tema (`var(--success)`, `var(--accent)`,
+  `var(--text-main)`…) — nenhum hex novo. Invariante de tema preservada.
+- Newsreader carregada no `_head.html.tpl`.
+
+**Toggle (escape hatch):** `export WIKIA_THEME=classic` antes de publicar/rebuildar
+volta ao tema mono clássico (preservado). Default = `everytool`.
+
+**Trocar o site inteiro para o tema atual:**
+```bash
+WIKIA_THEME=everytool ./scripts/publish.sh --rebuild-all   # + masterpass via stdin/env
+```
+
+### Blocos novos do EverTool (parser `:::`)
+
+```
+::: tldr           → resumo serifado de 1-2 frases
+::: takeaways      → checklist verde (pontos-chave)
+::: steps          → passo-a-passo com numerais serifados grandes
+::: deflist        → term: valor (manifesto/spec)
+::: kb             → lista de base de conhecimento (links + categoria)
+```
+(`::: key-stat`, `comparator`, `accordion-seq`, `callout`, `mermaid-zoom`, `playground`
+continuam válidos — re-vestidos no visual EverTool.)
+
 ## Componentes pedagógicos
 
 Cada componente passa pelo **filtro pedagógico**:

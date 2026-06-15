@@ -339,7 +339,8 @@ def render_wiki_home(workdir, theme, repo_name, wiki_base, artifacts):
     sidebar_tpl = (SKILL_DIR / 'templates' / '_sidebar.html.tpl').read_text()
     appshell_tpl = (SKILL_DIR / 'templates' / '_appshell.html.tpl').read_text()
 
-    styles = styles_tpl.replace('{{THEME_VARS}}', build_theme_vars(theme))
+    import theme_resolver
+    styles = theme_resolver.resolve_styles(SKILL_DIR / 'templates', build_theme_vars(theme))
     head = (head_tpl
         .replace('{{TITLE}}', 'wikia')
         .replace('{{REPO_NAME}}', repo_name)

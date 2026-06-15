@@ -164,7 +164,8 @@ def render_bu(output_dir, theme, bu_slug, wiki_base):
     bu_title = BU_DISPLAY[bu_slug]
     bu_description = BU_DESCRIPTION.get(bu_slug, '')
 
-    styles = styles_tpl.replace('{{THEME_VARS}}', build_theme_vars(theme))
+    import theme_resolver
+    styles = theme_resolver.resolve_styles(TEMPLATES_DIR, build_theme_vars(theme))
     head = (
         head_tpl
         .replace('{{TITLE}}', f'wikia · {bu_title}')

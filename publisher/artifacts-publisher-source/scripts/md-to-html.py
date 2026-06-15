@@ -78,7 +78,7 @@ def convert(md):
         line = lines[i]
 
         # Special block ::: comparator / accordion-seq / mermaid-zoom / callout / playground
-        m_special = re.match(r'^:::\s*(comparator|accordion-seq|mermaid-zoom|callout|playground)(?:\s+(.+?))?\s*$', line)
+        m_special = re.match(r'^:::\s*(comparator|accordion-seq|mermaid-zoom|callout|playground|key-stat|tldr|takeaways|steps|deflist|kb)(?:\s+(.+?))?\s*$', line)
         if m_special and not in_special:
             flush_para(); flush_list(); flush_table()
             in_special = m_special.group(1)
@@ -194,6 +194,37 @@ def convert(md):
                 body_html = convert(body_md)
                 title_html = f'<div class="ap-callout-title">{render_inline(title)}</div>' if title else ''
                 out.append(f'<aside class="ap-callout" data-variant="{variant}">{title_html}<div class="ap-callout-body">{body_html}</div></aside>')
+            elif in_special == 'key-stat':
+                # Bloco de métricas-destaque. Cada linha:
+                #   valor | label | [up|down|flat] delta
+                # Ex.: 3.2x | LTV / CAC | up +0.4 vs. Q1
+                norm_buf = []
+                for ln in special_buf:
+                    if '\\n' in ln:
+                        norm_buf.extend(ln.replace('\\n', '\n').split('\n'))
+                    else:
+                        norm_buf.append(ln)
+                cells = ''
+                for ln in norm_buf:
+                    if not ln.strip():
+                        continue
+                    cols = [c.strip() for c in ln.split('|')]
+                    value = cols[0] if len(cols) > 0 else ''
+                    label = cols[1] if len(cols) > 1 else ''
+                    delta_raw = cols[2] if len(cols) > 2 else ''
+                    trend = 'flat'
+                    m_tr = re.match(r'^(up|down|flat)\b\s*(.*)$', delta_raw, re.IGNORECASE)
+                    if m_tr:
+                        trend = m_tr.group(1).lower()
+                        delta = m_tr.group(2).strip()
+                    else:
+                        delta = delta_raw
+                    delta_html = f'<div class="ap-key-stat-delta">{render_inline(delta)}</div>' if delta else ''
+                    cells += (f'<div class="ap-key-stat" data-trend="{trend}">'
+                              f'<div class="ap-key-stat-value">{render_inline(value)}</div>'
+                              f'<div class="ap-key-stat-label">{escape(label)}</div>'
+                              f'{delta_html}</div>')
+                out.append(f'<div class="ap-key-stats" data-key-stats>{cells}</div>')
             elif in_special == 'playground':
                 # Playground vai num drawer lateral direito
                 # Markup capturado vai pra <template> que o JS injeta no drawer
@@ -219,6 +250,95 @@ def convert(md):
   <div class="ap-playground-trigger-cta">abrir →</div>
 </div>
 <template id="{pg_id}" data-playground-content data-title="{escape(title)}">{playground_html}</template>''')
+            elif in_special == 'tldr':
+                norm_buf = []
+                for ln in special_buf:
+                    if '\\n' in ln:
+                        norm_buf.extend(ln.replace('\\n', '\n').split('\n'))
+                    else:
+                        norm_buf.append(ln)
+                body_html = convert('\n'.join(norm_buf).strip())
+                out.append(f'<div class="et-tldr"><div class="lbl">TL;DR</div>{body_html}</div>')
+            elif in_special == 'takeaways':
+                norm_buf = []
+                for ln in special_buf:
+                    if '\\n' in ln:
+                        norm_buf.extend(ln.replace('\\n', '\n').split('\n'))
+                    else:
+                        norm_buf.append(ln)
+                items = ''
+                for ln in norm_buf:
+                    mt = re.match(r'^\s*[-*]\s+(.+)$', ln)
+                    if mt:
+                        items += f'<li>{render_inline(mt.group(1).strip())}</li>'
+                out.append(f'<ul class="et-takeaways">{items}</ul>')
+            elif in_special == 'steps':
+                norm_buf = []
+                for ln in special_buf:
+                    if '\\n' in ln:
+                        norm_buf.extend(ln.replace('\\n', '\n').split('\n'))
+                    else:
+                        norm_buf.append(ln)
+                steps_parts = []
+                cur_s = None; cur_sbuf = []
+                for ln in norm_buf:
+                    mh = re.match(r'^###\s+(.+)$', ln)
+                    if mh:
+                        if cur_s is not None: steps_parts.append((cur_s, cur_sbuf))
+                        cur_s = mh.group(1).strip(); cur_sbuf = []
+                    elif cur_s is not None:
+                        cur_sbuf.append(ln)
+                if cur_s is not None: steps_parts.append((cur_s, cur_sbuf))
+                items = ''
+                for name, sbuf in steps_parts:
+                    body_html = convert('\n'.join(sbuf))
+                    items += (f'<li><div><div class="st-t">{escape(name)}</div>'
+                              f'<div class="st-d">{body_html}</div></div></li>')
+                out.append(f'<ol class="et-steps">{items}</ol>')
+            elif in_special == 'deflist':
+                norm_buf = []
+                for ln in special_buf:
+                    if '\\n' in ln:
+                        norm_buf.extend(ln.replace('\\n', '\n').split('\n'))
+                    else:
+                        norm_buf.append(ln)
+                rows = ''
+                for ln in norm_buf:
+                    if ':' not in ln or not ln.strip():
+                        continue
+                    term, _, val = ln.partition(':')
+                    rows += (f'<div><dt>{escape(term.strip())}</dt>'
+                             f'<dd>{render_inline(val.strip())}</dd></div>')
+                out.append(f'<dl class="et-dl">{rows}</dl>')
+            elif in_special == 'kb':
+                norm_buf = []
+                for ln in special_buf:
+                    if '\\n' in ln:
+                        norm_buf.extend(ln.replace('\\n', '\n').split('\n'))
+                    else:
+                        norm_buf.append(ln)
+                kb_blocks = []; cur_kb = []
+                for ln in norm_buf:
+                    if not ln.strip():
+                        if cur_kb: kb_blocks.append(cur_kb); cur_kb = []
+                    else:
+                        cur_kb.append(ln)
+                if cur_kb: kb_blocks.append(cur_kb)
+                kb_items = ''
+                for blk in kb_blocks:
+                    head = blk[0]
+                    mk = re.match(r'^\[(.+?)\]\((.+?)\)(?:\s*·\s*(.+))?\s*$', head)
+                    if mk:
+                        kb_title, kb_url, kb_cat = mk.group(1), mk.group(2), (mk.group(3) or '').strip()
+                    else:
+                        kb_title, kb_url, kb_cat = head.strip(), '#', ''
+                    summary = ' '.join(x.strip() for x in blk[1:])
+                    cat_html = f' / <span class="cat">{escape(kb_cat)}</span>' if kb_cat else ''
+                    kb_items += (f'<div class="et-kb-item"><h3><a href="{escape(kb_url)}">'
+                                 f'“{escape(kb_title)}”</a></h3>'
+                                 f'<p class="byl">leitura{cat_html}</p>'
+                                 f'<p>{render_inline(summary)}</p></div>')
+                out.append(f'<div class="et-kb">{kb_items}</div>')
             in_special = None; special_meta = ''; special_buf = []
             i += 1; continue
         if in_special:

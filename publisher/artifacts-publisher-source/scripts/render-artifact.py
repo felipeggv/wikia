@@ -168,7 +168,8 @@ def main():
 
     # Theme
     theme_vars = build_theme_vars(theme)
-    styles = styles_tpl.replace('{{THEME_VARS}}', theme_vars)
+    import theme_resolver
+    styles = theme_resolver.resolve_styles(skill_dir / "templates", theme_vars)
 
     head_html = (head_tpl
         .replace('{{TITLE}}', public_head_title)
