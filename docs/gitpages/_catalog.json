@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-06-16T09:30:57Z",
+  "generated_at": "2026-06-16T09:39:12Z",
   "records": [
     {
       "article_id": "7f02a3a9a26aa87255cc956b1cf3091c9647fd4e5955d59836c8eb1c5af576b7",
@@ -29,10 +29,10 @@
       "bu": "allin",
       "canonical_key": "allin/betina-franciosi/analise-conteudo-mai-jun-2026",
       "gate_status": "gated",
-      "idempotency_key": "5398efa683ff0b46ef80112da7ea5ed567fbe871357414b91d6a28939b5a2d63",
+      "idempotency_key": "6cc58969a36e2df44ebc2986d620489db51cb4b2df5ffc44bbec021a5d0519f0",
       "output_url": "allin/betina-franciosi/analise-conteudo-mai-jun-2026/",
       "project": "betina-franciosi",
-      "raw_hash": "d47cc0af6bb609896055bceafeb69067766b4a9775cf01ce86147642aef29509",
+      "raw_hash": "2d339809fb5b65efa49fdf4a7cb1e9cb646ee62fe09519ceead4bd2c93c00254",
       "release_status": "unreleased",
       "scope": "article",
       "slug": "analise-conteudo-mai-jun-2026",
