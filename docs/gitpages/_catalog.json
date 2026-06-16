@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-06-16T02:13:30Z",
+  "generated_at": "2026-06-16T09:16:26Z",
   "records": [
     {
       "article_id": "7f02a3a9a26aa87255cc956b1cf3091c9647fd4e5955d59836c8eb1c5af576b7",
@@ -45,10 +45,10 @@
       "bu": "allin",
       "canonical_key": "allin/betina-franciosi/calendario-visual-mai-jun-2026",
       "gate_status": "gated",
-      "idempotency_key": "ea04bb4327c28dd667efba4a69cab51026987af8b08243f7856f356156b47df5",
+      "idempotency_key": "664f2d293b9b47c880ade15cdc75c94cf2470a4b31ed8781ca78bccdce60645a",
       "output_url": "allin/betina-franciosi/calendario-visual-mai-jun-2026/",
       "project": "betina-franciosi",
-      "raw_hash": "9ff320c0b8eced6d45b3cd0f1c8685c2bb317d86ea4a1b5f9d9210010e474dea",
+      "raw_hash": "4c6dcfbc39a8075ad7c1789b537bd1f69c1ed40f7e24eab8cfe53a90504dc120",
       "release_status": "unreleased",
       "scope": "article",
       "slug": "calendario-visual-mai-jun-2026",
