@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-06-16T01:00:53Z",
+  "generated_at": "2026-06-16T02:13:30Z",
   "records": [
     {
       "article_id": "7f02a3a9a26aa87255cc956b1cf3091c9647fd4e5955d59836c8eb1c5af576b7",
@@ -36,6 +36,22 @@
       "release_status": "unreleased",
       "scope": "article",
       "slug": "analise-conteudo-mai-jun-2026",
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
+    },
+    {
+      "article_id": "138266cb6b6386f0c6cac964f2691e18a56aa290e577cc6081bbbe8d90fc237d",
+      "bu": "allin",
+      "canonical_key": "allin/betina-franciosi/calendario-visual-mai-jun-2026",
+      "gate_status": "gated",
+      "idempotency_key": "ea04bb4327c28dd667efba4a69cab51026987af8b08243f7856f356156b47df5",
+      "output_url": "allin/betina-franciosi/calendario-visual-mai-jun-2026/",
+      "project": "betina-franciosi",
+      "raw_hash": "9ff320c0b8eced6d45b3cd0f1c8685c2bb317d86ea4a1b5f9d9210010e474dea",
+      "release_status": "unreleased",
+      "scope": "article",
+      "slug": "calendario-visual-mai-jun-2026",
       "tags": [],
       "title_public": null,
       "title_visible": false
