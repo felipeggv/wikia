@@ -948,6 +948,13 @@ body[data-sidebar="collapsed"] .wk-sidebar-rail { display: flex; }
 
 </style>
 
+<style id="wk-standalone">
+/* Modo standalone: página só com o artigo, sem chassi de wiki */
+.wk-topbar{display:none !important;}
+.wk-sidebar{display:none !important;}
+.wk-shell{grid-template-columns:1fr !important;padding-top:0 !important;}
+.wk-main{max-width:860px;margin:0 auto;padding:32px 24px 64px !important;}
+</style>
 </head>
 <body>
 
