@@ -1,6 +1,6 @@
 {
   "catalog_version": 1,
-  "generated_at": "2026-06-16T10:53:04Z",
+  "generated_at": "2026-07-16T09:28:20Z",
   "records": [
     {
       "article_id": "7f02a3a9a26aa87255cc956b1cf3091c9647fd4e5955d59836c8eb1c5af576b7",
@@ -76,6 +76,22 @@
       ],
       "title_public": "Customer Success na CASE · Como a Rotina do CS Funciona",
       "title_visible": true
+    },
+    {
+      "article_id": "9834fa9208e0677f670a918200b4f7340a6c37fe35b2e64fd74b9547dec172c8",
+      "bu": "allin",
+      "canonical_key": "allin/content-system/sistema-conteudo-case",
+      "gate_status": "gated",
+      "idempotency_key": "2f7bae72d68ef7621aeb9655ff46768ca01443a9dc6c945ccb9f50455b1aea28",
+      "output_url": "allin/content-system/sistema-de-conte-udo-case/",
+      "project": "content-system",
+      "raw_hash": "eb47ebfd8b6314a1f49450b9b9a6e27a90daa4612368baba819582130bd92787",
+      "release_status": "unreleased",
+      "scope": "article",
+      "slug": "sistema-conteudo-case",
+      "tags": [],
+      "title_public": null,
+      "title_visible": false
     },
     {
       "article_id": "e8ed2216777aa4f27a3ff09e0c9e47d99b0aef09fc8a74ec0bfaf5446cc7a2b8",
